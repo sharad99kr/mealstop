@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements  IUser{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
