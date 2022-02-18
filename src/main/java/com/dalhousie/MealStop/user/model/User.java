@@ -9,7 +9,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User implements  IUser{
+public class User implements  IUser
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -42,66 +43,79 @@ public class User implements  IUser{
         this.userType=userType;
     }
 
+    @Override
     public long getId()
     {
         return id;
     }
 
+    @Override
     public String getFirstName()
     {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
     }
 
+    @Override
     public String getLastName()
     {
         return lastName;
     }
 
+    @Override
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
     }
 
+    @Override
     public String  getEmail()
     {
         return email;
     }
 
+    @Override
     public void setEmail(String email)
     {
         this.email = email;
     }
 
+    @Override
     public String getMobileNumber()
     {
         return mobileNumber;
     }
 
+    @Override
     public void setMobileNumber(String mobileNumber)
     {
         this.mobileNumber=mobileNumber;
     }
 
+    @Override
     public String getDateOfBirth()
     {
         return this.dateOfBirth;
     }
 
+    @Override
     public void setDateOfBirth(String dateOfBirth)
     {
         this.dateOfBirth=dateOfBirth;
     }
 
+    @Override
     public Integer getUserType()
     {
         return getUserType();
     }
 
+    @Override
     public void setUserType(Integer userType)
     {
         this.userType=userType;
