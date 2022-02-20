@@ -1,7 +1,5 @@
 package com.dalhousie.MealStop.user.dbmodels;
 
-import java.util.Date;
-
 public interface IUser {
 
     long getUserId();
@@ -22,9 +20,9 @@ public interface IUser {
 
     void setMobileNumber(String mobileNumber);
 
-    Date getDateOfBirth();
+    String getDateOfBirth();
 
-    void setDateOfBirth(Date dateOfBirth);
+    void setDateOfBirth(String dateOfBirth);
 
     Integer getUserType();
 

@@ -1,4 +1,4 @@
 package com.dalhousie.MealStop.user.service;
 
-public class IUserService {
+public class IUserService{
 }

@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.user.service;
 
+import com.dalhousie.MealStop.user.domainmodels.AppUser;
 import com.dalhousie.MealStop.user.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,5 +20,9 @@ public class AppUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
+    }
+
+    public String signUpUser(AppUser appUser){
+        return "";
     }
 }

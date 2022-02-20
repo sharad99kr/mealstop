@@ -26,8 +26,6 @@ public class AppUser implements UserDetails {
                    String email,
                    String mobileNumber,
                    String dateOfBirth,
-                   boolean locked,
-                   boolean enabled,
                    UserType userType) {
         this.name = name;
         this.password = password;
@@ -35,8 +33,6 @@ public class AppUser implements UserDetails {
         this.email = email;
         this.mobileNumber = mobileNumber;
         this.dateOfBirth = dateOfBirth;
-        this.locked = locked;
-        this.enabled = enabled;
         this.userType = userType;
     }
 

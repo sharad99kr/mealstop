@@ -1,13 +1,29 @@
 package com.dalhousie.MealStop.user.dbmodels;
 
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "login")
 public class Login implements ILogin {
+
+    @Id
+    @Column(name = "username", updatable = false)
     private String userName;
+
+    @Column(name = "password", nullable = false)
     private String password;
-    private Date lastLogin;
-    private boolean isActive;
-    private long userId;
+
+    @Column(name = "lastLogin")
+    private String lastLogin;
+
+    @Column(name = "isactive")
+    private int isActive;
+
+    @Column(name = "userid", nullable = false)
+    private long userid;
 
     @Override
     public String getUserName() {
@@ -30,12 +46,12 @@ public class Login implements ILogin {
     }
 
     @Override
-    public Date getLastLogin() {
+    public String getLastLogin() {
         return this.lastLogin;
     }
 
     @Override
-    public void setLastLogin(Date lastLogin) {
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
 
@@ -46,7 +62,7 @@ public class Login implements ILogin {
 
     @Override
     public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
+        this.isActive = isActive == true ? 1 : 0;
     }
 
     @Override
@@ -55,7 +71,7 @@ public class Login implements ILogin {
     }
 
     @Override
-    public void setUserId(long userId){
-        this.userId = userId;
+    public void setUserId(long userId) {
+        this.userid = userId;
     }
 }

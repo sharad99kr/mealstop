@@ -1,24 +1,61 @@
 package com.dalhousie.MealStop.user.dbmodels;
 
-import java.util.Date;
+import javax.persistence.*;
 
+@Entity
+@Table(
+        name = "user",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "user_email_unique", columnNames = "email")
+        })
 public class User implements IUser {
 
-    private long userId;
+    @Id
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence")
+    @Column(name = "userid", updatable = false)
+    private long userid;
+
+    @Column(name = "firstname", nullable = false)
     private String firstName;
+
+    @Column(name = "lastname")
     private String lastName;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "mobilenumber", nullable = false)
     private String mobileNumber;
-    private Date dateOfBirth;
+
+    @Column(name = "dateofbirth")
+    private String dateOfBirth;
+
+    @Column(name = "usertype", nullable = false)
     private Integer userType;
 
-    public User(long userId) {
-        this.userId = userId;
+    public User() {
+
     }
+
+    public User(String firstName, String lastName, String email, String mobileNumber, String dateOfBirth, Integer userType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.mobileNumber = mobileNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.userType = userType;
+    }
+
 
     @Override
     public long getUserId() {
-        return this.userId;
+        return this.userid;
     }
 
     @Override
@@ -62,12 +99,12 @@ public class User implements IUser {
     }
 
     @Override
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return this.dateOfBirth;
     }
 
     @Override
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -79,5 +116,18 @@ public class User implements IUser {
     @Override
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid=" + userid +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", userType=" + userType +
+                '}';
     }
 }

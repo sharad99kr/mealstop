@@ -1,7 +1,5 @@
 package com.dalhousie.MealStop.registration.domainmodels;
 
-import org.springframework.context.annotation.Bean;
-
 public class RegistrationRequest {
     private final String firstName;
     private final String lastName;
@@ -10,8 +8,9 @@ public class RegistrationRequest {
     private final String dateOfBirth;
     private final String username;
     private final String password;
+    private final String userType;
 
-    public RegistrationRequest(String firstName, String lastName, String email, String mobile, String dateOfBirth, String username, String password) {
+    public RegistrationRequest(String firstName, String lastName, String email, String mobile, String dateOfBirth, String username, String password, String userType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -19,6 +18,7 @@ public class RegistrationRequest {
         this.dateOfBirth = dateOfBirth;
         this.username = username;
         this.password = password;
+        this.userType = userType;
     }
 
     public String getFirstName() {
@@ -47,5 +47,9 @@ public class RegistrationRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getUserType() {
+        return userType;
     }
 }

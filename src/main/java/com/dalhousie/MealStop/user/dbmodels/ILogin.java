@@ -1,7 +1,5 @@
 package com.dalhousie.MealStop.user.dbmodels;
 
-import java.util.Date;
-
 public interface ILogin {
     String getUserName();
 
@@ -11,9 +9,9 @@ public interface ILogin {
 
     void setPassword(String password);
 
-    Date getLastLogin();
+    String getLastLogin();
 
-    void setLastLogin(Date lastLogin);
+    void setLastLogin(String lastLogin);
 
     boolean isActive();
 
