@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/registration")
+@RequestMapping("api/v1/register")
 public class RegistrationController {
 
     @Autowired
@@ -16,12 +16,14 @@ public class RegistrationController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED, reason = "Registration successful.")
-    public ResponseEntity register(@RequestBody RegistrationRequest request){
-        try{
+    public ResponseEntity registerCustomer(@RequestBody RegistrationRequest request) {
+        try {
             var registerResponse = this.registrationService.register(request);
-        }catch(IllegalStateException ex){
+            System.out.println(registerResponse);
+        } catch (IllegalStateException ex) {
             return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity(HttpStatus.OK);
     }
+
 }

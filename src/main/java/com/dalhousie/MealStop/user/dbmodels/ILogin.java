@@ -17,7 +17,7 @@ public interface ILogin {
 
     void setIsActive(boolean isActive);
 
-    long getUserId();
+    IUser getUser();
 
-    void setUserId(long userId);
+    void setUser(IUser user);
 }

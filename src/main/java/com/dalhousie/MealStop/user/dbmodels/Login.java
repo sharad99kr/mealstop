@@ -1,9 +1,8 @@
 package com.dalhousie.MealStop.user.dbmodels;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "login")
@@ -11,28 +10,29 @@ public class Login implements ILogin {
 
     @Id
     @Column(name = "username", updatable = false)
-    private String userName;
+    private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "lastLogin")
-    private String lastLogin;
+    @Column(name = "lastlogin")
+    private String lastlogin;
 
     @Column(name = "isactive")
     private int isActive;
 
-    @Column(name = "userid", nullable = false)
-    private long userid;
+    //@Column(name = "user", nullable = false)
+    @OneToOne(fetch = EAGER)
+    private User user;
 
     @Override
     public String getUserName() {
-        return this.userName;
+        return this.username;
     }
 
     @Override
     public void setUserName(String username) {
-        this.userName = username;
+        this.username = username;
     }
 
     @Override
@@ -47,12 +47,12 @@ public class Login implements ILogin {
 
     @Override
     public String getLastLogin() {
-        return this.lastLogin;
+        return this.lastlogin;
     }
 
     @Override
     public void setLastLogin(String lastLogin) {
-        this.lastLogin = lastLogin;
+        this.lastlogin = lastLogin;
     }
 
     @Override
@@ -66,12 +66,12 @@ public class Login implements ILogin {
     }
 
     @Override
-    public long getUserId() {
-        return 0;
+    public IUser getUser() {
+        return user;
     }
 
     @Override
-    public void setUserId(long userId) {
-        this.userid = userId;
+    public void setUser(IUser user) {
+        this.user = (User)user;
     }
 }

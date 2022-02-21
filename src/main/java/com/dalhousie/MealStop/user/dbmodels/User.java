@@ -39,17 +39,11 @@ public class User implements IUser {
     @Column(name = "usertype", nullable = false)
     private Integer userType;
 
+    @Column(name = "address")
+    private String address;
+
     public User() {
 
-    }
-
-    public User(String firstName, String lastName, String email, String mobileNumber, String dateOfBirth, Integer userType) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.mobileNumber = mobileNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.userType = userType;
     }
 
 
@@ -116,6 +110,16 @@ public class User implements IUser {
     @Override
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    @Override
+    public String getAddress() {
+        return this.address;
+    }
+
+    @Override
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

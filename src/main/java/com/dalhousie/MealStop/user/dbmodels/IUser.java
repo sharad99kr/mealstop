@@ -28,4 +28,8 @@ public interface IUser {
 
     void setUserType(Integer userType);
 
+    String getAddress();
+
+    void setAddress(String address);
+
 }
