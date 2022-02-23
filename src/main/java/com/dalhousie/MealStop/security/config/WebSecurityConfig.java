@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.security.config;
 
-import com.dalhousie.MealStop.security.PasswordEncoder;
 import com.dalhousie.MealStop.user.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

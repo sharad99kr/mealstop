@@ -37,6 +37,7 @@ public class User implements IUser {
     private String dateOfBirth;
 
     @Column(name = "usertype", nullable = false)
+    //@Enumerated(EnumType.STRING)
     private Integer userType;
 
     @Column(name = "address")

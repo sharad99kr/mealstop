@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.registration.transformer;
+package com.dalhousie.MealStop.user.transformer;
 
-import com.dalhousie.MealStop.registration.domainmodels.RegistrationRequest;
+import com.dalhousie.MealStop.user.domainmodels.RegistrationRequest;
 import com.dalhousie.MealStop.user.dbmodels.Login;
 import com.dalhousie.MealStop.user.dbmodels.User;
 

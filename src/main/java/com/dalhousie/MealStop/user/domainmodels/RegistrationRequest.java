@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.registration.domainmodels;
+package com.dalhousie.MealStop.user.domainmodels;
 
 public class RegistrationRequest {
     private String firstName;

@@ -1,17 +1,18 @@
-package com.dalhousie.MealStop.registration.common;
+package com.dalhousie.MealStop.user.service;
 
 import org.springframework.stereotype.Service;
 
 import java.util.function.Predicate;
 
 @Service
-public class EmailValidator implements Predicate<String> {
+public class EmailValidatorService implements Predicate<String> {
 
     //Regular Expression by RFC 5322 for Email Validation
     private String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
     @Override
     public boolean test(String email) {
-        return regexPattern.matches(email);
+        return true;
+        //regexPattern.matches(email);
     }
 }
