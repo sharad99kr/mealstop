@@ -17,6 +17,8 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
     @Autowired
     private IUserService IUserService;
 
+    private static final String VERIFY_REGISTRATION_URL = "/api/v1/verifyRegistration?token=";
+
     @Override
     public void onApplicationEvent(UserSignedUpEvent event) {
         //Create the verification token for the user with the link.
@@ -25,7 +27,7 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
         IUserService.saveVerificationTokenForUser(user, token);
 
         //Send mail to the user.
-        String url = event.getApplicationUrl() + "/api/v1/verifyRegistration?token=" + token;
+        String url = event.getApplicationUrl() + VERIFY_REGISTRATION_URL + token;
 
         log.info("Verify url:" + url);
         //sendVerificationEmail();

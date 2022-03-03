@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.user.service;
 
+import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.user.entity.PasswordResetToken;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.entity.VerificationToken;
@@ -49,27 +50,27 @@ public class UserService implements IUserService {
 
     @Override
     public void saveVerificationTokenForUser(User user, String token) {
-        VerificationToken verificationToken = new VerificationToken(user, token);
-        verificationTokenRepository.save(verificationToken);
+        var verifyToken = new VerificationToken(user, token);
+        verificationTokenRepository.save(verifyToken);
     }
 
     @Override
     public String validateVerificationToken(String token) {
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        var verificationToken = verificationTokenRepository.findByToken(token);
         if (verificationToken == null)
-            return "invalid";
+            return VerificationTokenConstants.INVALID;
 
         User user = verificationToken.getUser();
         Calendar calendar = Calendar.getInstance();
 
         if (verificationToken.getExpirationTime().getTime() - calendar.getTime().getTime() <= 0) {
             verificationTokenRepository.delete(verificationToken);
-            return "expired";
+            return VerificationTokenConstants.EXPIRED;
         }
 
         user.setEnabled(true);
         userRepository.save(user);
-        return "valid";
+        return VerificationTokenConstants.VALID;
     }
 
     @Override
@@ -96,17 +97,17 @@ public class UserService implements IUserService {
     public String validatePasswordResetToken(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null)
-            return "invalid";
+            return VerificationTokenConstants.INVALID;
 
         User user = passwordResetToken.getUser();
         Calendar calendar = Calendar.getInstance();
 
         if (passwordResetToken.getExpirationTime().getTime() - calendar.getTime().getTime() <= 0) {
             passwordResetTokenRepository.delete(passwordResetToken);
-            return "expired";
+            return VerificationTokenConstants.EXPIRED;
         }
 
-        return "valid";
+        return VerificationTokenConstants.VALID;
     }
 
     @Override
