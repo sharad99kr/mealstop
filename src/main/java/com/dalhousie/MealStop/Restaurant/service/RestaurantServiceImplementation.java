@@ -45,20 +45,18 @@ public class RestaurantServiceImplementation implements RestaurantService {
             else
             {
                 DateFormat formatter = new SimpleDateFormat("EEEE", Locale.ENGLISH);
-                String weekday = formatter.format(endDate);
                 List<String> daysSelected = new ArrayList<>();
-                daysSelected.add(weekday);
 
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(startDate);
-
-                while(startDate != endDate)
+                while(startDate.compareTo(endDate) < 0)
                 {
-                    cal.add(Calendar.DATE, 1);
-                    endDate = cal.getTime();
-                    weekday = formatter.format(endDate);
+                    String weekday = formatter.format(startDate);
                     if(!daysSelected.contains(weekday))
                         daysSelected.add(weekday);
+
+                    cal.setTime(startDate);
+                    cal.add(Calendar.DATE, 1);
+                    startDate = cal.getTime();
                 }
 
 
