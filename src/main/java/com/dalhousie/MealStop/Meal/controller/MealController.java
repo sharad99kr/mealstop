@@ -2,8 +2,6 @@ package com.dalhousie.MealStop.Meal.controller;
 
 import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.service.MealService;
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

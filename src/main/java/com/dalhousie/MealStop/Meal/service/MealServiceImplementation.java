@@ -3,10 +3,12 @@ package com.dalhousie.MealStop.Meal.service;
 import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.repository.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MealServiceImplementation implements MealService {
     @Autowired
     private MealRepository mealRepository;

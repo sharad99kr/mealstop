@@ -1,27 +1,26 @@
 package com.dalhousie.MealStop.Restaurant.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.dalhousie.MealStop.Meal.model.Meal;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
 public class Restaurant implements IRestaurant{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "restaurantid")
     private long id;
 
     @Column(name = "name")
     private String restaurantName;
 
-    @Column(name = "restaurantusername")
-    private String restaurantUsername;
+    @Column(name = "userid")
+    private long userid;
 
-    @Column(name = "restaurantpassword")
-    private String password;
+    @Column(name = "availability")
+    private String availability;
 
     @Column(name = "email")
     private String email;
@@ -35,11 +34,14 @@ public class Restaurant implements IRestaurant{
     @Column(name= "accountstatus")
     private Integer accountStatus;
 
-    public Restaurant(String restaurantName, String restaurantUsername, String password, String email, String phoneNumber, String address, int accountStatus)
+    @OneToMany(mappedBy = "restaurant")
+    private List<Meal> meals;
+
+    public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address, int accountStatus)
     {
         this.restaurantName = restaurantName;
-        this.restaurantUsername = restaurantUsername;
-        this.password = password;
+        this.userid = userID;
+        this.availability = availability;
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.address=address;
@@ -53,6 +55,24 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
+    public long getUserId()
+    {
+        return userid;
+    }
+
+    @Override
+    public String getAvailability()
+    {
+        return availability;
+    }
+
+    @Override
+    public void setAvailability(String availability)
+    {
+        this.availability = availability;
+    }
+
+    @Override
     public String getRestaurantName()
     {
         return restaurantName;
@@ -62,30 +82,6 @@ public class Restaurant implements IRestaurant{
     public void setRestaurantName(String restaurantName)
     {
         this.restaurantName = restaurantName;
-    }
-
-    @Override
-    public String getRestaurantUsername()
-    {
-        return restaurantUsername;
-    }
-
-    @Override
-    public void setRestaurantUsername(String restaurantUsername)
-    {
-        this.restaurantUsername = restaurantUsername;
-    }
-
-    @Override
-    public String getPassword()
-    {
-        return this.password;
-    }
-
-    @Override
-    public void setPassword(String password)
-    {
-        this.password=password;
     }
 
     @Override
@@ -141,9 +137,10 @@ public class Restaurant implements IRestaurant{
     {
         StringBuilder sb = new StringBuilder();
         sb.append("Restaurant [id=" + id);
+        sb.append(", userID=" + userid);
         sb.append(", restaurantName=" + restaurantName);
-        sb.append(", restaurantUsername=" + restaurantUsername);
-        sb.append(", password=" + password);
+        sb.append(", availability=" + availability);
+//        sb.append(", password=" + password);
         sb.append(", email=" + email);
         sb.append(", phoneNumber=" + phoneNumber);
         sb.append(", address=" + address);

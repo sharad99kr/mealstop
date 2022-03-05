@@ -1,11 +1,8 @@
 package com.dalhousie.MealStop.Meal.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "meal")
@@ -13,9 +10,6 @@ public class Meal implements IMeal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    @Column(name = "restaurantid")
-    private long restaurantId;
 
     @Column(name = "mealname")
     private String mealName;
@@ -32,9 +26,12 @@ public class Meal implements IMeal {
     @Column(name= "price")
     private long price;
 
-    public Meal(long restaurantId, String mealName, String calories, String tags, String cuisineType, long price)
+    @ManyToOne
+    @JoinColumn(name = "restaurantid", nullable = false)
+    private Restaurant restaurant;
+
+    public Meal(String mealName, String calories, String tags, String cuisineType, long price)
     {
-        this.restaurantId = restaurantId;
         this.mealName = mealName;
         this.calories = calories;
         this.tags=tags;
@@ -48,17 +45,6 @@ public class Meal implements IMeal {
         return id;
     }
 
-    @Override
-    public long getRestaurantId()
-    {
-        return restaurantId;
-    }
-
-    @Override
-    public void setRestaurantId(long restaurantId)
-    {
-        this.restaurantId = restaurantId;
-    }
 
     @Override
     public String getMealName()
@@ -125,7 +111,6 @@ public class Meal implements IMeal {
     {
         StringBuilder sb = new StringBuilder();
         sb.append("Meal [id=" + id);
-        sb.append(", restaurantId=" + restaurantId);
         sb.append(", mealName=" + mealName);
         sb.append(", calories=" + calories);
         sb.append(", tags=" + tags);

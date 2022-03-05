@@ -4,9 +4,6 @@ public interface IMeal {
 
     public long getId();
 
-    public long getRestaurantId();
-
-    public void setRestaurantId(long id);
 
     public String getMealName();
 
