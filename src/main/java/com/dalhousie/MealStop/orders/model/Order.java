@@ -1,6 +1,12 @@
 package com.dalhousie.MealStop.orders.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 @Entity
 @Table(name="order")
@@ -22,38 +28,47 @@ public class Order implements IOrder  {
     @Column(name="payment_id")
     private long payment_id;
 
+    @Override
     public long getOrderId(){
         return order_id;
     }
 
+    @Override
     public long getCustomerId(){
         return customer_id;
     }
 
+    @Override
     public long getRestaurantId(){
         return restaurant_id;
     }
 
+    @Override
     public long getMealId(){
         return meal_id;
     }
 
+    @Override
     public long getPaymentId(){
         return payment_id;
     }
 
-
+    @Override
     public void setCustomerId(long customerId){
          customer_id=customerId;
     }
 
+    @Override
     public void setRestaurantId(long restaurantId){
         restaurant_id=restaurantId;
     }
+
+    @Override
     public void setMealId(long mealId){
         meal_id=mealId;
     }
 
+    @Override
     public void setPaymentId(long paymentId){
         payment_id=paymentId;
     }
@@ -70,4 +85,17 @@ public class Order implements IOrder  {
     public Order(){
 
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order [id=" + order_id);
+        sb.append(", restaurantId=" + restaurant_id);
+        sb.append(", customerId=" + customer_id);
+        sb.append(", mealId=" + meal_id);
+        sb.append(", paymentId=" + payment_id+"]");
+        return sb.toString();
+    }
+
 }
