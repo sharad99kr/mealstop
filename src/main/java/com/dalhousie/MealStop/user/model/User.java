@@ -13,33 +13,30 @@ public class User implements  IUser
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="user_id")
     private long id;
 
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name ="mobilenumber")
-    private String mobileNumber;
+    @Column(name = "password")
+    private String password;
 
-    @Column(name= "dateofbirth")
-    private String dateOfBirth;
-
-    @Column(name= "usertype")
+    @Column(name= "user_type")
     private Integer userType;
 
-    public User(String firstName, String lastName, String email, String mobileNumber, String dateOfBirth, Integer userType)
+    public User(String firstName, String lastName, String email, String password, Integer userType)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.mobileNumber=mobileNumber;
-        this.dateOfBirth=dateOfBirth;
+        this.password=password;
         this.userType=userType;
     }
 
@@ -86,27 +83,15 @@ public class User implements  IUser
     }
 
     @Override
-    public String getMobileNumber()
+    public void setPassword(String password)
     {
-        return mobileNumber;
+        this.password=password;
     }
 
     @Override
-    public void setMobileNumber(String mobileNumber)
+    public String getPassword()
     {
-        this.mobileNumber=mobileNumber;
-    }
-
-    @Override
-    public String getDateOfBirth()
-    {
-        return this.dateOfBirth;
-    }
-
-    @Override
-    public void setDateOfBirth(String dateOfBirth)
-    {
-        this.dateOfBirth=dateOfBirth;
+        return this.password;
     }
 
     @Override
@@ -129,8 +114,7 @@ public class User implements  IUser
         sb.append(", firstname=" + firstName);
         sb.append(", lastName=" + lastName);
         sb.append(", email=" + email);
-        sb.append(", mobiilenumber=" + mobileNumber);
-        sb.append(", dateofbirth=" + dateOfBirth);
+        sb.append(", password="+password);
         sb.append(", usertype=" + userType + "]");
         return sb.toString();
     }

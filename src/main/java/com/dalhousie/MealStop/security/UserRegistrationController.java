@@ -1,8 +1,8 @@
 package com.dalhousie.MealStop.security;
 
 import com.dalhousie.MealStop.user.model.User;
-
 import com.dalhousie.MealStop.user.service.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

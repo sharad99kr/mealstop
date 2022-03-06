@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>MealStop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{styles/main.css}" rel="stylesheet" />
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js">
+</script>
+<script
+        th:src="@{/test.js}">
+</script>
+
+<body class="d-flex flex-column h-100">
+
+<div th:replace="~{fragments/header :: header}"> </div>
+
+
+
+<main role="main" class="flex-shrink-0">
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <table>
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Name</td>
+                        <td>Cuisine</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="restaurant : ${restaurants}">
+                        <td th:text="${restaurant.restaurantName}"></td>
+                        <td th:text="${restaurant.address}"></td>
+                        <td th:text="${restaurant.phoneNumber}"></td>
+                        <td th:text="${restaurant.email}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<div  th:replace="~{fragments/footer :: footer}"> </div>
+</body>
+</html>

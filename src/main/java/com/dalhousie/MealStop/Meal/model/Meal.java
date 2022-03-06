@@ -1,11 +1,13 @@
 package com.dalhousie.MealStop.Meal.model;
 
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "meal")
+@NoArgsConstructor
 public class Meal implements IMeal {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

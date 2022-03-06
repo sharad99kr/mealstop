@@ -1,12 +1,14 @@
 package com.dalhousie.MealStop.Restaurant.model;
 
 import com.dalhousie.MealStop.Meal.model.Meal;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
+@NoArgsConstructor
 public class Restaurant implements IRestaurant{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

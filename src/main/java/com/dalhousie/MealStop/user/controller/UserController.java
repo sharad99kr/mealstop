@@ -31,6 +31,7 @@ public class UserController
     {
         List<User> listCustomers = userService.getAllUser();
         model.addAttribute("users_list", listCustomers);
+        System.err.println(listCustomers);
         return "user/get_user";
     }
 }

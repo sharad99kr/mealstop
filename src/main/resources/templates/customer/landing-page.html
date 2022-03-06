@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>MealStop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{styles/main.css}" rel="stylesheet" />
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js">
+</script>
+<script
+        th:src="@{/test.js}">
+</script>
+
+<body class="d-flex flex-column h-100">
+
+    <div th:replace="~{fragments/header :: header}"> </div>
+
+        <div class="container">
+            <form method="get" th:action="@{/customer/search-restaurant}" th:object="${UserSearch}">
+                <div class="form-group row">
+                    <div class="col-md-4 mt-5">
+                        <label for="start-date">Start date</label>
+                        <div class="input-group date">
+                            <input type="date" class="form-control" id="start-date" autocomplete="off" field="${startDate}" name="startDate"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-5">
+                        <label for="end-date">End Date</label>
+                        <div class="input-group date">
+                            <input type="date" class="form-control" id="end-date" autocomplete="off" field="${endDate}" name="endDate"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-5 input-group">
+                        <button class="btn btn-primary" type="submit">Search Restaurants</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <main role="main" class="flex-shrink-0">
+            <div class="container mt-5">
+                <div class="jumbotron">
+                    <h1 class="display-4">Home!</h1>
+                </div>
+            </div>
+        </main>
+
+        <div  th:replace="~{fragments/footer :: footer}"> </div>
+</body>
+</html>

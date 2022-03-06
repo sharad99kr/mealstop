@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.user.model;
+package com.dalhousie.MealStop.customer.modal;
 
-public interface IUser
+public interface ICustomer
 {
     public long getId();
 
@@ -15,12 +15,4 @@ public interface IUser
     public String  getEmail();
 
     public void setEmail(String email);
-
-    public void setPassword(String password);
-
-    public String getPassword();
-
-    public Integer getUserType();
-
-    public void setUserType(Integer userType);
 }

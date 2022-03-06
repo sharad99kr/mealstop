@@ -21,7 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests().antMatchers("/", "/**").permitAll()
-                .antMatchers("/customer/**").hasRole("CUSTOMER")
+                //.antMatchers("/customer/**").hasRole("CUSTOMER")
+                .antMatchers("/customer/**").permitAll()
                 .antMatchers("/restaurant/**").hasRole("RESTAURANT")
                 .anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and().logout()
                 .permitAll();

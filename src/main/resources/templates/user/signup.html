@@ -37,6 +37,11 @@
                  th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></div>
 
             <div class="validation-message alert alert-danger"
+                 role="alert"
+                 th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></div>
+
+
+            <div class="validation-message alert alert-danger"
                  role="alert" th:if="${userAlreadyExists}"
                  th:text="${userAlreadyExists}"></div>
 
@@ -75,6 +80,17 @@
                                    required th:field="*{email}" type="email"/> <span
                     aria-hidden="true" class="glyphicon form-control-feedback"></span>
             </div>
+
+            <div class="form-group input-group has-feedback">
+                <label class="validation-message"
+                       th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></label> <span
+                    class="input-group-addon"> <span
+                    class="glyphicon glyphicon-lock"></span>
+					</span> <input class="form-control" placeholder="Password"
+                                   required th:field="*{password}" type="password"/> <span
+                    aria-hidden="true" class="glyphicon form-control-feedback"></span>
+            </div>
+
 
             <div class="text-center">
                 <button class="btn btn-primary btn-sm btn-block" type="submit">Register</button>
