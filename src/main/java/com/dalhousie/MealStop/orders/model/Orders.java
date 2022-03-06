@@ -92,7 +92,7 @@ public class Orders implements IOrders {
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append("Order [id=" + id+"]");
+        sb.append("Order [id=" + id);
         sb.append(", restaurantId=" + restaurantid);
         sb.append(", customerId=" + customerid);
         sb.append(", mealId=" + mealid);
