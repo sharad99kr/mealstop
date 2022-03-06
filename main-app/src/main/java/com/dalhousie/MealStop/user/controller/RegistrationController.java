@@ -3,7 +3,6 @@ package com.dalhousie.MealStop.user.controller;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.user.entity.User;
-import com.dalhousie.MealStop.user.entity.VerificationToken;
 import com.dalhousie.MealStop.user.event.UserSignedUpEvent;
 import com.dalhousie.MealStop.user.models.PasswordModel;
 import com.dalhousie.MealStop.user.models.UserModel;
