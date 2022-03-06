@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.orders.model;
 
-public interface IOrder {
+public interface IOrders {
 
     public long getOrderId();
 
@@ -11,9 +11,6 @@ public interface IOrder {
     public long getMealId();
 
     public long getPaymentId();
-
-
-
 
     public void setCustomerId(long customerId);
 

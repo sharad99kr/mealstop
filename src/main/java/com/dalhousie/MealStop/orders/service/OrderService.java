@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.orders.service;
 
-import com.dalhousie.MealStop.orders.model.Order;
+import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,36 +12,36 @@ public class OrderService implements IOrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public void addOrder(Order order){
+    public void addOrder(Orders orders){
 
     }
 
     @Override
-    public List<Order> getAllOrders(){
+    public List<Orders> getAllOrders(){
 
         return null;
     }
 
     @Override
-    public List<Order> getOrdersByUserID(int userId){
+    public List<Orders> getOrdersByUserID(int userId){
 
         return null;
     }
 
     @Override
-    public Order getOrderByOrderID(int userId){
+    public Orders getOrderByOrderID(int userId){
 
         return null;
     }
 
     @Override
-    public Order getOrderByUserIDandOrderID(int userId,int orderId){
+    public Orders getOrderByUserIDandOrderID(int userId, int orderId){
 
         return null;
     }
 
     @Override
-    public List<Order> getOrdersByRestaurantID(int restaurantId){
+    public List<Orders> getOrdersByRestaurantID(int restaurantId){
 
         return null;
     }

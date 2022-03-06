@@ -1,18 +1,18 @@
 package com.dalhousie.MealStop.orders.service;
 
-import com.dalhousie.MealStop.orders.model.Order;
+import com.dalhousie.MealStop.orders.model.Orders;
 
 import java.util.List;
 
 public interface IOrderService {
-    public abstract void addOrder(Order order);
-    public abstract List<Order> getAllOrders();
+    public abstract void addOrder(Orders orders);
+    public abstract List<Orders> getAllOrders();
 
-    public abstract List<Order> getOrdersByUserID(int userId);
+    public abstract List<Orders> getOrdersByUserID(int userId);
 
-    public abstract Order getOrderByOrderID(int userId);
+    public abstract Orders getOrderByOrderID(int userId);
 
-    public abstract Order getOrderByUserIDandOrderID(int userId,int orderId);
+    public abstract Orders getOrderByUserIDandOrderID(int userId, int orderId);
 
-    public abstract List<Order> getOrdersByRestaurantID(int restaurantId);
+    public abstract List<Orders> getOrdersByRestaurantID(int restaurantId);
 }
