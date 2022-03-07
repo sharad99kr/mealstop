@@ -18,7 +18,7 @@ public class OrderController {
 //        return "user/get_user";
 //    }
 
-    @GetMapping("/")
+    //@GetMapping("/")
     String index(Principal principal) {
         return principal != null ? "orders/OrderDetails" : "orders/OrderDetails";
     }

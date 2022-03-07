@@ -72,17 +72,17 @@ public class Orders implements IOrders {
         this.paymentId=paymentId;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY,optional=false)
-    @JoinColumn(name = "restaurantId", referencedColumnName = "restaurantid", nullable = false,insertable = false,updatable = false)
-    private Restaurant restaurant;
-
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "customer_id", nullable = false,insertable = false,updatable = false)
-    private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
-    private Meal meal;
+//    @ManyToOne(fetch=FetchType.LAZY,optional=false)
+//    @JoinColumn(name = "restaurantId", referencedColumnName = "restaurantid", nullable = false,insertable = false,updatable = false)
+//    private Restaurant restaurant;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "customerId", referencedColumnName = "customer_id", nullable = false,insertable = false,updatable = false)
+//    private Customer customer;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
+//    private Meal meal;
 
 
     public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id){

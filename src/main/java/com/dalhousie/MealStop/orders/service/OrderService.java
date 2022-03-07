@@ -3,9 +3,11 @@ package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderService implements IOrderService {
 
     @Autowired
@@ -14,6 +16,7 @@ public class OrderService implements IOrderService {
     @Override
     public void addOrder(Orders newOrder){
 
+        System.out.println("entered to save");
         orderRepository.save(newOrder);
     }
 
