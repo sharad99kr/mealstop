@@ -23,21 +23,39 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Orders> getOrdersByCustomerID(int userId){
+    public List<Orders> getOrdersByCustomerID(long userId){
 
         return orderRepository.findByCustomerId(userId);
     }
 
     @Override
-    public Orders getOrderByOrderID(int orderId){
+    public Orders getOrderByOrderID(long orderId){
 
         return orderRepository.findById(orderId);
     }
 
 
     @Override
-    public List<Orders> getOrdersByRestaurantID(int restaurantId){
+    public List<Orders> getOrdersByRestaurantID(long restaurantId){
 
         return orderRepository.findByRestaurantId(restaurantId);
+    }
+
+    //method to return most ordered meal by restaurant id and customer id.
+    // It returns list of meal ids
+    public List<Long> getMostOrderedMeal(long customerId, long restaurantId){
+        return orderRepository.findByCustomerIdAndRestaurantId(customerId,restaurantId);
+    }
+
+    //method to return most ordered meal by restaurant
+    // It returns list of meal ids
+    public List<Long> getMostOrderedMealOfRestaurant(long restaurantId){
+        return orderRepository.findAllByRestaurantId(restaurantId);
+    }
+
+    //method to return most ordered meal by customer id
+    // It returns list of meal ids
+    public List<Long> getMostOrderedMealOfCustomer(long customerId){
+        return orderRepository.findAllByCustomerId(customerId);
     }
 }
