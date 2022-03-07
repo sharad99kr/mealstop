@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Bean
-    private PasswordEncoder passwordEncoder(){
+    private PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
     }
 
@@ -37,12 +37,18 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null)
             throw new UsernameNotFoundException("User not found.");
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
-                user.getPassword(), user.isEnabled(), true, true, true, getAuthorities(List.of(user.getRole())));
+                user.getPassword(),
+                user.isEnabled(),
+                true,
+                true,
+                true,
+                getAuthorities(List.of(user.getRole())));
     }
 
+    //Replace it with customer and registration role.
     private Collection<? extends GrantedAuthority> getAuthorities(List<String> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for(String role: roles){
+        for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
         }
         return authorities;

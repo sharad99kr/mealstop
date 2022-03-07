@@ -10,6 +10,7 @@ import static org.springframework.security.oauth2.client.web.reactive.function.c
 
 @RestController
 public class UserController {
+
     @Autowired
     private WebClient webClient;
     @GetMapping("/api/users")
