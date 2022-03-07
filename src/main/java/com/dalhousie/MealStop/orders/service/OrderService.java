@@ -12,37 +12,32 @@ public class OrderService implements IOrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public void addOrder(Orders orders){
+    public void addOrder(Orders newOrder){
 
+        orderRepository.save(newOrder);
     }
 
     @Override
     public List<Orders> getAllOrders(){
-
-        return null;
+        return orderRepository.findAll();
     }
 
     @Override
-    public List<Orders> getOrdersByUserID(int userId){
+    public List<Orders> getOrdersByCustomerID(int userId){
 
-        return null;
+        return orderRepository.findByCustomerId(userId);
     }
 
     @Override
-    public Orders getOrderByOrderID(int userId){
+    public Orders getOrderByOrderID(int orderId){
 
-        return null;
+        return orderRepository.findById(orderId);
     }
 
-    @Override
-    public Orders getOrderByUserIDandOrderID(int userId, int orderId){
-
-        return null;
-    }
 
     @Override
     public List<Orders> getOrdersByRestaurantID(int restaurantId){
 
-        return null;
+        return orderRepository.findByRestaurantId(restaurantId);
     }
 }

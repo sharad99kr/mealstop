@@ -1,11 +1,10 @@
 package com.dalhousie.MealStop.orders.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.dalhousie.MealStop.Meal.model.Meal;
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import com.dalhousie.MealStop.customer.modal.Customer;
+
+import javax.persistence.*;
 
 
 @Entity
@@ -16,17 +15,17 @@ public class Orders implements IOrders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name="customerid")
-    private long customerid;
+    @Column(name="customerId")
+    private long customerId;
 
-    @Column(name="restaurantid")
-    private long restaurantid;
+    @Column(name="restaurantId")
+    private long restaurantId;
 
-    @Column(name="mealid")
-    private long mealid;
+    @Column(name="mealId")
+    private long mealId;
 
-    @Column(name="paymentid")
-    private long paymentid;
+    @Column(name="paymentId")
+    private long paymentId;
 
     @Override
     public long getOrderId(){
@@ -35,51 +34,62 @@ public class Orders implements IOrders {
 
     @Override
     public long getCustomerId(){
-        return customerid;
+        return customerId;
     }
 
     @Override
     public long getRestaurantId(){
-        return restaurantid;
+        return restaurantId;
     }
 
     @Override
     public long getMealId(){
-        return mealid;
+        return mealId;
     }
 
     @Override
     public long getPaymentId(){
-        return paymentid;
+        return paymentId;
     }
 
     @Override
     public void setCustomerId(long customerId){
-         customerid=customerId;
+         this.customerId=customerId;
     }
 
     @Override
     public void setRestaurantId(long restaurantId){
-        restaurantid=restaurantId;
+        this.restaurantId=restaurantId;
     }
 
     @Override
     public void setMealId(long mealId){
-        mealid=mealId;
+        this.mealId=mealId;
     }
 
     @Override
     public void setPaymentId(long paymentId){
-        paymentid=paymentId;
+        this.paymentId=paymentId;
     }
 
+    @ManyToOne(fetch=FetchType.LAZY,optional=false)
+    @JoinColumn(name = "restaurantId", referencedColumnName = "restaurantid", nullable = false,insertable = false,updatable = false)
+    private Restaurant restaurant;
+
+    @ManyToOne
+    @JoinColumn(name = "customerId", referencedColumnName = "customer_id", nullable = false,insertable = false,updatable = false)
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
+    private Meal meal;
 
 
     public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id){
-        this.customerid=customer_id;
-        this.restaurantid=restaurant_id;
-        this.mealid=meal_id;
-        this.paymentid=payment_id;
+        this.customerId=customer_id;
+        this.restaurantId=restaurant_id;
+        this.mealId=meal_id;
+        this.paymentId=payment_id;
     }
 
 
@@ -93,10 +103,10 @@ public class Orders implements IOrders {
     {
         StringBuilder sb = new StringBuilder();
         sb.append("Order [id=" + id);
-        sb.append(", restaurantId=" + restaurantid);
-        sb.append(", customerId=" + customerid);
-        sb.append(", mealId=" + mealid);
-        sb.append(", paymentId=" + paymentid+"]");
+        sb.append(", restaurantId=" + restaurantId);
+        sb.append(", customerId=" + customerId);
+        sb.append(", mealId=" + mealId);
+        sb.append(", paymentId=" + paymentId+"]");
         return sb.toString();
     }
 

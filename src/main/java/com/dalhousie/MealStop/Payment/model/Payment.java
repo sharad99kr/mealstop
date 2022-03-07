@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Payment implements IPayment{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="paymentid")
     private long id;
 
     @Column(name="method")
