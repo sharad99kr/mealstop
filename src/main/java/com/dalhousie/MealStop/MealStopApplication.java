@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -25,9 +26,18 @@ public class MealStopApplication {
 
 	@GetMapping("/")
 	public void home(){
-		orderService.addOrder(new Orders(1,2,3,4));
-		Orders order=orderService.getOrderByOrderID(4);
-		System.out.println(order.getCustomerId());
+
+		List<Long> meals=orderService.getMostOrderedMealOfRestaurant(3);
+		for (Long id:meals) {
+			System.out.println("id :"+id);
+		}
+//		orderService.addOrder(new Orders(2,3,4,5));
+//		orderService.addOrder(new Orders(2,3,5,5));
+//		orderService.addOrder(new Orders(2,3,5,5));
+//		orderService.addOrder(new Orders(2,3,5,5));
+
+		//Orders order=orderService.getOrderByOrderID(4);
+		//System.out.println(order.getCustomerId());
 	}
 
 }
