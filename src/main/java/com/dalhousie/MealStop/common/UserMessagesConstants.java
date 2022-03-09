@@ -10,4 +10,6 @@ public class UserMessagesConstants {
     public final static String PASSWORD_RESET_SUCCESS = "Password reset successfully.";
     public final static String INVALID_OLD_PASSWORD = "Invalid old password.";
     public final static String PASSWORD_CHANGE_SUCCESS = "Password changed successfully.";
+    public final static String USER_NOT_FOUND = "User not found.";
+    public final static String USER_FOUND = "User found";
 }
