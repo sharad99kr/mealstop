@@ -140,7 +140,6 @@ public class Restaurant implements IRestaurant{
         sb.append(", userID=" + userid);
         sb.append(", restaurantName=" + restaurantName);
         sb.append(", availability=" + availability);
-//        sb.append(", password=" + password);
         sb.append(", email=" + email);
         sb.append(", phoneNumber=" + phoneNumber);
         sb.append(", address=" + address);

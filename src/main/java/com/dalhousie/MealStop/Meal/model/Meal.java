@@ -27,7 +27,7 @@ public class Meal implements IMeal {
     private long price;
 
     @ManyToOne
-    @JoinColumn(name = "restaurantid", nullable = false)
+    @JoinColumn(name = "restaurantid", referencedColumnName = "restaurantid", nullable = false)
     private Restaurant restaurant;
 
     public Meal(String mealName, String calories, String tags, String cuisineType, long price)

@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public interface RestaurantService {
+public interface IRestaurantService {
     public abstract void addRestaurant(Restaurant restaurant);
     public abstract List<Restaurant> getAllRestaurant();
     public abstract void updateRestaurant(Long id, Restaurant restaurant);

@@ -4,6 +4,6 @@ import com.dalhousie.MealStop.Meal.model.Meal;
 
 import java.util.List;
 
-public interface RecommendationService {
+public interface IRecommendationService {
     public abstract List<Meal> getAllRecommendedMeals(long userId);
 }

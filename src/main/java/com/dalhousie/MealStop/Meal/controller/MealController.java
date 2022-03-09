@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.Meal.controller;
 
 import com.dalhousie.MealStop.Meal.model.Meal;
-import com.dalhousie.MealStop.Meal.service.MealService;
+import com.dalhousie.MealStop.Meal.service.IMealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import java.util.List;
 public class MealController {
 
     @Autowired
-    private MealService mealService;
+    private IMealService mealService;
 
     @PostMapping("/add_meal")
     public String addMeal(@RequestBody Meal meal, Model model)

@@ -14,14 +14,6 @@ public interface IRestaurant {
 
     public void setRestaurantName(String restaurantName);
 
-//    public String getRestaurantUsername();
-//
-//    public void setRestaurantUsername(String restaurantUsername);
-//
-//    public String getPassword();
-//
-//    public void setPassword(String password);
-
     public String  getEmail();
 
     public void setEmail(String email);

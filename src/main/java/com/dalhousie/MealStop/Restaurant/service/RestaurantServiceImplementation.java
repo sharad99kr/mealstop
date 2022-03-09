@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.Restaurant.service;
 
-import com.dalhousie.MealStop.Meal.service.MealService;
+import com.dalhousie.MealStop.Meal.service.IMealService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
-public class RestaurantServiceImplementation implements RestaurantService {
+public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
-    private MealService mealService;
+    private IMealService mealService;
 
     @Override
     public void addRestaurant(Restaurant restaurant)

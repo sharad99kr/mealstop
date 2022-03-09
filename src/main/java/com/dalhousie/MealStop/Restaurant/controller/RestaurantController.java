@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.Restaurant.controller;
 
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,7 @@ import java.util.List;
 public class RestaurantController
 {
     @Autowired
-    private RestaurantService restaurantService;
+    private IRestaurantService restaurantService;
 
     @PostMapping("/add_restaurant")
     public String addRestaurant(@RequestBody Restaurant restaurant, Model model)

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MealServiceImplementation implements MealService {
+public class MealServiceImplementation implements IMealService {
     @Autowired
     private MealRepository mealRepository;
 

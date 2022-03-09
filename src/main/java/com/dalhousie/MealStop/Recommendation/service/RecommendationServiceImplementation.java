@@ -2,16 +2,17 @@ package com.dalhousie.MealStop.Recommendation.service;
 
 import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.repository.MealRepository;
+import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
-public class RecommendationServiceImplementation implements RecommendationService{
+import static com.dalhousie.MealStop.Recommendation.constants.Constants.NUMBER_OF_RECOMMENDED_MEALS;
+
+public class RecommendationServiceImplementation implements IRecommendationService {
 
     @Autowired
     private MealRepository mealRepository;
-
-    private static final int recommendedMeals=5;
 
     @Override
     public List<Meal> getAllRecommendedMeals(long userId)
@@ -20,6 +21,12 @@ public class RecommendationServiceImplementation implements RecommendationServic
         //Get meal list from orders
         List<Meal> mealList = mealRepository.findAll();
         List<Meal> recommendedMealList = new ArrayList<>();
+
+        if(mealList.size() <= NUMBER_OF_RECOMMENDED_MEALS)
+            return mealList;
+
+        if(mealList.size() == 0)
+            return recommendedMealList;
 
         Map<String, Integer> tagsCountMap= new HashMap<>();
         for(Meal meal : mealList)
@@ -52,19 +59,20 @@ public class RecommendationServiceImplementation implements RecommendationServic
             favTags.add(kv.getKey());
         }
 
-        int counter = recommendedMeals > sortedTagsCountMap.size() ? recommendedMeals : sortedTagsCountMap.size();
         for(String tag : favTags)
         {
-            if(recommendedMealList.size() == recommendedMeals)
+            if(recommendedMealList.size() == NUMBER_OF_RECOMMENDED_MEALS)
                 break;
 
             for(Meal meal : mealList)
             {
                 List<String> tags = Arrays.asList(meal.getTags());
-                if(tags.contains(tag))
+                if(tags.contains(tag) && !recommendedMealList.contains(meal))
+                {
                     recommendedMealList.add(meal);
+                }
 
-                if(recommendedMealList.size() == recommendedMeals)
+                if(recommendedMealList.size() == NUMBER_OF_RECOMMENDED_MEALS)
                     break;
             }
         }
