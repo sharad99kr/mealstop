@@ -11,9 +11,22 @@
 
 <div th:replace="~{fragments/header :: header}"> </div>
 
-    <div>
-        <h1>Welcome to review page</h1>
+
+<div>
+    <h1>Reviews</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th>reviews</th>
+            </tr>
+            <tr th:each="review : ${reviews}">
+                <td th:text="*{review}"></td>
+            </tr>
+        </table>
     </div>
+</div>
+
+
 
 <div  th:replace="~{fragments/footer :: footer}"> </div>
 
