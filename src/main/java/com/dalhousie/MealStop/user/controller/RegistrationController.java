@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -32,6 +33,13 @@ public class RegistrationController {
 
     @Autowired
     private ApplicationEventPublisher eventPublisher;
+
+    @GetMapping("/register")
+    public ModelAndView showRegistrationForm(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("registration.html");
+        return modelAndView;
+    }
 
     /***
      * Registers the user model on the basis of the USER type.
