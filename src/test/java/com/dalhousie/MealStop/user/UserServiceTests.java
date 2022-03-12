@@ -71,6 +71,7 @@ public class UserServiceTests {
     private String mockPassword;
 
     private String mockEmail;
+
     @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);

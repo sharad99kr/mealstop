@@ -120,7 +120,7 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.INVALID_TOKEN);
         }
         Optional<User> user = IUserService.getUserByPasswordResetToken(token);
-        if (user.isPresent()) {
+        if (user != null && user.isPresent()) {
             IUserService.changePassword(user.get(), passwordModel.getNewPassword());
             return ResponseEntity.status(HttpStatus.OK).body(UserMessagesConstants.PASSWORD_RESET_SUCCESS);
         } else {
