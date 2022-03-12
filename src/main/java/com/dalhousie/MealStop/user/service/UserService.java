@@ -166,7 +166,6 @@ public class UserService implements IUserService, UserDetailsService {
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
-
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
