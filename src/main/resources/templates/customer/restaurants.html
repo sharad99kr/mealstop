@@ -33,10 +33,18 @@
                         <div class="card" th:each="restaurant : ${restaurants}">
 <!--                            <div class="card" style="width: 18rem; margin: 5px; -webkit-box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.32); box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.32);" th:each="restaurant : ${restaurants}">-->
                             <div class="card-body">
-                                <h5 th:text="${restaurant.restaurantName}"></h5>
-                                <h6  th:text="${restaurant.address}"></h6>
-                                <a href="#" class="card-link">Show Meals</a>
-                                <a href="/customer/reviews">Add Review</a>
+                                <div style="display: flex;">
+                                    <h5 th:text="${restaurant.restaurantName}"></h5>
+                                    &nbsp
+                                    &nbsp
+                                    <h5  th:text="${restaurant.address}"></h5>
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <p> <h6 th:text="${restaurant.phoneNumber}"></h6></p>
+
+                                    <a href="#" class="card-link">Show Meals</a>
+                                    <a href="/customer/reviews">Add Review</a>
+                                </div>
                             </div>
                         </div>
                     </div>
