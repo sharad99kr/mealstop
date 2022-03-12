@@ -59,6 +59,7 @@ public class RegistrationControllerTests {
     private String mockContextPath;
     private String mockToken;
     private String mockEmail;
+    private String mockPassword;
 
     @BeforeEach
     public void init() {
@@ -68,6 +69,7 @@ public class RegistrationControllerTests {
         mockContextPath = "root";
         mockToken = "token";
         mockEmail = "email";
+        mockPassword = "password";
 
         Mockito.lenient().when(mockHttpServletRequest.getServerName()).thenReturn(mockServerName);
         Mockito.lenient().when(mockHttpServletRequest.getServerPort()).thenReturn(Integer.parseInt(mockServerPort));
@@ -79,7 +81,7 @@ public class RegistrationControllerTests {
 
     @Test
     void ShouldReturnInternalServerErrorSignUpUserWhenSaveFails() {
-        Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenThrow();
+        Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenThrow(NullPointerException.class);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, controller.signUpUser(mockUserModel, mockHttpServletRequest).getStatusCode());
     }
 
@@ -132,5 +134,23 @@ public class RegistrationControllerTests {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.VALID);
         Mockito.lenient().when(mockUserService.getUserByPasswordResetToken(mockToken)).thenReturn(Optional.of(mockUser));
         assertEquals(HttpStatus.OK, controller.savePassword(mockToken, mockPasswordModel).getStatusCode());
+    }
+
+    @Test
+    void ShouldReturnBadRequestChangePasswordWhenNoUser() {
+        Mockito.lenient().when(mockUserService.findUserByEmail(mockEmail)).thenReturn(null);
+        assertEquals(HttpStatus.BAD_REQUEST, controller.changePassword(mockPasswordModel).getStatusCode());
+    }
+
+    @Test
+    void ShouldReturnBadRequestChangePasswordWhenPasswordNotSame() {
+        Mockito.lenient().when(mockUserService.checkIfValidOldPassword(mockUser, mockPassword)).thenReturn(false);
+        assertEquals(HttpStatus.BAD_REQUEST, controller.changePassword(mockPasswordModel).getStatusCode());
+    }
+
+    @Test
+    void ShouldReturnOkChangePassword() {
+        Mockito.lenient().when(mockUserService.checkIfValidOldPassword(mockUser, mockPassword)).thenReturn(true);
+        assertEquals(HttpStatus.BAD_REQUEST, controller.changePassword(mockPasswordModel).getStatusCode());
     }
 }

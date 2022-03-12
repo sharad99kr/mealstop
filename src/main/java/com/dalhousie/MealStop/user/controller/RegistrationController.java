@@ -35,7 +35,7 @@ public class RegistrationController {
     private ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/register")
-    public ModelAndView showRegistrationForm(){
+    public ModelAndView showRegistrationForm() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("registration.html");
         return modelAndView;
@@ -89,7 +89,7 @@ public class RegistrationController {
      * Resets the password by sending a url with token within a mail.
      *
      * @param passwordModel model used for setting up new password
-     * @param request incoming http request
+     * @param request       incoming http request
      * @return status OK if password reset mail was sent.
      */
     @PostMapping("/resetPassword")
@@ -109,7 +109,8 @@ public class RegistrationController {
 
     /**
      * Verifies the validity of password reset token and then, saves the password inside the system
-     * @param token password reset token
+     *
+     * @param token         password reset token
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if user or token was invalid.
      */
@@ -130,12 +131,16 @@ public class RegistrationController {
 
     /**
      * Changes the password for the user when user is logged in.
+     *
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if old password was invalid.
      */
     @PostMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody PasswordModel passwordModel) {
         User user = IUserService.findUserByEmail(passwordModel.getEmail());
+        if (user == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.BAD_USER);
+
         //Checks if old password matches.
         if (!IUserService.checkIfValidOldPassword(user, passwordModel.getOldPassword())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.INVALID_OLD_PASSWORD);
@@ -146,6 +151,7 @@ public class RegistrationController {
 
     /**
      * Sends the password reset token mail
+     *
      * @param passwordResetToken
      * @param applicationUrl
      * @return
