@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.review.modal;
 
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.user.model.User;
 import lombok.AllArgsConstructor;
@@ -40,4 +41,8 @@ public class CustomerReview
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private User customer;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "restaurantid", nullable = false)
+    private Restaurant restaurant;
 }
