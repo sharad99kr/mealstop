@@ -45,7 +45,6 @@ public class Meal implements IMeal {
         return id;
     }
 
-
     @Override
     public String getMealName()
     {

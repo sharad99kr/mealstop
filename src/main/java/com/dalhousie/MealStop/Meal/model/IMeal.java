@@ -4,7 +4,6 @@ public interface IMeal {
 
     public long getId();
 
-
     public String getMealName();
 
     public void setMealName(String mealName);
@@ -24,4 +23,5 @@ public interface IMeal {
     public long getPrice();
 
     public void setPrice(long price);
+
 }

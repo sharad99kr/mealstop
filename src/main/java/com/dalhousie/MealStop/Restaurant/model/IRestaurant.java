@@ -6,6 +6,8 @@ public interface IRestaurant {
 
     public long getUserId();
 
+    public void setUserId(long userid);
+
     public String getAvailability();
 
     public void setAvailability(String availability);
@@ -25,9 +27,5 @@ public interface IRestaurant {
     public String getAddress();
 
     public void setAddress(String address);
-
-    public Integer getAccountStatus();
-
-    public void setAccountStatus(Integer accountStatus);
 
 }

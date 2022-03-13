@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -16,28 +17,41 @@ public class RestaurantController
     @Autowired
     private IRestaurantService restaurantService;
 
-    @PostMapping("/add_restaurant")
-    public String addRestaurant(@RequestBody Restaurant restaurant, Model model)
+    @GetMapping("/get_restaurant/{id}")
+    public String getAllRestaurants(Model model, @PathVariable("id") long id)
     {
-        restaurantService.addRestaurant(restaurant);
-        model.addAttribute("restaurant", restaurant);
-        return "restaurant/add_restaurant";
-    }
-
-    @GetMapping("/get_restaurant")
-    public String getAllRestaurants(Model model)
-    {
-        List<Restaurant> listRestaurants = restaurantService.getAllRestaurant();
+        List<Restaurant> listRestaurants = restaurantService.getAllRestaurant(id);
         model.addAttribute("restaurants_list", listRestaurants);
         return "restaurant/get_restaurant";
     }
 
-    @PutMapping("/update_restaurant/{id}")
-    public String updateRestaurant(@PathVariable("id") long id, @RequestBody Restaurant restaurant, Model model)
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") long id, Model model)
     {
-        restaurantService.updateRestaurant(id, restaurant);
-        model.addAttribute("updateRestaurant", restaurant);
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
+        model.addAttribute("restaurant", restaurant);
         return "restaurant/update_restaurant";
+    }
+
+    @PostMapping("/update_restaurant/{id}")
+    public String updateRestaurant(@ModelAttribute Restaurant restaurant, @PathVariable("id") long id)
+    {
+        Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
+        return "redirect:/get_restaurant/" + updatedRestaurant.getUserId();
+    }
+
+    @GetMapping("/add_restaurant_form")
+    public String addRestaurantForm()
+    {
+        return "restaurant/add_restaurant";
+    }
+
+    @PostMapping("/add_restaurant")
+    public String addRestaurant(@ModelAttribute Restaurant restaurant, HttpSession session)
+    {
+        restaurantService.addRestaurant(restaurant);
+        session.setAttribute("msg", "Employee Added successfully!!!");
+        return "redirect:/get_restaurant/" + restaurant.getUserId();
     }
 
     @GetMapping("/get_restaurants_available")
