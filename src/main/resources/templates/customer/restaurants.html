@@ -28,19 +28,18 @@
 <main role="main" class="flex-shrink-0">
     <div class="container mt-5">
         <div class="jumbotron">
-
-                    <div class="card-deck">
-                        <div class="card" th:each="restaurant : ${restaurants}">
+                <div class="card-deck">
+                    <div class="card" th:each="restaurant : ${restaurants}">
 <!--                            <div class="card" style="width: 18rem; margin: 5px; -webkit-box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.32); box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.32);" th:each="restaurant : ${restaurants}">-->
-                            <div class="card-body">
-                                <h5 th:text="${restaurant.restaurantName}"></h5>
-                                <h6  th:text="${restaurant.address}"></h6>
-                                <a href="#" class="card-link">Show Meals</a>
-                                <a href="/customer/reviews">Add Review</a>
-                            </div>
+                        <div class="card-body">
+                            <h5 th:text="${restaurant.restaurantName}"></h5>
+                            <h6 th:text="${restaurant.address}"></h6>
+<!--                            <h6 th:text="${customer.firstName}"></h6>-->
+                            <a href="#" class="card-link">Show Meals</a>
+                            <a>Add Review</a>
                         </div>
                     </div>
-
+                </div>
         </div>
     </div>
 </main>

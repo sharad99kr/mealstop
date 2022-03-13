@@ -6,6 +6,7 @@ import com.dalhousie.MealStop.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +20,18 @@ public class UserRegistrationController implements WebMvcConfigurer
     @Autowired
     private UserService userService;
 
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     private static final Logger log = LoggerFactory.getLogger(UserRegistrationController.class.getName());
 
     @PostMapping("/register")
     public ModelAndView createUser(User user)
     {
+        System.err.println("new user request"+user);
         ModelAndView modelAndView = null;
-        System.err.println("new user addition"+user.toString());
+        user.setPassword(encoder.encode(user.getPassword()));;
         userService.addUser(user);
+
         return modelAndView;
     }
 
