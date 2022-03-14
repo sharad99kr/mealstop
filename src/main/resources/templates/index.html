@@ -23,13 +23,11 @@
         <br/> <br/> Welcome to the CSCI 5308 Group 1 Project - MealStop application. <br/>
         <br/>
         <div>
-            <a class="btn btn-primary btn-sm" th:href="@{/courseList}">View
-                Courses</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/customer/homepage}">View Restaurants</a>
         </div>
     </div>
     <div sec:authorize="!isAuthenticated()">
-        <p>You have not logged in to the application. Please login to
-            continue...</p>
+        <p>You have not logged in to the application. Please login to continue...</p>
         <a th:href="@{/login}">Click here to log in!</a>
     </div>
 

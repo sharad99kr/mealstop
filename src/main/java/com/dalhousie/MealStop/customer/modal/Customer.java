@@ -18,6 +18,8 @@ public class Customer implements ICustomer
     @Column(name = "email")
     private String email;
 
+    public Customer() {}
+
     public Customer(String firstName, String lastName, String email)
     {
         this.firstName = firstName;

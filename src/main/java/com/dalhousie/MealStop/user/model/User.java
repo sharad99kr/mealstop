@@ -31,6 +31,11 @@ public class User implements  IUser
     @Column(name= "user_type")
     private Integer userType;
 
+    public User()
+    {
+
+    }
+
     public User(String firstName, String lastName, String email, String password, Integer userType)
     {
         this.firstName = firstName;
