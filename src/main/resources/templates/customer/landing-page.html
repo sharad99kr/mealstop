@@ -25,6 +25,8 @@
 
         <div class="container">
             <form method="get" th:action="@{/customer/search-restaurant}" th:object="${UserSearch}">
+
+                <!-- start date-->
                 <div class="form-group row mt-5">
                     <div class="col-md-4">
                         <label for="start-date">Start date</label>
@@ -35,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-
+                            <!-- ENd date-->
                     <div class="col-md-4">
                         <label for="end-date">End Date</label>
                         <div class="input-group date">
@@ -46,7 +48,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+            <!-- search button-->
+                    <div class="col-md-4" style="display: flex; justify-content: flex-end; align-items: flex-end">
                         <button class="btn btn-primary" type="submit">Search Restaurants</button>
                     </div>
                 </div>
