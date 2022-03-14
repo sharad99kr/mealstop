@@ -5,7 +5,10 @@ import com.dalhousie.MealStop.customer.modal.ICustomer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.CustomerReviewService;
+import com.dalhousie.MealStop.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +28,13 @@ public class CustomerReviewController
     ICustomerService customerService;
 
     @GetMapping("/customer/reviews")
-    public String getReviewPage(@RequestParam(value = "id") String customerId, Model model)
+    public String getReviewPage(Model model)
     {
-        Customer customer = customerService.getCustomerById(customerId);
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getDetails();
+        String userId = String.valueOf(user.getId());
+        Customer customer = customerService.getCustomerById(userId);
+
         List<CustomerReview> reviewList = customerReviewService.getReviewsOfCustomer(customer);
         model.addAttribute("reviews", reviewList);
         return "customer/reviews";

@@ -7,6 +7,7 @@ import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.modal.ICustomer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.user.model.IUser;
 import com.dalhousie.MealStop.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,10 @@ public class CustomerController
     @GetMapping("/customer/homepage")
     public String getLandingPage(Model model)
     {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getDetails();
+        Customer customer = new Customer(user);
+        model.addAttribute("customer", customer);
         return "customer/landing-page";
     }
 
