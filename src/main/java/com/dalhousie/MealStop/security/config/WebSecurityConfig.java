@@ -4,6 +4,7 @@ import com.dalhousie.MealStop.security.filter.CustomAuthenticationFilter;
 import com.dalhousie.MealStop.security.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +23,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@ComponentScan("com.dalhousie.MealStop")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -41,10 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(STATELESS);
-        http.formLogin(form -> form.loginPage("/login"));
-        /*http.authorizeRequests()
+        //http.csrf().disable()
+               // .sessionManagement().sessionCreationPolicy(STATELESS);
+        //http.formLogin(form -> form.loginPage("/login"));
+        http.authorizeRequests()
                 .antMatchers(new String[]{WhitelistUrlConstants.REGISTER_URL, WhitelistUrlConstants.VERFIY_REGISTRATION_URL, WhitelistUrlConstants.RESEND_VERIFYTOKEN_URL,
                         WhitelistUrlConstants.RESET_PASSWORD_URL, WhitelistUrlConstants.SAVE_PASSWORD_URL, WhitelistUrlConstants.LOGIN_URL
                 }).permitAll()
