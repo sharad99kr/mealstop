@@ -36,6 +36,7 @@ public class CustomerReviewController
         Customer customer = customerService.getCustomerById(userId);
 
         List<CustomerReview> reviewList = customerReviewService.getReviewsOfCustomer(customer);
+        System.err.println("reviews: "+ reviewList);
         model.addAttribute("reviews", reviewList);
         return "customer/reviews";
     }

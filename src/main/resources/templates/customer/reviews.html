@@ -20,7 +20,7 @@
                 <th>reviews</th>
             </tr>
             <tr th:each="review : ${reviews}">
-                <td th:text="*{review}"></td>
+                <td th:text="*{review.reviewScore}"></td>
             </tr>
         </table>
     </div>
