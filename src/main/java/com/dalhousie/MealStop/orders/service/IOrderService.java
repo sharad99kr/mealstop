@@ -3,12 +3,17 @@ package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.orders.model.Orders;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface IOrderService {
+
     public void addOrder(Orders newOrder);
     public abstract List<Orders> getAllOrders();
+
+    public List<Orders> getAllCanceledOrders();
 
     public abstract List<Orders> getOrdersByCustomerID(long userId);
 

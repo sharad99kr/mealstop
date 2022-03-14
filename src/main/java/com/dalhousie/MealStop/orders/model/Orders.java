@@ -5,6 +5,7 @@ import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 
 @Entity
@@ -26,6 +27,46 @@ public class Orders implements IOrders {
 
     @Column(name="paymentId")
     private long paymentId;
+
+    @Column(name="status")
+    private int status;
+
+    @Column(name="amount")
+    private float amount;
+
+    @Column(name="orderDate")
+    private Date date;
+
+    @Override
+    public int getOrderStatus(){
+        return status;
+    }
+
+    @Override
+    public void setOrderStatus(int status){
+        this.status=status;
+    }
+
+    @Override
+    public float getOrderAmount(){
+        return amount;
+    }
+
+    @Override
+    public void setOrderAmount(int amount){
+        this.amount=amount;
+    }
+
+    @Override
+    public Date getOrderTime(){
+        return date;
+    }
+
+    @Override
+    public void setOrderTime(){
+        long millis=System.currentTimeMillis();
+        this.date= new java.sql.Date(millis);
+    }
 
     @Override
     public long getOrderId(){
@@ -85,11 +126,13 @@ public class Orders implements IOrders {
 //    private Meal meal;
 
 
-    public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id){
+    public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id, long amount, int status){
         this.customerId=customer_id;
         this.restaurantId=restaurant_id;
         this.mealId=meal_id;
         this.paymentId=payment_id;
+        this.amount=amount;
+        this.status=status;
     }
 
 
@@ -107,6 +150,7 @@ public class Orders implements IOrders {
         sb.append(", customerId=" + customerId);
         sb.append(", mealId=" + mealId);
         sb.append(", paymentId=" + paymentId+"]");
+
         return sb.toString();
     }
 

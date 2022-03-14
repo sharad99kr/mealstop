@@ -10,7 +10,11 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Orders,Long> {
+
+    public List<Orders> findByStatus(int status);
+
     public List<Orders> findByCustomerId(long customerid);
+
 
     public Orders findById(long id);
 
@@ -27,4 +31,6 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     //customer query to find most ordered meal from a restaurant
     @Query(value = Constants.MOST_ORDERED_MEAL_FROM_RSTAURANT, nativeQuery = true)
     List<Long> findAllByRestaurantId(Long restaurant_id);
+
+
 }
