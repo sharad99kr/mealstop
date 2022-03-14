@@ -32,8 +32,6 @@
     <div sec:authorize="isAuthenticated()">
         <div class="container">
             <form method="get" th:action="@{/customer/search-restaurant}" th:object="${UserSearch}">
-
-                <!-- start date-->
                 <div class="form-group row mt-5">
                     <div class="col-md-4">
                         <label for="start-date">Start date</label>
@@ -44,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                            <!-- ENd date-->
+
                     <div class="col-md-4">
                         <label for="end-date">End Date</label>
                         <div class="input-group date">
@@ -55,7 +53,6 @@
                         </div>
                     </div>
 
-            <!-- search button-->
                     <div class="col-md-4" style="display: flex; justify-content: flex-end; align-items: flex-end">
                         <button class="btn btn-primary" type="submit">Search Restaurants</button>
                     </div>
@@ -66,7 +63,7 @@
         <main role="main" class="flex-shrink-0">
             <div class="container mt-5">
                 <div class="jumbotron">
-<!--                    <h1 class="display-4" th:text="${customer.firstName}"></h1>-->
+                    <h1 class="display-4" th:text="${customer.firstName}"></h1>
                 </div>
             </div>
         </main>
