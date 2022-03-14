@@ -8,14 +8,20 @@ import java.util.Map;
 
 public interface IOrderService {
 
+    //method signature that adds new order
     public void addOrder(Orders newOrder);
+
+    //abstract method that returns all the orders
     public abstract List<Orders> getAllOrders();
 
-    public List<Orders> getAllCanceledOrders();
+    //abstract method returns all the orders that are in the cancelled status
+    public abstract List<Orders> getAllCanceledOrders();
 
+    //abstract method to get all orders by user id
     public abstract List<Orders> getOrdersByCustomerID(long userId);
 
-    public abstract Orders getOrderByOrderID(long userId);
+    //abstract method to get all orders by order id
+    public abstract Orders getOrderByOrderID(long orderId);
 
     public abstract List<Orders> getOrdersByRestaurantID(long restaurantId);
 
