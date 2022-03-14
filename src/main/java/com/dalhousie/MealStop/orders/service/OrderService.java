@@ -1,8 +1,9 @@
 package com.dalhousie.MealStop.orders.service;
-
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.dalhousie.MealStop.orders.Constants.Constants;
 
 import java.util.List;
 
@@ -20,6 +21,12 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getAllOrders(){
         return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Orders> getAllCanceledOrders(){
+
+        return orderRepository.findByStatus(Constants.CANCELLED);
     }
 
     @Override
