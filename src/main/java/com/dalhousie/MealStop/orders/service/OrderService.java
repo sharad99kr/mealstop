@@ -16,37 +16,39 @@ public class OrderService implements IOrderService {
     @Override
     public void addOrder(Orders newOrder){
 
-        System.out.println("entered to save");
+        //this method adds new order that has been placed
         orderRepository.save(newOrder);
     }
 
     @Override
     public List<Orders> getAllOrders(){
+        //this method returns all the orders that has been placed so far
         return orderRepository.findAll();
     }
 
     @Override
     public List<Orders> getAllCanceledOrders(){
 
+        //this method returns all the orders that are in the cancelled status
         return orderRepository.findByStatus(Constants.CANCELLED);
     }
 
     @Override
     public List<Orders> getOrdersByCustomerID(long userId){
-
+        //this method returns all the orders placed by a customer using his customer id
         return orderRepository.findByCustomerId(userId);
     }
 
     @Override
     public Orders getOrderByOrderID(long orderId){
-
+        //this method returns order detail using order id
         return orderRepository.findById(orderId);
     }
 
 
     @Override
     public List<Orders> getOrdersByRestaurantID(long restaurantId){
-
+        //this method return restaurant details using restaurant id
         return orderRepository.findByRestaurantId(restaurantId);
     }
 

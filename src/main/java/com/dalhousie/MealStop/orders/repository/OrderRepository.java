@@ -11,13 +11,16 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders,Long> {
 
+    //this method definition finds list of orders based on the status provided
     public List<Orders> findByStatus(int status);
 
+    //this method definition finds list of orders that were ordered by a particular using customer id
     public List<Orders> findByCustomerId(long customerid);
 
-
+    //this method definition is used to get order by order id from database
     public Orders findById(long id);
 
+    //this method definition is used to get order by restaurant id from the database
     public List<Orders> findByRestaurantId(long restaurantId);
 
     //customer query to find most ordered meal by a customer from a restaurant
