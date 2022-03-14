@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MealRepository extends JpaRepository<Meal, Long> {
+    public List<Meal> findByRestaurantId(long restaurantId);
 }

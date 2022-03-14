@@ -26,6 +26,18 @@ public class MealServiceImplementation implements IMealService {
         return mealList;
     }
 
+    public List<Meal> getAllMealsByRestaurantId(long restaurantId)
+    {
+        List<Meal> mealList = mealRepository.findByRestaurantId(restaurantId);
+        return mealList;
+    }
+
+    public Optional<Meal> getMealByMealId(long mealId)
+    {
+        Optional<Meal> meal = mealRepository.findById(mealId);
+        return meal;
+    }
+
     @Override
     public void updateMeal(long id, Meal meal) {
         Optional<Meal> mealData = mealRepository.findById(id);

@@ -10,4 +10,5 @@ public interface IMealService {
     public abstract void addMeal(Meal meal);
     public abstract List<Meal> getAllMeals();
     public abstract void updateMeal(long id, Meal meal);
+    public abstract List<Meal> getAllMealsByRestaurantId(long restaurantId);
 }

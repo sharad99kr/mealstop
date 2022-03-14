@@ -38,9 +38,6 @@ public class Restaurant implements IRestaurant{
     @Column(name= "address")
     private String address;
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<Meal> meals;
-
     public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address)
     {
         this.restaurantName = restaurantName;
