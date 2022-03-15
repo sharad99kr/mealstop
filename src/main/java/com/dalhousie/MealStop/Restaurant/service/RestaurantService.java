@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public interface RestaurantService {
+    public abstract Restaurant getRestaurantById(long id);
     public abstract void addRestaurant(Restaurant restaurant);
     public abstract List<Restaurant> getAllRestaurant();
     public abstract void updateRestaurant(Long id, Restaurant restaurant);

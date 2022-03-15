@@ -2,7 +2,6 @@ package com.dalhousie.MealStop.review.modal;
 
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,11 +35,11 @@ public class CustomerReview
     private String reviewMessage;
 
     @Column(name = "review_date")
-    private Date reviewDate;
+    private Date reviewDate = new Date();
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-    private User customer;
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
+    private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "restaurantid", nullable = false)

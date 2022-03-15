@@ -37,4 +37,9 @@ public class CustomerReviewServiceImpl implements CustomerReviewService
         List<CustomerReview> customerReviews= customerReviewRepository.findByRestaurant(restaurant);
         return customerReviews;
     }
+
+    public void deleteReviewById(Long id)
+    {
+        customerReviewRepository.deleteById(id);
+    }
 }

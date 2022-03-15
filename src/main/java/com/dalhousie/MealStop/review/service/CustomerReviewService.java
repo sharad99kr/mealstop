@@ -14,4 +14,5 @@ public interface CustomerReviewService
     public List<CustomerReview> getAllReviews();
     public List<CustomerReview> getReviewsOfCustomer(Customer customer);
     public List<CustomerReview> getReviewsOfRestaurant(Restaurant restaurant);
+    public void deleteReviewById(Long id);
 }

@@ -1,5 +1,7 @@
 package com.dalhousie.MealStop.review.controller;
 
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.modal.ICustomer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
@@ -11,10 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,23 +26,45 @@ public class CustomerReviewController
     @Autowired
     ICustomerService customerService;
 
+    @Autowired
+    RestaurantService restaurantService;
+
     @GetMapping("/customer/reviews")
     public String getReviewPage(Model model)
     {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) auth.getDetails();
-        String userId = String.valueOf(user.getId());
-        Customer customer = customerService.getCustomerById(userId);
-
+        Customer customer = customerService.getCustomerDetailsFromSession();
         List<CustomerReview> reviewList = customerReviewService.getReviewsOfCustomer(customer);
         model.addAttribute("reviews", reviewList);
         return "customer/reviews";
     }
 
-    @PostMapping("/customer/add_review")
-    public String addReview(@ModelAttribute("course") CustomerReview review, Model model)
+    @GetMapping("/customer/add_review/{id}")
+    public String getAddReviewPage(@PathVariable("id") long restaurantId, Model model)
     {
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+        model.addAttribute("restaurant", restaurant);
+        return "reviews/add-review";
+    }
+
+    @PostMapping("/customer/add_review/{id}")
+    public String addReview(@ModelAttribute CustomerReview review, @PathVariable("id") long restaurantId)
+    {
+        Customer customer = customerService.getCustomerDetailsFromSession();
+        System.err.println("customer information="+customer.getId());
+        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+
+        review.setCustomer(customer);
+        review.setRestaurant(restaurant);
+
+        System.err.println(review);
         customerReviewService.addReview(review);
-        return "course/reviews";
+        return "customer/reviews";
+    }
+
+    @PostMapping("/customer/delete_review/{id}")
+    public String deleteReview(@PathVariable("id") long reviewID)
+    {
+        customerReviewService.deleteReviewById(reviewID);
+        return "customer/reviews";
     }
 }

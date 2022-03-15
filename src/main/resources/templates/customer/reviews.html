@@ -11,20 +11,44 @@
 
 <div th:replace="~{fragments/header :: header}"> </div>
 
-
-<div>
-    <h1>Reviews</h1>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-            <tr>
-                <th>reviews</th>
-            </tr>
-            <tr th:each="review : ${reviews}">
-                <td th:text="*{review}"></td>
-            </tr>
-        </table>
-    </div>
+<div class="container p-5">
+    <table class="table table-striped">
+        <thead class="bg-primary text-white">
+        <tr>
+            <th scope="col">Review Message</th>
+            <th scope="col">Review Score</th>
+            <th scope="col">Date</th>
+            <th scope="col">Restaurant Name</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  th:each="review: ${reviews}">
+            <td th:text="${review.reviewMessage}"></td>
+            <td th:text="${review.reviewScore}"></td>
+            <td th:text="${review.reviewDate}"></td>
+            <td th:text="${review.restaurant.restaurantName}"></td>
+            <td>
+                <form method="post" th:href="@{/edit/{id}(id=${review.id})}">
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        Edit
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form method="post" th:action="@{/customer/delete_review/{id}(id=${review.id})}">
+                    <button class="btn btn-sm btn btn-danger" type="submit">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+
+
 
 
 

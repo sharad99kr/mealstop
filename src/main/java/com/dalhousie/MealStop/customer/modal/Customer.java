@@ -30,6 +30,7 @@ public class Customer implements ICustomer
     public Customer(IUser user)
     {
         //need to check if the user is of customer type.
+        this.id = user.getId();
         this.firstName=user.getFirstName();
         this.lastName=user.getLastName();
         this.email=user.getEmail();
@@ -75,5 +76,16 @@ public class Customer implements ICustomer
     public void setEmail(String email)
     {
         this.email = email;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

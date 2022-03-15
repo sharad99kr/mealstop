@@ -50,6 +50,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
         String emailId = authentication.getPrincipal().toString();
         String password = authentication.getCredentials().toString();
 
+        //Todo Fix
         IUser user = new User();
         user.setEmail(emailId);
 
