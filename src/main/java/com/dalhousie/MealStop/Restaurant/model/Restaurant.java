@@ -109,7 +109,7 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
-    public void setPhoneNumber(String mobileNumber)
+    public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber=phoneNumber;
     }

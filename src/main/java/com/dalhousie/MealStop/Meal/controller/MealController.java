@@ -2,6 +2,8 @@ package com.dalhousie.MealStop.Meal.controller;
 
 import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.service.IMealService;
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,27 +17,57 @@ public class MealController {
     @Autowired
     private IMealService mealService;
 
-    @PostMapping("/add_meal")
-    public String addMeal(@RequestBody Meal meal, Model model)
+    @Autowired
+    private IRestaurantService restaurantService;
+
+    @GetMapping("/add_meal_form/{id}")
+    public String addMealForm(@PathVariable("id") long id, Model model)
     {
-        mealService.addMeal(meal);
-        model.addAttribute("meal", meal);
+        model.addAttribute("restaurant", id);
         return "meal/add_meal";
     }
 
-    @PutMapping("/update_meal/{id}")
-    public String updateMeal(@PathVariable("id") long id, @RequestBody Meal meal, Model model)
+    @PostMapping("/add_meal/{id}")
+    public String addMeal(@ModelAttribute Meal meal, @PathVariable("id") long id)
     {
-        mealService.updateMeal(id, meal);
-        model.addAttribute("updatedmeal", meal);
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
+        meal.setRestaurant(restaurant);
+        mealService.addMeal(meal);
+        return "redirect:/get_meal/" + id;
+    }
+
+    @GetMapping("/editMeal/{id}")
+    public String edit(@PathVariable("id") long id, Model model)
+    {
+        Meal meal = mealService.getMealByMealId(id);
+        model.addAttribute("restaurant", meal.getRestaurant().getId());
+        model.addAttribute("meal", meal);
         return "meal/update_meal";
     }
 
-    @GetMapping("/get_meal")
-    public String getAllMeals(Model model)
+    @PostMapping("/update_meal/{id}")
+    public String updateMeal(@ModelAttribute Meal meal, @PathVariable("id") long id)
     {
-        List<Meal> mealList = mealService.getAllMeals();
+        System.err.println("inside");
+        Meal updatedMeal = mealService.updateMeal(id, meal);
+        return "redirect:/get_meal/" + updatedMeal.getRestaurant().getId();
+    }
+
+    @GetMapping("/get_meal/{id}")
+    public String getAllMeals(Model model,  @PathVariable("id") long id)
+    {
+        List<Meal> mealList = mealService.getAllMealsByRestaurantId(id);
         model.addAttribute("meal_list", mealList);
+        model.addAttribute("restaurant", id);
         return "meal/get_meal";
+    }
+
+    @GetMapping("/get_meals/{id}")
+    public String getRestaurantMeals(Model model,  @PathVariable("id") long id)
+    {
+        List<Meal> mealList = mealService.getAllMealsByRestaurantId(id);
+        model.addAttribute("meal_list", mealList);
+        model.addAttribute("restaurant", id);
+        return "customer/meals";
     }
 }

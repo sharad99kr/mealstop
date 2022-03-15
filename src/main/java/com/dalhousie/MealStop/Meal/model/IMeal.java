@@ -1,5 +1,7 @@
 package com.dalhousie.MealStop.Meal.model;
 
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+
 public interface IMeal {
 
     public long getId();
@@ -24,4 +26,7 @@ public interface IMeal {
 
     public void setPrice(long price);
 
+    public Restaurant getRestaurant();
+
+    public void setRestaurant(Restaurant restaurant);
 }

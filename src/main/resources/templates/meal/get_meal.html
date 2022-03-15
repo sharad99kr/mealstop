@@ -13,30 +13,18 @@
 <body>
 
 <!-- Navbar -->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">Meal</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarsExample04">
     <ul class="navbar-nav mr-auto">
+<!--      <li class="nav-item active">-->
+<!--        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
+<!--      </li>-->
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="">Add Meal</a>
+        <a class="nav-link" th:href="@{/add_meal_form/{id}(id=${restaurant})}">Add Meal</a>
       </li>
     </ul>
   </div>
 </nav>
-
-<div th:if="${session.msg}">
-  <div class="alert alert-success" role="alert" th:text="${session.msg}">
-  </div>
-</div>
-<th:block th:text="${#session.removeAttribute('msg')}"></th:block>
 
 <!-- Navbar -->
 
@@ -59,12 +47,11 @@
       <td th:text="${meal.tags}"></td>
       <td th:text="${meal.cuisineType}"></td>
       <td th:text="${meal.price}"></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{}">Edit</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/editMeal/{id}(id=${meal.id})}">Edit</a></td>
     </tr>
     </tbody>
   </table>
 </div>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

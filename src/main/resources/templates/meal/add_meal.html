@@ -14,19 +14,11 @@
 
 <!-- Navbar -->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Meal</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarsExample04">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a><!-- Need to update-->
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Add Meal</a><!-- Need to update-->
+                <a class="nav-link" th:href="@{/get_meal/{id}(id=${restaurant})}">Home <span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -41,7 +33,7 @@
                 <div class="card-body">
                     <h4 class ="text-center text-primary">Add Meal</h4>
 
-                    <form th:action="@{/add_restaurant}" method="post"><!-- Need to update-->
+                    <form th:action="@{/add_meal/{id}(id=${restaurant})}" method="post">
 
                         <div class = "form-group">
                             <label>Meal Name</label><input type="text" class="form-control" name="mealName">
@@ -70,7 +62,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

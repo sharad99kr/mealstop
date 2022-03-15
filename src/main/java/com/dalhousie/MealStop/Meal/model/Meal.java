@@ -7,6 +7,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "meal")
 public class Meal implements IMeal {
+
+    public Meal(){
+        // Add here init stuff if needed
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -43,6 +48,18 @@ public class Meal implements IMeal {
     public long getId()
     {
         return id;
+    }
+
+    @Override
+    public Restaurant getRestaurant()
+    {
+        return restaurant;
+    }
+
+    @Override
+    public void setRestaurant(Restaurant restaurant)
+    {
+        this.restaurant = restaurant;
     }
 
     @Override

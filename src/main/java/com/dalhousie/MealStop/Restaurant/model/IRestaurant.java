@@ -22,7 +22,7 @@ public interface IRestaurant {
 
     public String getPhoneNumber();
 
-    public void setPhoneNumber(String mobileNumber);
+    public void setPhoneNumber(String phoneNumber);
 
     public String getAddress();
 

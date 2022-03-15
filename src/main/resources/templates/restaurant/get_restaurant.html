@@ -14,29 +14,21 @@
 
 <!-- Navbar -->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">Restaurant</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarsExample04">
     <ul class="navbar-nav mr-auto">
+<!--      <li class="nav-item active">-->
+<!--        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
+<!--      </li>-->
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" th:href="@{/add_restaurant_form}">Add Restaurant</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="add_restaurant_form">Add Restaurant</a>
+        <a class="nav-link" href="#">Orders</a>
       </li>
     </ul>
   </div>
 </nav>
-
-<div th:if="${session.msg}">
-  <div class="alert alert-success" role="alert" th:text="${session.msg}">
-  </div>
-</div>
-<th:block th:text="${#session.removeAttribute('msg')}"></th:block>
 
 <!-- Navbar -->
 
@@ -49,7 +41,8 @@
       <th scope="col">Address</th>
       <th scope="col">Phone Number</th>
       <th scope="col">Availability</th>
-      <th scope="col">Action</th>
+      <th scope="col">Update Restaurant</th>
+      <th scope="col">Add/Update Meal</th>
     </tr>
     </thead>
     <tbody>
@@ -60,11 +53,11 @@
       <td th:text="${restaurant.phoneNumber}"></td>
       <td th:text="${restaurant.availability}"></td>
       <td><a class="btn btn-sm btn-primary" th:href="@{/edit/{id}(id=${restaurant.id})}">Edit</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/get_meal/{id}(id=${restaurant.id})}">Meal</a></td>
     </tr>
     </tbody>
   </table>
 </div>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

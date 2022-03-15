@@ -32,14 +32,17 @@ public class MealServiceImplementation implements IMealService {
         return mealList;
     }
 
-    public Optional<Meal> getMealByMealId(long mealId)
+    public Meal getMealByMealId(long mealId)
     {
         Optional<Meal> meal = mealRepository.findById(mealId);
-        return meal;
+        if(meal.isPresent())
+            return meal.get();
+
+        return null;
     }
 
     @Override
-    public void updateMeal(long id, Meal meal) {
+    public Meal updateMeal(long id, Meal meal) {
         Optional<Meal> mealData = mealRepository.findById(id);
         if(mealData.isPresent())
         {
@@ -50,6 +53,9 @@ public class MealServiceImplementation implements IMealService {
             _meal.setPrice(meal.getPrice());
             _meal.setTags(meal.getTags());
             mealRepository.save(_meal);
+            return _meal;
         }
+
+        return null;
     }
 }

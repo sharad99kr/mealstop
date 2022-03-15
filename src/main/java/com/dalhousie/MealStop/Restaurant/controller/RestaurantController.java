@@ -3,6 +3,7 @@ package com.dalhousie.MealStop.Restaurant.controller;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,17 +48,18 @@ public class RestaurantController
     }
 
     @PostMapping("/add_restaurant")
-    public String addRestaurant(@ModelAttribute Restaurant restaurant, HttpSession session)
+    public String addRestaurant(@ModelAttribute Restaurant restaurant)
     {
+        //get user from session manager
         restaurantService.addRestaurant(restaurant);
-        session.setAttribute("msg", "Employee Added successfully!!!");
         return "redirect:/get_restaurant/" + restaurant.getUserId();
     }
 
     @GetMapping("/get_restaurants_available")
-    public String getRestaurantAvailabile(@RequestParam Date startDate, @RequestParam Date endDate, Model model) {
+    public String getRestaurantAvailabile(@RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                          @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) {
         List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
-        model.addAttribute("restaurants_list_available", listRestaurants_Available);
-        return "restaurant/get_restaurants_available";
+        model.addAttribute("restaurants", listRestaurants_Available);
+        return "customer/restaurants";
     }
 }
