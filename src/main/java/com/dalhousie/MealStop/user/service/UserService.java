@@ -44,7 +44,7 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public User signUpUser(UserModel userModel) {
         User user = new User();
-        user.setEmail(userModel.getEmail());
+        user.setUsername(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());
         user.setLastName(userModel.getLastName());
         user.setAddress(userModel.getAddress());
@@ -178,12 +178,12 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return userRepository.findByUsername(email);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             log.error(UserMessagesConstants.USER_NOT_FOUND);
             return null;
@@ -192,6 +192,6 @@ public class UserService implements IUserService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 }

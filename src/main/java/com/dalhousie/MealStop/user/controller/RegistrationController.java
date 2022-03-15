@@ -54,7 +54,7 @@ public class RegistrationController {
             User user = IUserService.signUpUser(userModel);
 
             //If the information of the user is saved inside the database, send a mail to the user with verification token.
-            eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
+            //eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
 
             return ResponseEntity.status(HttpStatus.CREATED).body(UserMessagesConstants.USER_CREATED);
         } catch (Exception e) {

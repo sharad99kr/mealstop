@@ -86,10 +86,10 @@ public class UserServiceTests {
         Mockito.lenient().when(mockPasswordResetTokenRepository.findByToken(mockToken).getUser()).thenReturn(mockUser);
         Mockito.lenient().when(mockUserRepository.findAll()).thenReturn(mockUsers);
         Mockito.lenient().when(mockUserRepository.findAll().size()).thenReturn(5);
-        Mockito.lenient().when(mockUserRepository.findUserByEmail(mockEmail)).thenReturn(mockUser);
-        Mockito.lenient().when(mockUserRepository.findUserByEmail(mockEmail).getRole()).thenReturn("Customer");
-        Mockito.lenient().when(mockUserRepository.findUserByEmail(mockEmail).getEmail()).thenReturn(mockEmail);
-        Mockito.lenient().when(mockUserRepository.findUserByEmail(mockEmail).getPassword()).thenReturn(mockPassword);
+        Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail)).thenReturn(mockUser);
+        Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getRole()).thenReturn("Customer");
+        Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getUsername()).thenReturn(mockEmail);
+        Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getPassword()).thenReturn(mockPassword);
         Mockito.lenient().when(mockUser.getPassword()).thenReturn(mockPassword);
     }
 
