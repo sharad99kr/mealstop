@@ -1,120 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport"/>
-    <link href="favicon.ico" rel="icon"/>
-    <title>User Registration Page</title>
+    <meta charset="ISO-8859-1"/>
+    <meta http-equiv="Content-Type" content="appliction/json; charset=UTF-8">
+    <title>Meal Stop</title>
     <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
             crossorigin="anonymous"
-            href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-            rel="stylesheet"/>
+    />
 
+    <link rel="stylesheet" type="text/css" href="../../static/css/registration.css"></link>
+    <!-- Include jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <script>
+        $(document).ready(function () {
+            var date_input = $('input[name="date"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        })
+    </script>
 </head>
-<body style="background-color: #e7ebee">
-<div class="flex align-items-center text-center" style="padding: 20px;">
-    <br/>
-    <div>
-        <h2>Create Account</h2>
-        <form action="#" autocomplete="off" class="m-t col-md-4 col-md-offset-4"
-              data-toggle="validator" method="post"
-              role="form" th:action="@{/register}"
-              th:object="${user}">
-
-            <div class="validation-message alert alert-danger"
-                 role="alert"
-                 th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"></div>
-            <br>
-
-            <div class="validation-message alert alert-danger"
-                 role="alert"
-                 th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"></div>
-
-            <div class="validation-message alert alert-danger"
-                 role="alert"
-                 th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></div>
-
-            <div class="validation-message alert alert-danger"
-                 role="alert"
-                 th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></div>
-
-
-            <div class="validation-message alert alert-danger"
-                 role="alert" th:if="${userAlreadyExists}"
-                 th:text="${userAlreadyExists}"></div>
-
-            <div class="validation-message alert alert-danger"
-                 role="alert" th:if="${passwordError}"
-                 th:text="${passwordError}"></div>
-
-            <div class="form-group input-group has-feedback">
-                <label class="validation-message"
-                       th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"></label> <span
-                    class="input-group-addon"> <span
-                    class="glyphicon glyphicon-user"></span>
-					</span> <input class="form-control" placeholder="First Name"
-                                   required th:field="*{firstName}" type="text"/> <span
-                    aria-hidden="true" class="glyphicon form-control-feedback"></span>
+<body>
+<div class=".container-fluid"></div>
+<div class="row justify-content-center">
+    <div class="col col-md-4">
+        <form th:action="@{/api/v1/signup}" method="post"
+              role="form"
+              class="form-horizontal border form-gap needs-validation" style="
+              margin: 60px 30px;
+              padding: 20px;
+              border: 1px solid;
+              border-radius: 3%;
+            " novalidate>
+              <div>
+              <img
+                src="../../static/images/Meal Stop-logos_transparent.png"
+                style="max-width: 50%"
+              />
             </div>
-
-
-            <div class="form-group input-group has-feedback">
-                <label class="validation-message"
-                       th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"></label> <span
-                    class="input-group-addon"> <span
-                    class="glyphicon glyphicon-user"></span>
-					</span> <input class="form-control" placeholder="Last Name" required
-                                   th:field="*{lastName}" type="text"/> <span
-                    aria-hidden="true" class="glyphicon form-control-feedback"></span>
-            </div>
-
-
-            <div class="form-group input-group has-feedback">
-                <label class="validation-message"
-                       th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></label> <span
-                    class="input-group-addon"> <span
-                    class="glyphicon glyphicon-envelope"></span>
-					</span> <input class="form-control" placeholder="Email address"
-                                   required th:field="*{email}" type="email"/> <span
-                    aria-hidden="true" class="glyphicon form-control-feedback"></span>
-            </div>
-
-            <div class="form-group input-group has-feedback">
-                <label class="validation-message"
-                       th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></label> <span
-                    class="input-group-addon"> <span
-                    class="glyphicon glyphicon-lock"></span>
-					</span> <input class="form-control" placeholder="Password"
-                                   required th:field="*{password}" type="password"/> <span
-                    aria-hidden="true" class="glyphicon form-control-feedback"></span>
-            </div>
-
-
-            <div class="text-center">
-                <button class="btn btn-primary btn-sm btn-block" type="submit">Register</button>
-                <br/>
-                <button class="btn btn-danger btn-sm btn-block" type="reset">Cancel</button>
-            </div>
-
-            <br/>
-            <div>
-                <a class="text-primary" th:href="@{/login}">Are you an existing
-                    user? Click here to log in!</a>
+            <div class="form-group"
+            >
+                <input type="text" id="firstName" name="firstName" class="form-control form-control-md input-margin"
+                       placeholder="First Name" required>
+                <input type="text" id="lastName" name="lastName" class="form-control form-control-md input-margin"
+                       placeholder="Last Name" required>
+                <input type="email" id="email" name="email" class="form-control form-control-md input-margin"
+                placeholder="Email"
+                required>
+                <input type="password" id="password" name="password" class="form-control form-control-md input-margin"
+                       placeholder="Password" required>
+                <input type="password" id="matchingPassword" name="matchingPassword" class="form-control form-control-md
+                       input-margin" placeholder="Confirm Password" required>
+                <input type="number" id="mobileNumber" name="mobileNumber" class="form-control form-control-md input-margin"
+                       placeholder="Mobile Number" required>
+                <input type="number" id="address" name="address" class="form-control form-control-md input-margin"
+                       placeholder="Address" required>
+                <div class="form-group"> <!-- Date input -->
+                    <input class="form-control form-control-md input-margin" id="dateOfBirth" name="date"
+                           placeholder="Birth date" type="text"/>
+                </div>
+                <div class="form-group form-control-md in">
+                    <select class="form-control custom-select" id="user_role" name="role">
+                        <option value="" selected>User role</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="NGO">NGO</option>
+                    </select>
+                    <div class="invalid-feedback">Invalid user role</div>
+                </div>
+                <button class="btn" style="background-color: #012d78; color: white; width: 100%; margin-top: 20px;" type="submit" >Register</button>
             </div>
         </form>
-        <br/>
-        <div class="table-responsive"
-             th:if="${policies!=null and !policies.empty}">
-            <table class="table table-bordered">
-                <tr th:each="policy : ${policies}">
-                    <td th:text="${policy.setting}"></td>
-                    <td th:text="${policy.value}"></td>
-                </tr>
-            </table>
-        </div>
     </div>
+</div>
 </div>
 </body>
 </html>

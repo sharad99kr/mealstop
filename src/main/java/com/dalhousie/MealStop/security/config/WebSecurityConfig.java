@@ -15,14 +15,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.AntPathMatcher;
+
 
 import javax.annotation.Resource;
 
+import static com.dalhousie.MealStop.security.config.WhitelistUrlConstants.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -32,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
@@ -53,17 +53,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().sessionManagement().sessionCreationPolicy(STATELESS);
+        http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers(new String[]{WhitelistUrlConstants.REGISTER_URL, WhitelistUrlConstants.VERFIY_REGISTRATION_URL, WhitelistUrlConstants.RESEND_VERIFYTOKEN_URL,
-                        WhitelistUrlConstants.RESET_PASSWORD_URL, WhitelistUrlConstants.SAVE_PASSWORD_URL, WhitelistUrlConstants.LOGIN_URL
+                .antMatchers(new String[]{REGISTER_URL, SIGNUP_URL, VERFIY_REGISTRATION_URL, RESEND_VERIFYTOKEN_URL,
+                        RESET_PASSWORD_URL, LOGIN_URL
                 }).permitAll()
                 .antMatchers("/api/customer/**").hasAuthority("ROLE_CUSTOMER")
                 .antMatchers("/api/restaurant/**").hasAuthority("ROLE_RESTAURANT")
                 .antMatchers("/api/ngo/**").hasAuthority("ROLE_NGO")
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/user/index.html", true).permitAll()
-                .and().logout().logoutUrl("/perform_logout").permitAll(); // this disables session creation on Spring Security
+                //.anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().permitAll();
 
 
                 /*.antMatchers("/login").permitAll()

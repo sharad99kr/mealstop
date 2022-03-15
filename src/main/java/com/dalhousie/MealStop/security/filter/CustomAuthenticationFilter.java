@@ -16,6 +16,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -27,13 +29,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Autowired
-    private Environment env;
     private final static String EMAIL_PARAM = "username";
     private final static String PASSWORD_PARAM = "password";
     private final AuthenticationManager authenticationManager;
@@ -78,9 +79,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String[] roles = decoded.getClaim("roles").asArray(String.class);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(roles[0]));
-        var authToken = new UsernamePasswordAuthenticationToken(email, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-        response.sendRedirect("/perform_login");
-        //new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+
+        request.setAttribute(AUTHORIZATION, "Bearer " + access_token);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 }

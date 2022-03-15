@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.user.controller;
 
-import com.dalhousie.MealStop.user.service.IUserService;
 import com.dalhousie.MealStop.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
