@@ -48,40 +48,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         String email = request.getParameter(EMAIL_PARAM);
         String password = request.getParameter(PASSWORD_PARAM);
         var authToken = new UsernamePasswordAuthenticationToken(email, password);
+        log.info("Attempting authentication for " +  email);
         return authenticationManager.authenticate(authToken);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes(StandardCharsets.UTF_8));
-        String access_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
-
-        String refresh_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-                .withIssuer(request.getRequestURL().toString())
-                .sign(algorithm);
-
-        Map<String, String> tokens = new HashMap();
-        tokens.put("access_token", access_token);
-        tokens.put("refresh_token", refresh_token);
-        response.setContentType(APPLICATION_JSON_VALUE);
-
-        JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT decoded = verifier.verify(access_token);
-        String email = decoded.getSubject();
-        String[] roles = decoded.getClaim("roles").asArray(String.class);
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(roles[0]));
+        log.info("Successful authentication for " +  user.getUsername());
         SecurityContextHolder.getContext().setAuthentication(authResult);
-
-        request.setAttribute(AUTHORIZATION, "Bearer " + access_token);
-        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        chain.doFilter(request, response);
     }
 }

@@ -56,14 +56,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers(new String[]{REGISTER_URL, SIGNUP_URL, VERFIY_REGISTRATION_URL, RESEND_VERIFYTOKEN_URL,
-                        RESET_PASSWORD_URL, LOGIN_URL
+                        RESET_PASSWORD_URL, LOGIN_URL, "/api/v1/user"
                 }).permitAll()
                 .antMatchers("/api/customer/**").hasAuthority("ROLE_CUSTOMER")
                 .antMatchers("/api/restaurant/**").hasAuthority("ROLE_RESTAURANT")
                 .antMatchers("/api/ngo/**").hasAuthority("ROLE_NGO")
-                //.anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").permitAll()
-                .and().logout().permitAll();
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/api/v1/user", true)
+                .failureUrl("/login.html?error=true").permitAll()
+                .and().logout().permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/403");
 
 
                 /*.antMatchers("/login").permitAll()

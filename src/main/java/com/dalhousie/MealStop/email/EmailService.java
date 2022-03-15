@@ -20,17 +20,12 @@ public class EmailService implements IEmailService {
     @Override
     public void sendEmail(String to, String content) {
 
-        javaMailSender.setHost("smtp.gmail.com");
-        javaMailSender.setPort(587);
-
-        javaMailSender.setUsername("mealstopapp@gmail.com");
-        javaMailSender.setPassword("Mealstop");
-
-        Properties props = javaMailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.mailtrap.io");
+        prop.put("mail.smtp.port", "2525");
+        prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("coder.@gmail.com");

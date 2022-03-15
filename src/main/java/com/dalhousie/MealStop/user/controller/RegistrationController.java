@@ -14,9 +14,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,26 +45,30 @@ public class RegistrationController implements WebMvcConfigurer {
         return "user/forgotpassword";
     }
 
+    @GetMapping("/changepassword")
+    public String showChangePasswordForm() {
+        return "changepassword2";
+    }
+
     /***
      * Registers the user model on the basis of the USER type.
      * Currently, a USER type can be customer, restaurant or ngo.
      //* @param userModel contains information about the user and user type.
      * @return Response entity will return with 201 as the status if userModel is created successfully and 400 if there were any issues with the request.
      */
-    @PostMapping(value="/signup", consumes = {"application/json"})
-    public ResponseEntity<String> signUpUser(UserModel userModel, final HttpServletRequest request) {
+    @PostMapping(value = "/signup", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    public String signUpUser(UserModel userModel, final HttpServletRequest request) {
         try {
             //Save the information inside database.
             User user = userService.signUpUser(userModel);
 
             //If the information of the user is saved inside the database, send a mail to the user with verification token.
-            eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
+            //eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(UserMessagesConstants.USER_CREATED);
         } catch (Exception e) {
             log.error(ErrorMessagesConstants.SIGNUP_USER + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(UserMessagesConstants.UNABLE_TO_ADD_USER);
         }
+        return "user/login";
     }
 
     /**
@@ -98,7 +100,7 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param request       incoming http request
      * @return status OK if password reset mail was sent.
      */
-        @PostMapping(value="/forgotPassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping(value = "/forgotPassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
     public ResponseEntity<String> forgotPassword(PasswordModel passwordModel, final HttpServletRequest request) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
         String url;
@@ -141,8 +143,8 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if old password was invalid.
      */
-    @PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody PasswordModel passwordModel) {
+    @PostMapping(value="/changePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    public ResponseEntity<String> changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
         if (user == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.BAD_USER);
