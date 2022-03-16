@@ -2,7 +2,6 @@ package com.dalhousie.MealStop.orders.service;
 
 import com.dalhousie.MealStop.orders.model.Orders;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,4 +32,7 @@ public interface IOrderService {
 
     //abstract method to return most ordered meal by customer id
     public abstract List<Long> getMostOrderedMealOfCustomer(long customerId);
+
+    //abstract method to return monthly report of earnings for a Restaurant
+    public abstract Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);
 }

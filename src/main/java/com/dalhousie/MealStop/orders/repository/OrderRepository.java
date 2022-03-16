@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface OrderRepository extends JpaRepository<Orders,Long> {
 
@@ -24,7 +25,7 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     public List<Orders> findByRestaurantId(long restaurantId);
 
     //customer query to find most ordered meal by a customer from a restaurant
-    @Query(value = Constants.MOST_ORDERED_MEAL_BY_CUSTOMER_FROM_RSTAURANT, nativeQuery = true)
+    @Query(value = Constants.MOST_ORDERED_MEAL_BY_CUSTOMER_FROM_RESTAURANT, nativeQuery = true)
     List<Long> findByCustomerIdAndRestaurantId(Long customerId,Long restaurantId);
 
     //customer query to find most ordered meal by a customer
@@ -32,8 +33,10 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     List<Long> findAllByCustomerId(Long customerId);
 
     //customer query to find most ordered meal from a restaurant
-    @Query(value = Constants.MOST_ORDERED_MEAL_FROM_RSTAURANT, nativeQuery = true)
+    @Query(value = Constants.MOST_ORDERED_MEAL_FROM_RESTAURANT, nativeQuery = true)
     List<Long> findAllByRestaurantId(Long restaurant_id);
 
+    @Query(value = Constants.MONTHLY_SALES_OF_RESTAURANT, nativeQuery = true)
+    List<Orders> findAllByRestaurantIdandYear(Long restaurant_id, int year);
 
 }

@@ -34,6 +34,7 @@ public class Orders implements IOrders {
     @Column(name="amount")
     private float amount;
 
+
     @Column(name="orderDate")
     private Date date;
 
@@ -133,6 +134,8 @@ public class Orders implements IOrders {
         this.paymentId=payment_id;
         this.amount=amount;
         this.status=status;
+        setOrderTime();
+        this.date=getOrderTime();
     }
 
 
