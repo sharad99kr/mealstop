@@ -22,6 +22,9 @@ public interface IOrderService {
     //abstract method to get all orders by order id
     public abstract Orders getOrderByOrderID(long orderId);
 
+    //abstract method to update order status
+    public abstract void updateOrderStatus(long orderId, int status);
+
     public abstract List<Orders> getOrdersByRestaurantID(long restaurantId);
 
     //abstract method to return most ordered meal by restaurant id and customer id
