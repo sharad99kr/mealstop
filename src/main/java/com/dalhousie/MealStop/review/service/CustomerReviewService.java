@@ -11,8 +11,10 @@ import java.util.List;
 public interface CustomerReviewService
 {
     public void addReview(CustomerReview review);
+    public CustomerReview getReviewById(Long id);
     public List<CustomerReview> getAllReviews();
     public List<CustomerReview> getReviewsOfCustomer(Customer customer);
     public List<CustomerReview> getReviewsOfRestaurant(Restaurant restaurant);
     public void deleteReviewById(Long id);
+    public void updateReview(Long id, CustomerReview customerReview);
 }

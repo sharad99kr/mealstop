@@ -3,14 +3,10 @@ package com.dalhousie.MealStop.review.controller;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.customer.modal.ICustomer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.CustomerReviewService;
-import com.dalhousie.MealStop.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +42,15 @@ public class CustomerReviewController
         return "reviews/add-review";
     }
 
+    @GetMapping("/customer/update_review/{id}")
+    public String getUpdateReviewPage(@PathVariable("id") long reviewId, Model model)
+    {
+        CustomerReview customerReview = customerReviewService.getReviewById(reviewId);
+        System.err.println("editing review "+customerReview);
+        model.addAttribute("review", customerReview);
+        return "reviews/edit-review";
+    }
+
     @PostMapping("/customer/add_review/{id}")
     public String addReview(@ModelAttribute CustomerReview review, @PathVariable("id") long restaurantId)
     {
@@ -58,13 +63,23 @@ public class CustomerReviewController
 
         System.err.println(review);
         customerReviewService.addReview(review);
-        return "customer/reviews";
+        return "redirect:/customer/reviews";
     }
 
-    @PostMapping("/customer/delete_review/{id}")
-    public String deleteReview(@PathVariable("id") long reviewID)
+    @PostMapping("/customer/update_review/{id}")
+    public String updateReview(@PathVariable("id") long reviewId, @ModelAttribute CustomerReview customerReview)
     {
-        customerReviewService.deleteReviewById(reviewID);
-        return "customer/reviews";
+        System.err.println("customer review param is "+ customerReview);
+        customerReview.setId(reviewId);
+        customerReviewService.updateReview(reviewId, customerReview);
+        return "redirect:/customer/reviews";
+    }
+
+
+    @PostMapping("/customer/delete_review/{id}")
+    public String deleteReview(@PathVariable("id") long reviewId)
+    {
+        customerReviewService.deleteReviewById(reviewId);
+        return "redirect:/customer/reviews";
     }
 }

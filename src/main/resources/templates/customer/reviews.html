@@ -30,7 +30,7 @@
             <td th:text="${review.reviewDate}"></td>
             <td th:text="${review.restaurant.restaurantName}"></td>
             <td>
-                <form method="post" th:href="@{/edit/{id}(id=${review.id})}">
+                <form method="get" th:action="@{/customer/update_review/{id}(id=${review.id})}">
                     <button class="btn btn-sm btn-primary" type="submit">
                         Edit
                     </button>

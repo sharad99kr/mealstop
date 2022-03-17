@@ -5,8 +5,10 @@ import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.repository.CustomerReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,24 +22,51 @@ public class CustomerReviewServiceImpl implements CustomerReviewService
         customerReviewRepository.save(review);
     }
 
+    @Override
+    public CustomerReview getReviewById(Long id)
+    {
+        return customerReviewRepository.getById(id);
+    }
+
+    @Override
     public List<CustomerReview> getAllReviews()
     {
         List<CustomerReview> reviewList = customerReviewRepository.findAll();
         return reviewList;
     }
 
+    @Override
     public List<CustomerReview> getReviewsOfCustomer(Customer customer)
     {
         List<CustomerReview> customerReviews= customerReviewRepository.findByCustomer(customer);
         return customerReviews;
     }
 
+    @Override
     public List<CustomerReview> getReviewsOfRestaurant(Restaurant restaurant)
     {
         List<CustomerReview> customerReviews= customerReviewRepository.findByRestaurant(restaurant);
         return customerReviews;
     }
 
+    @Override
+    public void updateReview(Long id, CustomerReview modifiedReview)
+    {
+        CustomerReview existingReview = customerReviewRepository.getById(id);
+        try
+        {
+            existingReview.setReviewDate(modifiedReview.getReviewDate());
+            existingReview.setReviewMessage(modifiedReview.getReviewMessage());
+            existingReview.setReviewScore(modifiedReview.getReviewScore());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        customerReviewRepository.save(existingReview);
+    }
+
+    @Override
     public void deleteReviewById(Long id)
     {
         customerReviewRepository.deleteById(id);
