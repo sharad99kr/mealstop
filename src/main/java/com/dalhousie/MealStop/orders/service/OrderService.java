@@ -1,7 +1,6 @@
 package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
-import org.hibernate.event.internal.MergeContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dalhousie.MealStop.orders.Constants.Constants;
@@ -24,6 +23,13 @@ public class OrderService implements IOrderService {
 
         //this method adds new order that has been placed
         orderRepository.save(newOrder);
+    }
+
+    @Override
+    public void updateOrderStatus(long orderId, int status){
+
+        //this method updates order status that has been placed
+        orderRepository.updateOrdersById(orderId,status);
     }
 
     @Override
