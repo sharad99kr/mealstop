@@ -4,7 +4,6 @@ import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "customer_favorite")
@@ -13,25 +12,35 @@ public class CustomerFavorites
     @Id
     @Column(name="Id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "restaurantid", nullable = false)
-    private List<Restaurant> restaurants;
+    private Restaurant restaurant;
 
     public CustomerFavorites()
     {
 
     }
 
-    public CustomerFavorites(Customer customer, List<Restaurant> restaurant)
+    public CustomerFavorites(Customer customer, Restaurant restaurant)
     {
         this.customer = customer;
-        this.restaurants = restaurant;
+        this.restaurant = restaurant;
+    }
+
+    public long getId()
+    {
+        return id;
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
     }
 
     public Customer getCustomer()
@@ -44,13 +53,23 @@ public class CustomerFavorites
         this.customer=customer;
     }
 
-    public List<Restaurant> getRestaurants()
+    public Restaurant getRestaurant()
     {
-        return this.restaurants;
+        return this.restaurant;
     }
 
-    public void setRestaurants(List<Restaurant> restaurants)
+    public void setRestaurant(Restaurant restaurant)
     {
-        this.restaurants=restaurants;
+        this.restaurant=restaurant;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "CustomerFavorites{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", restaurants=" + restaurant +
+                '}';
     }
 }
