@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>MealStop</title>
@@ -23,23 +23,38 @@
 
 <div th:replace="~{fragments/header :: header}"> </div>
 
+<div sec:authorize="!isAuthenticated()">
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <p>You have not logged in to the application. Please login to continue...</p>
+                <a th:href="@{/login}">Click here to log in!</a>
+            </div>
+        </div>
+    </main>
+</div>
 
-
-<main role="main" class="flex-shrink-0">
-    <div class="container mt-5">
-        <div class="jumbotron">
-            <div class="card-deck">
-                <div class="card" th:each="restaurant : ${favorites.restaurants}">
-                  <div class="card-body">
-                        <h5 th:text="${restaurant.restaurantName}"></h5>
-                        <h6 th:text="${restaurant.address}"></h6>
-                        <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add review</a>
+<div sec:authorize="isAuthenticated()">
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5">
+            <h2>Favorite Restaurants</h2>
+            <div class="jumbotron">
+                <div class="card-deck">
+                    <div class="card" th:each="favorite : ${favorites}">
+                      <div class="card-body">
+                            <h5 th:text="${favorite.restaurant.restaurantName}"></h5>
+                            <h6 th:text="${favorite.restaurant.address}"></h6>
+                            <a th:action="@{/customer/add_review/{id}(id=${favorite.restaurant.id})}" th:method="post">Add review</a>
+                            <form method="post" th:action="@{/customer/remove_favorite/{id}(id=${favorite.id})}">
+                                <button class="btn btn-sm btn-primary" type="submit">Remove from favorite</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
+</div>
 
 <div  th:replace="~{fragments/footer :: footer}"> </div>
 </body>
