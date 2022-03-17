@@ -4,11 +4,13 @@ import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.repository.MealRepository;
 import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 import static com.dalhousie.MealStop.Recommendation.constants.Constants.NUMBER_OF_RECOMMENDED_MEALS;
 
+@Repository
 public class RecommendationServiceImplementation implements IRecommendationService {
 
     @Autowired

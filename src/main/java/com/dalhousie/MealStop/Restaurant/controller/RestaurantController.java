@@ -1,5 +1,7 @@
 package com.dalhousie.MealStop.Restaurant.controller;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
+import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class RestaurantController
 {
     @Autowired
     private IRestaurantService restaurantService;
+
+    @Autowired
+    private IRecommendationService recommendationService;
 
     @GetMapping("/get_restaurant/{id}")
     public String getAllRestaurants(Model model, @PathVariable("id") long id)
@@ -60,6 +65,9 @@ public class RestaurantController
                                           @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) {
         List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
         model.addAttribute("restaurants", listRestaurants_Available);
+
+        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(1);
+        model.addAttribute("meals", recommendedMeals);
         return "customer/restaurants";
     }
 }
