@@ -66,7 +66,7 @@ public class RestaurantController
         List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
         model.addAttribute("restaurants", listRestaurants_Available);
 
-        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(1);
+        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(1, listRestaurants_Available); //need to update
         model.addAttribute("meals", recommendedMeals);
         return "customer/restaurants";
     }
