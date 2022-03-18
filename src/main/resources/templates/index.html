@@ -27,8 +27,14 @@
         </div>
     </div>
     <div sec:authorize="!isAuthenticated()">
-        <p>You have not logged in to the application. Please login to continue...</p>
-        <a th:href="@{/login}">Click here to log in!</a>
+        <main role="main" class="flex-shrink-0">
+            <div class="container mt-5">
+                <div class="jumbotron">
+                    <p>You have not logged in to the application. Please login to continue...</p>
+                    <a th:href="@{/login}">Click here to log in!</a>
+                </div>
+            </div>
+        </main>
     </div>
 
     <br/>
