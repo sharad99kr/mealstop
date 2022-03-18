@@ -1,7 +1,6 @@
 package com.dalhousie.MealStop.review.modal;
 
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,12 +27,6 @@ public class CustomerReview
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "review_id")
     private long id;
-
-    @Column(name = "review_score")
-    private Integer reviewScore;
-
-    @Column(name = "review_message")
-    private String reviewMessage;
 
     @Column(name = "review_date")
     private Date reviewDate;
