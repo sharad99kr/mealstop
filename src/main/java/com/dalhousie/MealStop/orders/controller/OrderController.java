@@ -46,7 +46,7 @@ public class OrderController {
         }
 
         model.addAttribute("order_list", order_list);
-        return "orders/RestaurantOrderDetails";
+        return "orders/OrderDetails";
     }
 
     @GetMapping("orders/restaurant_orders/id={id}&status={status}")
@@ -66,7 +66,7 @@ public class OrderController {
         }
 
         model.addAttribute("order_list", order_list);
-        return  "orders/RestaurantOrderDetails";
+        return  "orders/OrderDetails";
     }
 
     @GetMapping("orders/customer_orders/id={id}&status={status}")
@@ -85,7 +85,7 @@ public class OrderController {
         }
 
         model.addAttribute("order_list", order_list);
-        return  "orders/RestaurantOrderDetails";
+        return  "orders/OrderDetails";
     }
 
     @GetMapping("orders/report/id={id}&year={year}")
