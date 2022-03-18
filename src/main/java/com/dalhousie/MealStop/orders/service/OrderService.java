@@ -44,6 +44,19 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public List<Orders> getCustomerOrdersWithStatus(long customerId, int status){
+
+        return orderRepository.findByCustomerIdAndStatus(customerId,status);
+    }
+
+
+    @Override
+    public List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status){
+
+        return orderRepository.findByRestaurantIdAndStatus(restaurantId,status);
+    }
+
+    @Override
     public List<Orders> getOrdersByCustomerID(long userId){
         //this method returns all the orders placed by a customer using his customer id
         return orderRepository.findByCustomerId(userId);
