@@ -29,24 +29,19 @@ public class RecommendationServiceImplementation implements IRecommendationServi
     @Override
     public List<Meal> getAllRecommendedMeals(long userId, List<Restaurant> availableRestaurants)
     {
-        List<Long> mealListIdentifier = new ArrayList<>();
         List<Meal> mealList = new ArrayList<>();
         List<Orders> orderList = orderService.getOrdersByCustomerID(userId);
+
+        if(orderList.size() == 0)
+            return mealList;
 
         List<Long> restaurantIdentifiers =
                 availableRestaurants.stream()
                         .map(Restaurant::getId)
                         .collect(Collectors.toList());
 
-
-        if(orderList.size() == 0)
-            return mealList;
-
         for(Orders order : orderList)
-            mealListIdentifier.add(order.getMealId());
-
-        for(Long mealId : mealListIdentifier)
-            mealList.add(mealService.getMealByMealId(mealId));
+            mealList.add(mealService.getMealByMealId(order.getMealId()));
 
         if(mealList.size() <= NUMBER_OF_RECOMMENDED_MEALS)
             return mealList;

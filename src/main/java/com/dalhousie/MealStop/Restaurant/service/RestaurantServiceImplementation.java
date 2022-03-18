@@ -62,7 +62,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
         List<Restaurant> availableRestaurants = new ArrayList<>();
 
-        if(allRestaurants != null)
+        if(allRestaurants.size() > 0)
         {
             if(startDate == null || endDate == null)
             {
