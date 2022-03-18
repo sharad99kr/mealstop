@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MealServiceImplementation implements MealService {
+public class MealServiceImplementation implements IMealService {
     @Autowired
     private MealRepository mealRepository;
 
@@ -26,8 +26,23 @@ public class MealServiceImplementation implements MealService {
         return mealList;
     }
 
+    public List<Meal> getAllMealsByRestaurantId(long restaurantId)
+    {
+        List<Meal> mealList = mealRepository.findByRestaurantId(restaurantId);
+        return mealList;
+    }
+
+    public Meal getMealByMealId(long mealId)
+    {
+        Optional<Meal> meal = mealRepository.findById(mealId);
+        if(meal.isPresent())
+            return meal.get();
+
+        return null;
+    }
+
     @Override
-    public void updateMeal(long id, Meal meal) {
+    public Meal updateMeal(long id, Meal meal) {
         Optional<Meal> mealData = mealRepository.findById(id);
         if(mealData.isPresent())
         {
@@ -38,6 +53,9 @@ public class MealServiceImplementation implements MealService {
             _meal.setPrice(meal.getPrice());
             _meal.setTags(meal.getTags());
             mealRepository.save(_meal);
+            return _meal;
         }
+
+        return null;
     }
 }

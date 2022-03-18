@@ -6,10 +6,17 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+
+
 @Entity
 @Table(name = "restaurant")
 @NoArgsConstructor
 public class Restaurant implements IRestaurant{
+
+    public Restaurant(){
+        // Add here init stuff if needed
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "restaurantid")
@@ -33,13 +40,7 @@ public class Restaurant implements IRestaurant{
     @Column(name= "address")
     private String address;
 
-    @Column(name= "accountstatus")
-    private Integer accountStatus;
-
-    @OneToMany(mappedBy = "restaurant")
-    private List<Meal> meals;
-
-    public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address, int accountStatus)
+    public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address)
     {
         this.restaurantName = restaurantName;
         this.userid = userID;
@@ -47,7 +48,6 @@ public class Restaurant implements IRestaurant{
         this.email=email;
         this.phoneNumber=phoneNumber;
         this.address=address;
-        this.accountStatus = accountStatus;
     }
 
     @Override
@@ -60,6 +60,12 @@ public class Restaurant implements IRestaurant{
     public long getUserId()
     {
         return userid;
+    }
+
+    @Override
+    public void setUserId(long userid)
+    {
+        this.userid = userid;
     }
 
     @Override
@@ -105,7 +111,7 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
-    public void setPhoneNumber(String mobileNumber)
+    public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber=phoneNumber;
     }
@@ -123,18 +129,6 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
-    public Integer getAccountStatus()
-    {
-        return this.accountStatus;
-    }
-
-    @Override
-    public void setAccountStatus(Integer accountStatus)
-    {
-        this.accountStatus=accountStatus;
-    }
-
-    @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -142,11 +136,9 @@ public class Restaurant implements IRestaurant{
         sb.append(", userID=" + userid);
         sb.append(", restaurantName=" + restaurantName);
         sb.append(", availability=" + availability);
-//        sb.append(", password=" + password);
         sb.append(", email=" + email);
         sb.append(", phoneNumber=" + phoneNumber);
-        sb.append(", address=" + address);
-        sb.append(", accountStatus=" + accountStatus + "]");
+        sb.append(", address=" + address + "]");
         return sb.toString();
     }
 }

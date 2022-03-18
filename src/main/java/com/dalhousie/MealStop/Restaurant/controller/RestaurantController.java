@@ -1,12 +1,16 @@
 package com.dalhousie.MealStop.Restaurant.controller;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
+import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -14,36 +18,56 @@ import java.util.List;
 public class RestaurantController
 {
     @Autowired
-    private RestaurantService restaurantService;
+    private IRestaurantService restaurantService;
 
-    @PostMapping("/add_restaurant")
-    public String addRestaurant(@RequestBody Restaurant restaurant, Model model)
-    {
-        restaurantService.addRestaurant(restaurant);
-        model.addAttribute("restaurant", restaurant);
-        return "restaurant/add_restaurant";
-    }
+    @Autowired
+    private IRecommendationService recommendationService;
 
-    @GetMapping("/get_restaurant")
-    public String getAllRestaurants(Model model)
+    @GetMapping("/get_restaurant/{id}")
+    public String getAllRestaurants(Model model, @PathVariable("id") long id)
     {
-        List<Restaurant> listRestaurants = restaurantService.getAllRestaurant();
+        List<Restaurant> listRestaurants = restaurantService.getAllRestaurant(id);
         model.addAttribute("restaurants_list", listRestaurants);
         return "restaurant/get_restaurant";
     }
 
-    @PutMapping("/update_restaurant/{id}")
-    public String updateRestaurant(@PathVariable("id") long id, @RequestBody Restaurant restaurant, Model model)
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") long id, Model model)
     {
-        restaurantService.updateRestaurant(id, restaurant);
-        model.addAttribute("updateRestaurant", restaurant);
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
+        model.addAttribute("restaurant", restaurant);
         return "restaurant/update_restaurant";
     }
 
+    @PostMapping("/update_restaurant/{id}")
+    public String updateRestaurant(@ModelAttribute Restaurant restaurant, @PathVariable("id") long id)
+    {
+        Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
+        return "redirect:/get_restaurant/" + updatedRestaurant.getUserId();
+    }
+
+    @GetMapping("/add_restaurant_form")
+    public String addRestaurantForm()
+    {
+        return "restaurant/add_restaurant";
+    }
+
+    @PostMapping("/add_restaurant")
+    public String addRestaurant(@ModelAttribute Restaurant restaurant)
+    {
+        //get user from session manager
+        restaurantService.addRestaurant(restaurant);
+        return "redirect:/get_restaurant/" + restaurant.getUserId();
+    }
+
     @GetMapping("/get_restaurants_available")
-    public String getRestaurantAvailabile(@RequestParam Date startDate, @RequestParam Date endDate, Model model) {
+    public String getRestaurantAvailabile(@RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                          @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) {
         List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
-        model.addAttribute("restaurants_list_available", listRestaurants_Available);
-        return "restaurant/get_restaurants_available";
+        model.addAttribute("restaurants", listRestaurants_Available);
+
+        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(1, listRestaurants_Available); //need to update
+        model.addAttribute("meals", recommendedMeals);
+        return "customer/restaurants";
     }
 }

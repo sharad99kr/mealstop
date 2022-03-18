@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>MealStop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{styles/main.css}" rel="stylesheet" />
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js">
+</script>
+<script
+        th:src="@{/test.js}">
+</script>
+
+<body class="d-flex flex-column h-100">
+
+<!--<div th:replace="~{fragments/header :: header}"> </div>-->
+
+
+
+<main role="main" class="flex-shrink-0">
+    <div class="container p-5">
+        <table class="table table-striped">
+            <thead class="bg-primary text-white">
+            <tr>
+                <th scope="col">Meal Name</th>
+                <th scope="col">Calories</th>
+                <th scope="col">Tags</th>
+                <th scope="col">Cuisine Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  th:each="meal: ${meal_list}">
+                <td th:text="${meal.mealName}"></td>
+                <td th:text="${meal.calories}"></td>
+                <td th:text="${meal.tags}"></td>
+                <td th:text="${meal.cuisineType}"></td>
+                <td th:text="${meal.price}"></td>
+                <td><a class="btn btn-sm btn-primary" href="#">Order</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!--<div  th:replace="~{fragments/footer :: footer}"> </div>-->
+</body>
+</html>
