@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.review.controller;
 
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
@@ -23,7 +23,7 @@ public class CustomerReviewController
     ICustomerService customerService;
 
     @Autowired
-    RestaurantService restaurantService;
+    IRestaurantService restaurantService;
 
     @GetMapping("/customer/reviews")
     public String getReviewPage(Model model)
