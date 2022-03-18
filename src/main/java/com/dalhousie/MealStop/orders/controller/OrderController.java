@@ -9,8 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class OrdersPayload{
     public String mealName;
@@ -89,10 +88,17 @@ public class OrderController {
         return  "orders/RestaurantOrderDetails";
     }
 
-    @GetMapping("/")
-    String Report(Model model) {
+    @GetMapping("orders/report/id={id}&year={year}")
+    String Report(Model model, @PathVariable("id") long id,@PathVariable("year") int year) {
 
-        List<ReportPayload> report_list=new ArrayList<>();
+        Map<String, Float> report_list=new HashMap<>();
+        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
+        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
+        while(itr.hasNext()){
+
+            Map.Entry<Integer, Float> entry = itr.next();
+            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
+        }
         model.addAttribute("report_list", report_list);
         return  "orders/MonthlyReport";
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeLeaf.com">
+<html lang="en" xmlns:th="http://www.thymeLeaf.com" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -62,7 +62,7 @@
 <div class="container p-5">
   <table class="table table-striped">
     <thead class="bg-primary text-white">
-    <tr>
+    <tr style="text-align: center; vertical-align: middle">
 
       <th>Month</th>
       <th>Total Sales</th>
@@ -70,10 +70,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr  th:each="order: ${report_list}">
-      <td th:text="${order.monthName}"></td>
-      <td th:text="${order.amount}"></td>
-
+    <tr  th:each="order: ${report_list}" style="text-align: center; vertical-align: middle">
+      <td th:text="${order.key}"></td>
+      <td th:text="${order.value}"></td>
 
     </tr>
 
