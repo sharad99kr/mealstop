@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
-@NoArgsConstructor
 public class Restaurant implements IRestaurant{
 
     public Restaurant(){

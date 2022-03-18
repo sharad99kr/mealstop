@@ -1,5 +1,7 @@
 package com.dalhousie.MealStop.customer.controller;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
+import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
@@ -22,6 +24,9 @@ public class CustomerController
     @Autowired
     private IRestaurantService restaurantService;
 
+    @Autowired
+    private IRecommendationService recommendationService;
+
     @GetMapping("/customer/homepage")
     public String getLandingPage(Model model)
     {
@@ -33,8 +38,12 @@ public class CustomerController
     @GetMapping("/customer/search-restaurant")
     public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model)
     {
-        List<Restaurant> restaurantList = restaurantService.getAvailableRestaurants(userSearch.getStartDate(), userSearch.getEndDate());
-        model.addAttribute("restaurants", restaurantList);
+        List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(userSearch.getStartDate(), userSearch.getEndDate());
+        model.addAttribute("restaurants", listRestaurants_Available);
+
+        Long loggedInUserId = customerService.getCustomerDetailsFromSession().getId();
+        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(loggedInUserId, listRestaurants_Available);
+        model.addAttribute("meals", recommendedMeals);
         return "customer/restaurants";
     }
 }

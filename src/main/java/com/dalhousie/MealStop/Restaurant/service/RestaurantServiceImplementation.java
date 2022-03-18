@@ -74,7 +74,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
                 List<String> daysSelected = new ArrayList<>();
 
                 Calendar cal = Calendar.getInstance();
-                while(startDate.compareTo(endDate) < 0)
+                while(startDate.compareTo(endDate) <= 0)
                 {
                     String weekday = formatter.format(startDate);
                     if(!daysSelected.contains(weekday))
