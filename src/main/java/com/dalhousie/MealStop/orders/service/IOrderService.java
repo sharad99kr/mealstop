@@ -10,7 +10,7 @@ import java.util.Map;
 public interface IOrderService {
 
     //method signature that adds new order
-    public void addOrder(Orders newOrder);
+    public abstract void addOrder(Orders newOrder);
 
     //abstract method that returns all the orders
     public abstract List<Orders> getAllOrders();
