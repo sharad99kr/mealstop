@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>MealStop</title>
@@ -23,25 +23,38 @@
 
 <div th:replace="~{fragments/header :: header}"> </div>
 
+<div sec:authorize="!isAuthenticated()">
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <p>You have not logged in to the application. Please login to continue...</p>
+                <a th:href="@{/login}">Click here to log in!</a>
+            </div>
+        </div>
+    </main>
+</div>
 
-
-<main role="main" class="flex-shrink-0">
-    <div class="container mt-5">
-        <div class="jumbotron">
-                <div class="card-deck">
-                    <div class="card" th:each="restaurant : ${restaurants}">
-<!--                            <div class="card" style="width: 18rem; margin: 5px; -webkit-box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.32); box-shadow: 5px 5px 4px 0px rgba(0,0,0,0.32);" th:each="restaurant : ${restaurants}">-->
-                        <div class="card-body">
-                            <h5 th:text="${restaurant.restaurantName}"></h5>
-                            <h6 th:text="${restaurant.address}"></h6>
-                            <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add review</a>
-                            <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add to favorite</a>
+<div sec:authorize="isAuthenticated()">
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5">
+            <h2>Available Restaurants</h2>
+            <div class="jumbotron">
+                    <div class="card-deck">
+                        <div class="card" th:each="restaurant : ${restaurants}">
+                           <div class="card-body">
+                                <h5 th:text="${restaurant.restaurantName}"></h5>
+                                <h6 th:text="${restaurant.address}"></h6>
+                                <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add review</a>
+                                <form method="post" th:action="@{/customer/add_favorite/{id}(id=${restaurant.id})}">
+                                    <button class="btn btn-sm btn-primary" type="submit">Add as favorite</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
+</div>
 
 <div  th:replace="~{fragments/footer :: footer}"> </div>
 </body>
