@@ -20,6 +20,12 @@ class OrdersPayload{
 
 }
 
+class ReportPayload{
+    public String monthName;
+    public float amount;
+
+}
+
 @Controller
 public class OrderController {
     @Autowired
@@ -38,7 +44,6 @@ public class OrderController {
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
             order_list.add(payload);
-            System.out.println("hello"+order.getOrderAmount());
         }
 
         model.addAttribute("order_list", order_list);
@@ -59,7 +64,6 @@ public class OrderController {
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
             order_list.add(payload);
-
         }
 
         model.addAttribute("order_list", order_list);
@@ -79,10 +83,17 @@ public class OrderController {
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
             order_list.add(payload);
-
         }
 
         model.addAttribute("order_list", order_list);
         return  "orders/RestaurantOrderDetails";
+    }
+
+    @GetMapping("/")
+    String Report(Model model) {
+
+        List<ReportPayload> report_list=new ArrayList<>();
+        model.addAttribute("report_list", report_list);
+        return  "orders/MonthlyReport";
     }
 }
