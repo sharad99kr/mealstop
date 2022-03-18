@@ -23,6 +23,12 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     //this method definition is used to get order by order id from database
     public Orders findById(long id);
 
+
+    public List<Orders> findByRestaurantIdAndStatus(long restaurantId,int status);
+
+    public List<Orders> findByCustomerIdAndStatus(long customerId,int status);
+
+
     //this method definition is used to get order by restaurant id from the database
     public List<Orders> findByRestaurantId(long restaurantId);
 

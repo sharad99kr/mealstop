@@ -40,4 +40,11 @@ public interface IOrderService {
 
     //abstract method to return monthly report of earnings for a Restaurant
     public abstract Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);
+
+
+    public abstract List<Orders> getCustomerOrdersWithStatus(long customerId, int status);
+
+
+
+    public abstract List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status);
 }
