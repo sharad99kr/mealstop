@@ -2,7 +2,7 @@ package com.dalhousie.MealStop.customer.controller;
 
 import com.dalhousie.MealStop.Restaurant.model.IRestaurant;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
+//import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class CustomerController
     @Autowired
     private ICustomerService customerService;
 
-    @Autowired
-    private RestaurantService restaurantService;
+//    @Autowired
+//    private RestaurantService restaurantService;
 
     @GetMapping("/customer/homepage")
     public String getLandingPage(Model model)
@@ -29,12 +29,12 @@ public class CustomerController
         return "customer/landing-page";
     }
 
-    @GetMapping("/customer/search-restaurant")
-    public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model)
-    {
-        List<Restaurant> restaurantList = restaurantService.getAllRestaurant();
-        System.err.println(restaurantList);
-        model.addAttribute("restaurants", restaurantList);
-        return "customer/restaurants";
-    }
+//    @GetMapping("/customer/search-restaurant")
+//    public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model)
+//    {
+//        List<Restaurant> restaurantList = restaurantService.getAllRestaurant();
+//        System.err.println(restaurantList);
+//        model.addAttribute("restaurants", restaurantList);
+//        return "customer/restaurants";
+//    }
 }
