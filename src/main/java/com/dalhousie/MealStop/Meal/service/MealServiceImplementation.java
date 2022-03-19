@@ -40,4 +40,12 @@ public class MealServiceImplementation implements MealService {
             mealRepository.save(_meal);
         }
     }
+
+    public Meal getMealByMealId(long mealId)
+    {
+        Optional<Meal> meal = mealRepository.findById(mealId);
+        if(meal.isPresent())
+            return meal.get();
+        return null;
+    }
 }

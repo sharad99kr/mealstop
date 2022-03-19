@@ -4,6 +4,8 @@ public interface ICustomer
 {
     public long getId();
 
+    public void setId(long id);
+
     public String getFirstName();
 
     public void setFirstName(String firstName);
@@ -15,4 +17,8 @@ public interface ICustomer
     public String  getEmail();
 
     public void setEmail(String email);
+
+    public Integer getTokens();
+
+    public void setTokens(Integer tokens);
 }

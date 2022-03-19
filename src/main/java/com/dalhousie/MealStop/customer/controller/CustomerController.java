@@ -30,6 +30,14 @@ public class CustomerController
         return "customer/landing-page";
     }
 
+    @GetMapping("customer/profile")
+    public String getCustomerProfilePage(Model model)
+    {
+        Customer customer = customerService.getCustomerDetailsFromSession();
+        model.addAttribute("customer", customer);
+        return "customer/profile";
+    }
+
     @GetMapping("/customer/search-restaurant")
     public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model)
     {

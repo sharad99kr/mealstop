@@ -18,10 +18,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "customer_review")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CustomerReview
+public class CustomerReview implements ICustomerReview
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +31,21 @@ public class CustomerReview
     @Column(name = "review_message")
     private String reviewMessage;
 
+    public CustomerReview()
+    {
+
+    }
+
+    public CustomerReview(long id, Integer reviewScore, String reviewMessage, Date reviewDate, Customer customer, Restaurant restaurant)
+    {
+        this.id = id;
+        this.reviewScore = reviewScore;
+        this.reviewMessage = reviewMessage;
+        this.reviewDate = reviewDate;
+        this.customer = customer;
+        this.restaurant = restaurant;
+    }
+
     @Column(name = "review_date")
     private Date reviewDate = new Date();
 
@@ -44,4 +56,64 @@ public class CustomerReview
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "restaurantid", nullable = false)
     private Restaurant restaurant;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Integer getReviewScore() {
+        return reviewScore;
+    }
+
+    public void setReviewScore(Integer reviewScore) {
+        this.reviewScore = reviewScore;
+    }
+
+    public String getReviewMessage() {
+        return reviewMessage;
+    }
+
+    public void setReviewMessage(String reviewMessage) {
+        this.reviewMessage = reviewMessage;
+    }
+
+    public Date getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerReview{" +
+                "id=" + id +
+                ", reviewScore=" + reviewScore +
+                ", reviewMessage='" + reviewMessage + '\'' +
+                ", reviewDate=" + reviewDate +
+                ", customer=" + customer +
+                ", restaurant=" + restaurant +
+                '}';
+    }
 }
