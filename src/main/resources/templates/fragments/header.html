@@ -30,6 +30,10 @@
                         <a class="nav-link" th:href="@{/customer/reviews}">Orders<span class="sr-only">(current)</span></a>
                     </li>
 
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('cart')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/customer/cart}">Cart<span class="sr-only">(current)</span></a>
+                    </li>
+
                     <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('profile')} ? 'nav-link active' : 'nav-link'">
                         <a class="nav-link" th:href="@{/customer/profile}">Profile<span class="sr-only">(current)</span></a>
                     </li>
@@ -52,6 +56,11 @@
                                 <form method="get" th:action="@{/customer/profile}" >
                                     <button class="dropdown-item" th:action="@{/customer/profile}" type="submit">Visit Profile</button>
                                 </form>
+
+                                <form method="get" th:action="@{/customer/cart}" >
+                                    <button class="dropdown-item" th:action="@{/customer/profile}" type="submit">View Cart</button>
+                                </form>
+
                                 <form method="post" th:action="@{/logout}">
                                     <button class="btn btn-danger btn-sm" type="submit" style="margin-left: 50px;">
                                         Sign Out
