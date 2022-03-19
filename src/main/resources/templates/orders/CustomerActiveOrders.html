@@ -14,7 +14,7 @@
 
 <body>
 <header>
-    <h2>Mealstop</h2>
+    <h2 style="margin-left: 2%">Mealstop</h2>
 </header>
 
 <div class="header">
@@ -81,7 +81,8 @@
             <td th:text="${order.status}"></td>
 
             <td>
-                <form method="post">
+                <form th:action="@{/updateOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
+
                 <button class="btn btn-outline-success" type="submit">Delivered</button>
                 </form>
             </td>
