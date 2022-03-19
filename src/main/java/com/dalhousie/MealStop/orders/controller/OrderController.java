@@ -1,8 +1,11 @@
 package com.dalhousie.MealStop.orders.controller;
 
+import com.dalhousie.MealStop.Meal.service.IMealService;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
+import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.orders.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +33,14 @@ class ReportPayload{
 @Controller
 public class OrderController {
     @Autowired
-    private OrderService orderService;
+    private IOrderService orderService;
+
+    @Autowired
+    private IRestaurantService restaurantService;
+
+    @Autowired
+    private IMealService mealService;
+
 
     @GetMapping("orders/cancelled_orders")
     String getAllCancelledOrders(Model model)
@@ -40,7 +50,8 @@ public class OrderController {
 
         for (Orders order:listOrders) {
             OrdersPayload payload=new OrdersPayload();
-            payload.mealName = "biryani";
+            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
             payload.amount = order.getOrderAmount();
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
@@ -60,7 +71,7 @@ public class OrderController {
 
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
-            payload.mealName = "biryani";
+            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
             payload.amount = order.getOrderAmount();
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
@@ -80,8 +91,8 @@ public class OrderController {
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
             payload.orderId=order.getOrderId();
-            payload.mealName = "biryani";
-            payload.restaurantName="Stoner";
+            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
             payload.amount = order.getOrderAmount();
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
