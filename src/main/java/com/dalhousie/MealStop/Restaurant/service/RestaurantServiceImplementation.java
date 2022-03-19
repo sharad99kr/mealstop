@@ -15,7 +15,8 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
-    private IMealService mealService;
+    private ICustomerReviewService customerReviewService;
+
 
     @Override
     public void addRestaurant(Restaurant restaurant)
@@ -24,9 +25,10 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     }
 
     @Override
-    public List<Restaurant> getAllRestaurant(long id)
+    public List<Restaurant> getAllRestaurantByUserId(long id)
     {
         List<Restaurant> restaurantList = restaurantRepository.findAll();
+
         List<Restaurant> filteredList = new ArrayList<>();
         for(Restaurant restaurant : restaurantList)
         {
@@ -34,7 +36,30 @@ public class RestaurantServiceImplementation implements IRestaurantService {
                 filteredList.add(restaurant);
         }
 
+        if(filteredList.size() == 0)
+            return filteredList;
+
+        for(Restaurant restaurant : filteredList)
+        {
+            restaurant.setAvgReviewScore(getAverageReviewScore(restaurant));
+        }
+
         return filteredList;
+    }
+
+    public String getAverageReviewScore(Restaurant restaurant)
+    {
+        List<ICustomerReview>  restaurantReviews= customerReviewService.getReviewsOfRestaurant(restaurant);
+
+        if(restaurantReviews.size() == 0)
+            return "No Reviews";
+
+        int reviewScore = 0;
+
+        for(ICustomerReview review : restaurantReviews)
+            reviewScore += review.getReviewScore();
+
+        return String.valueOf(reviewScore/restaurantReviews.size());
     }
 
     @Override
@@ -57,8 +82,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
 
 
     @Override
-    public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate)
-    {
+    public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate) throws Exception {
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
         List<Restaurant> availableRestaurants = new ArrayList<>();
 
@@ -66,7 +90,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         {
             if(startDate == null || endDate == null)
             {
-                new Exception("Please select a valid range");
+                throw new Exception("Please select a valid range");
             }
             else
             {
@@ -74,7 +98,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
                 List<String> daysSelected = new ArrayList<>();
 
                 Calendar cal = Calendar.getInstance();
-                while(startDate.compareTo(endDate) < 0)
+                while(startDate.compareTo(endDate) <= 0)
                 {
                     String weekday = formatter.format(startDate);
                     if(!daysSelected.contains(weekday))

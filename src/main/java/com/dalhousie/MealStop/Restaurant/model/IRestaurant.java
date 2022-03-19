@@ -28,4 +28,8 @@ public interface IRestaurant {
 
     public void setAddress(String address);
 
+    public String getAvgReviewScore();
+
+    public void setAvgReviewScore(String reviewScore);
+
 }
