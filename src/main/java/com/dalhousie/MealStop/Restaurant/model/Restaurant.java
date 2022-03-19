@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "restaurant")
 @NoArgsConstructor
-public class Restaurant implements IRestaurant{
+public class Restaurant implements NGO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "restaurantid")

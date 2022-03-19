@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.Restaurant.model;
 
-public interface IRestaurant {
+public interface INGO {
 
     public long getId();
 
@@ -14,13 +14,13 @@ public interface IRestaurant {
 
     public void setRestaurantName(String restaurantName);
 
-//    public String getRestaurantUsername();
-//
-//    public void setRestaurantUsername(String restaurantUsername);
-//
-//    public String getPassword();
-//
-//    public void setPassword(String password);
+    public String getRestaurantUsername();
+
+    public void setRestaurantUsername(String restaurantUsername);
+
+    public String getPassword();
+
+    public void setPassword(String password);
 
     public String  getEmail();
 
