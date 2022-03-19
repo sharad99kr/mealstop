@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.cart.contriller;
 
 import com.dalhousie.MealStop.Meal.model.Meal;
-import com.dalhousie.MealStop.Meal.service.MealService;
+import com.dalhousie.MealStop.Meal.service.IMealService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.ICustomerCartService;
 import com.dalhousie.MealStop.customer.modal.Customer;
@@ -23,7 +23,7 @@ public class CartController
     ICustomerService customerService;
 
     @Autowired
-    MealService mealService;
+    IMealService mealService;
 
     @GetMapping("/customer/cart")
     public String getCustomerCartPage(Model model)

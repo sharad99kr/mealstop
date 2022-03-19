@@ -58,12 +58,4 @@ public class MealServiceImplementation implements IMealService {
 
         return null;
     }
-
-    public Meal getMealByMealId(long mealId)
-    {
-        Optional<Meal> meal = mealRepository.findById(mealId);
-        if(meal.isPresent())
-            return meal.get();
-        return null;
-    }
 }

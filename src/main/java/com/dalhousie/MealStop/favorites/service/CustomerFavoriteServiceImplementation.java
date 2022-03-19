@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.favorites.service;
 
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantService;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
@@ -21,7 +21,7 @@ public class CustomerFavoriteServiceImplementation implements CustomerFavoriteSe
     private ICustomerService customerService;
 
     @Autowired
-    private RestaurantService restaurantService;
+    private IRestaurantService restaurantService;
 
     @Override
     public List<CustomerFavorites> getCustomerFavorites()

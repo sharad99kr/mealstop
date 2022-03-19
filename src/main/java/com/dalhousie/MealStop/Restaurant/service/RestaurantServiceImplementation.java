@@ -3,6 +3,8 @@ package com.dalhousie.MealStop.Restaurant.service;
 import com.dalhousie.MealStop.Meal.service.IMealService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.repository.RestaurantRepository;
+import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -49,14 +51,14 @@ public class RestaurantServiceImplementation implements IRestaurantService {
 
     public String getAverageReviewScore(Restaurant restaurant)
     {
-        List<ICustomerReview>  restaurantReviews= customerReviewService.getReviewsOfRestaurant(restaurant);
+        List<CustomerReview>  restaurantReviews= customerReviewService.getReviewsOfRestaurant(restaurant);
 
         if(restaurantReviews.size() == 0)
             return "No Reviews";
 
         int reviewScore = 0;
 
-        for(ICustomerReview review : restaurantReviews)
+        for(CustomerReview review : restaurantReviews)
             reviewScore += review.getReviewScore();
 
         return String.valueOf(reviewScore/restaurantReviews.size());

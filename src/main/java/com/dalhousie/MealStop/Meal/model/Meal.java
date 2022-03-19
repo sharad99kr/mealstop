@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "meal")
-@NoArgsConstructor
 public class Meal implements IMeal {
 
     public Meal(){
