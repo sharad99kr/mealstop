@@ -29,14 +29,6 @@
         <div class="col-md-9 col-sm-8 content">
             <div class="row">
                 <div class="col-md-12">
-                    <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
-                        <li class="active">Cart</li>
-                    </ol>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
                     <div class="panel panel-info panel-shadow">
                         <div class="panel-heading">
                             <h3>
@@ -54,6 +46,7 @@
                                         <th>Tags</th>
                                         <th>Price</th>
                                         <th>Total</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -63,26 +56,25 @@
                                         </td>
 
                                         <td>
-                                            <strong><p th:text="{item.mealName}"> </p></strong>
+                                            <strong><p th:text="${item.mealName}"> </p></strong>
                                         </td>
 
                                         <td>
-                                            <p th:text="{item.tags}"></p>
+                                            <p th:text="${item.tags}"></p>
                                         </td>
 
                                         <td>
-                                            <p th:text="{item.price}"></p>
+                                            <p th:text="${item.price}"></p>
+                                        </td>
+
+                                        <td>
+                                            <p th:text="${item.price}"></p>
                                         </td>
 
                                         <td>
                                             <form class="form-inline">
-                                                <button rel="tooltip" class="btn btn-default"><i class="fa fa-pencil"></i></button>
-                                                <a href="#" class="btn btn-primary"><i class="fa fa-trash-o"></i></a>
+                                                <a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
                                             </form>
-                                        </td>
-
-                                        <td>
-                                            <p th:text="{item.price}"></p>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -91,7 +83,7 @@
                         </div>
                     </div>
                     <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
-                    <a href="#" class="btn btn-primary pull-right">Next<span class="glyphicon glyphicon-chevron-right"></span></a>
+                    <a href="#" class="btn btn-primary pull-right">Place Order<span class="glyphicon glyphicon-chevron-right"></span></a>
                 </div>
             </div>
         </div>

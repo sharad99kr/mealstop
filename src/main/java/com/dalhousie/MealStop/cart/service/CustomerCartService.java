@@ -41,6 +41,7 @@ public class CustomerCartService implements ICustomerCartService
     public void addMealsToCustomerCart(Meal meal)
     {
         ArrayList<Meal> cartItems = getLoggedInCustomerCartMeals();
+        System.err.println("adding meals to customer cart"+cartItems);
         if(!cartItems.contains(meal))
         {
             cartItems.add(meal);
@@ -60,6 +61,11 @@ public class CustomerCartService implements ICustomerCartService
     private ArrayList<Meal> getLoggedInCustomerCartMeals()
     {
         Long customerId = customerService.getLoggedInCustomerId();
+        if(!isCustomerCartExists(customerId))
+        {
+            CustomerCart CustomerCart = new CustomerCart();
+            customersCartMap.put(customerId, CustomerCart);
+        }
         return customersCartMap.get(customerId).getCartItems();
     }
 
