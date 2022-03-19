@@ -23,4 +23,6 @@ public interface IUser
     public Integer getUserType();
 
     public void setUserType(Integer userType);
+
+//    String getNGOName();
 }

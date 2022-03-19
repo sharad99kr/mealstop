@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.ngo.modal;
 import com.dalhousie.MealStop.user.model.IUser;
+import com.dalhousie.MealStop.user.model.User;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -35,11 +36,11 @@ public class NGO implements INGO
         this.orders = 0;
     }
 
-    public NGO(IUser user)
+    public NGO(User user)
     {
         //ToDo need to check if the user is of ngo type.
         this.id = user.getId();
-        this.name=user.getNGOName();
+        this.name=user.getFirstName();
         this.email=user.getEmail();
     }
 
