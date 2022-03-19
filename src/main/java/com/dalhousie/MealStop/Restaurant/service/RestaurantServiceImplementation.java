@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.Restaurant.service;
 
-import com.dalhousie.MealStop.Meal.service.MealService;
+import com.dalhousie.MealStop.Meal.service.IMealService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
-public class RestaurantServiceImplementation implements RestaurantService {
+public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
-    private MealService mealService;
+    private IMealService mealService;
 
     @Override
     public void addRestaurant(Restaurant restaurant)
@@ -24,11 +24,37 @@ public class RestaurantServiceImplementation implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> getAllRestaurant()
+    public List<Restaurant> getAllRestaurant(long id)
     {
         List<Restaurant> restaurantList = restaurantRepository.findAll();
-        return restaurantList;
+        List<Restaurant> filteredList = new ArrayList<>();
+        for(Restaurant restaurant : restaurantList)
+        {
+            if(restaurant.getUserId() == id)
+                filteredList.add(restaurant);
+        }
+
+        return filteredList;
     }
+
+    @Override
+    public Restaurant updateRestaurant(Restaurant restaurant, long id)
+    {
+        Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
+        if(restaurantData.isPresent())
+        {
+            Restaurant _restaurant = restaurantData.get();
+            _restaurant.setRestaurantName(restaurant.getRestaurantName());
+            _restaurant.setAddress(restaurant.getAddress());
+            _restaurant.setEmail(restaurant.getEmail());
+            _restaurant.setPhoneNumber(restaurant.getPhoneNumber());
+            _restaurant.setAvailability(restaurant.getAvailability());
+            restaurantRepository.save(_restaurant);
+            return _restaurant;
+        }
+        return null;
+    }
+
 
     @Override
     public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate)
@@ -77,19 +103,9 @@ public class RestaurantServiceImplementation implements RestaurantService {
     }
 
     @Override
-    public void updateRestaurant(Long id, Restaurant restaurant)
-    {
-        Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
-        if(restaurantData.isPresent())
-        {
-            Restaurant _restaurant = restaurantData.get();
-            _restaurant.setRestaurantName(restaurant.getRestaurantName());
-            _restaurant.setAddress(restaurant.getAddress());
-            _restaurant.setEmail(restaurant.getEmail());
-            _restaurant.setAccountStatus(restaurant.getAccountStatus());
-            _restaurant.setPhoneNumber(restaurant.getPhoneNumber());
-            _restaurant.setAvailability(restaurant.getAvailability());
-            restaurantRepository.save(_restaurant);
-        }
+    public Restaurant getRestaurantById(Long Id) {
+        Restaurant restaurant = restaurantRepository.findById(Id).orElse(null);
+        return restaurant;
     }
+
 }
