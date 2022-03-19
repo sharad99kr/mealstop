@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.orders.controller;
 
+import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.OrderService;
@@ -88,7 +89,8 @@ public class OrderController {
         }
 
         model.addAttribute("order_list", order_list);
-        return  "orders/CustomerOrderDetails";
+        Boolean isOrderActive=status!= Constants.CANCELLED || status!= Constants.RECEIVED;
+        return  isOrderActive?"orders/CustomerActiveOrders":"orders/CustomerOrderDetails";
     }
 
     @GetMapping("orders/report/id={id}&year={year}")
