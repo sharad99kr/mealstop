@@ -30,7 +30,7 @@ public class Utils {
                 break;
             case Constants.DELIVERED:status="DELIVERED";
                 break;
-            case Constants.RECEIVED:status="RECEIVED";
+            case Constants.PROCESSED:status="PROCESSED";
                 break;
         }
         return status;

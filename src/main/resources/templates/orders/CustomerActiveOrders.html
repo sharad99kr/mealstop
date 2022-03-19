@@ -80,6 +80,11 @@
             <td th:text="${order.amount}"></td>
             <td th:text="${order.status}"></td>
 
+            <td>
+                <form method="post">
+                <button class="btn btn-outline-success" type="submit">Delivered</button>
+                </form>
+            </td>
         </tr>
 
         </tbody>
