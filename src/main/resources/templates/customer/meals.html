@@ -21,37 +21,50 @@
 
 <body class="d-flex flex-column h-100">
 
-<!--<div th:replace="~{fragments/header :: header}"> </div>-->
+<div th:replace="~{fragments/header :: header}"> </div>
 
 
 
-<main role="main" class="flex-shrink-0">
-    <div class="container p-5">
-        <table class="table table-striped">
-            <thead class="bg-primary text-white">
-            <tr>
-                <th scope="col">Meal Name</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Tags</th>
-                <th scope="col">Cuisine Type</th>
-                <th scope="col">Price</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr  th:each="meal: ${meal_list}">
-                <td th:text="${meal.mealName}"></td>
-                <td th:text="${meal.calories}"></td>
-                <td th:text="${meal.tags}"></td>
-                <td th:text="${meal.cuisineType}"></td>
-                <td th:text="${meal.price}"></td>
-                <td><a class="btn btn-sm btn-primary" href="#">Order</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</main>
+<div sec:authorize="!isAuthenticated()">
+    <p>You have not logged in to the application. Please login to
+        continue...</p>
+    <a th:href="@{/login}">Click here to log in!</a>
+</div>
 
-<!--<div  th:replace="~{fragments/footer :: footer}"> </div>-->
+<div sec:authorize="isAuthenticated()">
+    <h2 class="text-center"> Menu </h2>
+    <main role="main" class="flex-shrink-0">
+        <div class="container p-5">
+            <table class="table table-striped">
+                <thead class="bg-primary text-white">
+                <tr>
+                    <th scope="col">Meal Name</th>
+                    <th scope="col">Calories</th>
+                    <th scope="col">Tags</th>
+                    <th scope="col">Cuisine Type</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="meal: ${meal_list}">
+                    <td th:text="${meal.mealName}"></td>
+                    <td th:text="${meal.calories}"></td>
+                    <td th:text="${meal.tags}"></td>
+                    <td th:text="${meal.cuisineType}"></td>
+                    <td th:text="${meal.price}"></td>
+                    <td>
+                        <form method="post" th:action="@{/customer/cart/add_item/{id}(id=${meal.id})}">
+                            <button class="btn btn-sm btn-primary" type="submit">Add to Cart</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<div  th:replace="~{fragments/footer :: footer}"> </div>
 </body>
 </html>

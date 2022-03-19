@@ -39,6 +39,8 @@ public class Restaurant implements IRestaurant{
     @Column(name= "address")
     private String address;
 
+    private String reviewScore;
+
     public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address)
     {
         this.restaurantName = restaurantName;
@@ -125,6 +127,18 @@ public class Restaurant implements IRestaurant{
     public void setAddress(String address)
     {
         this.address=address;
+    }
+
+    @Override
+    public String getAvgReviewScore()
+    {
+        return this.reviewScore;
+    }
+
+    @Override
+    public void setAvgReviewScore(String reviewScore)
+    {
+        this.address=reviewScore;
     }
 
     @Override

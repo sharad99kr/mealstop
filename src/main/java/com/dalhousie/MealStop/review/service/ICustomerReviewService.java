@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface CustomerReviewService
+public interface ICustomerReviewService
 {
     public void addReview(CustomerReview review);
     public CustomerReview getReviewById(Long id);

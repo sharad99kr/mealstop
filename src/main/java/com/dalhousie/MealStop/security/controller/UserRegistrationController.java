@@ -1,5 +1,6 @@
-package com.dalhousie.MealStop.security;
+package com.dalhousie.MealStop.security.controller;
 
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.user.model.User;
 import com.dalhousie.MealStop.user.service.UserService;
 
@@ -20,19 +21,24 @@ public class UserRegistrationController implements WebMvcConfigurer
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ICustomerService customerService;
+
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private static final Logger log = LoggerFactory.getLogger(UserRegistrationController.class.getName());
 
     @PostMapping("/register")
-    public ModelAndView createUser(User user)
+    public String createUser(User user)
     {
         System.err.println("new user request"+user);
         ModelAndView modelAndView = null;
         user.setPassword(encoder.encode(user.getPassword()));;
-        userService.addUser(user);
 
-        return modelAndView;
+        userService.addUser(user);
+        customerService.addCustomer(user);
+
+        return "redirect:/login";
     }
 
     @GetMapping("/register")

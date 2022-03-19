@@ -5,7 +5,7 @@ import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
-import com.dalhousie.MealStop.review.service.CustomerReviewService;
+import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import java.util.List;
 public class CustomerReviewController
 {
     @Autowired
-    CustomerReviewService customerReviewService;
+    ICustomerReviewService customerReviewService;
 
     @Autowired
     ICustomerService customerService;

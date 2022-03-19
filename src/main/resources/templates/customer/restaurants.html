@@ -21,13 +21,10 @@
 
 <body class="d-flex flex-column h-100">
 
-<!--<div th:replace="~{fragments/header :: header}"> </div>-->
-
-
+<div th:replace="~{fragments/header :: header}"> </div>
 
 <main role="main" class="flex-shrink-0">
     <div class="container mt-5">
-
         <div class="jumbotron">
             <h1>Recommended Meals</h1>
             <div class="card-deck">
@@ -47,24 +44,26 @@
 
         <div class="jumbotron">
             <h1>Restaurants</h1>
-                    <div class="card-deck">
-                        <div class="card" th:each="restaurant : ${restaurants}">
-                            <div class="card-body">
-                                <div style="display: flex;">
-                                    <h5 th:text="${restaurant.restaurantName}"></h5>
-                                </div>
-                                <div style="display: flex; flex-direction: column;">
+            <div class="card-deck">
+                <div class="card" th:each="restaurant : ${restaurants}">
+                    <div class="card-body">
+                        <div style="display: flex;">
+                            <h5 th:text="${restaurant.restaurantName}"></h5>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
 
-                                    <a th:href="@{/get_meals/{id}(id=${restaurant.id})}" class="card-link">Show Meals</a>
-                                    <a href="/customer/reviews">Add Review</a>
-                                </div>
-                            </div>
+                            <a th:href="@{/get_meals/{id}(id=${restaurant.id})}" class="card-link">Show Meals</a>
+                            <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add review</a>
+                            <form method="post" th:action="@{/customer/add_favorite/{id}(id=${restaurant.id})}">
+                                <button class="btn btn-sm btn-primary" type="submit">Add as favorite</button>
+                            </form>
                         </div>
                     </div>
+                </div>
+            </div>
         </div>
     </div>
 </main>
-
-<!--<div  th:replace="~{fragments/footer :: footer}"> </div>-->
+<div  th:replace="~{fragments/footer :: footer}"> </div>
 </body>
 </html>

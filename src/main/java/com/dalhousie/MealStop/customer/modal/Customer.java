@@ -1,7 +1,14 @@
 package com.dalhousie.MealStop.customer.modal;
+
+import com.dalhousie.MealStop.domainconstants.MealStopConstants;
 import com.dalhousie.MealStop.user.model.IUser;
 
-import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "customer")
@@ -11,12 +18,18 @@ public class Customer implements ICustomer
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "customer_id")
     private long id;
+
     @Column(name = "first_name")
     private String firstName;
+
     @Column(name = "last_name")
     private String lastName;
+
     @Column(name = "email")
     private String email;
+
+    @Column(name = "tokens")
+    private Integer tokens;
 
     public Customer() {}
 
@@ -25,21 +38,28 @@ public class Customer implements ICustomer
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
     public Customer(IUser user)
     {
-        //need to check if the user is of customer type.
+        //ToDo need to check if the user is of customer type.
         this.id = user.getId();
         this.firstName=user.getFirstName();
         this.lastName=user.getLastName();
         this.email=user.getEmail();
+        this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
     @Override
     public long getId()
     {
         return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
@@ -79,6 +99,16 @@ public class Customer implements ICustomer
     }
 
     @Override
+    public Integer getTokens() {
+        return tokens;
+    }
+
+    @Override
+    public void setTokens(Integer tokens) {
+        this.tokens = tokens;
+    }
+
+    @Override
     public String toString()
     {
         return "Customer{" +
@@ -86,6 +116,7 @@ public class Customer implements ICustomer
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", tokens='" + tokens + '\'' +
                 '}';
     }
 }

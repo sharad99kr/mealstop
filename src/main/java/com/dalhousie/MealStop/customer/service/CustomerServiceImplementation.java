@@ -42,4 +42,23 @@ public class CustomerServiceImplementation implements ICustomerService
         }
         return customer;
     }
+
+    @Override
+    public Long getLoggedInCustomerId()
+    {
+        Customer loggedInCustomer = getCustomerDetailsFromSession();
+        if(loggedInCustomer!=null)
+        {
+            return loggedInCustomer.getId();
+        }
+        return null;
+    }
+
+
+    @Override
+    public void addCustomer(User user)
+    {
+        Customer customer = new Customer(user);
+        customerRepository.save(customer);
+    }
 }

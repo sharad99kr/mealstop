@@ -6,4 +6,6 @@ public class MealStopConstants
         CUSTOMER,
         RESTAURANT_OWNER
     }
+
+    public static final Integer CUSTOMER_DEFAULT_TOKENS = 10;
 }
