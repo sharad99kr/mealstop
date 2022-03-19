@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.orders.controller;
 
+import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.OrderService;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
 
@@ -88,7 +91,16 @@ public class OrderController {
         }
 
         model.addAttribute("order_list", order_list);
-        return  "orders/CustomerOrderDetails";
+        Boolean isOrderActive=status!= Constants.CANCELLED || status!= Constants.DELIVERED;
+        return  isOrderActive?"orders/CustomerActiveOrders":"orders/CustomerOrderDetails";
+
+    }
+
+
+    @PostMapping("orders/customer_orders/id={id}&status={status}")
+    String customerOrdersSubmot(Model model, @PathVariable("id") long id,@PathVariable("status") int status)
+    {
+        return "redirect:/orders/Enjoy";
     }
 
     @GetMapping("orders/report/id={id}&year={year}")
@@ -105,4 +117,10 @@ public class OrderController {
         model.addAttribute("report_list", report_list);
         return  "orders/MonthlyReport";
     }
+
+    @GetMapping("orders/Enjoy")
+    String FoodDelivered(){
+        return "orders/Enjoy";
+    }
+
 }
