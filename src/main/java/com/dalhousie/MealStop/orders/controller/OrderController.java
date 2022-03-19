@@ -7,14 +7,12 @@ import com.dalhousie.MealStop.orders.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 class OrdersPayload{
+    public long orderId;
     public String mealName;
     public String date;
     public float amount;
@@ -81,6 +79,7 @@ public class OrderController {
 
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
+            payload.orderId=order.getOrderId();
             payload.mealName = "biryani";
             payload.restaurantName="Stoner";
             payload.amount = order.getOrderAmount();
@@ -95,12 +94,12 @@ public class OrderController {
         return  isOrderActive?"orders/CustomerActiveOrders":"orders/CustomerOrderDetails";
 
     }
+    
+    @RequestMapping(value = "/updateOrder/{id}")
+    public String updateOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
-
-    @PostMapping("orders/customer_orders/id={id}&status={status}")
-    String customerOrdersSubmot(Model model, @PathVariable("id") long id,@PathVariable("status") int status)
-    {
-        return "redirect:/orders/Enjoy";
+        orderService.updateOrderStatus(orderId,Constants.DELIVERED);
+        return "orders/Enjoy";
     }
 
     @GetMapping("orders/report/id={id}&year={year}")
@@ -119,7 +118,8 @@ public class OrderController {
     }
 
     @GetMapping("orders/Enjoy")
-    String FoodDelivered(){
+    String FoodDelivered()
+    {
         return "orders/Enjoy";
     }
 
