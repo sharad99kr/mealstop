@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeLeaf.com">
+<html lang="en" xmlns:th="http://www.thymeLeaf.com" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -14,29 +14,40 @@
 
 <div th:replace="~{fragments/header :: header}"> </div>
 
-<div class="container p-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h4 th:text="*{review.restaurant.restaurantName}" class ="text-center text-primary">Restaurant Review</h4>
+    <div sec:authorize="!isAuthenticated()">
+        <main role="main" class="flex-shrink-0">
+            <div class="container mt-5">
+                <div class="jumbotron">
+                    <p>You have not logged in to the application. Please login to continue...</p>
+                    <a th:href="@{/login}">Click here to log in!</a>
+                </div>
+            </div>
+        </main>
+    </div>
 
-                    <form th:action="@{/customer/update_review/{id}(id=${review.id})}" method="post" th:object="${CustomerReview}">
-                        <div class = "form-group">
-                            <label>Review Message</label><input type="text" class="form-control" name="reviewMessage">
-                        </div>
+    <div class="container p-5" sec:authorize="isAuthenticated()">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 th:text="*{review.restaurant.restaurantName}" class ="text-center text-primary">Restaurant Review</h4>
 
-                        <div class = "form-group">
-                            <label>Review Score</label><input type="text" class="form-control" name="reviewScore">
-                        </div>
+                        <form th:action="@{/customer/update_review/{id}(id=${review.id})}" method="post" th:object="${CustomerReview}">
+                            <div class = "form-group">
+                                <label>Review Message</label><input type="text" class="form-control" name="reviewMessage">
+                            </div>
 
-                        <button class = "btn btn-primary btn-block">Submit</button>
-                    </form>
+                            <div class = "form-group">
+                                <label>Review Score</label><input type="text" class="form-control" name="reviewScore">
+                            </div>
+
+                            <button class = "btn btn-primary btn-block">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <div  th:replace="~{fragments/footer :: footer}"> </div>
 
