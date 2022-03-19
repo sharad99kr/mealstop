@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.Restaurant.service;
 
-import com.dalhousie.MealStop.Meal.service.MealService;
+import com.dalhousie.MealStop.Meal.service.IMealService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Repository
-public class RestaurantServiceImplementation implements RestaurantService {
+public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
-    private MealService mealService;
+    private ICustomerReviewService customerReviewService;
+
 
     @Override
     public void addRestaurant(Restaurant restaurant)
@@ -24,48 +25,88 @@ public class RestaurantServiceImplementation implements RestaurantService {
     }
 
     @Override
-    public Restaurant getRestaurantById(long id)
-    {
-        Optional<Restaurant> restaurnt = restaurantRepository.findById(id);
-        return restaurnt.get();
-    }
-
-    @Override
-    public List<Restaurant> getAllRestaurant()
+    public List<Restaurant> getAllRestaurantByUserId(long id)
     {
         List<Restaurant> restaurantList = restaurantRepository.findAll();
-        return restaurantList;
+
+        List<Restaurant> filteredList = new ArrayList<>();
+        for(Restaurant restaurant : restaurantList)
+        {
+            if(restaurant.getUserId() == id)
+                filteredList.add(restaurant);
+        }
+
+        if(filteredList.size() == 0)
+            return filteredList;
+
+        for(Restaurant restaurant : filteredList)
+        {
+            restaurant.setAvgReviewScore(getAverageReviewScore(restaurant));
+        }
+
+        return filteredList;
+    }
+
+    public String getAverageReviewScore(Restaurant restaurant)
+    {
+        List<ICustomerReview>  restaurantReviews= customerReviewService.getReviewsOfRestaurant(restaurant);
+
+        if(restaurantReviews.size() == 0)
+            return "No Reviews";
+
+        int reviewScore = 0;
+
+        for(ICustomerReview review : restaurantReviews)
+            reviewScore += review.getReviewScore();
+
+        return String.valueOf(reviewScore/restaurantReviews.size());
     }
 
     @Override
-    public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate)
+    public Restaurant updateRestaurant(Restaurant restaurant, long id)
     {
+        Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
+        if(restaurantData.isPresent())
+        {
+            Restaurant _restaurant = restaurantData.get();
+            _restaurant.setRestaurantName(restaurant.getRestaurantName());
+            _restaurant.setAddress(restaurant.getAddress());
+            _restaurant.setEmail(restaurant.getEmail());
+            _restaurant.setPhoneNumber(restaurant.getPhoneNumber());
+            _restaurant.setAvailability(restaurant.getAvailability());
+            restaurantRepository.save(_restaurant);
+            return _restaurant;
+        }
+        return null;
+    }
+
+
+    @Override
+    public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate) throws Exception {
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
         List<Restaurant> availableRestaurants = new ArrayList<>();
 
-        if(allRestaurants != null)
+        if(allRestaurants.size() > 0)
         {
             if(startDate == null || endDate == null)
             {
-                new Exception("Please select a valid range");
+                throw new Exception("Please select a valid range");
             }
             else
             {
                 DateFormat formatter = new SimpleDateFormat("EEEE", Locale.ENGLISH);
-                String weekday = formatter.format(endDate);
                 List<String> daysSelected = new ArrayList<>();
-                daysSelected.add(weekday);
 
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(startDate);
-
-                while(startDate != endDate)
+                while(startDate.compareTo(endDate) <= 0)
                 {
-                    cal.add(Calendar.DATE, 1);
-                    endDate = cal.getTime();
-                    weekday = formatter.format(endDate);
+                    String weekday = formatter.format(startDate);
                     if(!daysSelected.contains(weekday))
                         daysSelected.add(weekday);
+
+                    cal.setTime(startDate);
+                    cal.add(Calendar.DATE, 1);
+                    startDate = cal.getTime();
                 }
 
 
@@ -86,19 +127,9 @@ public class RestaurantServiceImplementation implements RestaurantService {
     }
 
     @Override
-    public void updateRestaurant(Long id, Restaurant restaurant)
-    {
-        Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
-        if(restaurantData.isPresent())
-        {
-            Restaurant _restaurant = restaurantData.get();
-            _restaurant.setRestaurantName(restaurant.getRestaurantName());
-            _restaurant.setAddress(restaurant.getAddress());
-            _restaurant.setEmail(restaurant.getEmail());
-            _restaurant.setAccountStatus(restaurant.getAccountStatus());
-            _restaurant.setPhoneNumber(restaurant.getPhoneNumber());
-            _restaurant.setAvailability(restaurant.getAvailability());
-            restaurantRepository.save(_restaurant);
-        }
+    public Restaurant getRestaurantById(Long Id) {
+        Restaurant restaurant = restaurantRepository.findById(Id).orElse(null);
+        return restaurant;
     }
+
 }

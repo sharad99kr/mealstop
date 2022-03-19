@@ -9,6 +9,11 @@ import javax.persistence.*;
 @Table(name = "meal")
 @NoArgsConstructor
 public class Meal implements IMeal {
+
+    public Meal(){
+        // Add here init stuff if needed
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -29,7 +34,7 @@ public class Meal implements IMeal {
     private long price;
 
     @ManyToOne
-    @JoinColumn(name = "restaurantid", nullable = false)
+    @JoinColumn(name = "restaurantid", referencedColumnName = "restaurantid", nullable = false)
     private Restaurant restaurant;
 
     public Meal(String mealName, String calories, String tags, String cuisineType, long price)
@@ -47,6 +52,17 @@ public class Meal implements IMeal {
         return id;
     }
 
+    @Override
+    public Restaurant getRestaurant()
+    {
+        return restaurant;
+    }
+
+    @Override
+    public void setRestaurant(Restaurant restaurant)
+    {
+        this.restaurant = restaurant;
+    }
 
     @Override
     public String getMealName()
