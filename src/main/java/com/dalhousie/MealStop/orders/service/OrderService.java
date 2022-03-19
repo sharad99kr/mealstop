@@ -10,13 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Service
 public class OrderService implements IOrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-
 
     @Override
     public void addOrder(Orders newOrder){
@@ -51,7 +49,6 @@ public class OrderService implements IOrderService {
         return orderRepository.findByCustomerIdAndStatus(customerId,status);
     }
 
-
     @Override
     public List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status){
 
@@ -69,7 +66,6 @@ public class OrderService implements IOrderService {
         //this method returns order detail using order id
         return orderRepository.findById(orderId);
     }
-
 
     @Override
     public List<Orders> getOrdersByRestaurantID(long restaurantId){
@@ -95,7 +91,6 @@ public class OrderService implements IOrderService {
         return orderRepository.findAllByCustomerId(customerId);
     }
 
-
     //this method returns monthly earnings of a restaurant by id provided
     public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year){
         List<Orders> orders= orderRepository.findAllByRestaurantIdandYear(restaurantId, year);
@@ -114,6 +109,5 @@ public class OrderService implements IOrderService {
         }
 
         return monthlyReport;
-
     }
 }

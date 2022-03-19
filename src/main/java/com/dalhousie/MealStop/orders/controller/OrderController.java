@@ -16,7 +16,8 @@ class OrdersPayload{
     public String date;
     public float amount;
     public String status;
-
+    public String restaurantName;
+    public String imageUrl;
 }
 
 class ReportPayload{
@@ -78,14 +79,16 @@ public class OrderController {
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
             payload.mealName = "biryani";
+            payload.restaurantName="Stoner";
             payload.amount = order.getOrderAmount();
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
             order_list.add(payload);
         }
 
         model.addAttribute("order_list", order_list);
-        return  "orders/OrderDetails";
+        return  "orders/CustomerOrderDetails";
     }
 
     @GetMapping("orders/report/id={id}&year={year}")
