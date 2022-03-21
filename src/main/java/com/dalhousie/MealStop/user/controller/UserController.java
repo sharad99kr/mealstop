@@ -1,39 +1,27 @@
 package com.dalhousie.MealStop.user.controller;
 
-import com.dalhousie.MealStop.user.repository.UserRepository;
-import com.dalhousie.MealStop.user.model.User;
-
+import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestBody;
 
-@Controller
-public class UserController
-{
-    @Autowired
-    private UserService userService;
+@RestController
+@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+public class UserController {
 
-    @PostMapping("/add_user")
-    public String addUser(@RequestBody User user, Model model)
-    {
-        userService.addUser(user);
-        model.addAttribute("user", user);
-        return "user/add_user";
+    private final UserService userService;
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getUsers() {
+        return ResponseEntity.ok().body(userService.getUsers());
     }
 
-    @GetMapping("/get_user")
-    public String getAllUsers(Model model)
-    {
-        List<User> listCustomers = userService.getAllUser();
-        model.addAttribute("users_list", listCustomers);
-        System.err.println(listCustomers);
-        return "user/get_user";
+    @PostMapping("/user/save")
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        return ResponseEntity.ok().body(userService.saveUser(user));
     }
 }
-
-

@@ -1,15 +1,8 @@
 package com.dalhousie.MealStop.user.repository;
 
-import com.dalhousie.MealStop.user.model.User;
-
-import java.util.List;
+import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long>
-{
-    List<User> findByFirstName(String firstName);
-    List<User> findByLastName(String lastName);
-    User findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findUserByEmail(String email);
 }
