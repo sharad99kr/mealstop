@@ -24,7 +24,7 @@ public class RestaurantController
     @Autowired
     private IRecommendationService recommendationService;
 
-    @GetMapping("/get_restaurant/{id}")
+    @GetMapping("/restaurant/get_restaurant")
     public String getAllRestaurants(Model model, @PathVariable("id") long id)
     {
         List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId(id);
@@ -33,7 +33,7 @@ public class RestaurantController
         return "restaurant/get_restaurant";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/restaurant/edit/{id}")
     public String edit(@PathVariable("id") long id, Model model)
     {
         Restaurant restaurant = restaurantService.getRestaurantById(id);
@@ -41,20 +41,20 @@ public class RestaurantController
         return "restaurant/update_restaurant";
     }
 
-    @PostMapping("/update_restaurant/{id}")
+    @PostMapping("/restaurant/update_restaurant/{id}")
     public String updateRestaurant(@ModelAttribute Restaurant restaurant, @PathVariable("id") long id)
     {
         Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
         return "redirect:/get_restaurant/" + updatedRestaurant.getUserId();
     }
 
-    @GetMapping("/add_restaurant_form")
+    @GetMapping("/restaurant/add_restaurant_form")
     public String addRestaurantForm()
     {
         return "restaurant/add_restaurant";
     }
 
-    @PostMapping("/add_restaurant")
+    @PostMapping("/restaurant/add_restaurant")
     public String addRestaurant(@ModelAttribute Restaurant restaurant)
     {
         //get user from session manager
@@ -62,12 +62,4 @@ public class RestaurantController
         return "redirect:/get_restaurant/" + restaurant.getUserId();
     }
 
-    @GetMapping("/get_restaurants_available")
-    public String getRestaurantAvailabile(@RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                          @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) throws Exception {
-        List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
-        model.addAttribute("restaurants", listRestaurants_Available);
-        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(listRestaurants_Available));
-        return "customer/restaurants";
-    }
 }
