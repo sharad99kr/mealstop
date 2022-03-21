@@ -1,0 +1,9 @@
+.form-gap {
+  margin: 100px 20px;
+  padding: 40px;
+  border: 1px solid;
+  border-radius: 3%;
+}
+.input-margin {
+  margin-bottom: 20px;
+}

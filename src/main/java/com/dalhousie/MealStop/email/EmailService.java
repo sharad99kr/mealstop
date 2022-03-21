@@ -3,12 +3,10 @@ package com.dalhousie.MealStop.email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
-import java.time.LocalDateTime;
+import java.util.Properties;
 
 @Service
 public class EmailService implements IEmailService {
@@ -17,30 +15,25 @@ public class EmailService implements IEmailService {
     private final static Logger EMAIL_LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private JavaMailSenderImpl javaMailSender;
 
     @Override
     public void sendEmail(String to, String content) {
-        try {
 
-            var message = javaMailSender.createMimeMessage();
-            var messageHelper = new MimeMessageHelper(message, "utf-8");
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "smtp.mailtrap.io");
+        prop.put("mail.smtp.port", "2525");
+        prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
 
-            messageHelper.setText(content, true);
-            messageHelper.setTo(to);
-            messageHelper.setSubject("Confirm your email");
-            messageHelper.setFrom("coder.udit@gmail.com");
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("coder.@gmail.com");
+        message.setTo("coder.udit@gmail.com");
+        message.setSubject("subject");
+        message.setText("text");
+        javaMailSender.send(message);
 
-            javaMailSender.send(message);
-
-            EMAIL_LOGGER.info("Email sent to " + to + " at " + LocalDateTime.now());
-
-        } catch (MessagingException ex) {
-            EMAIL_LOGGER.error("Unable to send email: ", ex.getCause());
-            throw new IllegalStateException("Unable to send email.");
-        }catch (Exception ex){
-            throw new IllegalStateException("Unable to send email." + ex.getMessage());
-        }
-
+        //EMAIL_LOGGER.info("Email sent to " + to + " at " + LocalDateTime.now());
     }
 }

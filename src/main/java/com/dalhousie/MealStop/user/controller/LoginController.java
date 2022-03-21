@@ -16,7 +16,7 @@ public class LoginController {
     @GetMapping("/login")
     public String login() {
         log.info("Trying to login.");
-        return "login";
+        return "user/login";
     }
     /*
     @GetMapping("/perform_logout")

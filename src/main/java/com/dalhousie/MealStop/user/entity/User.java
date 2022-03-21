@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -22,7 +21,7 @@ public class User {
 
     private String lastName;
 
-    private String email;
+    private String username;
 
     private String mobileNumber;
 
@@ -35,4 +34,6 @@ public class User {
     private String role;
 
     private boolean enabled = false;
+
+    private String token;
 }

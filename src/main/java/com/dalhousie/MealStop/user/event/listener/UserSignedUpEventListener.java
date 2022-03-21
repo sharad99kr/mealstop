@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.user.event.listener;
 
+import com.dalhousie.MealStop.email.IEmailService;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.event.UserSignedUpEvent;
 import com.dalhousie.MealStop.user.service.IUserService;
@@ -17,6 +18,9 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
     @Autowired
     private IUserService IUserService;
 
+    @Autowired
+    private IEmailService emailService;
+
     private static final String VERIFY_REGISTRATION_URL = "/api/v1/verifyRegistration?token=";
 
     @Override
@@ -30,6 +34,7 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
         String url = event.getApplicationUrl() + VERIFY_REGISTRATION_URL + token;
 
         log.info("Verify url:" + url);
+        emailService.sendEmail("", "");
         //sendVerificationEmail();
     }
 
