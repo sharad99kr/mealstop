@@ -5,6 +5,7 @@ public class Constants {
     public static final int CANCELLED=0;
     public static final int PROCESSED=1;
     public static final int DELIVERED=2;
+    public static final int ACTIVE=3;
 
     public static final String MOST_ORDERED_MEAL_BY_CUSTOMER_FROM_RESTAURANT ="select meal_id from (select meal_id,count(*) as orderCount from orders where customer_id=?1 and restaurant_id=?2 group by meal_id) as newT order by orderCount desc";
     public static final String MOST_ORDERED_MEAL_BY_CUSTOMER="select meal_id from (select meal_id,count(*) as orderCount from orders where customer_id=?1 group by meal_id) as newT order by orderCount desc";
