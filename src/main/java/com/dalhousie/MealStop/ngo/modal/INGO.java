@@ -14,6 +14,14 @@ public interface INGO {
 
     void setEmail(String email);
 
+    String getAddress();
+
+    void setAddress(String address);
+
+    Integer getPhoneNumber(int orderCount);
+
+    int setPhoneNumber();
+
     Integer setTotalOrders(int orderCount);
 
     int getTotalOrders();
