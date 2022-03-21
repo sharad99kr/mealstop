@@ -18,16 +18,9 @@ public class LoginController {
         log.info("Trying to login.");
         return "user/login";
     }
-    /*
-    @GetMapping("/perform_logout")
-    public String doLogout()
-    {
-        return "user/registration";
-    }
 
     @GetMapping("/login-error")
-    public String loginError(Model model) {
-        return "user/login-error";
+    public String loginError() {
+        return "user/loginerror";
     }
-*/
 }

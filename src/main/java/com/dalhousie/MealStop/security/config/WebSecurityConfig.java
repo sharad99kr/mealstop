@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/restaurant/**").hasAuthority("ROLE_RESTAURANT")
                 .antMatchers("/ngo/**").hasAuthority("ROLE_NGO")
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/customer/homepage", true)
-                .failureUrl("/login.html?error=true").permitAll()
+                .failureUrl("/login-error").permitAll()
                 .and().logout().permitAll();
 
 
