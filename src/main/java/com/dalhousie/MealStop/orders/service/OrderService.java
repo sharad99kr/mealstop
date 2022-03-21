@@ -1,4 +1,8 @@
 package com.dalhousie.MealStop.orders.service;
+import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +20,33 @@ public class OrderService implements IOrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ICustomerService customerService;
+
+
+    //check if enough token is added
+    //custoer get/set
+    //customer servive.update
+
+    @Override
+    public void CreateOrderFromCart(CustomerCart cart){
+       long customer = customerService.getCustomerDetailsFromSession().getId();
+
+       cart.getCartItems().forEach(item->{
+
+           Long restaurantId=item.getRestaurant().getId();
+           Long mealId=item.getId();
+           Long price=item.getPrice();
+           Orders order=new Orders(customer,restaurantId,mealId,0,price,Constants.ACTIVE);
+           addOrder(order);
+       });
+
+    }
+
     @Override
     public void addOrder(Orders newOrder){
         //this method adds new order that has been placed
+        System.out.println("id is : "+newOrder.getCustomerId());
         orderRepository.save(newOrder);
     }
 
