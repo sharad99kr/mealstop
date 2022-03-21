@@ -41,6 +41,12 @@ public class RegistrationController implements WebMvcConfigurer {
         return "user/registration";
     }
 
+    @GetMapping("/restaurantregister")
+    public String showRestaurantRegistrationForm() {
+        log.warn("Showing registration form.");
+        return "user/restaurantregistration";
+    }
+
     @GetMapping("/forgotpassword")
     public String showForgotPasswordForm() {
         log.warn("Showing forgot password form.");
