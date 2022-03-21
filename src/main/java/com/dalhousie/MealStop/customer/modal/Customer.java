@@ -48,7 +48,7 @@ public class Customer implements ICustomer
         this.id = user.getUserid();
         this.firstName=user.getFirstName();
         this.lastName=user.getLastName();
-        this.email=user.getEmail();
+        this.email=user.getUsername();
         this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 

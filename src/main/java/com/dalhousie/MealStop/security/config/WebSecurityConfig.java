@@ -32,23 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-
-    @Bean
-    public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return authProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authProvider());
-    }
+    @Autowired
+    CustomAuthenticationManager customAuthenticationManager;
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**").antMatchers("/static/**");
+        //web.ignoring().antMatchers("/resources/**").antMatchers("/static/**");
+        web.ignoring().antMatchers("/resources/**");
     }
 
     @Override
@@ -58,10 +48,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(new String[]{REGISTER_URL, SIGNUP_URL, VERFIY_REGISTRATION_URL, RESEND_VERIFYTOKEN_URL,
                         RESET_PASSWORD_URL, LOGIN_URL, "/api/v1/user"
                 }).permitAll()
-                .antMatchers("/api/customer/**").hasAuthority("ROLE_CUSTOMER")
-                .antMatchers("/api/restaurant/**").hasAuthority("ROLE_RESTAURANT")
-                .antMatchers("/api/ngo/**").hasAuthority("ROLE_NGO")
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/api/v1/user", true)
+                .antMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
+                .antMatchers("/restaurant/**").hasAuthority("ROLE_RESTAURANT")
+                .antMatchers("/ngo/**").hasAuthority("ROLE_NGO")
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/customer/homepage", true)
                 .failureUrl("/login.html?error=true").permitAll()
                 .and().logout().permitAll();
 
@@ -81,9 +71,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");*/
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
-        http.addFilterAfter(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        //http.addFilterAfter(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-
+    protected AuthenticationManager authenticationManager() throws Exception
+    {
+        return customAuthenticationManager;
+    }
 }

@@ -24,9 +24,9 @@
     <div th:replace="~{fragments/header :: header}"> </div>
 
     <div sec:authorize="!isAuthenticated()">
-    <p>You have not logged in to the application. Please login to
-        continue...</p>
-    <a th:href="@{/login}">Click here to log in!</a>
+        <p>You have not logged in to the application. Please login to
+            continue...</p>
+        <a th:href="@{/login}">Click here to log in!</a>
     </div>
 
     <div sec:authorize="isAuthenticated()">
