@@ -4,7 +4,6 @@ import com.dalhousie.MealStop.common.ErrorMessagesConstants;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.user.entity.User;
-import com.dalhousie.MealStop.user.event.UserSignedUpEvent;
 import com.dalhousie.MealStop.user.models.PasswordModel;
 import com.dalhousie.MealStop.user.models.UserModel;
 import com.dalhousie.MealStop.user.service.IUserService;
@@ -41,10 +40,10 @@ public class RegistrationController implements WebMvcConfigurer {
         return "user/registration";
     }
 
-    @GetMapping("/restaurantregister")
-    public String showRestaurantRegistrationForm() {
+    @GetMapping("/ngoregister")
+    public String showngoRegistrationForm() {
         log.warn("Showing registration form.");
-        return "user/restaurantregistration";
+        return "user/ngoregistration";
     }
 
     @GetMapping("/forgotpassword")

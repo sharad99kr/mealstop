@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1" />
+    <meta charset="ISO-8859-1"/>
     <title>Meal Stop</title>
     <link
             rel="stylesheet"
@@ -10,7 +10,7 @@
             crossorigin="anonymous"
     />
 
-    <link th:href="@{/static/css/registration.css}" rel="stylesheet" />
+    <link th:href="@{/static/css/registration.css}" rel="stylesheet"/>
     <!-- Include jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -35,7 +35,7 @@
 <body>
 <div class=".container-fluid"></div>
 <div class="row justify-content-center">
-    <div class="col col-md-4"  style="
+    <div class="col col-md-4" style="
               margin: 60px 30px;
               padding: 20px;
               border: 1px solid;
@@ -54,19 +54,24 @@
                 <input type="text" id="lastName" name="lastName" class="form-control form-control-md input-margin"
                        placeholder="Last Name" required>
                 <input type="email" id="email" name="email" class="form-control form-control-md input-margin"
-                placeholder="Email"
-                required>
+                       placeholder="Email"
+                       required>
                 <input type="password" id="password" name="password" class="form-control form-control-md input-margin"
                        placeholder="Password" required>
                 <input type="password" id="matchingPassword" name="matchingPassword" class="form-control form-control-md
                        input-margin" placeholder="Confirm Password" required>
-                <input type="number" id="mobileNumber" name="mobileNumber" class="form-control form-control-md input-margin"
+                <input type="number" id="mobileNumber" name="mobileNumber"
+                       class="form-control form-control-md input-margin"
                        placeholder="Mobile Number" required>
                 <input type="text" id="address" name="address" class="form-control form-control-md input-margin"
                        placeholder="Address" required>
-                <div class="form-group"> <!-- Date input -->
-                    <input class="form-control form-control-md input-margin" id="dateOfBirth" name="date"
-                           placeholder="Birth date" type="text"/>
+                <div class="input-group date">
+                    <input type="date" class="form-control form-control-md input-margin" id="dateOfBirth"
+                           autocomplete="off" field="${dateOfBirth}"
+                           name="dateOfBirth" placeholder="Birth date"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
                 </div>
                 <div class="form-group form-control-md in">
                     <select class="form-control custom-select" id="user_role" name="role">
@@ -76,7 +81,9 @@
                     </select>
                     <div class="invalid-feedback">Invalid user role</div>
                 </div>
-                <button class="btn" style="background-color: #012d78; color: white; width: 100%; margin-top: 20px;" type="submit" >Register</button>
+                <button class="btn" style="background-color: #012d78; color: white; width: 100%; margin-top: 20px;"
+                        type="submit">Register
+                </button>
             </div>
         </form>
     </div>
