@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.customer.service;
 
 import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.user.model.User;
+import com.dalhousie.MealStop.user.entity.User;
 
 public interface ICustomerService
 {

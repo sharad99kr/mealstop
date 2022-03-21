@@ -2,10 +2,14 @@ package com.dalhousie.MealStop.security.config;
 
 import com.dalhousie.MealStop.security.filter.CustomAuthenticationFilter;
 import com.dalhousie.MealStop.security.filter.CustomAuthorizationFilter;
+import com.dalhousie.MealStop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,10 +18,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.AntPathMatcher;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static com.dalhousie.MealStop.security.config.WhitelistUrlConstants.*;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -41,19 +45,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(STATELESS);
-        http.formLogin(form -> form.loginPage("/login"));
-        /*http.authorizeRequests()
-                .antMatchers(new String[]{WhitelistUrlConstants.REGISTER_URL, WhitelistUrlConstants.VERFIY_REGISTRATION_URL, WhitelistUrlConstants.RESEND_VERIFYTOKEN_URL,
-                        WhitelistUrlConstants.RESET_PASSWORD_URL, WhitelistUrlConstants.SAVE_PASSWORD_URL, WhitelistUrlConstants.LOGIN_URL
+        http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers(new String[]{REGISTER_URL, SIGNUP_URL, VERFIY_REGISTRATION_URL, RESEND_VERIFYTOKEN_URL,
+                        RESET_PASSWORD_URL, LOGIN_URL, "/api/v1/user"
                 }).permitAll()
                 .antMatchers("/api/customer/**").hasAuthority("ROLE_CUSTOMER")
                 .antMatchers("/api/restaurant/**").hasAuthority("ROLE_RESTAURANT")
                 .antMatchers("/api/ngo/**").hasAuthority("ROLE_NGO")
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").permitAll()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/api/v1/user", true)
+                .failureUrl("/login.html?error=true").permitAll()
                 .and().logout().permitAll();
+
+
 
                 /*.antMatchers("/login").permitAll()
                 .and()
@@ -68,9 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/perform_logout")
                 .invalidateHttpSession(true)
                 .and()
-                .exceptionHandling().accessDeniedPage("/403");
+                .exceptionHandling().accessDeniedPage("/403");*/
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);*/
+        http.addFilterAfter(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
