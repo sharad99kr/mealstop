@@ -37,17 +37,20 @@ public class RegistrationController implements WebMvcConfigurer {
 
     @GetMapping("/register")
     public String showRegistrationForm() {
+        log.warn("Showing registration form.");
         return "user/registration";
     }
 
     @GetMapping("/forgotpassword")
     public String showForgotPasswordForm() {
+        log.warn("Showing forgot password form.");
         return "user/forgotpassword";
     }
 
     @GetMapping("/changepassword")
     public String showChangePasswordForm() {
-        return "changepassword2";
+        log.warn("Showing forgot password form.");
+        return "user/changepassword";
     }
 
     /***

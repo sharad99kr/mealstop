@@ -61,12 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/customer/**").hasAuthority("ROLE_CUSTOMER")
                 .antMatchers("/api/restaurant/**").hasAuthority("ROLE_RESTAURANT")
                 .antMatchers("/api/ngo/**").hasAuthority("ROLE_NGO")
-                .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/api/v1/user", true)
                 .failureUrl("/login.html?error=true").permitAll()
-                .and().logout().permitAll()
-                .and()
-                .exceptionHandling().accessDeniedPage("/403");
+                .and().logout().permitAll();
+
 
 
                 /*.antMatchers("/login").permitAll()
