@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.customer.controller;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
@@ -30,7 +31,7 @@ public class CustomerController
         return "customer/landing-page";
     }
 
-    @GetMapping("customer/profile")
+    @GetMapping("/customer/profile")
     public String getCustomerProfilePage(Model model)
     {
         Customer customer = customerService.getCustomerDetailsFromSession();
@@ -41,8 +42,9 @@ public class CustomerController
     @GetMapping("/customer/search-restaurant")
     public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model) throws Exception
     {
-        List<Restaurant> restaurantList = restaurantService.getAvailableRestaurants(userSearch.getStartDate(), userSearch.getEndDate());
-        model.addAttribute("restaurants", restaurantList);
+        List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(userSearch.getStartDate(), userSearch.getEndDate());
+        model.addAttribute("restaurants", listRestaurants_Available);
+        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(listRestaurants_Available));
         return "customer/restaurants";
     }
 }

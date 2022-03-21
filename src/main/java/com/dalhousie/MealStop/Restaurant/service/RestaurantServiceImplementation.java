@@ -1,8 +1,11 @@
 package com.dalhousie.MealStop.Restaurant.service;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.service.IMealService;
+import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.repository.RestaurantRepository;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,11 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private ICustomerReviewService customerReviewService;
 
+    @Autowired
+    private IRecommendationService recommendationService;
+
+    @Autowired
+    private ICustomerService customerService;
 
     @Override
     public void addRestaurant(Restaurant restaurant)
@@ -134,4 +142,9 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return restaurant;
     }
 
+    @Override
+    public List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants)
+    {
+        return recommendationService.getAllRecommendedMeals(customerService.getLoggedInCustomerId(), availableRestaurants); //need to update
+    }
 }
