@@ -27,13 +27,21 @@ public class NGO implements INGO
     @Column(name = "number_of_orders")
     private Integer orders;
 
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone_number")
+    private Integer phoneNumber;
+
     public NGO() {}
 
-    public NGO(String name, String email)
+    public NGO(String name, String email, String address, int phoneNumber)
     {
         this.name = name;
         this.email = email;
         this.orders = 0;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
     }
 
     public NGO(User user)
@@ -42,12 +50,48 @@ public class NGO implements INGO
         this.id = user.getId();
         this.name=user.getFirstName();
         this.email=user.getEmail();
+        this.address = address;
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
     public long getId()
     {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Integer orders) {
+        this.orders = orders;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public Integer getPhoneNumber(int phoneNumber) {
+       return phoneNumber;
+    }
+
+    @Override
+    public int setPhoneNumber() {
+        return this.phoneNumber = phoneNumber;
     }
 
     @Override
