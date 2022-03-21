@@ -50,6 +50,7 @@ public class CustomerAuthenticationSuccessHandler implements AuthenticationSucce
         Map<String, String> roleTargetUrlMap = new HashMap<>();
         roleTargetUrlMap.put("ROLE_CUSTOMER", "/customer/homepage");
         roleTargetUrlMap.put("ROLE_RESTAURANT", "/restaurant/get_restaurant");
+        roleTargetUrlMap.put("ROLE_NGO", "/ngo/homepage");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
