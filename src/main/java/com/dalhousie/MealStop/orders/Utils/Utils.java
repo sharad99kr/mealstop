@@ -32,6 +32,8 @@ public class Utils {
                 break;
             case Constants.PROCESSED:status="PROCESSED";
                 break;
+            case Constants.ACTIVE:status="ACTIVE";
+                break;
         }
         return status;
     }
