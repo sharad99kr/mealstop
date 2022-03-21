@@ -29,7 +29,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
         if (encode.matches(password, user.getPassword()))
         {
             List<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
-            rights.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+            rights.add(new SimpleGrantedAuthority(user.getRole()));
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), rights);
             token.setDetails(user);
@@ -49,8 +49,7 @@ public class CustomAuthenticationManager implements AuthenticationManager
         String emailId = authentication.getPrincipal().toString();
         String password = authentication.getCredentials().toString();
 
-        User user = new User();
-        user.setUsername(emailId);
+        User user;
 
         System.err.println("email id " + emailId);
 

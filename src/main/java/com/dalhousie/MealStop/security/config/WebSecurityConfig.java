@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.security.config;
 
+import com.dalhousie.MealStop.security.handler.CustomerAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,9 @@ import static com.dalhousie.MealStop.security.config.WhitelistUrlConstants.*;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    CustomerAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
     CustomAuthenticationManager customAuthenticationManager;
@@ -34,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
                 .antMatchers("/restaurant/**").hasAuthority("ROLE_RESTAURANT")
                 .antMatchers("/ngo/**").hasAuthority("ROLE_NGO")
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/customer/homepage", true)
+                .and().formLogin().loginPage("/login").successHandler(customAuthenticationSuccessHandler)
                 .failureUrl("/login-error").permitAll()
                 .and().logout().permitAll();
     }
