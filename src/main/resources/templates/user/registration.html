@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1"/>
-    <meta http-equiv="Content-Type" content="appliction/json; charset=UTF-8">
+    <meta charset="ISO-8859-1" />
     <title>Meal Stop</title>
     <link
             rel="stylesheet"
@@ -12,7 +10,7 @@
             crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" type="text/css" href="../../static/css/registration.css"></link>
+    <link th:href="@{/static/css/registration.css}" rel="stylesheet" />
     <!-- Include jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -37,25 +35,22 @@
 <body>
 <div class=".container-fluid"></div>
 <div class="row justify-content-center">
-    <div class="col col-md-4">
-        <form th:action="@{/api/v1/signup}" method="post"
-              role="form"
-              class="form-horizontal border form-gap needs-validation" style="
+    <div class="col col-md-4"  style="
               margin: 60px 30px;
               padding: 20px;
               border: 1px solid;
               border-radius: 3%;
-            " novalidate>
-              <div>
-              <img
-                src="../../static/images/Meal Stop-logos_transparent.png"
-                style="max-width: 50%"
-              />
-            </div>
-            <div class="form-group"
-            >
+            ">
+        <div>
+            <img th:src="@{images/Meal Stop-logos_transparent.png}" style="max-width: 50%"/>
+        </div>
+
+        <form th:action="@{/api/v1/signup}" method="post"
+              role="form"
+              class="form-horizontal border form-gap needs-validation" novalidate>
+            <div class="form-group">
                 <input type="text" id="firstName" name="firstName" class="form-control form-control-md input-margin"
-                       placeholder="First Name" required>
+                       placeholder="First Name" style="margin-bottom: 20px" required>
                 <input type="text" id="lastName" name="lastName" class="form-control form-control-md input-margin"
                        placeholder="Last Name" required>
                 <input type="email" id="email" name="email" class="form-control form-control-md input-margin"
