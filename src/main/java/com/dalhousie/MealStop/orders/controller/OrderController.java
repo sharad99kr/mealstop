@@ -2,6 +2,9 @@ package com.dalhousie.MealStop.orders.controller;
 
 import com.dalhousie.MealStop.Meal.service.IMealService;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.service.CustomerCartService;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -41,6 +45,51 @@ public class OrderController {
     @Autowired
     private IMealService mealService;
 
+    @Autowired
+    private CustomerCartService customerCartService;
+
+    @Autowired
+    private ICustomerService customerService;
+
+
+    @PostMapping("orders/add_order")
+    String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
+    {
+        CustomerCart customerCart = customerCartService.getCustomerCart();
+        long customer = customerService.getCustomerDetailsFromSession().getId();
+        System.out.println("card ** is :"+customer);
+
+        orderService.CreateOrderFromCart(customerCart);
+        redirectAttrs.addFlashAttribute("customer_id",customer);
+
+        return "redirect:customer_orders_all";
+    }
+
+    @RequestMapping("orders/customer_orders_all")
+    String customerOrdersNew(Model model, @ModelAttribute("customer_id") long id) {
+
+        System.out.println("new id : "+id);
+        List<OrdersPayload> order_list=new ArrayList<>();
+        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,Constants.ACTIVE);
+
+        for (Orders order:orders) {
+            OrdersPayload payload=new OrdersPayload();
+            payload.orderId=order.getOrderId();
+            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
+            payload.amount = order.getOrderAmount();
+            payload.date = order.getOrderTime().toString();
+            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
+            order_list.add(payload);
+        }
+
+        System.out.println("list size : "+order_list.size());
+        model.addAttribute("order_list", order_list);
+        //return  "redirect:CustomerActiveOrders";
+        return  "orders/CustomerActiveOrders";
+
+    }
 
     @GetMapping("orders/cancelled_orders")
     String getAllCancelledOrders(Model model)
