@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -16,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.naming.NoPermissionException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -25,27 +28,42 @@ class RewardServiceTest {
     private RewardRepository mockRewardRepository;
 
     @Mock
-    private long mockCustomerId;
+    private static IRewardService rewardService;
+
+
+    private Long mockCustomerId;
 
     @Mock
     private Rewards mockRewards;
 
-    @Mock
+
     private int mockRewardPoint;
 
 
     @BeforeEach
-    public void init() {
-        MockitoAnnotations.initMocks(this);
+    public void setup() {
 
-        Mockito.when(mockRewardRepository.findByCustomerId(mockCustomerId)).thenReturn(mockRewards);
-        Mockito.doThrow(new NoPermissionException()).when(mockRewardRepository).updateRewardsById(mockCustomerId,mockRewardPoint);
+        mockRewards=new Rewards(Long.valueOf(123),101);
+        mockRewardPoint=101;
+        MockitoAnnotations.initMocks(this);
+        rewardService=new RewardService();
 
     }
 
 
     @Test
-    void getRewardPoints() {
+    void getRewardPointsNoRewards() {
+        MockitoAnnotations.initMocks(this);
+        assertEquals(rewardService.getRewardPoints(mockCustomerId),0);
+    }
+
+    @Test
+    void getRewardPointsWithRewards() {
+        MockitoAnnotations.initMocks(this);
+        mockCustomerId= Long.valueOf(123);
+        when(rewardService.getRewardPoints(mockCustomerId)).thenReturn( mockRewardPoint);
+        assertEquals(rewardService.getRewardPoints(mockCustomerId),101);
+
     }
 
     @Test
