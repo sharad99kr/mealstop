@@ -38,6 +38,7 @@ public class Restaurant implements IRestaurant{
     @Column(name= "address")
     private String address;
 
+    @Transient
     private String reviewScore;
 
     public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address)

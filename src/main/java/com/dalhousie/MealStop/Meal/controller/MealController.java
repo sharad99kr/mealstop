@@ -70,4 +70,6 @@ public class MealController {
         model.addAttribute("restaurant", id);
         return "customer/meals";
     }
+
+
 }
