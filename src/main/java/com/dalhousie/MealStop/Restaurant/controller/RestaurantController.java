@@ -67,9 +67,7 @@ public class RestaurantController
                                           @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) throws Exception {
         List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
         model.addAttribute("restaurants", listRestaurants_Available);
-
-        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(1, listRestaurants_Available); //need to update
-        model.addAttribute("meals", recommendedMeals);
+        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(listRestaurants_Available));
         return "customer/restaurants";
     }
 }

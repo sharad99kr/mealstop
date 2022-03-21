@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.Restaurant.service;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +15,5 @@ public interface IRestaurantService {
     public abstract List<Restaurant>  getAvailableRestaurants(Date startDate, Date endDate) throws Exception;
     public abstract Restaurant getRestaurantById(Long Id);
     public abstract Restaurant updateRestaurant(Restaurant restaurant, long id);
+    public abstract List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants);
 }
