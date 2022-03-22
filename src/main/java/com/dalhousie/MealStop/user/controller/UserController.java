@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.dalhousie.MealStop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -15,14 +16,25 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import static com.dalhousie.MealStop.common.CommonConstants.BEARER;
+import static com.dalhousie.MealStop.common.CommonConstants.ROLES;
+import static com.dalhousie.MealStop.common.UrlConstants.API_VERSION_1;
+import static com.dalhousie.MealStop.common.UrlConstants.USER_URL;
+
 @Controller
-@RequestMapping("/api/v1")
+@RequestMapping(API_VERSION_1)
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/user")
+    @Value("${spring.secret}")
+    private String secret;
+
+    @Value("${spring.expiresAt}")
+    private String expiresAt;
+
+    @PostMapping(USER_URL)
     public com.dalhousie.MealStop.user.entity.User getUser(final HttpServletRequest request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String token = getJWTToken(request, user);
@@ -33,16 +45,15 @@ public class UserController {
     }
 
     private String getJWTToken(final HttpServletRequest request, User user) {
-
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes(StandardCharsets.UTF_8));
+        Algorithm algorithm = Algorithm.HMAC256(secret.getBytes(StandardCharsets.UTF_8));
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + expiresAt))
                 .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim(ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
-        return "Bearer " + access_token;
+        return BEARER + access_token;
     }
 }

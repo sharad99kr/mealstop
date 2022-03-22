@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.user.controller;
 
-import com.dalhousie.MealStop.common.ErrorMessagesConstants;
+import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.user.entity.User;
@@ -75,7 +75,7 @@ public class RegistrationController implements WebMvcConfigurer {
             eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
 
         } catch (Exception e) {
-            log.error(ErrorMessagesConstants.SIGNUP_USER + e.getMessage());
+            log.error(CommonConstants.SIGNUP_USER + e.getMessage());
         }
         return "user/login";
     }
