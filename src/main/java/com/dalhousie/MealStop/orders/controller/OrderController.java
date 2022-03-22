@@ -131,6 +131,31 @@ public class OrderController {
         return  "orders/OrderDetails";
     }
 
+    @GetMapping("orders/customer_orders")
+    String customerAllOrders(Model model) {
+
+        List<OrdersPayload> order_list=new ArrayList<>();
+        long id = customerService.getCustomerDetailsFromSession().getId();
+        List<Orders> orders=orderService.getOrdersByCustomerID(id);
+
+        for (Orders order:orders) {
+            OrdersPayload payload=new OrdersPayload();
+            payload.orderId=order.getOrderId();
+            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
+            payload.amount = order.getOrderAmount();
+            payload.date = order.getOrderTime().toString();
+            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
+            order_list.add(payload);
+        }
+
+        model.addAttribute("order_list", order_list);
+
+        return  "orders/CustomerOrderDetails";
+
+    }
+
     @GetMapping("orders/customer_orders/id={id}&status={status}")
     String customerOrders(Model model, @PathVariable("id") long id,@PathVariable("status") int status) {
 
