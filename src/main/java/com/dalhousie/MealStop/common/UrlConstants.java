@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.security.config;
+package com.dalhousie.MealStop.common;
 
-public class WhitelistUrlConstants {
+public class UrlConstants {
     public static final String REGISTER_URL = "/api/v1/register";
     public static final String RESTAURANT_REGISTER_URL = "/api/v1/restaurantregister";
     public static final String SIGNUP_URL = "/api/v1/signup";
@@ -9,6 +9,9 @@ public class WhitelistUrlConstants {
     public static final String RESET_PASSWORD_URL = "/api/v1/forgotPassword";
     public static final String SAVE_PASSWORD_URL = "/api/v1/savePassword";
     public static final String LOGIN_URL = "/login";
+    public static final String LOGIN_ERROR = "/login-error";
     public static final String LOGOUT_URL = "/logout";
     public static final String LOGIN_INDEX = "/index";
+    public static final String USER_LOGIN = "user/login";
+    public static final String USER_LOGIN_ERROR = "user/loginerror";
 }

@@ -12,4 +12,6 @@ public class UserMessagesConstants {
     public final static String PASSWORD_CHANGE_SUCCESS = "Password changed successfully.";
     public final static String USER_NOT_FOUND = "User not found.";
     public final static String USER_FOUND = "User found";
+    public final static String LOGIN_TRYING_MSG = "Trying to login at ";
+    public final static String LOGIN_ERROR_MSG = "Login error at ";
 }

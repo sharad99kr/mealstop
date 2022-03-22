@@ -4,6 +4,7 @@ import com.dalhousie.MealStop.common.ErrorMessagesConstants;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.user.entity.User;
+import com.dalhousie.MealStop.user.event.UserSignedUpEvent;
 import com.dalhousie.MealStop.user.models.PasswordModel;
 import com.dalhousie.MealStop.user.models.UserModel;
 import com.dalhousie.MealStop.user.service.IUserService;
@@ -71,7 +72,7 @@ public class RegistrationController implements WebMvcConfigurer {
             User user = userService.signUpUser(userModel);
 
             //If the information of the user is saved inside the database, send a mail to the user with verification token.
-            //eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
+            eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
 
         } catch (Exception e) {
             log.error(ErrorMessagesConstants.SIGNUP_USER + e.getMessage());
@@ -151,7 +152,7 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if old password was invalid.
      */
-    @PostMapping(value="/changePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping(value = "/changePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
     public ResponseEntity<String> changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
         if (user == null)

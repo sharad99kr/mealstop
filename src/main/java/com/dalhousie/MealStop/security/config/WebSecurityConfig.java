@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import static com.dalhousie.MealStop.security.config.WhitelistUrlConstants.*;
+import static com.dalhousie.MealStop.common.UrlConstants.*;
 
 @Configuration
 @EnableWebSecurity

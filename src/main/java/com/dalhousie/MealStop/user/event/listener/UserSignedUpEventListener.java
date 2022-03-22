@@ -34,7 +34,7 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
         String url = event.getApplicationUrl() + VERIFY_REGISTRATION_URL + token;
 
         log.info("Verify url:" + url);
-        emailService.sendEmail("", "");
+        emailService.sendEmail(user.getUsername(), "Verify url:" + url, "Registration");
         //sendVerificationEmail();
     }
 
