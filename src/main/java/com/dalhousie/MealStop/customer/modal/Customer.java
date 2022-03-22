@@ -16,7 +16,6 @@ import javax.persistence.Column;
 public class Customer implements ICustomer
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "customer_id")
     private long id;
 
