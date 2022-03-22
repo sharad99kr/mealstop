@@ -57,7 +57,6 @@ public class OrderController {
     {
         CustomerCart customerCart = customerCartService.getCustomerCart();
         long customer = customerService.getCustomerDetailsFromSession().getId();
-        System.out.println("card ** is :"+customer);
 
         orderService.CreateOrderFromCart(customerCart);
         redirectAttrs.addFlashAttribute("customer_id",customer);
@@ -68,7 +67,6 @@ public class OrderController {
     @RequestMapping("orders/customer_orders_all")
     String customerOrdersNew(Model model, @ModelAttribute("customer_id") long id) {
 
-        System.out.println("new id : "+id);
         List<OrdersPayload> order_list=new ArrayList<>();
         List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,Constants.ACTIVE);
 
@@ -84,9 +82,7 @@ public class OrderController {
             order_list.add(payload);
         }
 
-        System.out.println("list size : "+order_list.size());
         model.addAttribute("order_list", order_list);
-        //return  "redirect:CustomerActiveOrders";
         return  "orders/CustomerActiveOrders";
 
     }
@@ -114,10 +110,24 @@ public class OrderController {
     @GetMapping("orders/restaurant_orders/id={id}&status={status}")
     String restaurantOrders(Model model, @PathVariable("id") long id,@PathVariable("status") int status) {
 
-        List<OrdersPayload> order_list=new ArrayList<>();
-
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,status);
+        List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
+        model.addAttribute("order_list", order_list);
+        return  "orders/OrderDetails";
+    }
 
+    @GetMapping("orders/restaurant_orders/{id}")
+    String restaurantActiveOrders(Model model, @PathVariable("id") long id) {
+
+        List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,Constants.ACTIVE);
+        List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
+        model.addAttribute("order_list", order_list);
+        return  "orders/OrderDetails";
+
+    }
+
+    List<OrdersPayload> GetRestaurantOrdersList(List<Orders> orders){
+        List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
             payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
@@ -126,9 +136,7 @@ public class OrderController {
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
             order_list.add(payload);
         }
-
-        model.addAttribute("order_list", order_list);
-        return  "orders/OrderDetails";
+        return order_list;
     }
 
     @GetMapping("orders/customer_orders")
