@@ -10,11 +10,6 @@
 
     <title>Meal</title>
     <style>
-    footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
   </style>
 </head>
 <body>
@@ -111,11 +106,7 @@
 </div>
 </div>
 
-<footer class="footer mt-auto py-3 bg-dark">
-    <div class="container">
-        <span class="text-muted">Meal Stop Application connects customers, restaurants and NGO together.</span>
-    </div>
-</footer>
+<div  th:replace="~{fragments/footer :: footer}"> </div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
