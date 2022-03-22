@@ -4,6 +4,8 @@ import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -25,9 +27,9 @@ public class RestaurantController
     private IRecommendationService recommendationService;
 
     @GetMapping("/restaurant/get_restaurant")
-    public String getAllRestaurants(Model model, @PathVariable("id") long id)
+    public String getAllRestaurants(Model model)
     {
-        List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId(id);
+        List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId();
         model.addAttribute("restaurants_list", listRestaurants);
 
         return "restaurant/get_restaurant";
@@ -45,7 +47,7 @@ public class RestaurantController
     public String updateRestaurant(@ModelAttribute Restaurant restaurant, @PathVariable("id") long id)
     {
         Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
-        return "redirect:/get_restaurant/" + updatedRestaurant.getUserId();
+        return "redirect:/restaurant/get_restaurant/";
     }
 
     @GetMapping("/restaurant/add_restaurant_form")
@@ -57,9 +59,15 @@ public class RestaurantController
     @PostMapping("/restaurant/add_restaurant")
     public String addRestaurant(@ModelAttribute Restaurant restaurant)
     {
-        //get user from session manager
         restaurantService.addRestaurant(restaurant);
-        return "redirect:/get_restaurant/" + restaurant.getUserId();
+        return "redirect:/restaurant/get_restaurant/";
     }
 
+    @GetMapping("/restaurant/profile")
+    public String getRestaurantProfilePage(Model model)
+    {
+        User user = restaurantService.getRestaurantUserDetailsFromSession();
+        model.addAttribute("user", user);
+        return "restaurant/profile";
+    }
 }

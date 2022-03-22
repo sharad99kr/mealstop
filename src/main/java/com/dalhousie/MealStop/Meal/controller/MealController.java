@@ -20,23 +20,23 @@ public class MealController {
     @Autowired
     private IRestaurantService restaurantService;
 
-    @GetMapping("/add_meal_form/{id}")
+    @GetMapping("/restaurant/add_meal_form/{id}")
     public String addMealForm(@PathVariable("id") long id, Model model)
     {
         model.addAttribute("restaurant", id);
         return "meal/add_meal";
     }
 
-    @PostMapping("/add_meal/{id}")
+    @PostMapping("/restaurant/add_meal/{id}")
     public String addMeal(@ModelAttribute Meal meal, @PathVariable("id") long id)
     {
         Restaurant restaurant = restaurantService.getRestaurantById(id);
         meal.setRestaurant(restaurant);
         mealService.addMeal(meal);
-        return "redirect:/get_meal/" + id;
+        return "redirect:/restaurant/get_meal/" + id;
     }
 
-    @GetMapping("/editMeal/{id}")
+    @GetMapping("/restaurant/editMeal/{id}")
     public String edit(@PathVariable("id") long id, Model model)
     {
         Meal meal = mealService.getMealByMealId(id);
@@ -45,15 +45,15 @@ public class MealController {
         return "meal/update_meal";
     }
 
-    @PostMapping("/update_meal/{id}")
+    @PostMapping("/restaurant/update_meal/{id}")
     public String updateMeal(@ModelAttribute Meal meal, @PathVariable("id") long id)
     {
         System.err.println("inside");
         Meal updatedMeal = mealService.updateMeal(id, meal);
-        return "redirect:/get_meal/" + updatedMeal.getRestaurant().getId();
+        return "redirect:/restaurant/get_meal/" + updatedMeal.getRestaurant().getId();
     }
 
-    @GetMapping("/get_meal/{id}")
+    @GetMapping("/restaurant/get_meal/{id}")
     public String getAllMeals(Model model,  @PathVariable("id") long id)
     {
         List<Meal> mealList = mealService.getAllMealsByRestaurantId(id);
@@ -62,7 +62,7 @@ public class MealController {
         return "meal/get_meal";
     }
 
-    @GetMapping("/get_meals/{id}")
+    @GetMapping("/restaurant/get_meals/{id}")
     public String getRestaurantMeals(Model model,  @PathVariable("id") long id)
     {
         List<Meal> mealList = mealService.getAllMealsByRestaurantId(id);

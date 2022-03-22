@@ -25,7 +25,7 @@
     <div class="collapse navbar-collapse" id="navbarsExample04">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" th:href="@{/restaurant/get_restaurant/}">Home</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -42,9 +42,9 @@
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                     </svg>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">Visit Profile</button>
-                        <button class="dropdown-item" type="button">Another action</button>
-                        <button class="dropdown-item" type="button">Something else here</button>
+                        <form method="get" th:action="@{/restaurant/profile}" >
+                            <button class="dropdown-item" th:action="@{/restaurant/profile}" type="submit">Visit Profile</button>
+                        </form>
                         <form method="post" th:action="@{/logout}">
                             <button class="btn btn-danger btn-sm" type="submit" style="margin-left: 50px;">
                                 Sign Out
@@ -57,8 +57,20 @@
     </div>
 </nav>
 
+<div sec:authorize="!isAuthenticated()">
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <p>You have not logged in to the application. Please login to continue...</p>
+                <a th:href="@{/login}">Click here to log in!</a>
+            </div>
+        </div>
+    </main>
+</div>
+
 <!-- Navbar -->
 
+<div sec:authorize="isAuthenticated()">
 <div class="container p-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -66,7 +78,7 @@
                 <div class="card-body">
                     <h4 class ="text-center text-primary">Update Restaurant</h4>
 
-                    <form th:action="@{/update_restaurant/{id}(id=${restaurant.id})}" method="post" th:object="${restaurant}">
+                    <form th:action="@{/restaurant/update_restaurant/{id}(id=${restaurant.id})}" method="post" th:object="${restaurant}">
 
                         <input type="hidden" th:value="${restaurant.id}" name="id">
 
@@ -96,6 +108,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <footer class="footer mt-auto py-3 bg-dark">
