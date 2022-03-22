@@ -1,7 +1,14 @@
 package com.dalhousie.MealStop.common;
 
 public class UrlConstants {
-    public static final String API_VERSION_1= "/api/v1";
+    //Security config resources
+    public static final String API_VERSION_1 = "/api/v1";
+    public static final String STATIC_RESOURCES_MATCHER = "/resources/**";
+    public static final String CUSTOMER_MATCHER = "/customer/**";
+    public static final String RESTAURANT_MATCHER = "/restaurant/**";
+    public static final String NGO_MATCHER = "/ngo/**";
+
+
     public static final String REGISTER_URL = "/api/v1/register";
     public static final String RESTAURANT_REGISTER_URL = "/api/v1/restaurantregister";
     public static final String SIGNUP_URL = "/api/v1/signup";

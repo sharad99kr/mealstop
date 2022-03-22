@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.security.config;
 
+import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.security.handler.CustomerAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,26 +26,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**");
+        web.ignoring().antMatchers(STATIC_RESOURCES_MATCHER);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers(new String[]{REGISTER_URL, SIGNUP_URL, VERFIY_REGISTRATION_URL, RESEND_VERIFYTOKEN_URL,
-                        RESET_PASSWORD_URL, LOGIN_URL, "/api/v1/user"
-                }).permitAll()
-                .antMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
-                .antMatchers("/restaurant/**").hasAuthority("ROLE_RESTAURANT")
-                .antMatchers("/ngo/**").hasAuthority("ROLE_NGO")
-                .and().formLogin().loginPage("/login").successHandler(customAuthenticationSuccessHandler)
-                .failureUrl("/login-error").permitAll()
+                .antMatchers(CUSTOMER_MATCHER).hasAuthority(String.valueOf(RoleEnum.ROLE_CUSTOMER))
+                .antMatchers(RESTAURANT_MATCHER).hasAuthority(String.valueOf(RoleEnum.ROLE_RESTAURANT))
+                .antMatchers(NGO_MATCHER).hasAuthority(String.valueOf(RoleEnum.ROLE_NGO))
+                .and().formLogin().loginPage(LOGIN_URL).successHandler(customAuthenticationSuccessHandler)
+                .failureUrl(LOGIN_ERROR).permitAll()
                 .and().logout().permitAll();
     }
 
-    protected AuthenticationManager authenticationManager() throws Exception
-    {
+    protected AuthenticationManager authenticationManager() throws Exception {
         return customAuthenticationManager;
     }
 }

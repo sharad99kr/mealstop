@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.dalhousie.MealStop.common.UrlConstants.API_VERSION_1;
+
 @Controller
-@RequestMapping("/api/v1")
+@RequestMapping(API_VERSION_1)
 @Slf4j
 public class RegistrationController implements WebMvcConfigurer {
     private static final String HTTP = "http://";
