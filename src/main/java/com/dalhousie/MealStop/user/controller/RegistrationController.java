@@ -21,15 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.dalhousie.MealStop.common.UrlConstants.API_VERSION_1;
+import static com.dalhousie.MealStop.common.UrlConstants.*;
+import static com.dalhousie.MealStop.common.UserMessagesConstants.*;
 
 @Controller
 @RequestMapping(API_VERSION_1)
 @Slf4j
 public class RegistrationController implements WebMvcConfigurer {
-    private static final String HTTP = "http://";
-    private static final String PORT_SEPARATOR = ":";
-    private static final String SAVE_PASSWORD = "/api/v1/savePassword?token=";
 
     @Autowired
     private IUserService userService;
@@ -37,29 +35,29 @@ public class RegistrationController implements WebMvcConfigurer {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    @GetMapping("/register")
+    @GetMapping(REGISTER_URL)
     public String showRegistrationForm() {
-        log.warn("Showing registration form.");
-        return "user/registration";
+        log.info(SHOW_REGISTRATION_FORM);
+        return USER_REGISTER_URL;
     }
 
-    @GetMapping("/ngoregister")
-    public String showngoRegistrationForm() {
-        log.warn("Showing registration form.");
-        return "user/ngoregistration";
+    @GetMapping(NGO_REGISTER_URL)
+    public String showNgoRegistrationForm() {
+        log.info(SHOW_NGO_REGISTRATION_FORM);
+        return NGO_USER_REGISTER_URL;
     }
 
-    @GetMapping("/forgotpassword")
+    @GetMapping(FORGOT_PASSWORD_URL)
     public String showForgotPasswordForm() {
-        log.warn("Showing forgot password form.");
-        return "user/forgotpassword";
+        log.info(SHOW_FORGOT_PASSWORD_FORM);
+        return USER_FORGOT_PASSWORD_URL;
     }
 
-    @GetMapping("/changepassword")
+    /*@GetMapping("/changepassword")
     public String showChangePasswordForm() {
         log.warn("Showing forgot password form.");
         return "user/changepassword";
-    }
+    }*/
 
     /***
      * Registers the user model on the basis of the USER type.

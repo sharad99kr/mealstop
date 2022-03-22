@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+import static com.dalhousie.MealStop.common.UrlConstants.VERIFY_REGISTRATION_URL;
+
 @Component
 @Slf4j
 public class UserSignedUpEventListener implements ApplicationListener<UserSignedUpEvent> {
@@ -20,8 +22,6 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
 
     @Autowired
     private IEmailService emailService;
-
-    private static final String VERIFY_REGISTRATION_URL = "/api/v1/verifyRegistration?token=";
 
     @Override
     public void onApplicationEvent(UserSignedUpEvent event) {
