@@ -20,7 +20,7 @@ public class EmailService implements IEmailService {
     private final static Logger EMAIL_LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     @Autowired
-    JavaMailSender emailSender;
+    private JavaMailSender emailSender;
 
     @Override
     public void sendEmail(String to, String content, String subject) {

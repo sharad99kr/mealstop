@@ -32,10 +32,12 @@ public class UrlConstants {
 
     public static final String VERIFY_REGISTRATION_URL = "/api/v1/verifyRegistration?token=";
 
+    //Login urls
     public static final String LOGIN_URL = "/login";
     public static final String LOGIN_ERROR = "/login-error";
     public static final String USER_LOGIN = "user/login";
     public static final String USER_LOGIN_ERROR = "user/loginerror";
 
+    //User url
     public static final String USER_URL = "/user";
 }
