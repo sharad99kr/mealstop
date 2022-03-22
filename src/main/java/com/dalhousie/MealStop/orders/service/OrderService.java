@@ -46,7 +46,6 @@ public class OrderService implements IOrderService {
     @Override
     public void addOrder(Orders newOrder){
         //this method adds new order that has been placed
-        System.out.println("id is : "+newOrder.getCustomerId());
         orderRepository.save(newOrder);
     }
 

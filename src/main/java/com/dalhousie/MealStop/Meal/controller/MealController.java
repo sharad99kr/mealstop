@@ -62,7 +62,7 @@ public class MealController {
         return "meal/get_meal";
     }
 
-    @GetMapping("/restaurant/get_meals/{id}")
+    @GetMapping("/customer/get_meals/{id}")
     public String getRestaurantMeals(Model model,  @PathVariable("id") long id)
     {
         List<Meal> mealList = mealService.getAllMealsByRestaurantId(id);
