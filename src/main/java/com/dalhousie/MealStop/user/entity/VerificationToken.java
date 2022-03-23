@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.user.entity;
 
+import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +19,8 @@ public class VerificationToken {
     private String token;
     private Date expirationTime;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_USER_VERIFY_TOKEN"))
+    @OneToOne
+    @JoinColumn(name = "userid", referencedColumnName = "userid", nullable = false)
     private User user;
 
     public VerificationToken(String token) {

@@ -21,5 +21,4 @@ public class MealStopApplication {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
     }
-
 }

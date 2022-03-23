@@ -3,11 +3,13 @@ package com.dalhousie.MealStop.user.controller;
 import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
+import com.dalhousie.MealStop.email.IEmailService;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.event.UserSignedUpEvent;
 import com.dalhousie.MealStop.user.models.PasswordModel;
 import com.dalhousie.MealStop.user.models.UserModel;
 import com.dalhousie.MealStop.user.service.IUserService;
+import com.dalhousie.MealStop.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -33,6 +35,9 @@ public class RegistrationController implements WebMvcConfigurer {
     private IUserService userService;
 
     @Autowired
+    private IEmailService emailService;
+
+    @Autowired
     private ApplicationEventPublisher eventPublisher;
 
     @GetMapping(REGISTER_URL)
@@ -51,6 +56,17 @@ public class RegistrationController implements WebMvcConfigurer {
     public String showForgotPasswordForm() {
         log.info(SHOW_FORGOT_PASSWORD_FORM);
         return USER_FORGOT_PASSWORD_URL;
+    }
+
+    @GetMapping("/savePassword")
+    public String showSavePasswordForm(@RequestParam("token") String token) {
+        log.info(SHOW_FORGOT_PASSWORD_FORM);
+        String result = userService.validatePasswordResetToken(token);
+        if (result.equalsIgnoreCase(VerificationTokenConstants.VALID)) {
+            return "user/changepassword";
+        } else {
+            return "user/login";
+        }
     }
 
     /*@GetMapping("/changepassword")
@@ -110,18 +126,18 @@ public class RegistrationController implements WebMvcConfigurer {
      * @return status OK if password reset mail was sent.
      */
     @PostMapping(value = "/forgotPassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
-    public ResponseEntity<String> forgotPassword(PasswordModel passwordModel, final HttpServletRequest request) {
+    public String forgotPassword(PasswordModel passwordModel, final HttpServletRequest request) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
         String url;
         if (user != null) {
             String token = UUID.randomUUID().toString();
             //Create a token to be sent with password reset mail.
             userService.createPasswordResetTokenForUser(user, token);
-            url = passwordResetTokenMail(token, getAppUrl(request));
-            return ResponseEntity.status(HttpStatus.OK).body(url);
+            url = passwordResetTokenMail(passwordModel.getEmail(), token, getAppUrl(request));
+
         }
         //If no user found with the given email return bad request.
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.BAD_USER);
+        return "user/login";
     }
 
     /**
@@ -131,19 +147,11 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if user or token was invalid.
      */
-    @PostMapping("/savePassword")
-    public ResponseEntity<String> savePassword(String token, @RequestBody PasswordModel passwordModel) {
-        String result = userService.validatePasswordResetToken(token);
-        if (!result.equalsIgnoreCase(VerificationTokenConstants.VALID)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.INVALID_TOKEN);
-        }
-        Optional<User> user = userService.getUserByPasswordResetToken(token);
-        if (user != null && user.isPresent()) {
-            userService.changePassword(user.get(), passwordModel.getNewPassword());
-            return ResponseEntity.status(HttpStatus.OK).body(UserMessagesConstants.PASSWORD_RESET_SUCCESS);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.BAD_USER);
-        }
+    @GetMapping(value = "/savePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    public String savePassword(String token, @RequestBody PasswordModel passwordModel) {
+        User user = userService.findUserByEmail(passwordModel.getEmail());
+        userService.changePassword(user, passwordModel.getNewpassword());
+        return USER_LOGIN;
     }
 
     /**
@@ -153,17 +161,14 @@ public class RegistrationController implements WebMvcConfigurer {
      * @return OK if password saved successfully and Bad request if old password was invalid.
      */
     @PostMapping(value = "/changePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
-    public ResponseEntity<String> changePassword(PasswordModel passwordModel) {
+    public String changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
-        if (user == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.BAD_USER);
 
-        //Checks if old password matches.
-        if (!userService.checkIfValidOldPassword(user, passwordModel.getOldPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UserMessagesConstants.INVALID_OLD_PASSWORD);
-        }
-        userService.changePassword(user, passwordModel.getNewPassword());
-        return ResponseEntity.status(HttpStatus.OK).body(UserMessagesConstants.PASSWORD_CHANGE_SUCCESS);
+        if (user == null || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
+            return USER_LOGIN;
+
+        userService.changePassword(user, passwordModel.getNewpassword());
+        return USER_LOGIN;
     }
 
     /**
@@ -173,10 +178,10 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param applicationUrl
      * @return
      */
-    private String passwordResetTokenMail(String passwordResetToken, String applicationUrl) {
+    private String passwordResetTokenMail(String email, String passwordResetToken, String applicationUrl) {
         //Send mail to the user.
         String url = applicationUrl + SAVE_PASSWORD + passwordResetToken;
-
+        emailService.sendEmail(email, url, "Password Change");
         log.info("Verify url:" + url);
         return url;
     }

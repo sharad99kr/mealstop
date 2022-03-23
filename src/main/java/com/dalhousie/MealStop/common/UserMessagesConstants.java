@@ -17,5 +17,6 @@ public class UserMessagesConstants {
     public final static String SHOW_REGISTRATION_FORM = "Showing registration form.";
     public final static String SHOW_NGO_REGISTRATION_FORM = "Showing NGO registration form.";
     public final static String SHOW_FORGOT_PASSWORD_FORM = "Showing forgot password form.";
-
+    public final static String VERIFY_URL = "Verify url: ";
+    public final static String MEALSTOP_REGISTRATION = "Mealstop app registration";
 }
