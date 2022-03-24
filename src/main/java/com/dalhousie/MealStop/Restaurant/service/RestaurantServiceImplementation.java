@@ -149,7 +149,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Override
     public List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants)
     {
-        return recommendationService.getAllRecommendedMeals(customerService.getLoggedInCustomerId(), availableRestaurants); //need to update
+        return recommendationService.getAllRecommendedMeals(customerService.getLoggedInCustomerId(), availableRestaurants);
     }
 
     @Override

@@ -59,6 +59,11 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
     public long getUserId()
     {
         return userid;
