@@ -13,20 +13,21 @@
 
 
 <body>
-<header>
-    <h2 style="margin-left: 2%">Mealstop</h2>
-</header>
+<div th:replace="~{fragments/header :: header}"> </div>
 
 <div class="header">
     <div class="menu-bar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Orders</a>
+                <a class="navbar-brand" href="#">Active Orders</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        
 
+                    </ul>
                     <form class="d-flex">
 
                         <button class="btn btn-outline-success" type="submit">Export csv</button>
@@ -40,28 +41,36 @@
 
 <div class="container p-5">
     <table class="table">
-        <thead class="bg-primary text-white">
-        <tr style="text-align: center; vertical-align: middle">
-            <th>Food</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Status</th>
-        </tr>
-        </thead>
+
         <tbody>
-            <tr  th:each="order: ${order_list}" style="text-align: center; vertical-align: middle">
-                <td th:text="${order.mealName}"></td>
-                <td th:text="${order.date}"></td>
-                <td th:text="${order.amount}"></td>
-                <td th:text="${order.status}"></td>
-                <td>
-                    <form th:action="@{/updateOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
 
-                        <button class="btn btn-outline-success" type="submit">Processed</button>
-                    </form>
-                </td>
+        <tr  th:each="order: ${order_list}" style="text-align: center; vertical-align: middle">
+            <td>
 
-            </tr>
+                <img th:src = "${order.imageUrl}" height = "200" width = "350" />
+            </td>
+
+            <td style="height: inherit">
+
+                <h4><div th:text="${order.restaurantName}"></div></h4>
+                <br>
+                <br>
+                <br>
+                <div th:text="${order.mealName}"></div>
+
+            </td>
+
+            <td th:text="${order.date}"></td>
+            <td th:text="${order.amount}"></td>
+            <td th:text="${order.status}"></td>
+
+            <td>
+                <form th:action="@{/updateOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
+
+                <button class="btn btn-outline-success" type="submit">Delivered</button>
+                </form>
+            </td>
+        </tr>
 
         </tbody>
     </table>

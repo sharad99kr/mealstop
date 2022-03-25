@@ -52,7 +52,7 @@
                         </div>
                         <div style="display: flex; flex-direction: column;">
 
-                            <a th:href="@{/get_meals/{id}(id=${restaurant.id})}" class="card-link">Show Meals</a>
+                            <a th:href="@{/customer/get_meals/{id}(id=${restaurant.id})}" class="card-link">Show Meals</a>
                             <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add review</a>
                             <form method="post" th:action="@{/customer/add_favorite/{id}(id=${restaurant.id})}">
                                 <button class="btn btn-sm btn-primary" type="submit">Add as favorite</button>

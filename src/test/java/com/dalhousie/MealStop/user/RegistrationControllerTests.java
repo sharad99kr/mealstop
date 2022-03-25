@@ -105,18 +105,7 @@ public class RegistrationControllerTests {
         assertEquals(HttpStatus.OK, controller.verifyRegistration(mockToken).getStatusCode());
     }
 
-    @Test
-    void ShouldReturnBadRequestResetPasswordWhenUserNotFound() {
-        assertEquals(HttpStatus.BAD_REQUEST, controller.forgotPassword(mockPasswordModel, mockHttpServletRequest).getStatusCode());
-    }
-
-    @Test
-    void ShouldReturnOkResetPassword() {
-        Mockito.lenient().when(mockUserService.findUserByEmail(mockEmail)).thenReturn(mockUser);
-        assertEquals(HttpStatus.OK, controller.forgotPassword(mockPasswordModel, mockHttpServletRequest).getStatusCode());
-    }
-
-    @Test
+    /*@Test
     void ShouldReturnBadRequestSavePasswordWhenInvalidToken() {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.INVALID);
         assertEquals(HttpStatus.BAD_REQUEST, controller.savePassword(mockToken, mockPasswordModel).getStatusCode());
@@ -134,9 +123,9 @@ public class RegistrationControllerTests {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.VALID);
         Mockito.lenient().when(mockUserService.getUserByPasswordResetToken(mockToken)).thenReturn(Optional.of(mockUser));
         assertEquals(HttpStatus.OK, controller.savePassword(mockToken, mockPasswordModel).getStatusCode());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void ShouldReturnBadRequestChangePasswordWhenNoUser() {
         Mockito.lenient().when(mockUserService.findUserByEmail(mockEmail)).thenReturn(null);
         assertEquals(HttpStatus.BAD_REQUEST, controller.changePassword(mockPasswordModel).getStatusCode());
@@ -152,5 +141,5 @@ public class RegistrationControllerTests {
     void ShouldReturnOkChangePassword() {
         Mockito.lenient().when(mockUserService.checkIfValidOldPassword(mockUser, mockPassword)).thenReturn(true);
         assertEquals(HttpStatus.BAD_REQUEST, controller.changePassword(mockPasswordModel).getStatusCode());
-    }
+    }*/
 }

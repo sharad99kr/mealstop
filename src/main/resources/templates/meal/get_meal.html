@@ -10,11 +10,6 @@
 
   <title>Meal</title>
   <style>
-    footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
   </style>
 </head>
 <body>
@@ -23,11 +18,11 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <div class="collapse navbar-collapse" id="navbarsExample04">
     <ul class="navbar-nav mr-auto">
-<!--      <li class="nav-item active">-->
-<!--        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
-<!--      </li>-->
       <li class="nav-item active">
-        <a class="nav-link" th:href="@{/add_meal_form/{id}(id=${restaurant})}">Add Meal</a>
+        <a class="nav-link" th:href="@{/restaurant/get_restaurant/}">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/restaurant/add_meal_form/{id}(id=${restaurant})}">Add Meal</a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -44,9 +39,9 @@
             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
           </svg>
           <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item" type="button">Visit Profile</button>
-            <button class="dropdown-item" type="button">Another action</button>
-            <button class="dropdown-item" type="button">Something else here</button>
+            <form method="get" th:action="@{/restaurant/profile}" >
+              <button class="dropdown-item" th:action="@{/restaurant/profile}" type="submit">Visit Profile</button>
+            </form>
             <form method="post" th:action="@{/logout}">
               <button class="btn btn-danger btn-sm" type="submit" style="margin-left: 50px;">
                 Sign Out
@@ -59,8 +54,20 @@
   </div>
 </nav>
 
+<div sec:authorize="!isAuthenticated()">
+  <main role="main" class="flex-shrink-0">
+    <div class="container mt-5">
+      <div class="jumbotron">
+        <p>You have not logged in to the application. Please login to continue...</p>
+        <a th:href="@{/login}">Click here to log in!</a>
+      </div>
+    </div>
+  </main>
+</div>
+
 <!-- Navbar -->
 
+<div sec:authorize="isAuthenticated()">
 <div class="container p-5">
   <table class="table table-striped">
     <thead class="bg-primary text-white">
@@ -80,17 +87,14 @@
       <td th:text="${meal.tags}"></td>
       <td th:text="${meal.cuisineType}"></td>
       <td th:text="${meal.price}"></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/editMeal/{id}(id=${meal.id})}">Edit</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/editMeal/{id}(id=${meal.id})}">Edit</a></td>
     </tr>
     </tbody>
   </table>
 </div>
+</div>
 
-<footer class="footer mt-auto py-3 bg-dark">
-  <div class="container">
-    <span class="text-muted">Meal Stop Application connects customers, restaurants and NGO together.</span>
-  </div>
-</footer>
+<div  th:replace="~{fragments/footer :: footer}"> </div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

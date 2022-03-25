@@ -4,6 +4,8 @@ public interface IRestaurant {
 
     public long getId();
 
+    public void setId(long id);
+
     public long getUserId();
 
     public void setUserId(long userid);

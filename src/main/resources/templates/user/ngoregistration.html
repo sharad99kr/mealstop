@@ -9,28 +9,6 @@
             integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
             crossorigin="anonymous"
     />
-
-    <link th:href="@{/static/css/registration.css}" rel="stylesheet"/>
-    <!-- Include jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-
-    <!-- Include Date Range Picker -->
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-    <script>
-        $(document).ready(function () {
-            var date_input = $('input[name="date"]'); //our date input has the name "date"
-            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            date_input.datepicker({
-                format: 'mm/dd/yyyy',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-            })
-        })
-    </script>
 </head>
 <body>
 <div class=".container-fluid"></div>
@@ -50,9 +28,7 @@
               class="form-horizontal border form-gap needs-validation" novalidate>
             <div class="form-group">
                 <input type="text" id="firstName" name="firstName" class="form-control form-control-md input-margin"
-                       placeholder="First Name" style="margin-bottom: 20px" required>
-                <input type="text" id="lastName" name="lastName" class="form-control form-control-md input-margin"
-                       placeholder="Last Name" required>
+                       placeholder="NGO Name" style="margin-bottom: 20px" required>
                 <input type="email" id="email" name="email" class="form-control form-control-md input-margin"
                        placeholder="Email"
                        required>
@@ -65,22 +41,7 @@
                        placeholder="Mobile Number" required>
                 <input type="text" id="address" name="address" class="form-control form-control-md input-margin"
                        placeholder="Address" required>
-                <div class="input-group date">
-                    <input type="date" class="form-control form-control-md input-margin" id="dateOfBirth"
-                           autocomplete="off" field="${dateOfBirth}"
-                           name="dateOfBirth" placeholder="Birth date"/>
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                    </div>
-                </div>
-                <div class="form-group form-control-md in">
-                    <select class="form-control custom-select" id="user_role" name="role">
-                        <option value="" selected>User role</option>
-                        <option value="ROLE_CUSTOMER">Customer</option>
-                        <option value="ROLE_RESTAURANT">Restaurant</option>
-                    </select>
-                    <div class="invalid-feedback">Invalid user role</div>
-                </div>
+                <input type="hidden" id="user_role" name="role" value="ROLE_NGO">
                 <button class="btn" style="background-color: #012d78; color: white; width: 100%; margin-top: 20px;"
                         type="submit">Register
                 </button>

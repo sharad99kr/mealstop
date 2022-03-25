@@ -1,39 +1,35 @@
 package com.dalhousie.MealStop.email;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.stereotype.Service;
-import java.util.Properties;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
-@Service
+import java.time.LocalDateTime;
+
+@Component
+@Slf4j
 public class EmailService implements IEmailService {
 
-    //Gets a logger for email service class.
-    private final static Logger EMAIL_LOGGER = LoggerFactory.getLogger(EmailService.class);
-
     @Autowired
-    private JavaMailSenderImpl javaMailSender;
+    private JavaMailSender emailSender;
+
+    @Value("${spring.mail.from}")
+    private String from;
 
     @Override
-    public void sendEmail(String to, String content) {
-
-        Properties prop = new Properties();
-        prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.starttls.enable", "true");
-        prop.put("mail.smtp.host", "smtp.mailtrap.io");
-        prop.put("mail.smtp.port", "2525");
-        prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
+    public void sendEmail(String to, String content, String subject) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("coder.@gmail.com");
-        message.setTo("coder.udit@gmail.com");
-        message.setSubject("subject");
-        message.setText("text");
-        javaMailSender.send(message);
+        message.setFrom(from);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(content);
 
-        //EMAIL_LOGGER.info("Email sent to " + to + " at " + LocalDateTime.now());
+        emailSender.send(message);
+
+        log.info("Email sent to " + to + " at " + LocalDateTime.now());
     }
 }
