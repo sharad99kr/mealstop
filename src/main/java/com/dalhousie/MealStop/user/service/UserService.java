@@ -64,7 +64,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public void saveVerificationTokenForUser(User user, String token) {
-        var verifyToken = new VerificationToken(user, token);
+        VerificationToken verifyToken = new VerificationToken(user, token);
         verificationTokenRepository.save(verifyToken);
     }
 
@@ -76,7 +76,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public String validateVerificationToken(String token) {
-        var verificationToken = verificationTokenRepository.findByToken(token);
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
 
         // If no verification token present.
         if (verificationToken == null)
@@ -117,7 +117,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public String validatePasswordResetToken(String token) {
-        var passwordResetToken = passwordResetTokenRepository.findByToken(token);
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null)
             return VerificationTokenConstants.INVALID;
 
