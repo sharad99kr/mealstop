@@ -17,6 +17,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - test
   - quality-checks
+  - deploy
 
 maven-build:
   image: maven:3-jdk-11
@@ -46,3 +47,12 @@ quality-checks:
     - echo "$UPLOAD_QUALITY_REPORT"
   only:
     - develop
+
+deploy:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=mealstop-application --api-key=$HEROKU_API_KEY
