@@ -19,17 +19,17 @@ stages:          # List of stages for jobs, and their order of execution
   - quality-checks
   - deploy
 
-maven-build:
+maven-build:    # Build stage to build the project along with all the dependencies
   image: maven:3-jdk-11
   stage: build
   script: "mvn package -B"
 
-maven-test:
+maven-test:     # Test stage to run all the Junit tests available in the project
   image: maven:3-jdk-11
   stage: test
   script: "mvn test -B"
 
-quality-checks:
+quality-checks:   # Quality stage to run designite and get all the quality metrics and upload to qscored
   stage: quality-checks
   image: maven:3-jdk-11
   variables:
@@ -48,7 +48,7 @@ quality-checks:
   only:
     - develop
 
-deploy:
+deploy:       # Deploy stage to deploy the built project to heroku
   stage: deploy
   image: ruby:latest
   script:
