@@ -6,6 +6,18 @@
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link th:href="@{styles/main.css}" rel="stylesheet" />
+    <style>
+        video{
+          position: fixed;
+          right: 0;
+          bottom: 0;
+          min-width: 100%;
+          min-height: 100%;
+        }
+        main{
+            position: relative;
+        }
+    </style>
 </head>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -20,6 +32,8 @@
 </script>
 
 <body class="d-flex flex-column h-100">
+
+<video th:src="@{/videos/meals.mp4}"  muted loop autoplay></video>
 
 <div th:replace="~{fragments/header :: header}"> </div>
 
