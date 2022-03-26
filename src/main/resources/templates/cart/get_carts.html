@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
-                        <form method="post" th:action="@{/customer/delete_review/}" th:data-cart="${cart}">
+                        <form method="post" th:action="@{/orders/add_order}" th:data-cart="${cart}">
                             <button class="btn btn-sm btn btn-danger" type="submit">Place Order</button>
                         </form>
                 </div>
