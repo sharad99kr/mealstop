@@ -164,7 +164,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public boolean checkIfValidOldPassword(User user, String oldPassword) {
-        return passwordEncoder.matches(user.getPassword(), oldPassword);
+        return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
     @Override
