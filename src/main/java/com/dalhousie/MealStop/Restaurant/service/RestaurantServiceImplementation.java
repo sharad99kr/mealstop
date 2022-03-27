@@ -34,7 +34,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Override
     public void addRestaurant(Restaurant restaurant)
     {
-        restaurant.setUserId(getRestaurantUserDetailsFromSession().getUserid());
+        restaurant.setUserId(getRestaurantUserDetailsFromSession().getUser_id());
         restaurantRepository.save(restaurant);
     }
 
@@ -46,7 +46,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
 
         for(Restaurant restaurant : restaurantList)
         {
-            if(restaurant.getUserId() == getRestaurantUserDetailsFromSession().getUserid())
+            if(restaurant.getUserId() == getRestaurantUserDetailsFromSession().getUser_id())
                 filteredList.add(restaurant);
         }
 

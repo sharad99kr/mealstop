@@ -45,7 +45,7 @@ public class Customer implements ICustomer
     public Customer(User user)
     {
         //ToDo need to check if the user is of customer type.
-        this.id = user.getUserid();
+        this.id = user.getUser_id();
         this.firstName=user.getFirstName();
         this.lastName=user.getLastName();
         this.email=user.getUsername();
