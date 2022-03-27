@@ -62,7 +62,7 @@ class RestaurantServiceImplementationTest {
     @BeforeEach
     void setUp() {
         mockUser = new User();
-        mockUser.setUserid(1L);
+        mockUser.setUser_id(1L);
         restaurantList = new ArrayList<>();
         mealList = new ArrayList<>();
         restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
