@@ -11,4 +11,5 @@ public interface ICustomerCartService
     public CustomerCart getCustomerCart();
     public void addMealsToCustomerCart(Meal meal);
     public void removeMealsFromCustomerCart(Meal meal);
+    public void clearCustomerCart();
 }

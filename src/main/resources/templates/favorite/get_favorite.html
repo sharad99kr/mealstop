@@ -44,7 +44,7 @@
                       <div class="card-body">
                             <h5 th:text="${favorite.restaurant.restaurantName}"></h5>
                             <h6 th:text="${favorite.restaurant.address}"></h6>
-                            <a th:action="@{/customer/add_review/{id}(id=${favorite.restaurant.id})}" th:method="post">Add review</a>
+                            <a th:href="@{/customer/add_review/{id}(id=${favorite.restaurant.id})}">Add review</a>
                             <form method="post" th:action="@{/customer/remove_favorite/{id}(id=${favorite.id})}">
                                 <button class="btn btn-sm btn-primary" type="submit">Remove from favorite</button>
                             </form>

@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.service.CustomerCartService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.orders.model.Orders;
@@ -23,6 +24,9 @@ public class OrderService implements IOrderService {
     @Autowired
     private ICustomerService customerService;
 
+    @Autowired
+    private CustomerCartService customerCartService;
+
 
     //check if enough token is added
     //custoer get/set
@@ -30,17 +34,20 @@ public class OrderService implements IOrderService {
 
     @Override
     public void CreateOrderFromCart(CustomerCart cart){
-       long customer = customerService.getCustomerDetailsFromSession().getId();
+       long customerId = customerService.getCustomerDetailsFromSession().getId();
 
        cart.getCartItems().forEach(item->{
-
            Long restaurantId=item.getRestaurant().getId();
            Long mealId=item.getId();
            Long price=item.getPrice();
-           Orders order=new Orders(customer,restaurantId,mealId,0,price,Constants.ACTIVE);
+           Orders order=new Orders(customerId,restaurantId,mealId,0,price,Constants.ACTIVE);
            addOrder(order);
+           //decrement customer token after placing order
+           customerService.decrementCustomerToken(price.intValue());
        });
 
+       //clear customer cart after placing the order
+        customerCartService.clearCustomerCart();
     }
 
     @Override

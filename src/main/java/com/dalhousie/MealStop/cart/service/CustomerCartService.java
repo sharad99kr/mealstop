@@ -73,4 +73,10 @@ public class CustomerCartService implements ICustomerCartService
     {
         return customersCartMap.containsKey(customerId);
     }
+
+    public void clearCustomerCart()
+    {
+        CustomerCart customerCart = getCustomerCart();
+        customerCart.getCartItems().clear();
+    }
 }

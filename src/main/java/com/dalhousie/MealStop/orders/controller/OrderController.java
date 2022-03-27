@@ -56,10 +56,10 @@ public class OrderController {
     String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
     {
         CustomerCart customerCart = customerCartService.getCustomerCart();
-        long customer = customerService.getCustomerDetailsFromSession().getId();
+        long customerId = customerService.getCustomerDetailsFromSession().getId();
 
         orderService.CreateOrderFromCart(customerCart);
-        redirectAttrs.addFlashAttribute("customer_id",customer);
+        redirectAttrs.addFlashAttribute("customer_id",customerId);
 
         return "redirect:customer_orders_all";
     }

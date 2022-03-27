@@ -1,7 +1,9 @@
 package com.dalhousie.MealStop.user.service;
 
+import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.user.entity.PasswordResetToken;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.entity.VerificationToken;
@@ -17,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,9 @@ public class UserService implements IUserService, UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ICustomerService customerService;
+
     @Override
     public User signUpUser(UserModel userModel) {
         User user = new User();
@@ -54,6 +58,17 @@ public class UserService implements IUserService, UserDetailsService {
         user.setRole(userModel.getRole());
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         userRepository.save(user);
+
+        if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_CUSTOMER)))
+        {
+            customerService.addCustomer(user);
+        }
+        else if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_NGO)))
+        {
+            //To Do add NGO changes here to save.
+            customerService.addCustomer(user);
+        }
+
         return user;
     }
 

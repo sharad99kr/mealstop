@@ -9,4 +9,6 @@ public interface ICustomerService
     public Customer getCustomerDetailsFromSession();
     public void addCustomer(User user);
     public Long getLoggedInCustomerId();
+    public Integer getCustomerTokenCount();
+    public void decrementCustomerToken(Integer tokenCount);
 }

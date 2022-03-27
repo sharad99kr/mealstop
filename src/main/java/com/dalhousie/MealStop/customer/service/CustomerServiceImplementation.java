@@ -18,9 +18,6 @@ public class CustomerServiceImplementation implements ICustomerService
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private UserService userService;
-
     @Override
     public Customer getCustomerById(String id)
     {
@@ -32,6 +29,7 @@ public class CustomerServiceImplementation implements ICustomerService
     @Override
     public Customer getCustomerDetailsFromSession()
     {
+        Customer customer = null;
         try
         {
             System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
@@ -39,30 +37,13 @@ public class CustomerServiceImplementation implements ICustomerService
 
             System.err.println(user);
 
-            Customer customer = new Customer(user);
-            return customer;
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-
-        /*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        Customer customer = null;
-        try
-        {
-            user = (User) auth.getDetails();
             customer = new Customer(user);
         }
         catch(Exception e)
         {
-            System.err.println("User trying to access url without login");
             e.printStackTrace();
         }
         return customer;
-        */
     }
 
     @Override
@@ -76,6 +57,25 @@ public class CustomerServiceImplementation implements ICustomerService
         return null;
     }
 
+    @Override
+    public Integer getCustomerTokenCount()
+    {
+        Customer loggedInCustomer = getCustomerDetailsFromSession();
+        return loggedInCustomer.getTokens();
+    }
+
+    @Override
+    public void decrementCustomerToken(Integer decrementTokenCount)
+    {
+        Customer loggedInCustomer = getCustomerDetailsFromSession();
+        Integer currentTokenCount = getCustomerTokenCount();
+
+        if(currentTokenCount >= decrementTokenCount)
+        {
+            Integer updatedTokenCount = currentTokenCount-decrementTokenCount;
+            loggedInCustomer.setTokens(updatedTokenCount);
+        }
+    }
 
     @Override
     public void addCustomer(User user)
