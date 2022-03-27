@@ -22,7 +22,8 @@ public class CustomAuthenticationManager implements AuthenticationManager
     @Autowired
     private UserService userService;
 
-    private BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder encode;
 
     Authentication checkUser(String password, User user, Authentication authentication) throws AuthenticationException
     {

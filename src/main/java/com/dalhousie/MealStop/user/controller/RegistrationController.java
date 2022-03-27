@@ -9,7 +9,6 @@ import com.dalhousie.MealStop.user.event.UserSignedUpEvent;
 import com.dalhousie.MealStop.user.models.PasswordModel;
 import com.dalhousie.MealStop.user.models.UserModel;
 import com.dalhousie.MealStop.user.service.IUserService;
-import com.dalhousie.MealStop.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.dalhousie.MealStop.common.UrlConstants.*;
