@@ -38,7 +38,7 @@ public class CustomerFavoriteServiceImplementation implements CustomerFavoriteSe
         Restaurant favoriteRestaurant = restaurantService.getRestaurantById(restaurantId);
         CustomerFavorites customerFavorites =  customerFavoritesRepository.findByCustomerAndRestaurant(loggedInCustomer, favoriteRestaurant);
 
-        if(isCustomerFavoritesNotPresent(customerFavorites))
+        if(customerFavorites == null)
         {
             System.err.println("New favorite added to the user");
             customerFavorites = new CustomerFavorites(loggedInCustomer, favoriteRestaurant);
@@ -54,15 +54,5 @@ public class CustomerFavoriteServiceImplementation implements CustomerFavoriteSe
     public void deleteCustomerFavoriteById(Long customerFavoriteId)
     {
         customerFavoritesRepository.deleteById(customerFavoriteId);
-    }
-
-    private boolean isCustomerFavoritesPresent(CustomerFavorites customerFavorites)
-    {
-        return customerFavorites!=null;
-    }
-
-    private boolean isCustomerFavoritesNotPresent(CustomerFavorites customerFavorites)
-    {
-        return customerFavorites==null;
     }
 }
