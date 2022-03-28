@@ -55,6 +55,7 @@ public class NGO implements INGO
         this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
     }
 
+
     @Override
     public long getId()
     {

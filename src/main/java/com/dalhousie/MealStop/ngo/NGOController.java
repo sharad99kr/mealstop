@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.ngo.controller;
+package com.dalhousie.MealStop.ngo;
 
 
 import com.dalhousie.MealStop.customer.modal.Customer;
