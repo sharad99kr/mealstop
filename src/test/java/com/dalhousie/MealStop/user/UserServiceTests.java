@@ -92,10 +92,11 @@ public class UserServiceTests {
         Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getUsername()).thenReturn(mockEmail);
         Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getPassword()).thenReturn(mockPassword);
         Mockito.lenient().when(mockUser.getPassword()).thenReturn(mockPassword);
+        mockUserModel = new UserModel();
         mockUserModel.setRole("Customer");
     }
 
-    //@Test
+    @Test
     void ShouldSignUpUser() {
         assertDoesNotThrow(() -> userService.signUpUser(mockUserModel));
     }

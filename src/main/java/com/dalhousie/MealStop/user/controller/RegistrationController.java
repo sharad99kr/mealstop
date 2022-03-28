@@ -66,7 +66,7 @@ public class RegistrationController implements WebMvcConfigurer {
         if (result.equalsIgnoreCase(VerificationTokenConstants.VALID)) {
             return "user/changepassword";
         } else {
-            return "user/login";
+            return USER_LOGIN;
         }
     }
 
@@ -100,7 +100,7 @@ public class RegistrationController implements WebMvcConfigurer {
         } catch (Exception e) {
             log.error(CommonConstants.SIGNUP_USER + e.getMessage());
         }
-        return "user/login";
+        return USER_LOGIN;
     }
 
     /**
@@ -135,16 +135,14 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping(value = "/forgotPassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String forgotPassword(PasswordModel passwordModel, final HttpServletRequest request) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
-        String url;
         if (user != null) {
             String token = UUID.randomUUID().toString();
             //Create a token to be sent with password reset mail.
             userService.createPasswordResetTokenForUser(user, token);
-            url = passwordResetTokenMail(passwordModel.getEmail(), token, getAppUrl(request));
-
+            passwordResetTokenMail(passwordModel.getEmail(), token, getAppUrl(request));
         }
         //If no user found with the given email return bad request.
-        return "user/login";
+        return USER_LOGIN;
     }
 
     /**
@@ -173,10 +171,8 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping(value = "/changePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
-
         if (user == null || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
             return "user/changepassword";
-
         userService.changePassword(user, passwordModel.getNewpassword());
         return USER_LOGIN;
     }
