@@ -17,20 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CustomAuthenticationManager implements AuthenticationManager
-{
+public class CustomAuthenticationManager implements AuthenticationManager {
     @Autowired
     private UserService userService;
 
     @Autowired
     private BCryptPasswordEncoder encode;
 
-    Authentication checkUser(String password, User user, Authentication authentication) throws AuthenticationException
-    {
-        if (encode.matches(password, user.getPassword()))
-        {
-//            if(!user.isEnabled())
-//                return null;
+    Authentication checkUser(String password, User user, Authentication authentication) throws AuthenticationException {
+        if (encode.matches(password, user.getPassword())) {
+            if (!user.isEnabled())
+                return null;
             List<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
             rights.add(new SimpleGrantedAuthority(user.getRole()));
 
@@ -39,16 +36,13 @@ public class CustomAuthenticationManager implements AuthenticationManager
             user.setToken(token.toString());
 
             return token;
-        }
-        else
-        {
+        } else {
             System.err.println("The user credentials do not match the database stored values!");
             throw new BadCredentialsException("1000");
         }
     }
 
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException
-    {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String emailId = authentication.getPrincipal().toString();
         String password = authentication.getCredentials().toString();
 
@@ -56,23 +50,17 @@ public class CustomAuthenticationManager implements AuthenticationManager
 
         System.err.println("email id " + emailId);
 
-        try
-        {
+        try {
             user = userService.findUserByEmail(emailId);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.err.println("The user with the email id mentioned does not exist!");
             e.printStackTrace();
             throw new BadCredentialsException("1000");
         }
-        if (user != null)
-        {
+        if (user != null) {
             System.err.println("Checking if the user's password is correct and assigning rights");
             return checkUser(password, user, authentication);
-        }
-        else
-        {
+        } else {
             System.err.println("The user credentials do not match the database stored values!");
             throw new BadCredentialsException("1000");
         }

@@ -34,9 +34,11 @@ public class UserModel {
     private String address;
 
     @NotEmpty(message = "{Null.User.Password}")
+    @Size(min = 6, max = 50, message = "{Size.User.Password}")
     private String password;
 
     @NotEmpty(message = "{Null.User.MatchingPassword}")
+    @Size(min = 6, max = 50, message = "{Size.User.Password}")
     private String matchingPassword;
 
     @NotEmpty

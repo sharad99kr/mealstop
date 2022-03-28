@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.user.controller;
 
 import com.dalhousie.MealStop.common.CommonConstants;
+import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.email.IEmailService;
@@ -47,13 +48,13 @@ public class RegistrationController implements WebMvcConfigurer {
     }
 
     @GetMapping(NGO_REGISTER_URL)
-    public String showNgoRegistrationForm() {
+    public String showNgoRegistrationForm(UserModel userModel) {
         log.info(SHOW_NGO_REGISTRATION_FORM);
         return NGO_USER_REGISTER_URL;
     }
 
     @GetMapping(FORGOT_PASSWORD_URL)
-    public String showForgotPasswordForm() {
+    public String showForgotPasswordForm(PasswordModel passwordModel) {
         log.info(SHOW_FORGOT_PASSWORD_FORM);
         return USER_FORGOT_PASSWORD_URL;
     }
@@ -83,8 +84,12 @@ public class RegistrationController implements WebMvcConfigurer {
      */
     @PostMapping(value = "/signup", consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String signUpUser(@Valid UserModel userModel, BindingResult result, final HttpServletRequest request) {
-        if(result.hasErrors())
-            return USER_REGISTER_URL;
+        if (result.hasErrors()) {
+            if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString()))
+                return NGO_USER_REGISTER_URL;
+            else
+                return USER_REGISTER_URL;
+        }
         try {
             //Save the information inside database.
             User user = userService.signUpUser(userModel);
@@ -150,7 +155,10 @@ public class RegistrationController implements WebMvcConfigurer {
      * @return OK if password saved successfully and Bad request if user or token was invalid.
      */
     @GetMapping(value = "/savePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
-    public String savePassword(String token, @RequestBody PasswordModel passwordModel) {
+    public String savePassword(String token, @Valid @RequestBody PasswordModel passwordModel, BindingResult result) {
+        if (result.hasErrors()) {
+            return "user/changepassword";
+        }
         User user = userService.findUserByEmail(passwordModel.getEmail());
         userService.changePassword(user, passwordModel.getNewpassword());
         return USER_LOGIN;
@@ -167,7 +175,7 @@ public class RegistrationController implements WebMvcConfigurer {
         User user = userService.findUserByEmail(passwordModel.getEmail());
 
         if (user == null || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
-            return USER_LOGIN;
+            return "user/changepassword";
 
         userService.changePassword(user, passwordModel.getNewpassword());
         return USER_LOGIN;
