@@ -15,10 +15,12 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.UUID;
 
 import static com.dalhousie.MealStop.common.UrlConstants.*;
@@ -39,7 +41,7 @@ public class RegistrationController implements WebMvcConfigurer {
     private ApplicationEventPublisher eventPublisher;
 
     @GetMapping(REGISTER_URL)
-    public String showRegistrationForm() {
+    public String showRegistrationForm(UserModel userModel) {
         log.info(SHOW_REGISTRATION_FORM);
         return USER_REGISTER_URL;
     }
@@ -80,7 +82,9 @@ public class RegistrationController implements WebMvcConfigurer {
      * @return Response entity will return with 201 as the status if userModel is created successfully and 400 if there were any issues with the request.
      */
     @PostMapping(value = "/signup", consumes = {"application/json", "application/x-www-form-urlencoded"})
-    public String signUpUser(UserModel userModel, final HttpServletRequest request) {
+    public String signUpUser(@Valid UserModel userModel, BindingResult result, final HttpServletRequest request) {
+        if(result.hasErrors())
+            return USER_REGISTER_URL;
         try {
             //Save the information inside database.
             User user = userService.signUpUser(userModel);

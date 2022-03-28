@@ -10,10 +10,13 @@
             crossorigin="anonymous"
     />
     <!-- Include jQuery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+            crossorigin="anonymous">
+    </script>
 
     <!-- Include Date Range Picker -->
-    <script type="text/javascript"
+    <!--<script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
@@ -28,7 +31,26 @@
                 autoclose: true,
             })
         })
-    </script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>!-->
 </head>
 <body>
 <div class=".container-fluid">
@@ -37,54 +59,71 @@
             <form th:action="@{/api/v1/signup}" method="post"
                   class="form-horizontal border"
                   role="search"
+                  th:object="${userModel}"
                   style="
               margin: 100px 20px;
               padding: 20px;
               border: 1px solid;
               border-radius: 3%;
-            ">
+            " novalidate>
                 <div>
                     <img th:src="@{images/Meal Stop-logos_transparent.png}" style="max-width: 60%"/>
                 </div>
                 <div class="form-group">
                     <input type="text" id="firstName" name="firstName" class="form-control form-control-md input-margin"
-                           placeholder="First Name" style="margin-bottom: 20px" autocomplete="off" required/>
+                           placeholder="First Name" th:field="*{firstName}" autocomplete="off" required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}"
+                         th:errors="*{firstName}"></div>
                 </div>
                 <div class="form-group">
                     <input type="text" id="lastName" name="lastName" class="form-control form-control-md input-margin"
-                           placeholder="Last Name" autocomplete="off" required/>
+                           placeholder="Last Name" th:field="*{lastName}" autocomplete="off" required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}"
+                         th:errors="*{lastName}"></div>
                 </div>
                 <div class="form-group">
                     <input type="email" id="email" name="email" class="form-control form-control-md input-margin"
-                           placeholder="Email" autocomplete="off"
+                           placeholder="Email" autocomplete="off" th:field="*{email}"
                            required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
                 <div class="form-group">
                     <input type="password" id="password" name="password"
                            class="form-control form-control-md input-margin"
-                           placeholder="Password" autocomplete="off" required/>
+                           placeholder="Password" th:field="*{password}" autocomplete="off" required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}"
+                         th:errors="*{password}"></div>
                 </div>
                 <div class="form-group">
                     <input type="password" id="matchingPassword" name="matchingPassword" class="form-control form-control-md
-                       input-margin" placeholder="Confirm Password" autocomplete="off" required/>
+                       input-margin" placeholder="Confirm Password" th:field="*{matchingPassword}" autocomplete="off"
+                           required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('matchingPassword')}"
+                         th:errors="*{matchingPassword}"></div>
                 </div>
                 <div class="form-group">
                     <input type="number" id="mobileNumber" name="mobileNumber"
                            class="form-control form-control-md input-margin"
-                           placeholder="Mobile Number" autocomplete="off" required/>
+                           placeholder="Mobile Number" th:field="*{mobileNumber}" autocomplete="off" required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('mobileNumber')}"
+                         th:errors="*{mobileNumber}"></div>
                 </div>
                 <div class="form-group">
                     <input type="text" id="address" name="address" class="form-control form-control-md input-margin"
-                           placeholder="Address" autocomplete="off" required/>
+                           placeholder="Address" th:field="*{address}" autocomplete="off" required/>
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('address')}"
+                         th:errors="*{address}"></div>
                 </div>
                 <div class="form-group input-group date">
                     <input type="date" class="form-control form-control-md input-margin" id="dateOfBirth"
                            autocomplete="off" field="${dateOfBirth}"
-                           name="dateOfBirth" placeholder="Birth date"/>
+                           name="dateOfBirth" th:field="*{dateOfBirth}" placeholder="Birth date"/>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                     </div>
                 </div>
+                <div class="alert alert-warning" th:if="${#fields.hasErrors('dateOfBirth')}"
+                     th:errors="*{dateOfBirth}"></div>
                 <div class="form-group form-control-md in">
                     <select class="form-control custom-select" id="user_role" name="role">
                         <option value="ROLE_CUSTOMER" selected>Customer</option>
@@ -93,12 +132,29 @@
                     <div class="invalid-feedback">Invalid user role</div>
                 </div>
                 <button class="btn" style="background-color: #012d78; color: white; width: 100%; margin-top: 20px;"
-                        type="submit">Register
+                        type="submit"  onclick=" return validateForm()">Register
                 </button>
             </form>
         </div>
     </div>
 </div>
 </div>
+<script>
+    function validateForm() {
+        var dateOfBirth = document.getElementById('dateOfBirth').value;
+        var currentDate = new Date();
+
+        if (dateOfBirth == "")
+        {
+            alert("Date of birth date can't be empty");
+            return false;
+        }
+        else if(Date.parse(currentDate.toISOString().split('T')[0]) <= Date.parse(dateOfBirth))
+        {
+            alert("Date of birth should be less than current date");
+            return false;
+        }
+    }
+</script>
 </body>
 </html>

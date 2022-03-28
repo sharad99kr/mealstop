@@ -10,31 +10,35 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserModel {
-    @Size(min = 3, max = 50)
+    @NotEmpty(message = "{Null.User.FirstName}")
+    @Size(min = 3, max = 50, message = "{Size.User.FirstName}")
     private String firstName;
 
-    @Size(min = 3, max = 50)
+    @NotEmpty(message = "{Null.User.LastName}")
+    @Size(min = 3, max = 50, message = "{Size.User.LastName}")
     private String lastName;
 
-    @NotBlank
-    @Email(message = "Please enter a valid e-mail address")
+    @NotEmpty(message = "{Null.User.Email}")
+    @Email(message = "{Size.User.Email}")
     private String email;
 
-    @Size(min = 10, max = 10)
+    @NotEmpty(message = "{Null.User.MobileNumber}")
+    @Size(min = 10, max = 10, message = "{Size.User.MobileNumber}")
     private String mobileNumber;
 
-    @NotBlank
+    @NotEmpty(message = "{Null.User.DateOfBirth}")
     private String dateOfBirth;
 
-    @Size(max = 200)
+    @NotEmpty(message = "{Null.User.Address}")
+    @Size(min=10, max = 200, message = "{Size.User.Address}")
     private String address;
 
-    @NotBlank
+    @NotEmpty(message = "{Null.User.Password}")
     private String password;
 
-    @NotBlank
+    @NotEmpty(message = "{Null.User.MatchingPassword}")
     private String matchingPassword;
 
-    @NotBlank
+    @NotEmpty
     private String role;
 }
