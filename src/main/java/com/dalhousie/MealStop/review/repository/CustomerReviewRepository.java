@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface CustomerReviewRepository extends JpaRepository<CustomerReview, Long>
 {
-    List<CustomerReview> findById(String firstName);
     List<CustomerReview> findByCustomer(Customer customer);
     List<CustomerReview> findByRestaurant(Restaurant restaurant);
 }
