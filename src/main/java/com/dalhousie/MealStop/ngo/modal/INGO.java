@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.ngo.modal;
 
-public interface INGO {
-
+public interface INGO
+{
     long getId();
 
     void setId(long id);
@@ -18,11 +18,11 @@ public interface INGO {
 
     void setAddress(String address);
 
-    Integer getPhoneNumber(int orderCount);
+    String getPhoneNumber();
 
-    int setPhoneNumber();
+    void setPhoneNumber(String phoneNumber);
 
-    Integer setTotalOrders(int orderCount);
+    Integer getTotalOrders();
 
-    int getTotalOrders();
+    void setTotalOrders(Integer totalOrders);
 }

@@ -4,6 +4,7 @@ import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.user.entity.PasswordResetToken;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.entity.VerificationToken;
@@ -46,6 +47,9 @@ public class UserService implements IUserService, UserDetailsService {
     @Autowired
     private ICustomerService customerService;
 
+    @Autowired
+    private INGOService ngoService;
+
     @Override
     public User signUpUser(UserModel userModel) {
         User user = new User();
@@ -65,8 +69,8 @@ public class UserService implements IUserService, UserDetailsService {
         }
         else if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_NGO)))
         {
-            //To Do add NGO changes here to save.
-            customerService.addCustomer(user);
+            log.info("new NGO user has registered so persisting in NGO table");
+            ngoService.addNGO(user);
         }
 
         return user;

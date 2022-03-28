@@ -1,15 +1,17 @@
 package com.dalhousie.MealStop.ngo.service;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.ngo.modal.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
-import com.dalhousie.MealStop.user.model.User;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-public class NGOServiceImpl implements INGOService{
+@Service
+public class NGOServiceImpl implements INGOService
+{
     @Autowired
     private NGORepository ngoRepository;
 
@@ -21,8 +23,32 @@ public class NGOServiceImpl implements INGOService{
         return ngo.isPresent() ? ngo.get() : null;
     }
 
+    @Override
+    public NGO getNGODetailsFromSession()
+    {
+        NGO NgoUser = null;
+        try
+        {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            NgoUser = new NGO(user);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return NgoUser;
+    }
 
-
+    @Override
+    public Long getLoggedInNGOId()
+    {
+        NGO NgoUser = getNGODetailsFromSession();
+        if(NgoUser!=null)
+        {
+            return NgoUser.getId();
+        }
+        return null;
+    }
 
     @Override
     public void addNGO(User user)
@@ -30,5 +56,4 @@ public class NGOServiceImpl implements INGOService{
         NGO ngo = new NGO(user);
         ngoRepository.save(ngo);
     }
-
 }

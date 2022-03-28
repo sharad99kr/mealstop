@@ -1,12 +1,12 @@
 package com.dalhousie.MealStop.ngo.service;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.ngo.modal.NGO;
-import com.dalhousie.MealStop.user.model.User;
+import com.dalhousie.MealStop.user.entity.User;
 
-public interface INGOService {
+public interface INGOService
+{
     public NGO getNGOById(String id);
-    //public NGO getNGODetailsFromSession();
+    public NGO getNGODetailsFromSession();
     public void addNGO(User user);
-    //public Long getLoggedInNGOId();
+    public Long getLoggedInNGOId();
 }

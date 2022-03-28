@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.ngo.modal;
-import com.dalhousie.MealStop.user.model.IUser;
-import com.dalhousie.MealStop.user.model.User;
+
+import com.dalhousie.MealStop.domainconstants.MealStopConstants;
+import com.dalhousie.MealStop.user.entity.User;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -24,34 +25,34 @@ public class NGO implements INGO
     @Column(name = "email")
     private String email;
 
-    @Column(name = "number_of_orders")
-    private Integer orders;
-
     @Column(name = "address")
     private String address;
 
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
+
+    @Column(name = "total_orders")
+    private Integer totalOrders;
 
     public NGO() {}
 
-    public NGO(String name, String email, String address, int phoneNumber)
+    public NGO(String name, String email, String address, String phoneNumber)
     {
         this.name = name;
-        this.email = email;
-        this.orders = 0;
+        this.email=email;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
     }
 
     public NGO(User user)
     {
-        //ToDo need to check if the user is of ngo type.
-        this.id = user.getId();
+        this.id = user.getUser_id();
         this.name=user.getFirstName();
-        this.email=user.getEmail();
-        this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.email=user.getUsername();
+        this.address = user.getAddress();
+        this.phoneNumber = user.getMobileNumber();
+        this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
     }
 
     @Override
@@ -68,14 +69,6 @@ public class NGO implements INGO
         this.name = name;
     }
 
-    public Integer getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Integer orders) {
-        this.orders = orders;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -85,13 +78,13 @@ public class NGO implements INGO
     }
 
     @Override
-    public Integer getPhoneNumber(int phoneNumber) {
+    public String getPhoneNumber() {
        return phoneNumber;
     }
 
     @Override
-    public int setPhoneNumber() {
-        return this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -111,7 +104,6 @@ public class NGO implements INGO
         this.name = name;
     }
 
-
     @Override
     public String getEmail()
     {
@@ -124,25 +116,23 @@ public class NGO implements INGO
         this.email = email;
     }
 
-    @Override
-    public Integer setTotalOrders(int orderCount) {
-       return this.orders = orderCount;
+    public Integer getTotalOrders()
+    {
+        return totalOrders;
+    }
+
+    public void setTotalOrders(Integer totalOrders)
+    {
+        this.totalOrders = totalOrders;
     }
 
     @Override
-    public int getTotalOrders()
-    {
-        return orders;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Customer{" +
+    public String toString() {
+        return "NGO{" +
                 "id=" + id +
-                ", firstName='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", total orders='" + orders + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }
