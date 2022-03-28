@@ -1,13 +1,17 @@
 package com.dalhousie.MealStop.customer.service;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
-import com.dalhousie.MealStop.user.model.User;
+import com.dalhousie.MealStop.user.entity.User;
+import com.dalhousie.MealStop.user.models.UserModel;
+import com.dalhousie.MealStop.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,20 +28,23 @@ public class CustomerServiceImplementation implements ICustomerService
         return customer.isPresent() ? customer.get() : null;
     }
 
+    public List<Customer> getAllCustomers()
+    {
+        List<Customer> customerList = customerRepository.findAll();
+        return customerList;
+    }
+
     @Override
     public Customer getCustomerDetailsFromSession()
     {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
         Customer customer = null;
         try
         {
-            user = (User) auth.getDetails();
+            User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
             customer = new Customer(user);
         }
         catch(Exception e)
         {
-            System.err.println("User trying to access url without login");
             e.printStackTrace();
         }
         return customer;
@@ -54,11 +61,38 @@ public class CustomerServiceImplementation implements ICustomerService
         return null;
     }
 
+    @Override
+    public Integer getCustomerTokenCount()
+    {
+        Customer loggedInCustomer = getCustomerDetailsFromSession();
+        return loggedInCustomer.getTokens();
+    }
+
+    @Override
+    public Integer decrementCustomerToken(Integer decrementTokenCount)
+    {
+        Customer loggedInCustomer = getCustomerDetailsFromSession();
+        Integer currentTokenCount = getCustomerTokenCount();
+
+        if(currentTokenCount >= decrementTokenCount)
+        {
+            Integer updatedTokenCount = currentTokenCount-decrementTokenCount;
+            loggedInCustomer.setTokens(updatedTokenCount);
+            return updatedTokenCount;
+        }
+        customerRepository.save(loggedInCustomer);
+        return -1;
+    }
 
     @Override
     public void addCustomer(User user)
     {
-        Customer customer = new Customer(user);
-        customerRepository.save(customer);
+        Customer newCustomer = new Customer(user);
+        addCustomer(newCustomer);
+    }
+
+    public void addCustomer(Customer newCustomer)
+    {
+        customerRepository.save(newCustomer);
     }
 }

@@ -1,11 +1,14 @@
 package com.dalhousie.MealStop.orders.service;
 
+import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.orders.model.Orders;
 
 import java.util.List;
 import java.util.Map;
 
 public interface IOrderService {
+
+    public void CreateOrderFromCart(CustomerCart cart);
 
     //method signature that adds new order
     public abstract void addOrder(Orders newOrder);

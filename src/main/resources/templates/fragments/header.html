@@ -27,7 +27,7 @@
 
                     <!--            <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('contact')} ? 'nav-link active' : 'nav-link'">-->
                     <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('orders')} ? 'nav-link active' : 'nav-link'">
-                        <a class="nav-link" th:href="@{/customer/reviews}">Orders<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" th:href="@{/orders/customer_orders}">Orders<span class="sr-only">(current)</span></a>
                     </li>
 
                     <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('cart')} ? 'nav-link active' : 'nav-link'">

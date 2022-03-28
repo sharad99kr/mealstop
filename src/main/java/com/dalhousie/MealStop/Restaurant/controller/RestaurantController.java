@@ -4,6 +4,8 @@ import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -24,16 +26,16 @@ public class RestaurantController
     @Autowired
     private IRecommendationService recommendationService;
 
-    @GetMapping("/get_restaurant/{id}")
-    public String getAllRestaurants(Model model, @PathVariable("id") long id)
+    @GetMapping("/restaurant/get_restaurant")
+    public String getAllRestaurants(Model model)
     {
-        List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId(id);
+        List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId();
         model.addAttribute("restaurants_list", listRestaurants);
 
         return "restaurant/get_restaurant";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/restaurant/edit/{id}")
     public String edit(@PathVariable("id") long id, Model model)
     {
         Restaurant restaurant = restaurantService.getRestaurantById(id);
@@ -41,35 +43,31 @@ public class RestaurantController
         return "restaurant/update_restaurant";
     }
 
-    @PostMapping("/update_restaurant/{id}")
+    @PostMapping("/restaurant/update_restaurant/{id}")
     public String updateRestaurant(@ModelAttribute Restaurant restaurant, @PathVariable("id") long id)
     {
         Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
-        return "redirect:/get_restaurant/" + updatedRestaurant.getUserId();
+        return "redirect:/restaurant/get_restaurant/";
     }
 
-    @GetMapping("/add_restaurant_form")
+    @GetMapping("/restaurant/add_restaurant_form")
     public String addRestaurantForm()
     {
         return "restaurant/add_restaurant";
     }
 
-    @PostMapping("/add_restaurant")
+    @PostMapping("/restaurant/add_restaurant")
     public String addRestaurant(@ModelAttribute Restaurant restaurant)
     {
-        //get user from session manager
         restaurantService.addRestaurant(restaurant);
-        return "redirect:/get_restaurant/" + restaurant.getUserId();
+        return "redirect:/restaurant/get_restaurant/";
     }
 
-    @GetMapping("/get_restaurants_available")
-    public String getRestaurantAvailabile(@RequestParam(value = "startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                          @RequestParam(value = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate, Model model) throws Exception {
-        List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(startDate, endDate);
-        model.addAttribute("restaurants", listRestaurants_Available);
-
-        List<Meal> recommendedMeals = recommendationService.getAllRecommendedMeals(1, listRestaurants_Available); //need to update
-        model.addAttribute("meals", recommendedMeals);
-        return "customer/restaurants";
+    @GetMapping("/restaurant/profile")
+    public String getRestaurantProfilePage(Model model)
+    {
+        User user = restaurantService.getRestaurantUserDetailsFromSession();
+        model.addAttribute("user", user);
+        return "restaurant/profile";
     }
 }

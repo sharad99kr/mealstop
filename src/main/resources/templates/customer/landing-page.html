@@ -24,9 +24,9 @@
     <div th:replace="~{fragments/header :: header}"> </div>
 
     <div sec:authorize="!isAuthenticated()">
-    <p>You have not logged in to the application. Please login to
-        continue...</p>
-    <a th:href="@{/login}">Click here to log in!</a>
+        <p>You have not logged in to the application. Please login to
+            continue...</p>
+        <a th:href="@{/login}">Click here to log in!</a>
     </div>
 
     <div sec:authorize="isAuthenticated()">
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="col-md-4" style="display: flex; justify-content: flex-end; align-items: flex-end">
-                        <button class="btn btn-primary" type="submit">Search Restaurants</button>
+                        <button class="btn btn-primary" type="submit" onclick=" return validateForm()">Search Restaurants</button>
                     </div>
                 </div>
             </form>
@@ -63,12 +63,35 @@
         <main role="main" class="flex-shrink-0">
             <div class="container mt-5">
                 <div class="jumbotron">
-                    <h1 class="display-4" th:text="${customer.firstName}"></h1>
+                    <h3>Please choose start date and end date to see available meals.</h3>
                 </div>
             </div>
         </main>
     </div>
 
         <div  th:replace="~{fragments/footer :: footer}"> </div>
+    <script>
+       function validateForm() {
+            var startDate = document.getElementById('start-date').value;
+            var endDate = document.getElementById('end-date').value;
+            var currentDate = new Date();
+
+            if (startDate == "" && endDate == "")
+            {
+                alert("Start date or End date can't be empty");
+                return false;
+            }
+            else if(Date.parse(startDate) >= Date.parse(endDate))
+            {
+                alert("End date should be greater than Start date");
+                return false;
+            }
+            else if(Date.parse(currentDate.toISOString().split('T')[0]) > Date.parse(startDate))
+            {
+                alert("Start date should be greater than or equals to current date");
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>

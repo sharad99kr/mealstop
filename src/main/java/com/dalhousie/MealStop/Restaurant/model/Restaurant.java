@@ -39,7 +39,8 @@ public class Restaurant implements IRestaurant{
     @Column(name= "address")
     private String address;
 
-    private String reviewScore;
+    @Transient
+    public String reviewScore;
 
     public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address)
     {
@@ -55,6 +56,11 @@ public class Restaurant implements IRestaurant{
     public long getId()
     {
         return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
@@ -136,9 +142,10 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
+    @Transient
     public void setAvgReviewScore(String reviewScore)
     {
-        this.address=reviewScore;
+        this.reviewScore=reviewScore;
     }
 
     @Override
@@ -151,6 +158,7 @@ public class Restaurant implements IRestaurant{
         sb.append(", availability=" + availability);
         sb.append(", email=" + email);
         sb.append(", phoneNumber=" + phoneNumber);
+        sb.append(", reviewScore=" + reviewScore);
         sb.append(", address=" + address + "]");
         return sb.toString();
     }

@@ -1,7 +1,8 @@
 package com.dalhousie.MealStop.customer.modal;
 
 import com.dalhousie.MealStop.domainconstants.MealStopConstants;
-import com.dalhousie.MealStop.user.model.IUser;
+import com.dalhousie.MealStop.user.entity.User;
+import com.dalhousie.MealStop.user.models.UserModel;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,7 +16,6 @@ import javax.persistence.Column;
 public class Customer implements ICustomer
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "customer_id")
     private long id;
 
@@ -41,13 +41,13 @@ public class Customer implements ICustomer
         this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
-    public Customer(IUser user)
+    public Customer(User user)
     {
         //ToDo need to check if the user is of customer type.
-        this.id = user.getId();
+        this.id = user.getUser_id();
         this.firstName=user.getFirstName();
         this.lastName=user.getLastName();
-        this.email=user.getEmail();
+        this.email=user.getUsername();
         this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 

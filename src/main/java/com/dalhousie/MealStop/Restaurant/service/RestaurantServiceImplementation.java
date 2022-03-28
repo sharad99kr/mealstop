@@ -1,11 +1,17 @@
 package com.dalhousie.MealStop.Restaurant.service;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.Meal.service.IMealService;
+import com.dalhousie.MealStop.Recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import com.dalhousie.MealStop.Restaurant.repository.RestaurantRepository;
+import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
+import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import java.text.DateFormat;
@@ -19,22 +25,28 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private ICustomerReviewService customerReviewService;
 
+    @Autowired
+    private IRecommendationService recommendationService;
+
+    @Autowired
+    private ICustomerService customerService;
 
     @Override
     public void addRestaurant(Restaurant restaurant)
     {
+        restaurant.setUserId(getRestaurantUserDetailsFromSession().getUser_id());
         restaurantRepository.save(restaurant);
     }
 
     @Override
-    public List<Restaurant> getAllRestaurantByUserId(long id)
+    public List<Restaurant> getAllRestaurantByUserId()
     {
         List<Restaurant> restaurantList = restaurantRepository.findAll();
-
         List<Restaurant> filteredList = new ArrayList<>();
+
         for(Restaurant restaurant : restaurantList)
         {
-            if(restaurant.getUserId() == id)
+            if(restaurant.getUserId() == getRestaurantUserDetailsFromSession().getUser_id())
                 filteredList.add(restaurant);
         }
 
@@ -134,4 +146,27 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return restaurant;
     }
 
+    @Override
+    public List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants)
+    {
+        return recommendationService.getAllRecommendedMeals(customerService.getLoggedInCustomerId(), availableRestaurants);
+    }
+
+    @Override
+    public User getRestaurantUserDetailsFromSession()
+    {
+        try
+        {
+            System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+            User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
+
+            System.err.println(user);
+            return user;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

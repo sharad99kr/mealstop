@@ -52,6 +52,11 @@ public class Meal implements IMeal {
     }
 
     @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
     public Restaurant getRestaurant()
     {
         return restaurant;

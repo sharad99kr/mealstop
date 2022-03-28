@@ -6,6 +6,8 @@ public interface IMeal {
 
     public long getId();
 
+    public void setId(long id);
+
     public String getMealName();
 
     public void setMealName(String mealName);
