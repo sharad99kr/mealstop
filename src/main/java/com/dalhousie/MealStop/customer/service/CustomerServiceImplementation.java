@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.customer.service;
 
+import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
 import com.dalhousie.MealStop.user.entity.User;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,17 +28,19 @@ public class CustomerServiceImplementation implements ICustomerService
         return customer.isPresent() ? customer.get() : null;
     }
 
+    public List<Customer> getAllCustomers()
+    {
+        List<Customer> customerList = customerRepository.findAll();
+        return customerList;
+    }
+
     @Override
     public Customer getCustomerDetailsFromSession()
     {
         Customer customer = null;
         try
         {
-            System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
-
-            System.err.println(user);
-
             customer = new Customer(user);
         }
         catch(Exception e)
@@ -65,7 +69,7 @@ public class CustomerServiceImplementation implements ICustomerService
     }
 
     @Override
-    public void decrementCustomerToken(Integer decrementTokenCount)
+    public Integer decrementCustomerToken(Integer decrementTokenCount)
     {
         Customer loggedInCustomer = getCustomerDetailsFromSession();
         Integer currentTokenCount = getCustomerTokenCount();
@@ -74,13 +78,21 @@ public class CustomerServiceImplementation implements ICustomerService
         {
             Integer updatedTokenCount = currentTokenCount-decrementTokenCount;
             loggedInCustomer.setTokens(updatedTokenCount);
+            return updatedTokenCount;
         }
+        customerRepository.save(loggedInCustomer);
+        return -1;
     }
 
     @Override
     public void addCustomer(User user)
     {
-        Customer customer = new Customer(user);
-        customerRepository.save(customer);
+        Customer newCustomer = new Customer(user);
+        addCustomer(newCustomer);
+    }
+
+    public void addCustomer(Customer newCustomer)
+    {
+        customerRepository.save(newCustomer);
     }
 }
