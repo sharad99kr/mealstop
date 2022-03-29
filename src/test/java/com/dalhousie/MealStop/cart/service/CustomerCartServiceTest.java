@@ -44,5 +44,15 @@ class CustomerCartServiceTest {
     private Meal meal1;
     private ArrayList<Meal> mealList;
 
+    @BeforeEach
+    void setUp()
+    {
+        mockCustomersCartMap = new HashMap<>();
+        customerCart = new CustomerCart();
+        meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal1.setId(1L);
+
+    }
+
 
 }
