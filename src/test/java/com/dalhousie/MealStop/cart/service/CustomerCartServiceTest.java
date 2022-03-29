@@ -92,7 +92,7 @@ class CustomerCartServiceTest {
         Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
         customerCartService.addMealsToCustomerCart(meal1);
         customerCartService.clearCustomerCart();
-
+        assertEquals(0,customerCartService.getCustomerCart().getCartItems().size());
     }
 
 }
