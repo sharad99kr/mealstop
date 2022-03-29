@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.UUID;
 
+import static com.dalhousie.MealStop.common.CommonConstants.DATE_OF_BIRTH;
 import static com.dalhousie.MealStop.common.UrlConstants.*;
 import static com.dalhousie.MealStop.common.UserMessagesConstants.*;
 
@@ -54,7 +55,7 @@ public class RegistrationController implements WebMvcConfigurer {
     }
 
     @GetMapping(FORGOT_PASSWORD_URL)
-    public String showForgotPasswordForm(PasswordModel passwordModel) {
+    public String showForgotPasswordForm() {
         log.info(SHOW_FORGOT_PASSWORD_FORM);
         return USER_FORGOT_PASSWORD_URL;
     }
@@ -70,19 +71,23 @@ public class RegistrationController implements WebMvcConfigurer {
         }
     }
 
+
     /***
      * Registers the user model on the basis of the USER type.
      * Currently, a USER type can be customer, restaurant or ngo.
-     //* @param userModel contains information about the user and user type.
+     * @param userModel contains information about the user and user type.
      * @return Response entity will return with 201 as the status if userModel is created successfully and 400 if there were any issues with the request.
      */
     @PostMapping(value = SIGNUP_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String signUpUser(@Valid UserModel userModel, BindingResult result, final HttpServletRequest request) {
-        if (result.hasErrors()) {
-            if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString()))
+        if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString())) {
+            if (result.hasErrors() && !result.getFieldErrors().stream().findFirst().get().getField().equals(DATE_OF_BIRTH)) {
                 return NGO_USER_REGISTER_URL;
-            else
+            }
+        } else {
+            if (result.hasErrors()) {
                 return USER_REGISTER_URL;
+            }
         }
         try {
             //Save the information inside database.
@@ -164,7 +169,7 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping(value = CHANGE_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
-        if (user == null || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
+        if (user == null || passwordModel.getOldpassword() == "" || passwordModel.getNewpassword() == "" || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
             return USER_CHANGE_PASSWORD_URL;
         userService.changePassword(user, passwordModel.getNewpassword());
         return USER_LOGIN;
@@ -174,7 +179,7 @@ public class RegistrationController implements WebMvcConfigurer {
      * Sends the password reset token mail
      *
      * @param passwordResetToken token received for password reset.
-     * @param applicationUrl current url of the application.
+     * @param applicationUrl     current url of the application.
      */
     private void passwordResetTokenMail(String email, String passwordResetToken, String applicationUrl) {
         //Send mail to the user.

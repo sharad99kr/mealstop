@@ -19,7 +19,7 @@ public class UrlConstants {
     public static final String NGO_REGISTER_URL = "/ngoregister";
     public static final String NGO_USER_REGISTER_URL = "user/ngoregistration";
 
-    public static final String FORGOT_PASSWORD_URL = "/forgotpassword";
+    public static final String FORGOT_PASSWORD_URL = "/forgotPassword";
     public static final String USER_FORGOT_PASSWORD_URL = "user/forgotpassword";
     public static final String USER_CHANGE_PASSWORD_URL = "user/changepassword";
 
@@ -28,7 +28,7 @@ public class UrlConstants {
     public static final String SAVE_PASSWORD_URL = "/savePassword";
     public static final String SIGNUP_URL = "/signup";
     public static final String VERIFY_REGISTER_URL = "/verifyRegistration";
-    public static final String CHANGE_PASSWORD_URL = "/changepassword";
+    public static final String CHANGE_PASSWORD_URL = "/changePassword";
 
     //Login urls
     public static final String LOGIN_URL = "/login";

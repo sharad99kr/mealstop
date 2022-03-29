@@ -106,7 +106,7 @@ public class RegistrationControllerTests {
 
     @Test
     void ShouldReturnForgotPasswordUrl() {
-        assertEquals(USER_FORGOT_PASSWORD_URL, controller.showForgotPasswordForm(mockPasswordModel));
+        assertEquals(USER_FORGOT_PASSWORD_URL, controller.showForgotPasswordForm());
     }
 
     @Test
