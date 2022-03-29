@@ -48,7 +48,6 @@ public class MealController {
     @PostMapping("/restaurant/update_meal/{id}")
     public String updateMeal(@ModelAttribute Meal meal, @PathVariable("id") long id)
     {
-        System.err.println("inside");
         Meal updatedMeal = mealService.updateMeal(id, meal);
         return "redirect:/restaurant/get_meal/" + updatedMeal.getRestaurant().getId();
     }
