@@ -79,6 +79,11 @@ class CustomerCartServiceTest {
         assertNotNull(customerCartService.getCustomerCart());
     }
 
+    @Test
+    void removeMealsFromCustomerCart() {
+        Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
+        customerCartService.removeMealsFromCustomerCart(meal1);
 
+    }
 
 }
