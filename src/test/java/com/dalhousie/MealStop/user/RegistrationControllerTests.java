@@ -112,13 +112,13 @@ public class RegistrationControllerTests {
     @Test
     void ShouldReturnUserLoginForInvalidSavePasswordToken() {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.INVALID);
-        assertEquals(USER_LOGIN, controller.showSavePasswordForm(mockToken));
+        assertEquals(USER_LOGIN, controller.showSavePasswordForm(mockToken, mockPasswordModel));
     }
 
     @Test
     void ShouldReturnChangePasswordForValidSavePasswordToken() {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.VALID);
-        assertEquals("user/changepassword", controller.showSavePasswordForm(mockToken));
+        assertEquals("user/changepassword", controller.showSavePasswordForm(mockToken, mockPasswordModel));
     }
 
     @Test

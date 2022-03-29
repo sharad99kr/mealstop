@@ -24,7 +24,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     @Autowired
     private BCryptPasswordEncoder encode;
 
-    Authentication checkUser(String password, User user, Authentication authentication) throws AuthenticationException {
+    private Authentication checkUser(String password, User user, Authentication authentication) throws AuthenticationException {
         if (encode.matches(password, user.getPassword())) {
             if (!user.isEnabled())
                 return null;

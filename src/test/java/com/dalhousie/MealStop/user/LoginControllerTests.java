@@ -1,7 +1,6 @@
 package com.dalhousie.MealStop.user;
 
 import com.dalhousie.MealStop.user.controller.LoginController;
-import com.dalhousie.MealStop.user.controller.RegistrationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -60,7 +60,7 @@ public class RegistrationController implements WebMvcConfigurer {
     }
 
     @GetMapping("/savePassword")
-    public String showSavePasswordForm(@RequestParam("token") String token) {
+    public String showSavePasswordForm(@RequestParam("token") String token, PasswordModel passwordModel) {
         log.info(SHOW_FORGOT_PASSWORD_FORM);
         String result = userService.validatePasswordResetToken(token);
         if (result.equalsIgnoreCase(VerificationTokenConstants.VALID)) {
@@ -69,12 +69,6 @@ public class RegistrationController implements WebMvcConfigurer {
             return USER_LOGIN;
         }
     }
-
-    /*@GetMapping("/changepassword")
-    public String showChangePasswordForm() {
-        log.warn("Showing forgot password form.");
-        return "user/changepassword";
-    }*/
 
     /***
      * Registers the user model on the basis of the USER type.
@@ -152,7 +146,7 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if user or token was invalid.
      */
-    @GetMapping(value = "/savePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping(value = "/savePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String savePassword(String token, @Valid @RequestBody PasswordModel passwordModel, BindingResult result) {
         if (result.hasErrors()) {
             return "user/changepassword";

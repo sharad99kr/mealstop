@@ -14,8 +14,8 @@ public class UserModel {
     @Size(min = 3, max = 50, message = "{Size.User.FirstName}")
     private String firstName;
 
-    @NotEmpty(message = "{Null.User.LastName}")
-    @Size(min = 3, max = 50, message = "{Size.User.LastName}")
+    //@NotEmpty(message = "{Null.User.LastName}")
+    //@Size(min = 3, max = 50, message = "{Size.User.LastName}")
     private String lastName;
 
     @NotEmpty(message = "{Null.User.Email}")

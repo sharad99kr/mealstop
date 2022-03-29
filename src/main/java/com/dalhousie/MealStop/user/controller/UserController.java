@@ -53,7 +53,6 @@ public class UserController {
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim(ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
-
         return BEARER + access_token;
     }
 }
