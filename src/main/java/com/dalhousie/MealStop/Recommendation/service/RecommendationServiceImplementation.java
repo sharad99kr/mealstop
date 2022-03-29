@@ -45,7 +45,9 @@ public class RecommendationServiceImplementation implements IRecommendationServi
             mealList.add(mealService.getMealByMealId(order.getMealId()));
 
         if(mealList.size() <= NUMBER_OF_RECOMMENDED_MEALS)
-            return mealList;
+            return mealList.stream()
+                    .distinct()
+                    .collect(Collectors.toList());;
 
 
         Map<String, Integer> tagsCountMap= getMealTagsCount(mealList);
