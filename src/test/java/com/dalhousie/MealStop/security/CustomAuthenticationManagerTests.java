@@ -55,9 +55,6 @@ public class CustomAuthenticationManagerTests {
 
         Mockito.lenient().when(mockAuthentication.getPrincipal()).thenReturn(email);
         Mockito.lenient().when(mockAuthentication.getCredentials()).thenReturn(rawPassword);
-
-
-        //
     }
 
     @Test

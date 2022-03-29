@@ -19,10 +19,6 @@ public class EmailService implements IEmailService {
     @Value("${spring.mail.from}")
     private String from;
 
-    public EmailService(){
-
-    }
-
     public EmailService(JavaMailSender javaMailSender){
         emailSender = javaMailSender;
     }

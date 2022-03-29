@@ -22,6 +22,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class CustomAuthenticationSuccessHandlerTests {
@@ -35,6 +39,9 @@ public class CustomAuthenticationSuccessHandlerTests {
     @Mock
     private Authentication mockAuthentication;
 
+    @Mock
+    private Collection<GrantedAuthority> mockGrantedAuthorities;
+
     @InjectMocks
     private CustomerAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
@@ -43,11 +50,10 @@ public class CustomAuthenticationSuccessHandlerTests {
         MockitoAnnotations.initMocks(this);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
-        //Mockito.lenient().when(mockAuthentication.getAuthorities()).thenReturn(authorities);
     }
 
-    //@Test
-    void ShouldNotThrowErrorForOnAuthenticationSuccess() throws ServletException, IOException {
-        customAuthenticationSuccessHandler.onAuthenticationSuccess(mockRequest, mockResponse, null, mockAuthentication);
+    @Test
+    void ShouldThrowErrorForNoAuthorities() {
+        assertThrows(IllegalStateException.class, () -> customAuthenticationSuccessHandler.onAuthenticationSuccess(mockRequest, mockResponse, null, mockAuthentication));
     }
 }

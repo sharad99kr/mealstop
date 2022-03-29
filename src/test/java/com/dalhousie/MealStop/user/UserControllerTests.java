@@ -3,7 +3,9 @@ package com.dalhousie.MealStop.user;
 import com.auth0.jwt.JWT;
 import com.dalhousie.MealStop.user.controller.UserController;
 import com.dalhousie.MealStop.user.service.IUserService;
+import com.dalhousie.MealStop.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,6 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTests {
@@ -31,7 +37,10 @@ public class UserControllerTests {
     private User mockUser;
 
     @Mock
-    private IUserService mockUserService;
+    private com.dalhousie.MealStop.user.entity.User mockEntityUser;
+
+    @Mock
+    private UserService mockUserService;
 
     @Mock
     private HttpServletRequest mockHttpServletRequest;
@@ -59,17 +68,18 @@ public class UserControllerTests {
         mockEmail = "email";
         mockUser = new User("random user", "random user", new ArrayList<GrantedAuthority>());
         ReflectionTestUtils.setField(controller, "secret", "it's a security key");
-        ReflectionTestUtils.setField(controller, "expiresAt", "1");
+        ReflectionTestUtils.setField(controller, "expiresAt", "600000");
     }
 
-    //@Test
-    void ShouldCreateAccessTokenForUser() {
+    @Test
+    void ShouldReturnNullExceptionForEmptyUser() {
+        mockEntityUser = new com.dalhousie.MealStop.user.entity.User();
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Mockito.when(securityContext.getAuthentication()).thenReturn(mockAuthentication);
+        Mockito.lenient().when(securityContext.getAuthentication()).thenReturn(mockAuthentication);
         SecurityContextHolder.setContext(securityContext);
         Mockito.lenient().when(mockAuthentication.getPrincipal()).thenReturn(mockUser);
-        //Mockito.lenient().when(mockHttpServletRequest.getRequestURL()).thenReturn("Random URL");
-        //Mockito.lenient().when(mockJWT.create().withExpiresAt(any(Date.class))).thenReturn(mockDate);
-        //assertDoesNotThrow(() -> controller.getUser(mockHttpServletRequest));
+        Mockito.lenient().when(mockHttpServletRequest.getRequestURL()).thenReturn(new StringBuffer("Random URL"));
+        Mockito.lenient().when(mockUserService.findUserByEmail("Random user")).thenReturn(new com.dalhousie.MealStop.user.entity.User());
+        assertThrows(NullPointerException.class, () -> controller.getUser(mockHttpServletRequest));
     }
 }

@@ -49,7 +49,7 @@ public class UserController {
 
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + expiresAt))
+                .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(expiresAt)))
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim(ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);

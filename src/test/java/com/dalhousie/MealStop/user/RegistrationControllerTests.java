@@ -54,7 +54,6 @@ public class RegistrationControllerTests {
     @Mock
     private UserSignedUpEvent mockUserSignedUpEvent;
 
-    @Mock
     private PasswordModel mockPasswordModel;
 
     @Mock
@@ -85,11 +84,12 @@ public class RegistrationControllerTests {
         mockUrl = "url";
         mockPassword = "password";
 
+        mockPasswordModel = new PasswordModel();
+        mockPasswordModel.setEmail(mockEmail);
         Mockito.lenient().when(mockHttpServletRequest.getServerName()).thenReturn(mockServerName);
         Mockito.lenient().when(mockHttpServletRequest.getServerPort()).thenReturn(Integer.parseInt(mockServerPort));
         Mockito.lenient().when(mockHttpServletRequest.getContextPath()).thenReturn(mockContextPath);
         Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenReturn(mockUser);
-        Mockito.lenient().when(mockPasswordModel.getEmail()).thenReturn(mockEmail);
         mockUserModel = new UserModel();
         mockUserModel.setRole(String.valueOf(ROLE_CUSTOMER));
     }
