@@ -57,5 +57,12 @@ class CustomerCartServiceTest {
         mockCustomersCartMap.put(1L, customerCart);
     }
 
+    @AfterEach
+    void tearDown()
+    {
+        mockCustomersCartMap = null;
+        customerCart= null;
+
+    }
 
 }
