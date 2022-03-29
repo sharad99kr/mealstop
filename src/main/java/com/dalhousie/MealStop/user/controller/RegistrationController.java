@@ -89,7 +89,7 @@ public class RegistrationController implements WebMvcConfigurer {
             User user = userService.signUpUser(userModel);
 
             //If the information of the user is saved inside the database, send a mail to the user with verification token.
-            eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
+            //eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
 
         } catch (Exception e) {
             log.error(CommonConstants.SIGNUP_USER + e.getMessage());
