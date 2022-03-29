@@ -62,7 +62,8 @@ class CustomerCartServiceTest {
     {
         mockCustomersCartMap = null;
         customerCart= null;
-
+        meal1 = null;
+        mealList =null;
     }
 
 }
