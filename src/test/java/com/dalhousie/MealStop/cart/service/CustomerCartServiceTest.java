@@ -51,7 +51,10 @@ class CustomerCartServiceTest {
         customerCart = new CustomerCart();
         meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
         meal1.setId(1L);
-
+        mealList = new ArrayList<>();
+        mealList.add(meal1);
+        customerCart.setCartItems(mealList);
+        mockCustomersCartMap.put(1L, customerCart);
     }
 
 
