@@ -19,20 +19,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.dalhousie.MealStop.common.RoleEnum.*;
+import static com.dalhousie.MealStop.common.UrlConstants.*;
+
 @Component
 @Slf4j
 public class CustomerAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        log.info("Inside authentication success.");
         onAuthenticationSuccess(request, response, authentication);
         clearAuthenticationAttributes(request);
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
@@ -43,11 +47,11 @@ public class CustomerAuthenticationSuccessHandler implements AuthenticationSucce
     }
 
     protected String determineTargetUrl(final Authentication authentication) {
-
+        log.info("Determining target url.");
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ROLE_CUSTOMER", "/customer/homepage");
-        roleTargetUrlMap.put("ROLE_RESTAURANT", "/restaurant/get_restaurant");
-        roleTargetUrlMap.put("ROLE_NGO", "/ngo/homepage");
+        roleTargetUrlMap.put(String.valueOf(ROLE_CUSTOMER), CUSTOMER_HOMEPAGE_URL);
+        roleTargetUrlMap.put(String.valueOf(ROLE_RESTAURANT), RESTAURANT_HOMEPAGE_URL);
+        roleTargetUrlMap.put(String.valueOf(ROLE_NGO), NGO_HOMEPAGE_URL);
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
@@ -56,11 +60,12 @@ public class CustomerAuthenticationSuccessHandler implements AuthenticationSucce
                 return roleTargetUrlMap.get(authorityName);
             }
         }
-
+        log.info("Unable to determine target url.");
         throw new IllegalStateException();
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request) {
+        log.info("Clearing authentication.");
         HttpSession session = request.getSession(false);
         if (session == null) {
             return;

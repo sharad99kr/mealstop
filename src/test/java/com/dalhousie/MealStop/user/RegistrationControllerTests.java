@@ -118,7 +118,7 @@ public class RegistrationControllerTests {
     @Test
     void ShouldReturnChangePasswordForValidSavePasswordToken() {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.VALID);
-        assertEquals("user/changepassword", controller.showSavePasswordForm(mockToken, mockPasswordModel));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.showSavePasswordForm(mockToken, mockPasswordModel));
     }
 
     @Test
@@ -166,26 +166,26 @@ public class RegistrationControllerTests {
     @Test
     void ShouldReturnChangePasswordWhenErrorsForSavePassword() {
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(true);
-        assertEquals("user/changepassword", controller.savePassword(mockToken, mockPasswordModel, mockBindingResult));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.savePassword(mockPasswordModel, mockBindingResult));
     }
 
     @Test
     void ShouldReturnUserLoginWhenSuccess() {
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(false);
-        assertEquals(USER_LOGIN, controller.savePassword(mockToken, mockPasswordModel, mockBindingResult));
+        assertEquals(USER_LOGIN, controller.savePassword(mockPasswordModel, mockBindingResult));
     }
 
 
     @Test
     void ShouldReturnBadRequestChangePasswordWhenNoUser() {
         Mockito.lenient().when(mockUserService.findUserByEmail(mockEmail)).thenReturn(null);
-        assertEquals("user/changepassword", controller.changePassword(mockPasswordModel));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.changePassword(mockPasswordModel));
     }
 
     @Test
     void ShouldReturnBadRequestChangePasswordWhenPasswordNotSame() {
         Mockito.lenient().when(mockUserService.checkIfValidOldPassword(mockUser, mockPassword)).thenReturn(false);
-        assertEquals("user/changepassword", controller.changePassword(mockPasswordModel));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.changePassword(mockPasswordModel));
     }
 
     @Test

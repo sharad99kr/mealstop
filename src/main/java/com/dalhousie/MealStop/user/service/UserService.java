@@ -175,7 +175,7 @@ public class UserService implements IUserService, UserDetailsService {
      *
      * @param user        user whose password will be changed
      * @param oldPassword password that needs to be checked
-     * @return
+     * @return true if password matches and false otherwise
      */
     @Override
     public boolean checkIfValidOldPassword(User user, String oldPassword) {

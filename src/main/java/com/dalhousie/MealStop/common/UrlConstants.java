@@ -21,16 +21,14 @@ public class UrlConstants {
 
     public static final String FORGOT_PASSWORD_URL = "/forgotpassword";
     public static final String USER_FORGOT_PASSWORD_URL = "user/forgotpassword";
-
-
-    public static final String RESTAURANT_REGISTER_URL = "/api/v1/restaurantregister";
-    public static final String SIGNUP_URL = "/api/v1/signup";
-    public static final String VERFIY_REGISTRATION_URL = "/api/v1/verifyRegistration";
-    public static final String RESEND_VERIFYTOKEN_URL = "/api/v1/resendVerifyToken";
-    public static final String RESET_PASSWORD_URL = "/api/v1/forgotPassword";
-    public static final String SAVE_PASSWORD_URL = "/api/v1/savePassword";
+    public static final String USER_CHANGE_PASSWORD_URL = "user/changepassword";
 
     public static final String VERIFY_REGISTRATION_URL = "/api/v1/verifyRegistration?token=";
+
+    public static final String SAVE_PASSWORD_URL = "/savePassword";
+    public static final String SIGNUP_URL = "/signup";
+    public static final String VERIFY_REGISTER_URL = "/verifyRegistration";
+    public static final String CHANGE_PASSWORD_URL = "/changepassword";
 
     //Login urls
     public static final String LOGIN_URL = "/login";
@@ -40,4 +38,13 @@ public class UrlConstants {
 
     //User url
     public static final String USER_URL = "/user";
+
+    //Customer url
+    public static final String CUSTOMER_HOMEPAGE_URL = "/customer/homepage";
+
+    //Restaurant url
+    public static final String RESTAURANT_HOMEPAGE_URL = "/restaurant/get_restaurant";
+
+    //NGO url
+    public static final String NGO_HOMEPAGE_URL = "/ngo/homepage";
 }

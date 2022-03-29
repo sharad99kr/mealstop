@@ -34,7 +34,6 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), rights);
             token.setDetails(user);
             user.setToken(token.toString());
-
             return token;
         } else {
             System.err.println("The user credentials do not match the database stored values!");
@@ -47,8 +46,6 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         String password = authentication.getCredentials().toString();
 
         User user;
-
-        System.err.println("email id " + emailId);
 
         try {
             user = userService.findUserByEmail(emailId);
