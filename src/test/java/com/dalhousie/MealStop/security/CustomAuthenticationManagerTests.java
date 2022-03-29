@@ -20,8 +20,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -77,6 +76,10 @@ public class CustomAuthenticationManagerTests {
 
     @Test
     void ShouldReturnBadCredentialsWhenPasswordDoesNotMatch() {
+        User user = new User();
+        user.setRole("Customer");
+        user.setEnabled(true);
+        user.setPassword(hashPassword);
         Mockito.lenient().when(mockUser.isEnabled()).thenReturn(false);
         assertThrows(BadCredentialsException.class, () -> customAuthenticationManager.authenticate(mockAuthentication));
 
@@ -91,9 +94,14 @@ public class CustomAuthenticationManagerTests {
 
     @Test
     void ShouldWorkWhenUserEnabled() {
+        User user = new User();
+        user.setRole("Customer");
+        user.setEnabled(true);
+        user.setPassword(hashPassword);
         Mockito.lenient().when(mockUser.isEnabled()).thenReturn(true);
         Mockito.lenient().when(encode.matches(any(String.class), any(String.class))).thenReturn(true);
-        assertThrows(BadCredentialsException.class, () -> customAuthenticationManager.authenticate(mockAuthentication));
+        Mockito.lenient().when(mockUserService.findUserByEmail(any(String.class))).thenReturn(user);
+        assertDoesNotThrow(() -> customAuthenticationManager.authenticate(mockAuthentication));
     }
 
 }

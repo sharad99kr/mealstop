@@ -28,7 +28,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         if (encode.matches(password, user.getPassword())) {
             if (!user.isEnabled())
                 return null;
-            List<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
+            List<GrantedAuthority> rights = new ArrayList<>();
             rights.add(new SimpleGrantedAuthority(user.getRole()));
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), rights);

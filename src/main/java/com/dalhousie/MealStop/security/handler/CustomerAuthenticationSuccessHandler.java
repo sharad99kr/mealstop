@@ -36,9 +36,6 @@ public class CustomerAuthenticationSuccessHandler implements AuthenticationSucce
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            /*logger.debug(
-                    "Response has already been committed. Unable to redirect to "
-                            + targetUrl);*/
             return;
         }
 
@@ -55,7 +52,7 @@ public class CustomerAuthenticationSuccessHandler implements AuthenticationSucce
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
-            if(roleTargetUrlMap.containsKey(authorityName)) {
+            if (roleTargetUrlMap.containsKey(authorityName)) {
                 return roleTargetUrlMap.get(authorityName);
             }
         }
