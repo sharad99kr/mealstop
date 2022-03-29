@@ -81,7 +81,7 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping(value = SIGNUP_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String signUpUser(@Valid UserModel userModel, BindingResult result, final HttpServletRequest request) {
         if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString())) {
-            if (result.hasErrors() && !result.getFieldErrors().stream().findFirst().get().getField().equals(DATE_OF_BIRTH)) {
+            if (result.hasErrors() && result.getFieldErrors().size()!= 0 && !result.getFieldErrors().stream().findFirst().get().getField().equals(DATE_OF_BIRTH)) {
                 return NGO_USER_REGISTER_URL;
             }
         } else {

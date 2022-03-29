@@ -20,9 +20,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.dalhousie.MealStop.common.RoleEnum.ROLE_CUSTOMER;
@@ -132,14 +135,6 @@ public class RegistrationControllerTests {
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(true);
         Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenThrow(NullPointerException.class);
         assertEquals(USER_REGISTER_URL, controller.signUpUser(mockUserModel, mockBindingResult, mockHttpServletRequest));
-    }
-
-    @Test
-    void ShouldReturnNgoUserRegistrationForErrorsInBindingResult() {
-        mockUserModel.setRole(String.valueOf(ROLE_NGO));
-        Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(true);
-        Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenThrow(NullPointerException.class);
-        assertEquals(NGO_USER_REGISTER_URL, controller.signUpUser(mockUserModel, mockBindingResult, mockHttpServletRequest));
     }
 
     @Test
