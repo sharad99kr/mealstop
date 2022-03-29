@@ -47,7 +47,7 @@ public class RecommendationServiceImplementation implements IRecommendationServi
         if(mealList.size() <= NUMBER_OF_RECOMMENDED_MEALS)
             return mealList.stream()
                     .distinct()
-                    .collect(Collectors.toList());;
+                    .collect(Collectors.toList());
 
 
         Map<String, Integer> tagsCountMap= getMealTagsCount(mealList);
@@ -102,7 +102,7 @@ public class RecommendationServiceImplementation implements IRecommendationServi
                 for(String word : meal.getTags().toLowerCase().split(","))
                     tags.add(word.trim());
 
-                if(tags.contains(tag) && !recommendedMealList.contains(meal) && restaurantIdentifiers.contains(meal.getRestaurant().getId()))
+                if(tags.contains(tag) && restaurantIdentifiers.contains(meal.getRestaurant().getId()))
                 {
                     recommendedMealList.add(meal);
                 }
@@ -112,6 +112,8 @@ public class RecommendationServiceImplementation implements IRecommendationServi
             }
         }
 
-        return recommendedMealList;
+        return recommendedMealList.stream()
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
