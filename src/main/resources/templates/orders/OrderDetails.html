@@ -46,6 +46,8 @@
             <th>Date</th>
             <th>Amount</th>
             <th>Status</th>
+            <th>Update</th>
+
         </tr>
         </thead>
         <tbody>
@@ -55,7 +57,7 @@
                 <td th:text="${order.amount}"></td>
                 <td th:text="${order.status}"></td>
                 <td>
-                    <form th:action="@{/updateOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
+                    <form th:action="@{/updateRestaurantOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
 
                         <button class="btn btn-outline-success" type="submit">Processed</button>
                     </form>

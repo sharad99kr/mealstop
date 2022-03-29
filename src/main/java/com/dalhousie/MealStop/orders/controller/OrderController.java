@@ -196,6 +196,13 @@ public class OrderController {
         return "orders/Enjoy";
     }
 
+    @RequestMapping(value = "/updateRestaurantOrder/{id}")
+    public String updateRestaurantOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
+
+        orderService.updateOrderStatus(orderId,Constants.PROCESSED);
+        return "orders/restaurant_orders/{id}";
+    }
+
     @GetMapping("orders/report/id={id}&year={year}")
     String Report(Model model, @PathVariable("id") long id,@PathVariable("year") int year) {
 
