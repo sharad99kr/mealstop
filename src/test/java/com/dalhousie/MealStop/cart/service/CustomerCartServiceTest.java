@@ -83,6 +83,15 @@ class CustomerCartServiceTest {
     void removeMealsFromCustomerCart() {
         Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
         customerCartService.removeMealsFromCustomerCart(meal1);
+        customerCartService.clearCustomerCart();
+        assertEquals(0,customerCartService.getCustomerCart().getCartItems().size());
+    }
+
+    @Test
+    void clearCustomerCart() {
+        Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
+        customerCartService.addMealsToCustomerCart(meal1);
+        customerCartService.clearCustomerCart();
 
     }
 
