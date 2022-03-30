@@ -76,6 +76,21 @@ public class NGOServiceImplTest {
         Mockito.when(SecurityContextHolder.getContext().getAuthentication().getDetails()).thenReturn(user);
     }
 
+    @Test
+    NGO getNGODetailsFromSession()
+    {
+        setDummyUserInSession();
+        NGO loggedInNGO = NGOService.getNGODetailsFromSession();
+        assertThat(loggedInNGO.getEmail()).isEqualTo(user.getUsername());
+        return loggedInNGO;
+    }
 
+    @Test
+    void addNGO()
+    {
+        when(ngoRepository.save(any())).thenReturn(NGO1);
+        NGOService.addNGO(NGO1);
+        verify(ngoRepository,times(1)).save(any());
+    }
 
 }
