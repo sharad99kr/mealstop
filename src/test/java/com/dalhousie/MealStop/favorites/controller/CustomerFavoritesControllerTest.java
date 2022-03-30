@@ -1,18 +1,15 @@
 package com.dalhousie.MealStop.favorites.controller;
 
-import com.dalhousie.MealStop.Meal.controller.MealController;
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.service.CustomerFavoriteService;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
