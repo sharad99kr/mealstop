@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.ngo.modal;
 
-
 import com.dalhousie.MealStop.domainconstants.MealStopConstants;
 import com.dalhousie.MealStop.user.entity.User;
 
@@ -18,5 +17,21 @@ public class NGO implements INGO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
+
+    @Column(name = "ngo_name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "total_orders")
+    private Integer totalOrders;
+
 
 }
