@@ -78,7 +78,7 @@
             const offset = currentDate.getTimezoneOffset()
             currentDate = new Date(currentDate.getTime() - (offset*60*1000))
 
-            if (startDate == "" && endDate == "")
+            if (startDate == "" || endDate == "")
             {
                 alert("Start date or End date can't be empty");
                 return false;
