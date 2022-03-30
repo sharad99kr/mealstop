@@ -64,7 +64,41 @@
 </nav>
 
 <!-- Navbar -->
+<div class="container p-5">
+    <table class="table table-striped">
+        <thead class="bg-primary text-white">
+        <tr>
+            <th scope="col">Meal Name</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Cusine Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Tags</th>
 
+            <th scope="col">Accept/delete Meal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  th:each="restaurant: ${restaurants_list}">
+            <td th:text="${restaurant.restaurantName}"></td>
+            <td th:text="${restaurant.email}"></td>
+            <td th:text="${restaurant.address}"></td>
+            <td th:text="${restaurant.phoneNumber}"></td>
+
+            <td th:text="${restaurant.availability}"></td>
+            <span style="display:flex">   <td><a class="btn btn-sm btn-success" th:href="@{/get_meal/{id}(id=${restaurant.id})}">accept</a>
+      <a class="btn btn-sm btn-danger" th:href="@{/get_meal/{id}(id=${restaurant.id})}">delete</a></td>
+      </span>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer class="footer mt-auto py-3 bg-dark">
+    <div class="container">
+        <span class="text-muted">Meal Stop Application connects customers, restaurants and NGO together.</span>
+    </div>
+</footer>
 
 
 <!-- Optional JavaScript -->
