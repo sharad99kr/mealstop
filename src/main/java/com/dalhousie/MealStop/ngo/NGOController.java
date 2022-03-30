@@ -28,5 +28,14 @@ public class NGOController {
         return "ngo/landing-page";
     }
 
+    @GetMapping("/ngo/profile")
+    public String getCustomerProfilePage(Model model)
+    {
+        NGO ngoUser = ngoService.getNGODetailsFromSession();
+        model.addAttribute("ngoUser", ngoUser);
+        return "ngo/profile";
+    }
+
+
 
 }
