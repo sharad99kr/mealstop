@@ -44,6 +44,17 @@ public class NGO implements INGO {
         this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
     }
 
+    public NGO(User user)
+    {
+        this.id = user.getUser_id();
+        this.name=user.getFirstName();
+        this.email=user.getUsername();
+        this.address = user.getAddress();
+        this.phoneNumber = user.getMobileNumber();
+        this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
+    }
+
+
 
 
 }
