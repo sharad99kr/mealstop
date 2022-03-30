@@ -115,6 +115,25 @@ public class NGO implements INGO {
         this.email = email;
     }
 
+    public Integer getTotalOrders()
+    {
+        return totalOrders;
+    }
+
+    public void setTotalOrders(Integer totalOrders)
+    {
+        this.totalOrders = totalOrders;
+    }
+
+    @Override
+    public String toString() {
+        return "NGO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 
 
 
