@@ -86,7 +86,6 @@ public class CustomerControllerTest
         mockMvc.perform(get("/customer/profile"))
                 .andExpect(status().isOk());
         verify(customerService, times(1)).getCustomerDetailsFromSession();
-        verifyZeroInteractions(customerService);
     }
 
     @Test
@@ -96,7 +95,6 @@ public class CustomerControllerTest
         mockMvc.perform(get("/customer/homepage"))
                 .andExpect(status().isOk());
         verify(customerService, times(1)).getCustomerDetailsFromSession();
-        verifyZeroInteractions(customerService);
     }
 
     @Test
@@ -109,6 +107,5 @@ public class CustomerControllerTest
                 .andExpect(status().isOk());
         verify(restaurantService, times(1)).getAvailableRestaurants(any(), any());
         verify(restaurantService, times(1)).getRecommendedMealForCustomer(any());
-        verifyZeroInteractions(restaurantService);
     }
 }

@@ -71,7 +71,6 @@ class RestaurantControllerTest {
                 .andExpect(model().attribute("restaurants_list", restaurantList));
 
         verify(restaurantService, times(1)).getAllRestaurantByUserId();
-        verifyZeroInteractions(restaurantService);
     }
 
     @Test
@@ -81,7 +80,6 @@ class RestaurantControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("restaurant", restaurant1));
         verify(restaurantService, times(1)).getRestaurantById(1L);
-        verifyZeroInteractions(restaurantService);
     }
 
     @Test
@@ -98,7 +96,7 @@ class RestaurantControllerTest {
     void addRestaurantForm() throws Exception {
         mockMvc.perform(get("/restaurant/add_restaurant_form"))
                 .andExpect(status().isOk());
-        verifyZeroInteractions(restaurantService);
+        assertEquals("restaurant/add_restaurant", restaurantController.addRestaurantForm());
     }
 
     @Test
@@ -118,6 +116,5 @@ class RestaurantControllerTest {
         mockMvc.perform(get("/restaurant/profile"))
                 .andExpect(status().isOk());
         verify(restaurantService, times(1)).getRestaurantUserDetailsFromSession();
-        verifyZeroInteractions(restaurantService);
     }
 }
