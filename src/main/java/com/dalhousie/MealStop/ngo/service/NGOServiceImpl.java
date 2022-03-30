@@ -20,4 +20,32 @@ public class NGOServiceImpl implements INGOService {
         Optional<NGO> ngo = ngoRepository.findById(ngoId);
         return ngo.isPresent() ? ngo.get() : null;
     }
+
+    @Override
+    public NGO getNGODetailsFromSession()
+    {
+        NGO NgoUser = null;
+        try
+        {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            NgoUser = new NGO(user);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return NgoUser;
+    }
+
+    @Override
+    public Long getLoggedInNGOId()
+    {
+        NGO NgoUser = getNGODetailsFromSession();
+        if(NgoUser!=null)
+        {
+            return NgoUser.getId();
+        }
+        return null;
+    }
+
 }
