@@ -1,8 +1,8 @@
-package com.dalhousie.MealStop.ngo.service;
+package com.dalhousie.MealStop.ngo;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.ngo.modal.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
+import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ public class NGOServiceImplTest {
     private NGORepository ngoRepository;
 
     @InjectMocks
-    private NGOServiceImplTest NGOService;
+    private NGOServiceImpl NGOService;
 
     private NGO NGO1;
 
@@ -64,7 +64,7 @@ public class NGOServiceImplTest {
         when(ngoRepository.findById(1L)).thenReturn(ngo);
 
         String NGOId = new Long(NGO1.getId()).toString();
-        assertThat(NGOService.getNGOById(NGOId).isEqualTo(ngo.get());
+        assertThat(NGOService.getNGOById(NGOId)).isEqualTo(ngo.get());
     }
 
     void setDummyUserInSession()
@@ -89,7 +89,7 @@ public class NGOServiceImplTest {
     void addNGO()
     {
         when(ngoRepository.save(any())).thenReturn(NGO1);
-        NGOService.addNGO(NGO1);
+        NGOService.addNGO(user);
         verify(ngoRepository,times(1)).save(any());
     }
 
