@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.favorites.repository;
 
 import java.util.List;
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,10 +1,7 @@
 package com.dalhousie.MealStop.review.modal;
 
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;

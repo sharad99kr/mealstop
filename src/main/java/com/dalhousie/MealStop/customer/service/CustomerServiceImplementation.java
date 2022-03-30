@@ -1,13 +1,9 @@
 package com.dalhousie.MealStop.customer.service;
 
-import com.dalhousie.MealStop.Meal.model.Meal;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
 import com.dalhousie.MealStop.user.entity.User;
-import com.dalhousie.MealStop.user.models.UserModel;
-import com.dalhousie.MealStop.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 

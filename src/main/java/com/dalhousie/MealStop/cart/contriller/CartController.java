@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.cart.contriller;
 
-import com.dalhousie.MealStop.Meal.model.Meal;
-import com.dalhousie.MealStop.Meal.service.IMealService;
+import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.ICustomerCartService;
 import com.dalhousie.MealStop.customer.modal.Customer;

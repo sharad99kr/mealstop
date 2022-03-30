@@ -1,11 +1,8 @@
 package com.dalhousie.MealStop.favorites.service;
 
-import com.dalhousie.MealStop.Meal.repository.MealRepository;
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.Restaurant.service.RestaurantServiceImplementation;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.repository.CustomerFavoritesRepository;

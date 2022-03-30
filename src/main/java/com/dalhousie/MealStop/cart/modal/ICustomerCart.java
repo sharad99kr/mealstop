@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.cart.modal;
 
-import com.dalhousie.MealStop.Meal.model.Meal;
+import com.dalhousie.MealStop.meal.model.Meal;
 
 import java.util.ArrayList;
 

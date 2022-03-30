@@ -1,9 +1,7 @@
 package com.dalhousie.MealStop.cart.service;
 
-import com.dalhousie.MealStop.Meal.model.IMeal;
-import com.dalhousie.MealStop.Meal.model.Meal;
+import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
-import com.dalhousie.MealStop.customer.modal.ICustomer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

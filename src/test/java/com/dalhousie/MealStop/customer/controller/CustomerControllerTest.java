@@ -1,8 +1,8 @@
 package com.dalhousie.MealStop.customer.controller;
 
-import com.dalhousie.MealStop.Meal.model.Meal;
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.junit.jupiter.api.AfterEach;
@@ -84,7 +84,6 @@ public class CustomerControllerTest
         mockMvc.perform(get("/customer/profile"))
                 .andExpect(status().isOk());
         verify(customerService, times(1)).getCustomerDetailsFromSession();
-        verifyZeroInteractions(customerService);
     }
 
     @Test
@@ -94,7 +93,6 @@ public class CustomerControllerTest
         mockMvc.perform(get("/customer/homepage"))
                 .andExpect(status().isOk());
         verify(customerService, times(1)).getCustomerDetailsFromSession();
-        verifyZeroInteractions(customerService);
     }
 
     @Test
@@ -107,6 +105,5 @@ public class CustomerControllerTest
                 .andExpect(status().isOk());
         verify(restaurantService, times(1)).getAvailableRestaurants(any(), any());
         verify(restaurantService, times(1)).getRecommendedMealForCustomer(any());
-        verifyZeroInteractions(restaurantService);
     }
 }
