@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title><!DOCTYPE html>
-      <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
-      <head>
-      <meta charset="UTF-8">
-      <title>MealStop NGO</title>
+  <meta charset="UTF-8">
+  <title>MealStop NGO</title>
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <link th:href="@{styles/main.css}" rel="stylesheet" />
@@ -67,14 +63,34 @@
   </main>
 </div>
 
+<div sec:authorize="isAuthenticated()">
+  <div class="container p-5">
+    <h2 class="text-center">Available Cancelled Orders</h2>
+    <table class="table">
+      <tbody>
+      <tr  th:each="order: ${orders}" style="text-align: center; vertical-align: middle">
+        <td style="height: inherit">
+          <h4><div th:text="${order.restaurantName}"></div></h4>
+          <br>
+          <br>
+          <br>
+          <div th:text="${order.mealName}"></div>
+        </td>
 
+        <td th:text="${order.date}"></td>
+        <td th:text="${order.amount}"></td>
+        <td th:text="${order.status}"></td>
+
+        <td>
+          <form th:action="@{/updateOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
+            <button class="btn btn-outline-success" type="submit">Accept Order</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <div  th:replace="~{fragments/footer :: footer}"> </div>
-</body>
-</html>
-</title>
-</head>
-<body>
-
 </body>
 </html>
