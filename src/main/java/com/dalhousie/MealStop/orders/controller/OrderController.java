@@ -3,7 +3,7 @@ package com.dalhousie.MealStop.orders.controller;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
-import com.dalhousie.MealStop.cart.service.CustomerCartService;
+import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
@@ -45,7 +45,7 @@ public class OrderController {
     private IMealService mealService;
 
     @Autowired
-    private CustomerCartService customerCartService;
+    private CustomerCartServiceImpl customerCartServiceImpl;
 
     @Autowired
     private ICustomerService customerService;
@@ -54,7 +54,7 @@ public class OrderController {
     @PostMapping("orders/add_order")
     String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
     {
-        CustomerCart customerCart = customerCartService.getCustomerCart();
+        CustomerCart customerCart = customerCartServiceImpl.getCustomerCart();
         long customerId = customerService.getCustomerDetailsFromSession().getId();
 
         orderService.CreateOrderFromCart(customerCart);

@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
-public class CustomerCartService implements ICustomerCartService
+public class CustomerCartServiceImpl implements ICustomerCartService
 {
     @Autowired
     private ICustomerService customerService;
 
     private HashMap<Long, CustomerCart> customersCartMap;
 
-    public CustomerCartService()
+    public CustomerCartServiceImpl()
     {
         customersCartMap = new HashMap<Long, CustomerCart>();
     }

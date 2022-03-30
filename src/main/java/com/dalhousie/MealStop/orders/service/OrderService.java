@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
-import com.dalhousie.MealStop.cart.service.CustomerCartService;
+import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
@@ -23,7 +23,7 @@ public class OrderService implements IOrderService {
     private ICustomerService customerService;
 
     @Autowired
-    private CustomerCartService customerCartService;
+    private CustomerCartServiceImpl customerCartServiceImpl;
 
 
     //check if enough token is added
@@ -45,7 +45,7 @@ public class OrderService implements IOrderService {
        });
 
        //clear customer cart after placing the order
-        customerCartService.clearCustomerCart();
+        customerCartServiceImpl.clearCustomerCart();
     }
 
     @Override

@@ -21,12 +21,12 @@ import static org.mockito.ArgumentMatchers.any;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class CustomerCartServiceTest {
+class CustomerCartServiceImplTest {
     @Mock
     private ICustomerService customerService;
 
     @InjectMocks
-    CustomerCartService customerCartService;
+    CustomerCartServiceImpl customerCartServiceImpl;
 
     @InjectMocks
     private HashMap<Long, CustomerCart> mockCustomersCartMap;
@@ -60,30 +60,30 @@ class CustomerCartServiceTest {
     @Test
     void getCustomerCart() {
         Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
-        assertNotNull(customerCartService.getCustomerCart());
+        assertNotNull(customerCartServiceImpl.getCustomerCart());
     }
 
     @Test
     void addMealsToCustomerCart() {
         Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
-        customerCartService.addMealsToCustomerCart(meal1);
-        assertNotNull(customerCartService.getCustomerCart());
+        customerCartServiceImpl.addMealsToCustomerCart(meal1);
+        assertNotNull(customerCartServiceImpl.getCustomerCart());
     }
 
     @Test
     void removeMealsFromCustomerCart() {
         Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
-        customerCartService.removeMealsFromCustomerCart(meal1);
-        customerCartService.clearCustomerCart();
-        assertEquals(0,customerCartService.getCustomerCart().getCartItems().size());
+        customerCartServiceImpl.removeMealsFromCustomerCart(meal1);
+        customerCartServiceImpl.clearCustomerCart();
+        assertEquals(0, customerCartServiceImpl.getCustomerCart().getCartItems().size());
     }
 
     @Test
     void clearCustomerCart() {
         Mockito.lenient().when(customerService.getLoggedInCustomerId()).thenReturn(1L);
-        customerCartService.addMealsToCustomerCart(meal1);
-        customerCartService.clearCustomerCart();
-        assertEquals(0,customerCartService.getCustomerCart().getCartItems().size());
+        customerCartServiceImpl.addMealsToCustomerCart(meal1);
+        customerCartServiceImpl.clearCustomerCart();
+        assertEquals(0, customerCartServiceImpl.getCustomerCart().getCartItems().size());
     }
 
 }
