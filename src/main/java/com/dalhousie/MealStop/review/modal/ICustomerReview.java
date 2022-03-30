@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.review.modal;
 
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 
 import java.util.Date;

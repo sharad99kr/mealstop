@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.orders.controller;
 
-import com.dalhousie.MealStop.Meal.service.IMealService;
-import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.meal.service.IMealService;
+import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartService;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
@@ -9,7 +9,6 @@ import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.IOrderService;
-import com.dalhousie.MealStop.orders.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
