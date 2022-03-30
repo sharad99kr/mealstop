@@ -97,6 +97,25 @@ public class NGO implements INGO {
         return name;
     }
 
+    @Override
+    public void setNGOName(String name)
+    {
+        this.name = name;
+    }
+
+    @Override
+    public String getEmail()
+    {
+        return email;
+    }
+
+    @Override
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+
 
 
 
