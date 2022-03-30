@@ -4,7 +4,9 @@ import com.dalhousie.MealStop.Reward.constants.Constants;
 import com.dalhousie.MealStop.Reward.model.Rewards;
 import com.dalhousie.MealStop.Reward.repository.RewardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RewardService implements IRewardService{
 
     @Autowired

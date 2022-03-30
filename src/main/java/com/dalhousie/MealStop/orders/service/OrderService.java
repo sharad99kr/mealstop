@@ -1,4 +1,5 @@
 package com.dalhousie.MealStop.orders.service;
+import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
@@ -25,6 +26,8 @@ public class OrderService implements IOrderService {
     @Autowired
     private CustomerCartServiceImpl customerCartServiceImpl;
 
+    @Autowired
+    private IRewardService rewardService;
 
     //check if enough token is added
     //custoer get/set
@@ -51,7 +54,15 @@ public class OrderService implements IOrderService {
     @Override
     public void addOrder(Orders newOrder){
         //this method adds new order that has been placed
-        orderRepository.save(newOrder);
+        Orders status = orderRepository.save(newOrder);
+        if(status!=null){
+            int tokenCount = customerService.getCustomerTokenCount();
+            if(tokenCount> newOrder.getOrderAmount()){
+                customerService.decrementCustomerToken((int)newOrder.getOrderAmount());
+                rewardService.addRewardPoints(newOrder.getCustomerId());
+            }
+
+        }
     }
 
     @Override

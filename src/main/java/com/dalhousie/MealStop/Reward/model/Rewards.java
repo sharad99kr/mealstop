@@ -38,4 +38,8 @@ public class Rewards implements IRewards{
         rewardPoint=point;
     }
 
+    public Rewards(){
+
+    }
+
 }
