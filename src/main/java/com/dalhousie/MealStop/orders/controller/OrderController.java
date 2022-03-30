@@ -195,6 +195,21 @@ public class OrderController {
         return "orders/Enjoy";
     }
 
+    @RequestMapping(value = "/cancelOrder/{id}")
+    public String cancelOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
+
+        orderService.updateOrderStatus(orderId,Constants.CANCELLED);
+        return "orders/CustomerActiveOrders";
+    }
+
+    @RequestMapping(value = "/restaurantUpdateOrder/{id}")
+    public String restaurantUpdateOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
+
+        orderService.updateOrderStatus(orderId,Constants.PROCESSED);
+        //TODO need the redirect
+        return "orders/Enjoy";
+    }
+
     @GetMapping("orders/report/id={id}&year={year}")
     String Report(Model model, @PathVariable("id") long id,@PathVariable("year") int year) {
 
