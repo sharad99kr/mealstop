@@ -29,8 +29,10 @@ public class MealRepositoryIntegrationTest {
     public void ShouldReturnMealListWhenFindByRestaurantId() {
         Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
         meal.setId(1L);
-        Restaurant restaurant = new Restaurant();
+        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
+        restaurant = entityManager.merge(restaurant);
+        entityManager.flush();
         meal.setRestaurant(restaurant);
         entityManager.merge(meal);
         entityManager.flush();
@@ -41,10 +43,12 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindAll() {
-        Meal meal = new Meal("ThaiMeal1", "120","fat, protein", "Thai", 100);
-        meal.setId(2L);
-        Restaurant restaurant = new Restaurant();
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal.setId(1L);
+        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
+        restaurant = entityManager.merge(restaurant);
+        entityManager.flush();
         meal.setRestaurant(restaurant);
         entityManager.merge(meal);
         entityManager.flush();
@@ -54,10 +58,12 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenSave() {
-        Meal meal = new Meal("ChineseMeal", "110","fat, carbs", "Chinese", 110);
-        meal.setId(2L);
-        Restaurant restaurant = new Restaurant();
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal.setId(1L);
+        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
+        restaurant = entityManager.merge(restaurant);
+        entityManager.flush();
         meal.setRestaurant(restaurant);
         meal = entityManager.merge(meal);
         entityManager.flush();
@@ -67,10 +73,12 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindById() {
-        Meal meal = new Meal("ThaiMeal1", "120","fat, protein", "Thai", 100);
-        meal.setId(2L);
-        Restaurant restaurant = new Restaurant();
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal.setId(1L);
+        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
+        restaurant = entityManager.merge(restaurant);
+        entityManager.flush();
         meal.setRestaurant(restaurant);
         meal = entityManager.merge(meal);
         entityManager.flush();
@@ -81,12 +89,14 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnUpdatedMealWhenUpdateMealIsPerformed() {
-        Meal meal = new Meal("ThaiMeal1", "120","fat, protein", "Thai", 100);
-        meal.setId(2L);
-        Restaurant restaurant = new Restaurant();
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal.setId(1L);
+        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
+        restaurant = entityManager.merge(restaurant);
+        entityManager.flush();
         meal.setRestaurant(restaurant);
-        entityManager.merge(meal);
+        meal = entityManager.merge(meal);
         entityManager.flush();
         meal.setPrice(10);
         meal = entityManager.merge(meal);
