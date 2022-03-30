@@ -1,6 +1,9 @@
 package com.dalhousie.MealStop.ngo.modal;
 
 
+import com.dalhousie.MealStop.domainconstants.MealStopConstants;
+import com.dalhousie.MealStop.user.entity.User;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
