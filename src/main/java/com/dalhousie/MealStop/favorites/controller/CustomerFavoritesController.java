@@ -39,4 +39,6 @@ public class CustomerFavoritesController
         customerFavoriteService.deleteCustomerFavoriteById(customerFavoriteId);
         return "redirect:/customer/favorite";
     }
+
+
 }
