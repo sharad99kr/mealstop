@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>MealStop</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:fragment="header">
+
+            <div class="collapse navbar-collapse" id="navbarsExample04">
+                <ul class="navbar-nav mr-auto">
+                    <!--            <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('home')} ? 'nav-link active' : 'nav-link'">-->
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('homepage')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/customer/homepage}">Home<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('reviews')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/customer/reviews}">Reviews<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('favorite')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/customer/favorite}">Favorites<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <!--            <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('contact')} ? 'nav-link active' : 'nav-link'">-->
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('orders')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/orders/customer_orders}">Orders<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('cart')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/customer/cart}">Cart<span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item" th:class="${#httpServletRequest.requestURI.contains('profile')} ? 'nav-link active' : 'nav-link'">
+                        <a class="nav-link" th:href="@{/customer/profile}">Profile<span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="float: left;
+                    color: #f2f2f2;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                    font-size: 17px;">
+                        <div class="btn-group" style="cursor:pointer;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle nav-item" viewBox="0 0 16 16"
+                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <form method="get" th:action="@{/customer/profile}" >
+                                    <button class="dropdown-item" th:action="@{/customer/profile}" type="submit">Visit Profile</button>
+                                </form>
+
+                                <form method="get" th:action="@{/customer/cart}" >
+                                    <button class="dropdown-item" th:action="@{/customer/profile}" type="submit">View Cart</button>
+                                </form>
+
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn btn-danger btn-sm" type="submit" style="margin-left: 50px;">
+                                        Sign Out
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+
+<!--                    <li sec:authorize="isAuthenticated()" style="float: left;-->
+<!--                    color: #f2f2f2;-->
+<!--                    text-align: center;-->
+<!--                    padding: 14px 16px;-->
+<!--                    text-decoration: none;-->
+<!--                    font-size: 17px;">-->
+<!--                        <form method="post" th:action="@{/logout}">-->
+<!--                            <button class="btn btn-danger btn-sm" type="submit">-->
+<!--                                Sign Out-->
+<!--                            </button>-->
+<!--                        </form>-->
+<!--                    </li>-->
+                </ul>
+
+
+            </div>
+        </nav>
+    </body>
+</html>

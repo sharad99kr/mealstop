@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
@@ -40,7 +41,7 @@ public class UserServiceTests {
     private PasswordResetTokenRepository mockPasswordResetTokenRepository;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Mock
     private UserModel mockUserModel;
@@ -91,6 +92,8 @@ public class UserServiceTests {
         Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getUsername()).thenReturn(mockEmail);
         Mockito.lenient().when(mockUserRepository.findByUsername(mockEmail).getPassword()).thenReturn(mockPassword);
         Mockito.lenient().when(mockUser.getPassword()).thenReturn(mockPassword);
+        mockUserModel = new UserModel();
+        mockUserModel.setRole("Customer");
     }
 
     @Test

@@ -16,30 +16,43 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - quality-checks
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+maven-build:    # Build stage to build the project along with all the dependencies
+  image: maven:3-jdk-11
   stage: build
-  script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+  script: "mvn package -B"
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
+maven-test:     # Test stage to run all the Junit tests available in the project
+  image: maven:3-jdk-11
+  stage: test
+  script: "mvn test -B"
 
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+quality-checks:   # Quality stage to run designite and get all the quality metrics and upload to qscored
+  stage: quality-checks
+  image: maven:3-jdk-11
+  variables:
+    UPLOAD_QUALITY_REPORT: 'curl -X PUT -H "Authorization: Token $QSCORED_API_KEY" + -H "username:sharad99kr@gmail.com" -H "Content-Type:   application/xml" --url "https://qscored.com/api/upload/file.xml?is_open_access=off&version=$CI_PIPELINE_IID&project_name=bethedonor_project" -F "file=@DesigniteAnalysis.xml"'
+  before_script:
+    - apt-get update
+    - apt-get install -y wget curl
+    - wget -O DesigniteJava.jar https://www.dropbox.com/s/mwizkj8uhplz4x3/DesigniteJava.jar?dl=1
   script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
+    - java -jar DesigniteJava.jar -i ./ -o code-quality/ -f XML
+    - ls -l
+    - ls code-quality
+    - cd code-quality
+    - eval "$UPLOAD_QUALITY_REPORT"
+    - echo "$UPLOAD_QUALITY_REPORT"
+  only:
+    - develop
 
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+deploy:       # Deploy stage to deploy the built project to heroku
+  stage: deploy
+  image: ruby:latest
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=mealstop-application --api-key=$HEROKU_API_KEY

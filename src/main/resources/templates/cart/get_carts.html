@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MealStop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{styles/main.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+</head>
+<body class="d-flex flex-column h-100">
+
+<div th:replace="~{fragments/header :: header}"> </div>
+
+<div sec:authorize="!isAuthenticated()" class="text-center">
+    <main role="main" class="flex-shrink-0">
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <p>You have not logged in to the application. Please login to continue...</p>
+                <a th:href="@{/login}">Click here to log in!</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+    <div class="container bootstrap snippets bootdey">
+        <div class="col-md-9 col-sm-8 content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-info panel-shadow">
+                        <div class="panel-heading">
+                            <h3>
+                                <img class="img-circle img-thumbnail" src="https://bootdey.com/img/Content/user_3.jpg">
+                                <h5 class="my-3" th:text="${customer.firstName} +' '+ ${customer.lastName}"></h5>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Meal Name</th>
+                                        <th>Tags</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item: ${cart.cartItems}">
+                                        <td>
+                                            <img src="https://via.placeholder.com/400x200/FFB6C1/000000" class="img-cart" style="display:block;max-width: 50px;height: auto;margin-left: auto;margin-right: auto;">
+                                        </td>
+
+                                        <td>
+                                            <strong><p th:text="${item.mealName}"> </p></strong>
+                                        </td>
+
+                                        <td>
+                                            <p th:text="${item.tags}"></p>
+                                        </td>
+
+                                        <td>
+                                            <p th:text="${item.price}"></p>
+                                        </td>
+
+                                        <td>
+                                            <p th:text="${item.price}"></p>
+                                        </td>
+
+                                        <td>
+                                            <form class="form-inline">
+                                                <a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
+                    <form method="post" th:action="@{/orders/add_order}" th:data-cart="${cart}">
+                        <button class="btn btn-sm btn btn-danger pull-right" type="submit">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div  th:replace="~{fragments/footer :: footer}"> </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>

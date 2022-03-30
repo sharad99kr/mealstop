@@ -1,7 +1,9 @@
 package com.dalhousie.MealStop.user.service;
 
+import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.user.entity.PasswordResetToken;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.entity.VerificationToken;
@@ -16,7 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +41,10 @@ public class UserService implements IUserService, UserDetailsService {
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ICustomerService customerService;
 
     @Override
     public User signUpUser(UserModel userModel) {
@@ -53,6 +58,17 @@ public class UserService implements IUserService, UserDetailsService {
         user.setRole(userModel.getRole());
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         userRepository.save(user);
+
+        if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_CUSTOMER)))
+        {
+            customerService.addCustomer(user);
+        }
+        else if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_NGO)))
+        {
+            //To Do add NGO changes here to save.
+            customerService.addCustomer(user);
+        }
+
         return user;
     }
 
@@ -64,7 +80,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public void saveVerificationTokenForUser(User user, String token) {
-        var verifyToken = new VerificationToken(user, token);
+        VerificationToken verifyToken = new VerificationToken(user, token);
         verificationTokenRepository.save(verifyToken);
     }
 
@@ -76,7 +92,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public String validateVerificationToken(String token) {
-        var verificationToken = verificationTokenRepository.findByToken(token);
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
 
         // If no verification token present.
         if (verificationToken == null)
@@ -117,7 +133,7 @@ public class UserService implements IUserService, UserDetailsService {
      */
     @Override
     public String validatePasswordResetToken(String token) {
-        var passwordResetToken = passwordResetTokenRepository.findByToken(token);
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null)
             return VerificationTokenConstants.INVALID;
 
@@ -159,7 +175,7 @@ public class UserService implements IUserService, UserDetailsService {
      *
      * @param user        user whose password will be changed
      * @param oldPassword password that needs to be checked
-     * @return
+     * @return true if password matches and false otherwise
      */
     @Override
     public boolean checkIfValidOldPassword(User user, String oldPassword) {
