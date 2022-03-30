@@ -48,4 +48,12 @@ public class NGOServiceImpl implements INGOService {
         return null;
     }
 
+    @Override
+    public void addNGO(User user)
+    {
+        NGO ngo = new NGO(user);
+        ngoRepository.save(ngo);
+    }
+
+
 }
