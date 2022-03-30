@@ -50,7 +50,13 @@ public class NGOServiceImplTest {
         NGOList.add(NGO2);
     }
 
-
+    @AfterEach
+    void tearDown()
+    {
+        NGO1 = NGO2 = null;
+        NGOList = null;
     }
+
+
 
 }
