@@ -22,6 +22,7 @@
             <form th:action="@{/api/v1/signup}" method="post"
                   class="form-horizontal border"
                   role="search"
+                  autocomplete="off"
                   th:object="${userModel}"
                   style="
               margin: 100px 20px;
@@ -92,6 +93,9 @@
                 <button class="btn" style="background-color: #012d78; color: white; width: 100%; margin-top: 20px;"
                         type="submit"  onclick=" return validateForm()">Register
                 </button>
+                <div class="form-group" style="text-align: center; margin-top: 20px;">
+                    <a href="/login">Already registered? Login</a>
+                </div>
             </form>
         </div>
     </div>

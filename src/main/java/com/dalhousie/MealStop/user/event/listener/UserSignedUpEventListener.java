@@ -37,6 +37,7 @@ public class UserSignedUpEventListener implements ApplicationListener<UserSigned
 
         log.info(VERIFY_URL + url);
         emailService.sendEmail(user.getUsername(), VERIFY_URL + url, MEALSTOP_REGISTRATION);
+        return;
     }
 
 }
