@@ -57,6 +57,25 @@ public class NGOServiceImplTest {
         NGOList = null;
     }
 
+    @Test
+    void getNGOById()
+    {
+        java.util.Optional<NGO> ngo = java.util.Optional.of(new NGO());
+        when(ngoRepository.findById(1L)).thenReturn(ngo);
+
+        String NGOId = new Long(NGO1.getId()).toString();
+        assertThat(NGOService.getNGOById(NGOId).isEqualTo(ngo.get());
+    }
+
+    void setDummyUserInSession()
+    {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        Mockito.when(SecurityContextHolder.getContext().getAuthentication().getDetails()).thenReturn(user);
+    }
+
 
 
 }
