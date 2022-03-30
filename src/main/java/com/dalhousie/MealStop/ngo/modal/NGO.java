@@ -33,5 +33,17 @@ public class NGO implements INGO {
     @Column(name = "total_orders")
     private Integer totalOrders;
 
+    public NGO() {}
+
+    public NGO(String name, String email, String address, String phoneNumber)
+    {
+        this.name = name;
+        this.email=email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
+    }
+
+
 
 }
