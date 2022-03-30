@@ -54,6 +54,49 @@ public class NGO implements INGO {
         this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
     }
 
+    @Override
+    public long getId()
+    {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @Override
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getNGOName()
+    {
+        return name;
+    }
+
 
 
 
