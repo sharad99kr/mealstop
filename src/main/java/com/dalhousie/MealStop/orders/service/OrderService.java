@@ -135,6 +135,7 @@ public class OrderService implements IOrderService {
 
     //this method returns monthly earnings of a restaurant by id provided
     public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year){
+
         List<Orders> orders= orderRepository.findAllByRestaurantIdandYear(restaurantId, year);
         Map<Integer, Float> monthlyReport=new HashMap<>();
         for (Orders order:orders) {
