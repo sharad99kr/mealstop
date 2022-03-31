@@ -16,9 +16,6 @@ public class  CustomerServiceImplementation implements ICustomerService
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private ICustomerService customerService;
-
     @Override
     public Customer getCustomerById(String id)
     {
@@ -40,7 +37,7 @@ public class  CustomerServiceImplementation implements ICustomerService
         try
         {
             User user = (User)SecurityContextHolder.getContext().getAuthentication().getDetails();
-            customer = customerService.getCustomerInstanceFromUser(user);
+            customer = getCustomerInstanceFromUser(user);
         }
         catch(Exception e)
         {
