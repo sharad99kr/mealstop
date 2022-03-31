@@ -135,6 +135,7 @@ public class OrderController {
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,Constants.ACTIVE);
         List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
         model.addAttribute("order_list", order_list);
+        model.addAttribute("restaurant_id",id);
         return  "orders/OrderDetails";
 
     }
