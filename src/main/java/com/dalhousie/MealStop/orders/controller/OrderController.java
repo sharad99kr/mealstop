@@ -12,10 +12,14 @@ import com.dalhousie.MealStop.orders.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import java.time.LocalDate;
+import java.util.Date;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
+
 
 class OrdersPayload{
     public long orderId;
@@ -112,6 +116,7 @@ public class OrderController {
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,status);
         List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
         model.addAttribute("order_list", order_list);
+        model.addAttribute("restaurant_id",id);
         return  "orders/OrderDetails";
     }
 
@@ -210,17 +215,20 @@ public class OrderController {
         return "orders/Enjoy";
     }
 
-    @GetMapping("orders/report/id={id}&year={year}")
-    String Report(Model model, @PathVariable("id") long id,@PathVariable("year") int year) {
+    @RequestMapping("orders/report/{id}")
+    String Report(Model model, @PathVariable("id") long id) {
+
 
         Map<String, Float> report_list=new HashMap<>();
-        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,2022);
         Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
         while(itr.hasNext()){
-
+            
             Map.Entry<Integer, Float> entry = itr.next();
             report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
         }
+        System.out.println(report_list.size());
         model.addAttribute("report_list", report_list);
         return  "orders/MonthlyReport";
     }

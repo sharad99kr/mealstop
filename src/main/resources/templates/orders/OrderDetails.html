@@ -77,11 +77,11 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" >
 
-                    <form class="d-flex">
+                    <form th:action="@{/orders/report/16}" method="post" th:value="${restaurant_id}">
 
-                        <button class="btn btn-outline-success" type="submit">Export csv</button>
+                        <button class="btn btn-outline-success" type="submit">Report</button>
                     </form>
                 </div>
             </div>
@@ -119,5 +119,6 @@
         </tbody>
     </table>
 </div>
+<div  th:replace="~{fragments/footer :: footer}"> </div>
 </body>
 </html>
