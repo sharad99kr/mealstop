@@ -130,6 +130,16 @@ public class OrderController {
 
     }
 
+    @GetMapping("orders/ngo_orders/{id}")
+    String ngoCancelledOrders(Model model, @PathVariable("id") long id) {
+
+        List<Orders> orders=orderService.getAllCanceledOrders();
+        List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
+        model.addAttribute("order_list", order_list);
+        return  "orders/NGOActiveOrders";
+
+    }
+
     List<OrdersPayload> GetRestaurantOrdersList(List<Orders> orders){
         List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:orders) {
