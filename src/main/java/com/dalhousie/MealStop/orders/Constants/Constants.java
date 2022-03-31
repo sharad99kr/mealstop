@@ -25,5 +25,9 @@ public class Constants {
     public static final String FOOD_8="https://images.pexels.com/photos/1351238/pexels-photo-1351238.jpeg";
     public static final String FOOD_9="https://images.pexels.com/photos/1128678/pexels-photo-1128678.jpeg";
 
+    public static final String FILE_WRITE_ERROR="Error While writing CSV ";
+    public static final String MONTHLY_REPORT="Monthly report for year %d";
+    public static final String MONTH_HEADER="Month";
+    public static final String EARNINGS_HEADER="Earnings($)";
 
 }

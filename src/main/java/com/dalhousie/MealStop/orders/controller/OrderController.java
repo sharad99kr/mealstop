@@ -302,12 +302,13 @@ public class OrderController {
         }
 
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
-            csvPrinter.printRecord("Month", "Earnings($)");
+            csvPrinter.printRecord(String.format(Constants.MONTHLY_REPORT,year));
+            csvPrinter.printRecord(Constants.MONTH_HEADER, Constants.EARNINGS_HEADER);
             for (String reportKeys : report_list.keySet()) {
                 csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
             }
         } catch (IOException e) {
-            System.out.println("Error While writing CSV ");
+            System.out.println(Constants.FILE_WRITE_ERROR);
         }
     }
 
