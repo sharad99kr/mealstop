@@ -9,15 +9,19 @@ import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.IOrderService;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.io.IOException;
+import java.io.Writer;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 
@@ -258,7 +262,7 @@ public class OrderController {
 
         Map<String, Float> report_list=new HashMap<>();
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,2022);
+        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
         Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
         while(itr.hasNext()){
             
@@ -267,7 +271,44 @@ public class OrderController {
         }
         System.out.println(report_list.size());
         model.addAttribute("report_list", report_list);
+        model.addAttribute("restaurant_id", id);
+
         return  "orders/MonthlyReport";
+    }
+
+    @RequestMapping("orders/generateReport/{id}")
+    String GenerateCsv(Model model, @PathVariable("id") long id, HttpServletResponse servletResponse) throws IOException {
+
+
+        System.out.println("Hello world"+id);
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition","attachment; filename=\"Earnings.csv\"");
+        writeEarningsToCsv(servletResponse.getWriter(), id);
+        return  "orders/MonthlyReport";
+    }
+
+    public void writeEarningsToCsv(Writer writer, long id) {
+
+        //https://springhow.com/spring-boot-export-to-csv/
+        //used above link as reference to export csv file
+        Map<String, Float> report_list=new HashMap<>();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
+        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
+        while(itr.hasNext()){
+
+            Map.Entry<Integer, Float> entry = itr.next();
+            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
+        }
+
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            csvPrinter.printRecord("Month", "Earnings($)");
+            for (String reportKeys : report_list.keySet()) {
+                csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
+            }
+        } catch (IOException e) {
+            System.out.println("Error While writing CSV ");
+        }
     }
 
     @GetMapping("orders/Enjoy")
