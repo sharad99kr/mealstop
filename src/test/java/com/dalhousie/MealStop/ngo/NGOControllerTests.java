@@ -6,14 +6,18 @@ import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.ngo.modal.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
+import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -26,13 +30,15 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class NGOControllerTests {
 
         @Mock
         private INGOService ingoService;
 
         @Mock
-        private IRestaurantService restaurantService;
+        private IOrderService orderService;
 
         @InjectMocks
         NGOController ngoController;
@@ -84,7 +90,7 @@ public class NGOControllerTests {
         void getCustomerProfilePage() throws Exception
         {
             Mockito.lenient().when(ingoService.getNGODetailsFromSession()).thenReturn(ngo);
-            mockMvc.perform(get("ngo/profile"))
+            mockMvc.perform(get("/ngo/profile"))
                     .andExpect(status().isOk());
             verify(ingoService, times(1)).getNGODetailsFromSession();
         }
@@ -92,10 +98,10 @@ public class NGOControllerTests {
         @Test
         void getLandingPage() throws Exception
         {
-            Mockito.lenient().when(ingoService.getNGODetailsFromSession()).thenReturn(ngo);
+            Mockito.lenient().when(orderService.getAllCanceledOrders()).thenReturn(new ArrayList<>());
             mockMvc.perform(get("/ngo/homepage"))
                     .andExpect(status().isOk());
-            verify(ingoService, times(1)).getNGODetailsFromSession();
+            verify(orderService, times(1)).getAllCanceledOrders();
         }
 
 
