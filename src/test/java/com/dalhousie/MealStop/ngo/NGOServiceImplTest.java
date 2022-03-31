@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.ngo;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.ngo.modal.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
@@ -48,7 +47,7 @@ public class NGOServiceImplTest {
     {
         user = new User(1L, "kuldeep", "ngo", "ngo@gmail.com", "11111111", "April 22, 1999", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         NGO1 = new NGO(user);
-        NGO2 = new NGO("Test", "User","Test@gmail.com","12121212");
+        NGO2 = new NGO("Test", "User","Test@gmail.com","111111111");
         NGO2.setId(2L);
 
         NGOList = new ArrayList<>();
