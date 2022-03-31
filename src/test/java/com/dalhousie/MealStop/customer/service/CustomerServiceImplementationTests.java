@@ -51,6 +51,7 @@ public class CustomerServiceImplementationTests
     {
         user = new User(1L, "Shathish", "Annamalai", "abc@gmail.com", "9898989898", "March 10, 2021", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         customer1 = new Customer(user);
+        customer1.setId(1L);
         customer2 = new Customer("Test", "User","Test@gmail.com");
         customer2.setId(2L);
 
@@ -137,5 +138,13 @@ public class CustomerServiceImplementationTests
         Integer currentTokens = customerService.getCustomerTokenCount();
         Integer updatedToken = customerService.decrementCustomerToken(2);
         assertEquals(currentTokens-2, updatedToken);
+    }
+
+    @Test
+    void getCustomerInstanceFromUser()
+    {
+        java.util.Optional<Customer> customer = java.util.Optional.of(new Customer());
+        when(customerRepository.findById(1L)).thenReturn(customer);
+        assertThat(customerService.getCustomerInstanceFromUser(user)).isEqualTo(customer.get());
     }
 }
