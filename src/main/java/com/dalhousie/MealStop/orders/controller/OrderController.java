@@ -70,9 +70,17 @@ public class OrderController {
     @RequestMapping("orders/customer_orders_all")
     String customerOrdersNew(Model model, @ModelAttribute("customer_id") long id) {
 
-        List<OrdersPayload> order_list=new ArrayList<>();
-        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,Constants.ACTIVE);
+        List<OrdersPayload> order_list=getActiveOrdersForCustomer( id);
 
+
+        model.addAttribute("order_list", order_list);
+        return  "orders/CustomerActiveOrders";
+
+    }
+
+    List<OrdersPayload> getActiveOrdersForCustomer( long id){
+        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,Constants.ACTIVE);
+        List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
             payload.orderId=order.getOrderId();
@@ -84,10 +92,7 @@ public class OrderController {
             payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
             order_list.add(payload);
         }
-
-        model.addAttribute("order_list", order_list);
-        return  "orders/CustomerActiveOrders";
-
+        return order_list;
     }
 
     @GetMapping("orders/cancelled_orders")
@@ -95,7 +100,13 @@ public class OrderController {
     {
         List<OrdersPayload> order_list=new ArrayList<>();
         List<Orders> listOrders = orderService. getAllCanceledOrders();
+        order_list=getCancelledOrdersPayload(listOrders);
+        model.addAttribute("order_list", order_list);
+        return "orders/OrderDetails";
+    }
 
+    List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
+        List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:listOrders) {
             OrdersPayload payload=new OrdersPayload();
             payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
@@ -105,9 +116,7 @@ public class OrderController {
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
             order_list.add(payload);
         }
-
-        model.addAttribute("order_list", order_list);
-        return "orders/OrderDetails";
+        return order_list;
     }
 
     @GetMapping("orders/restaurant_orders/id={id}&status={status}")
@@ -130,15 +139,28 @@ public class OrderController {
 
     }
 
-    @GetMapping("orders/ngo_orders/{id}")
-    String ngoCancelledOrders(Model model, @PathVariable("id") long id) {
+    @GetMapping("orders/ngo_orders/{ngoId}")
+    String ngoSendCancelledOrders(Model model) {
 
         List<Orders> orders=orderService.getAllCanceledOrders();
-        List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
+        List<OrdersPayload> order_list=getCancelledOrdersPayload(orders);
         model.addAttribute("order_list", order_list);
         return  "orders/NGOActiveOrders";
 
     }
+
+    @GetMapping("orders/ngo_accepted_order/orderId={orderId}&ngoId={ngoId}")
+    String ngoAcceptedOrders(Model model, @PathVariable("orderId") long orderId,@PathVariable("ngoId") int ngoId) {
+        orderService.claimedByNGO(ngoId,orderId);
+        List<Orders> orders=orderService.getOrdersForNGO(ngoId);
+
+        List<OrdersPayload> order_list=getCancelledOrdersPayload(orders);
+        model.addAttribute("order_list", order_list);
+        return  "orders/NGOOrderDetails";
+
+    }
+
+
 
     List<OrdersPayload> GetRestaurantOrdersList(List<Orders> orders){
         List<OrdersPayload> order_list=new ArrayList<>();
@@ -211,9 +233,13 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/cancelOrder/{id}")
-    public String cancelOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
+    public String cancelOrder(Model model, @PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
         orderService.updateOrderStatus(orderId,Constants.CANCELLED);
+        Orders order=orderService.getOrderByOrderID(orderId);
+        List<OrdersPayload> orders=getActiveOrdersForCustomer( order.getCustomerId());
+
+        model.addAttribute("order_list", orders);
         return "orders/CustomerActiveOrders";
     }
 

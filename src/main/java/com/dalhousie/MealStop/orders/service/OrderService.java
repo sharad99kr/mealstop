@@ -1,4 +1,6 @@
 package com.dalhousie.MealStop.orders.service;
+import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
+import com.dalhousie.MealStop.NGOOrder.service.INGOOrderService;
 import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
@@ -9,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dalhousie.MealStop.orders.Constants.Constants;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderService implements IOrderService {
@@ -29,9 +28,8 @@ public class OrderService implements IOrderService {
     @Autowired
     private IRewardService rewardService;
 
-    //check if enough token is added
-    //custoer get/set
-    //customer servive.update
+    private INGOOrderService ngoOrderService;
+
 
     @Override
     public void CreateOrderFromCart(CustomerCart cart){
@@ -66,10 +64,33 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public List<Orders> getOrdersForNGO(long ngoId){
+
+        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoId);
+        List<Orders> orders=new ArrayList<>();
+        for (NGOOrder ngorder:ngoOrders) {
+            long id = ngorder.getOrderId();
+            Orders order1=getOrderByOrderID(id);
+            orders.add(order1);
+        }
+
+        return orders;
+
+    }
+
+    @Override
     public void updateOrderStatus(long orderId, int status){
 
         //this method updates order status that has been placed
         orderRepository.updateOrdersById(orderId,status);
+    }
+
+    @Override
+    public void claimedByNGO(long ngoId, long orderId){
+        //this method updates and links an order with NGO
+        updateOrderStatus( orderId, Constants.CLAIMED);
+        NGOOrder ngoOrder=new NGOOrder(orderId,ngoId,Constants.CLAIMED);
+        ngoOrderService.addNGOOrder(ngoOrder);
     }
 
     @Override

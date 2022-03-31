@@ -39,6 +39,8 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     @Transactional
     public void updateOrdersById(long orderId, int status);
 
+
+
     //customer query to find most ordered meal by a customer from a restaurant
     @Query(value = Constants.MOST_ORDERED_MEAL_BY_CUSTOMER_FROM_RESTAURANT, nativeQuery = true)
     List<Long> findByCustomerIdAndRestaurantId(Long customerId,Long restaurantId);

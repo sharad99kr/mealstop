@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.orders.model;
 
 import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.ngo.modal.NGO;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 
@@ -84,6 +85,7 @@ public class Orders implements IOrders {
         return restaurantId;
     }
 
+
     @Override
     public long getMealId(){
         return mealId;
@@ -103,6 +105,7 @@ public class Orders implements IOrders {
     public void setRestaurantId(long restaurantId){
         this.restaurantId=restaurantId;
     }
+
 
     @Override
     public void setMealId(long mealId){
@@ -125,6 +128,7 @@ public class Orders implements IOrders {
     @ManyToOne
     @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
     private Meal meal;
+
 
 
     public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id, long amount, int status){
