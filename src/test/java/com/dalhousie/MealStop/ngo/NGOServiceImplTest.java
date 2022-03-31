@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.ngo;
 
+import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.ngo.modal.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
@@ -72,6 +73,7 @@ public class NGOServiceImplTest {
         assertThat(NGOService.getNGOById(NGOId)).isEqualTo(ngo.get());
     }
 
+
     void setDummyUserInSession()
     {
         Authentication authentication = Mockito.mock(Authentication.class);
@@ -82,12 +84,19 @@ public class NGOServiceImplTest {
     }
 
     @Test
-    NGO getNGODetailsFromSession()
+    public void getNGODetailsFromSession()
     {
         setDummyUserInSession();
         NGO loggedInNGO = NGOService.getNGODetailsFromSession();
         assertThat(loggedInNGO.getEmail()).isEqualTo(user.getUsername());
-        return loggedInNGO;
+    }
+
+    @Test
+    public void getLoggedInNGOId()
+    {
+        setDummyUserInSession();
+        NGO loggedInCustomer = NGOService.getNGODetailsFromSession();
+        assertThat(loggedInCustomer.getId()).isEqualTo(user.getUser_id());
     }
 
     @Test
