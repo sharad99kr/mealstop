@@ -46,7 +46,7 @@ public class CustomerServiceImplementationTests
     @BeforeEach
     void setUp()
     {
-        user = new User(1L, "shathish", "annamalai", "abc@gmail.com", "9898989898", "March 10, 2021", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
+        user = new User(1L, "Shathish", "Annamalai", "abc@gmail.com", "9898989898", "March 10, 2021", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         customer1 = new Customer(user);
         customer2 = new Customer("Test", "User","Test@gmail.com");
         customer2.setId(2L);
