@@ -101,6 +101,7 @@ public class CustomerServiceImplementationTests
         Mockito.when(SecurityContextHolder.getContext().getAuthentication().getDetails()).thenReturn(user);
     }
 
+    /*
     @Test
     void getCustomerDetailsFromSession()
     {
@@ -132,5 +133,5 @@ public class CustomerServiceImplementationTests
         Integer currentTokens = customerService.getCustomerTokenCount();
         Integer updatedToken = customerService.decrementCustomerToken(2);
         assertEquals(currentTokens-2, updatedToken);
-    }
+    }*/
 }
