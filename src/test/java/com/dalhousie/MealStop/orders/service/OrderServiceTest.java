@@ -92,56 +92,56 @@ class OrdersServiceTest {
         Mockito.when(mockOrderRepository.findAllByRestaurantIdandYear(mockRestaurantId,mockYear)).thenReturn(mockDeliveredOrders);
 
     }
-
-    @Test
-    void addOrder() {
-    }
-
-    @Test
-    void updateOrderStatus() {
-    }
-
-    @Test
-    void getAllOrders() {
-    }
-
-    @Test
-    void getAllCanceledOrders() {
-    }
-
-    @Test
-    void getCustomerOrdersWithStatus() {
-    }
-
-    @Test
-    void getRestaurantOrdersWithStatus() {
-    }
-
-    @Test
-    void getOrdersByCustomerID() {
-    }
-
-    @Test
-    void getOrderByOrderID() {
-    }
-
-    @Test
-    void getOrdersByRestaurantID() {
-    }
-
-    @Test
-    void getMostOrderedMeal() {
-    }
-
-    @Test
-    void getMostOrderedMealOfRestaurant() {
-    }
-
-    @Test
-    void getMostOrderedMealOfCustomer() {
-    }
-
-    @Test
-    void getMonthlyReportofRestaurant() {
-    }
+//
+//    @Test
+//    void addOrder() {
+//    }
+//
+//    @Test
+//    void updateOrderStatus() {
+//    }
+//
+//    @Test
+//    void getAllOrders() {
+//    }
+//
+//    @Test
+//    void getAllCanceledOrders() {
+//    }
+//
+//    @Test
+//    void getCustomerOrdersWithStatus() {
+//    }
+//
+//    @Test
+//    void getRestaurantOrdersWithStatus() {
+//    }
+//
+//    @Test
+//    void getOrdersByCustomerID() {
+//    }
+//
+//    @Test
+//    void getOrderByOrderID() {
+//    }
+//
+//    @Test
+//    void getOrdersByRestaurantID() {
+//    }
+//
+//    @Test
+//    void getMostOrderedMeal() {
+//    }
+//
+//    @Test
+//    void getMostOrderedMealOfRestaurant() {
+//    }
+//
+//    @Test
+//    void getMostOrderedMealOfCustomer() {
+//    }
+//
+//    @Test
+//    void getMonthlyReportofRestaurant() {
+//    }
 }

@@ -65,24 +65,24 @@ class RewardServiceTest {
         assertEquals(rewardService.getRewardPoints(mockCustomerId),101);
 
     }
-
-    @Test
-    void addRewardPoints() {
-    }
-
-    @Test
-    void resetRewardPoints() {
-    }
-
-    @Test
-    void updateRewardPoints() {
-    }
-
-    @Test
-    void isRewardPointsRedeemable() {
-    }
-
-    @Test
-    void redeemRewardPoints() {
-    }
+//
+//    @Test
+//    void addRewardPoints() {
+//    }
+//
+//    @Test
+//    void resetRewardPoints() {
+//    }
+//
+//    @Test
+//    void updateRewardPoints() {
+//    }
+//
+//    @Test
+//    void isRewardPointsRedeemable() {
+//    }
+//
+//    @Test
+//    void redeemRewardPoints() {
+//    }
 }
