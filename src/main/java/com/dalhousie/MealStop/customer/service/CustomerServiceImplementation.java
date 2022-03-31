@@ -87,11 +87,13 @@ public class  CustomerServiceImplementation implements ICustomerService
         addCustomer(newCustomer);
     }
 
+    @Override
     public void addCustomer(Customer newCustomer)
     {
         customerRepository.save(newCustomer);
     }
 
+    @Override
     public Customer getCustomerInstanceFromUser(User user)
     {
         Long customerId = user.getUser_id();

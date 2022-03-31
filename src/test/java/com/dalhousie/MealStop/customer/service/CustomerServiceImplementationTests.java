@@ -13,12 +13,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +34,7 @@ public class CustomerServiceImplementationTests
     @Mock
     private CustomerRepository customerRepository;
 
+    @Autowired
     @InjectMocks
     private CustomerServiceImplementation customerService;
 
@@ -94,6 +97,7 @@ public class CustomerServiceImplementationTests
 
     void setDummyUserInSession()
     {
+        when(customerRepository.findById(1L)).thenReturn(Optional.ofNullable(customer1));
         Authentication authentication = Mockito.mock(Authentication.class);
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
@@ -101,7 +105,7 @@ public class CustomerServiceImplementationTests
         Mockito.when(SecurityContextHolder.getContext().getAuthentication().getDetails()).thenReturn(user);
     }
 
-    /*
+
     @Test
     void getCustomerDetailsFromSession()
     {
@@ -133,5 +137,5 @@ public class CustomerServiceImplementationTests
         Integer currentTokens = customerService.getCustomerTokenCount();
         Integer updatedToken = customerService.decrementCustomerToken(2);
         assertEquals(currentTokens-2, updatedToken);
-    }*/
+    }
 }
