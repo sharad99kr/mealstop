@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.restaurant;
+package com.dalhousie.MealStop.integration_tests;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.repository.RestaurantRepository;
