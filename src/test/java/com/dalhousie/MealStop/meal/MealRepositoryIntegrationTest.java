@@ -27,7 +27,7 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealListWhenFindByRestaurantId() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
         meal.setId(1L);
         Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
@@ -43,7 +43,7 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindAll() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
         meal.setId(1L);
         Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
@@ -58,7 +58,7 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenSave() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
         meal.setId(1L);
         Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
@@ -73,7 +73,7 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindById() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
         meal.setId(1L);
         Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
@@ -89,7 +89,7 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnUpdatedMealWhenUpdateMealIsPerformed() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
         meal.setId(1L);
         Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);

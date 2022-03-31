@@ -23,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,6 +36,9 @@ class RestaurantControllerTest {
 
     @Mock
     private IRestaurantService restaurantService;
+
+    @Mock
+    private BindingResult mockBindingResult;
 
     @InjectMocks
     RestaurantController restaurantController;
@@ -88,15 +94,15 @@ class RestaurantControllerTest {
         mockMvc.perform(post("/restaurant/update_restaurant/{id}", 1L)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .requestAttr("Restaurant", restaurant1))
-                .andExpect(status().isFound());
-        assertEquals("redirect:/restaurant/get_restaurant/", restaurantController.updateRestaurant(restaurant1, 1L));
+                .andExpect(status().isOk());
+        assertEquals("redirect:/restaurant/get_restaurant/", restaurantController.updateRestaurant(restaurant1, mockBindingResult, 1L));
     }
 
     @Test
     void addRestaurantForm() throws Exception {
         mockMvc.perform(get("/restaurant/add_restaurant_form"))
                 .andExpect(status().isOk());
-        assertEquals("restaurant/add_restaurant", restaurantController.addRestaurantForm());
+        assertEquals("restaurant/add_restaurant", restaurantController.addRestaurantForm(restaurant1));
     }
 
     @Test
@@ -105,9 +111,9 @@ class RestaurantControllerTest {
         mockMvc.perform(post("/restaurant/add_restaurant")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .requestAttr("Restaurant", restaurant1))
-                .andExpect(status().isFound());
+                .andExpect(status().isOk());
 
-        assertEquals("redirect:/restaurant/get_restaurant/", restaurantController.addRestaurant(restaurant1));
+        assertEquals("redirect:/restaurant/get_restaurant/", restaurantController.addRestaurant(restaurant1, mockBindingResult));
     }
 
     @Test

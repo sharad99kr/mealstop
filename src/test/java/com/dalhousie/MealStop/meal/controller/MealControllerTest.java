@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,10 @@ class MealControllerTest {
 
     @Mock
     private IRestaurantService restaurantService;
+
+    @Mock
+    private BindingResult mockBindingResult;
+
 
     @InjectMocks
     MealController mealController;
@@ -90,9 +96,9 @@ class MealControllerTest {
         mockMvc.perform(post("/restaurant/add_meal/{id}", 1L)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .requestAttr("meal", meal1))
-                .andExpect(status().isFound());
-
-        assertEquals("redirect:/restaurant/get_meal/1", mealController.addMeal(meal1, 1L));
+                .andExpect(status().isOk());
+        Model model = null;
+        assertEquals("redirect:/restaurant/get_meal/1", mealController.addMeal(meal1, mockBindingResult,1L, model));
     }
 
     @Test
@@ -109,7 +115,9 @@ class MealControllerTest {
     @Test
     void updateMeal() throws Exception {
         Mockito.lenient().when(mealService.updateMeal(1L,meal1)).thenReturn(meal1);
-        assertEquals("redirect:/restaurant/get_meal/1", mealController.updateMeal(meal1, 1L));
+        Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(false);
+        Model model = null;
+        assertEquals("redirect:/restaurant/get_meal/1", mealController.updateMeal(meal1, mockBindingResult, 1L, model));
     }
 
     @Test

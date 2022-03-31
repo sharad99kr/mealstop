@@ -91,7 +91,7 @@
       <td th:text="${restaurant.availability}"></td>
       <td th:text="${restaurant.reviewScore}"></td>
       <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/edit/{id}(id=${restaurant.id})}">Edit</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.id})}">Meal</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.id})}">Meals</a></td>
       <td><a class="btn btn-sm btn-primary" th:href="@{/orders/restaurant_orders/{id}(id=${restaurant.id})}">Orders</a></td>
     </tr>
     </tbody>

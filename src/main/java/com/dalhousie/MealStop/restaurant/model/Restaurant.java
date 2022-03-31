@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.restaurant.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "restaurant")
@@ -14,21 +15,29 @@ public class Restaurant implements IRestaurant{
     @Column(name = "restaurantid")
     private long id;
 
+    @NotEmpty (message = "{Null.Restaurant.Name}")
     @Column(name = "name")
     private String restaurantName;
 
     @Column(name = "userid")
     private long userid;
 
+    @NotEmpty (message = "{Null.Restaurant.Availability}")
     @Column(name = "availability")
     private String availability;
 
+    @NotEmpty(message = "{Null.Restaurant.Email}")
+    @Email(message = "{Size.Restaurant.Email}")
     @Column(name = "email")
     private String email;
 
+    @NotEmpty(message = "{Null.Restaurant.PhoneNumber}")
+    @Size(min = 10, max = 10, message = "{Size.Restaurant.PhoneNumber}")
     @Column(name ="phonenumber")
     private String phoneNumber;
 
+    @NotEmpty(message = "{Null.Restaurant.Address}")
+    @Size(min=10, max = 200, message = "{Size.Restaurant.Address}")
     @Column(name= "address")
     private String address;
 

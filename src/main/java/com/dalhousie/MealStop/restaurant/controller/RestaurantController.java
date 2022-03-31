@@ -7,8 +7,10 @@ import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -38,21 +40,27 @@ public class RestaurantController
     }
 
     @PostMapping("/restaurant/update_restaurant/{id}")
-    public String updateRestaurant(@ModelAttribute Restaurant restaurant, @PathVariable("id") long id)
+    public String updateRestaurant(@Valid Restaurant restaurant, BindingResult result, @PathVariable("id") long id)
     {
+        if (result.hasErrors()) {
+            return "restaurant/update_restaurant";
+        }
         Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
         return "redirect:/restaurant/get_restaurant/";
     }
 
     @GetMapping("/restaurant/add_restaurant_form")
-    public String addRestaurantForm()
+    public String addRestaurantForm(Restaurant restaurant)
     {
         return "restaurant/add_restaurant";
     }
 
     @PostMapping("/restaurant/add_restaurant")
-    public String addRestaurant(@ModelAttribute Restaurant restaurant)
+    public String addRestaurant(@Valid Restaurant restaurant, BindingResult result)
     {
+        if (result.hasErrors()) {
+            return "restaurant/add_restaurant";
+        }
         restaurantService.addRestaurant(restaurant);
         return "redirect:/restaurant/get_restaurant/";
     }

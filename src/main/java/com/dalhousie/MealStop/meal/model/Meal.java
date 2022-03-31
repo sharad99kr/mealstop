@@ -3,6 +3,7 @@ package com.dalhousie.MealStop.meal.model;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "meal")
@@ -15,18 +16,25 @@ public class Meal implements IMeal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @NotEmpty(message = "{Null.Meal.Name}")
     @Column(name = "mealname")
     private String mealName;
 
+    @NotEmpty(message = "{Null.Meal.Calories}")
     @Column(name = "calories")
     private String calories;
 
+    @NotEmpty(message = "{Null.Meal.Tags}")
     @Column(name = "tags")
     private String tags;
 
+    @NotEmpty(message = "{Null.Meal.CuisineType}")
     @Column(name ="cuisinetype")
     private String cuisineType;
 
+    @NotNull(message = "{Null.Meal.Price}")
+    @Min(value = 1, message = "{Min.Meal.Price}")
+    @Max(value = 10, message = "{Max.Meal.Price}")
     @Column(name= "price")
     private long price;
 
