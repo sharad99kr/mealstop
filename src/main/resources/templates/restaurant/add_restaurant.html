@@ -95,7 +95,8 @@
                         </div>
 
                         <div class = "form-group">
-                            <label>Availability (like: Monday, Tuesday)</label><input type="text" class="form-control" th:field="*{availability}" name="availability">
+                            <label>Availability</label>
+                            <input type="text" value="Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday" class="form-control" th:field="*{availability}" name="availability">
                             <div class="alert alert-warning" th:if="${#fields.hasErrors('availability')}" th:errors="*{availability}"></div>
                         </div>
 

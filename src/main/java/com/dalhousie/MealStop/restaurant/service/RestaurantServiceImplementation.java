@@ -75,19 +75,19 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     }
 
     @Override
-    public Restaurant updateRestaurant(Restaurant restaurant, long id)
+    public Restaurant updateRestaurant(Restaurant updatedRestaurant, long id)
     {
         Optional<Restaurant> restaurantData = restaurantRepository.findById(id);
         if(restaurantData.isPresent())
         {
-            Restaurant _restaurant = restaurantData.get();
-            _restaurant.setRestaurantName(restaurant.getRestaurantName());
-            _restaurant.setAddress(restaurant.getAddress());
-            _restaurant.setEmail(restaurant.getEmail());
-            _restaurant.setPhoneNumber(restaurant.getPhoneNumber());
-            _restaurant.setAvailability(restaurant.getAvailability());
-            restaurantRepository.save(_restaurant);
-            return _restaurant;
+            Restaurant restaurant = restaurantData.get();
+            restaurant.setRestaurantName(updatedRestaurant.getRestaurantName());
+            restaurant.setAddress(updatedRestaurant.getAddress());
+            restaurant.setEmail(updatedRestaurant.getEmail());
+            restaurant.setPhoneNumber(updatedRestaurant.getPhoneNumber());
+            restaurant.setAvailability(updatedRestaurant.getAvailability());
+            restaurantRepository.save(restaurant);
+            return restaurant;
         }
         return null;
     }
