@@ -22,12 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 
-class ReportPayload{
-    public String monthName;
-    public float amount;
-
-}
-
 @Controller
 public class OrderController {
     @Autowired
