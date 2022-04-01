@@ -200,9 +200,9 @@ class OrderServiceTest {
 //
     @Test
     void updateOrderStatus() {
-//        orderRepository.updateOrdersById(orderId,status);
-//        when(mockOrderRepository.findByCustomerIdAndStatus(mockCustomerId,mockActiveStatus)).thenReturn(mockCustomerOrders);
-//        assertThat(orderService.updateOrderStatus(mockCustomerId,mockActiveStatus)).isEqualTo(mockCustomerOrders);
+
+        orderService.updateOrderStatus(mockCustomerId,mockActiveStatus);
+        verify(mockOrderRepository,times(1)).updateOrdersById(mockCustomerId,mockActiveStatus);
     }
 
     @Test

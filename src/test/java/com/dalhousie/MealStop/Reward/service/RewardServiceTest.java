@@ -99,18 +99,15 @@ class RewardServiceTest {
 //        verify(mockRewardRepository,times(1)).updateRewardsById(mockCustomerId,0);
 //    }
 
-//    @Test
-//    void updateRewardPoints() {
-//
-//        doNothing().
-//                doThrow(new RuntimeException())
-//                .when(mockRewardRepository).updateRewardsById(mockCustomerId,10);
-//
-//
-//        rewardService.updateRewardPoints(mockCustomerId, 10);
-//        verify(mockRewardRepository,times(1)).updateRewardsById(mockCustomerId,10);
-//
-//    }
+    @Test
+    void updateRewardPoints() {
+
+        // rewardRepository.updateRewardsById(customerId,points);
+
+//        rewardService.updateRewardPoints(mockCustomerId,Constants.ZERO_POINTS);
+//        verify(mockRewardRepository,times(1)).updateRewardsById(mockCustomerId,Constants.ZERO_POINTS);
+
+    }
 
     @Test
     void isRewardPointsRedeemable() {
