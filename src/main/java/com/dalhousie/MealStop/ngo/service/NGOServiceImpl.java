@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.ngo.service;
 
-import com.dalhousie.MealStop.ngo.modal.NGO;
+import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

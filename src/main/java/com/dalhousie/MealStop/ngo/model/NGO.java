@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.ngo.modal;
+package com.dalhousie.MealStop.ngo.model;
 
 import com.dalhousie.MealStop.domainconstants.MealStopConstants;
 import com.dalhousie.MealStop.user.entity.User;
