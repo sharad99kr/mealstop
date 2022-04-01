@@ -13,7 +13,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.dalhousie.MealStop.orders.Constants.Constants;
+import com.dalhousie.MealStop.common.OrderConstants;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -48,7 +48,7 @@ public class OrderService implements IOrderService {
            Long restaurantId=item.getRestaurant().getId();
            Long mealId=item.getId();
            Long price=item.getPrice();
-           Orders order=new Orders(customerId,restaurantId,mealId,0,price,Constants.ACTIVE);
+           Orders order=new Orders(customerId,restaurantId,mealId,0,price, OrderConstants.ACTIVE);
            addOrder(order);
            //decrement customer token after placing order
            customerService.decrementCustomerToken(price.intValue());
@@ -99,8 +99,8 @@ public class OrderService implements IOrderService {
     @Override
     public void claimedByNGO(long ngoId, long orderId){
         //this method updates and links an order with NGO
-        updateOrderStatus( orderId, Constants.CLAIMED);
-        NGOOrder ngoOrder=new NGOOrder(orderId,ngoId,Constants.CLAIMED);
+        updateOrderStatus( orderId, OrderConstants.CLAIMED);
+        NGOOrder ngoOrder=new NGOOrder(orderId,ngoId, OrderConstants.CLAIMED);
         ngoOrderService.addNGOOrder(ngoOrder);
     }
 
@@ -109,7 +109,7 @@ public class OrderService implements IOrderService {
     public List<Orders> getAllCanceledOrders(){
 
         //this method returns all the orders that are in the cancelled status
-        return orderRepository.findByStatus(Constants.CANCELLED);
+        return orderRepository.findByStatus(OrderConstants.CANCELLED);
     }
 
     @Override
@@ -178,13 +178,13 @@ public class OrderService implements IOrderService {
         }
 
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
-            csvPrinter.printRecord(String.format(Constants.MONTHLY_REPORT,year));
-            csvPrinter.printRecord(Constants.MONTH_HEADER, Constants.EARNINGS_HEADER);
+            csvPrinter.printRecord(String.format(OrderConstants.MONTHLY_REPORT,year));
+            csvPrinter.printRecord(OrderConstants.MONTH_HEADER, OrderConstants.EARNINGS_HEADER);
             for (String reportKeys : report_list.keySet()) {
                 csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
             }
         } catch (IOException e) {
-            System.out.println(Constants.FILE_WRITE_ERROR);
+            System.out.println(OrderConstants.FILE_WRITE_ERROR);
         }
     }
 }

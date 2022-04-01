@@ -1,16 +1,12 @@
 package com.dalhousie.MealStop.orders.service;
 
 import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
-import com.dalhousie.MealStop.orders.Constants.Constants;
+import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
-import com.dalhousie.MealStop.restaurant.service.RestaurantServiceImplementation;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 
-import javax.naming.NoPermissionException;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class OrderServiceTest {
@@ -93,10 +86,10 @@ class OrderServiceTest {
     public void init() {
         MockitoAnnotations.initMocks(this);
         mockAmount=10;
-        mockCancelledStatus= Constants.CANCELLED;
-        mockDeliveredStatus=Constants.DELIVERED;
-        mockActiveStatus=Constants.ACTIVE;
-        mockProcessedStatus=Constants.PROCESSED;
+        mockCancelledStatus= OrderConstants.CANCELLED;
+        mockDeliveredStatus= OrderConstants.DELIVERED;
+        mockActiveStatus= OrderConstants.ACTIVE;
+        mockProcessedStatus= OrderConstants.PROCESSED;
         mockCustomerId=1;
         mockRestaurantId=1;
         mockMealId=1;

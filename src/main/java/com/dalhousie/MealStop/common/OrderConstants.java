@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.orders.Constants;
+package com.dalhousie.MealStop.common;
 
-public class Constants {
+public class OrderConstants {
 
     //food order status
     public static final int CANCELLED=0;
@@ -40,5 +40,20 @@ public class Constants {
     public static final String GET_ORDER_BY_RESTAURANT_ID_STATUS="orders/restaurant_orders/id={id}&status={status}";
     public static final String GET_ORDER_BY_RESTAURANT_ID="orders/restaurant_orders/{id}";
     public static final String GET_ORDERS_BY_NGO_ID="orders/ngo_orders/{ngoId}";
+
+    //months
+    public static final int JAN=0;
+    public static final int FEB=1;
+    public static final int MARCH=2;
+    public static final int APRIL=3;
+    public static final int MAY=4;
+    public static final int JUNE=5;
+    public static final int JULY=6;
+    public static final int AUG=7;
+    public static final int SEP=8;
+    public static final int OCT=9;
+    public static final int NOV=10;
+    public static final int DEC=11;
+
 
 }
