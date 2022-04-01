@@ -1,8 +1,10 @@
 package com.dalhousie.MealStop.orders.service;
 
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.orders.controller.OrdersPayload;
 import com.dalhousie.MealStop.orders.model.Orders;
 
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
@@ -11,43 +13,46 @@ public interface IOrderService {
     public void CreateOrderFromCart(CustomerCart cart);
 
     //method signature that adds new order
-    public abstract void addOrder(Orders newOrder);
+    public void addOrder(Orders newOrder);
 
-    //abstract method that returns all the orders
-    public abstract List<Orders> getAllOrders();
+    //method signature that returns all the orders
+    public List<Orders> getAllOrders();
 
-    //abstract method returns all the orders that are in the cancelled status
-    public abstract List<Orders> getAllCanceledOrders();
+    //method signature returns all the orders that are in the cancelled status
+    public List<Orders> getAllCanceledOrders();
 
-    //abstract method to get all orders by user id
-    public abstract List<Orders> getOrdersByCustomerID(long userId);
+    //method signature to get all orders by user id
+    public List<Orders> getOrdersByCustomerID(long userId);
 
-    //abstract method to get all orders by order id
-    public abstract Orders getOrderByOrderID(long orderId);
+    //method signature to get all orders by order id
+    public Orders getOrderByOrderID(long orderId);
 
-    //abstract method to update order status
-    public abstract void updateOrderStatus(long orderId, int status);
+    //method signature to update order status
+    public void updateOrderStatus(long orderId, int status);
 
-    public abstract List<Orders> getOrdersByRestaurantID(long restaurantId);
+    public List<Orders> getOrdersByRestaurantID(long restaurantId);
 
-    //abstract method to return most ordered meal by restaurant id and customer id
-    public abstract List<Long> getMostOrderedMeal(long customerId, long restaurantId );
+    //method signature to return most ordered meal by restaurant id and customer id
+    public List<Long> getMostOrderedMeal(long customerId, long restaurantId );
 
-    //abstract method to return most ordered meal by restaurant
-    public abstract List<Long> getMostOrderedMealOfRestaurant(long restaurantId);
+    //method signature to return most ordered meal by restaurant
+    public List<Long> getMostOrderedMealOfRestaurant(long restaurantId);
 
-    //abstract method to return most ordered meal by customer id
-    public abstract List<Long> getMostOrderedMealOfCustomer(long customerId);
+    //method signature to return most ordered meal by customer id
+    public List<Long> getMostOrderedMealOfCustomer(long customerId);
 
-    //abstract method to return monthly report of earnings for a Restaurant
-    public abstract Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);
+    //method signature to return monthly report of earnings for a Restaurant
+    public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);
 
-    //abstract method to update order claimed by NGO
-    public abstract void claimedByNGO(long ngoId, long orderId);
+    //method signature to update order claimed by NGO
+    public void claimedByNGO(long ngoId, long orderId);
 
-    public abstract List<Orders> getCustomerOrdersWithStatus(long customerId, int status);
+    public List<Orders> getCustomerOrdersWithStatus(long customerId, int status);
 
-    public abstract List<Orders> getOrdersForNGO(long ngoId);
+    public List<Orders> getOrdersForNGO(long ngoId);
 
-    public abstract List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status);
+    public List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status);
+
+    public void writeEarningsToCsv(Writer writer, long id);
+
 }

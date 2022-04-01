@@ -2,6 +2,7 @@ package com.dalhousie.MealStop.orders.Constants;
 
 public class Constants {
 
+    //food order status
     public static final int CANCELLED=0;
     public static final int PROCESSED=1;
     public static final int DELIVERED=2;
@@ -15,6 +16,7 @@ public class Constants {
 
     public static final String ORDERS_BY_NGO_ID="select * from `ngoorder` where ngo_id=?1";
 
+    //static image urls
     public static final String FOOD_1="https://images.pexels.com/photos/1143754/pexels-photo-1143754.jpeg";
     public static final String FOOD_2="https://images.pexels.com/photos/1438672/pexels-photo-1438672.jpeg";
     public static final String FOOD_3="https://images.pexels.com/photos/1860208/pexels-photo-1860208.jpeg";
@@ -25,9 +27,18 @@ public class Constants {
     public static final String FOOD_8="https://images.pexels.com/photos/1351238/pexels-photo-1351238.jpeg";
     public static final String FOOD_9="https://images.pexels.com/photos/1128678/pexels-photo-1128678.jpeg";
 
+    //csv constants
     public static final String FILE_WRITE_ERROR="Error While writing CSV ";
     public static final String MONTHLY_REPORT="Monthly report for year %d";
     public static final String MONTH_HEADER="Month";
     public static final String EARNINGS_HEADER="Earnings($)";
+
+    public static final String ADD_ORDER="orders/add_order";
+    public static final String GET_PROCESSED_ORDER="orders/customer_processed_orders";
+    public static final String GET_ALL_ORDER="orders/customer_orders_all";
+    public static final String GET_CANCELLED_ORDER="orders/cancelled_orders";
+    public static final String GET_ORDER_BY_RESTAURANT_ID_STATUS="orders/restaurant_orders/id={id}&status={status}";
+    public static final String GET_ORDER_BY_RESTAURANT_ID="orders/restaurant_orders/{id}";
+    public static final String GET_ORDERS_BY_NGO_ID="orders/ngo_orders/{ngoId}";
 
 }

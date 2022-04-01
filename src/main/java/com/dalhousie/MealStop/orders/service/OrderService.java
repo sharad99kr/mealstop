@@ -5,12 +5,20 @@ import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.meal.service.IMealService;
+import com.dalhousie.MealStop.orders.Utils.Utils;
+import com.dalhousie.MealStop.orders.controller.OrdersPayload;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
+import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dalhousie.MealStop.orders.Constants.Constants;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 @Service
@@ -24,6 +32,9 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private CustomerCartServiceImpl customerCartServiceImpl;
+
+    @Autowired
+    private IMealService mealService;
 
     @Autowired
     private IRewardService rewardService;
@@ -48,6 +59,8 @@ public class OrderService implements IOrderService {
        //clear customer cart after placing the order
         customerCartServiceImpl.clearCustomerCart();
     }
+
+
 
     @Override
     public void addOrder(Orders newOrder){
@@ -174,5 +187,30 @@ public class OrderService implements IOrderService {
         }
 
         return monthlyReport;
+    }
+
+    public void writeEarningsToCsv(Writer writer, long id) {
+
+        //https://springhow.com/spring-boot-export-to-csv/
+        //used above link as reference to export csv file
+        Map<String, Float> report_list=new HashMap<>();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        Map<Integer, Float> reportMap = getMonthlyReportofRestaurant(id,year);
+        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
+        while(itr.hasNext()){
+
+            Map.Entry<Integer, Float> entry = itr.next();
+            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
+        }
+
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            csvPrinter.printRecord(String.format(Constants.MONTHLY_REPORT,year));
+            csvPrinter.printRecord(Constants.MONTH_HEADER, Constants.EARNINGS_HEADER);
+            for (String reportKeys : report_list.keySet()) {
+                csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
+            }
+        } catch (IOException e) {
+            System.out.println(Constants.FILE_WRITE_ERROR);
+        }
     }
 }

@@ -9,14 +9,11 @@ import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.IOrderService;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import java.io.IOException;
-import java.io.Writer;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,16 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-
-class OrdersPayload{
-    public long orderId;
-    public String mealName;
-    public String date;
-    public float amount;
-    public String status;
-    public String restaurantName;
-    public String imageUrl;
-}
 
 class ReportPayload{
     public String monthName;
@@ -59,7 +46,7 @@ public class OrderController {
     private ICustomerService customerService;
 
 
-    @PostMapping("orders/add_order")
+    @PostMapping(Constants.ADD_ORDER)
     String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
     {
         CustomerCart customerCart = customerCartServiceImpl.getCustomerCart();
@@ -71,35 +58,29 @@ public class OrderController {
         return "redirect:customer_orders_all";
     }
 
-    @RequestMapping("orders/customer_orders_all")
-    String customerOrdersNew(Model model, @ModelAttribute("customer_id") long id) {
+    @RequestMapping(Constants.GET_ALL_ORDER)
+    String customerOrdersNew(Model model) {
 
-        List<OrdersPayload> order_list=getActiveOrdersForCustomer( id);
-
-
+        long customerId = customerService.getCustomerDetailsFromSession().getId();
+        List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId,Constants.ACTIVE );
         model.addAttribute("order_list", order_list);
         return  "orders/CustomerActiveOrders";
 
     }
 
-    List<OrdersPayload> getActiveOrdersForCustomer( long id){
-        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,Constants.ACTIVE);
-        List<OrdersPayload> order_list=new ArrayList<>();
-        for (Orders order:orders) {
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
-            order_list.add(payload);
-        }
-        return order_list;
+    @RequestMapping(Constants.GET_PROCESSED_ORDER)
+    String customerProcessedOrders(Model model) {
+
+        long customerId = customerService.getCustomerDetailsFromSession().getId();
+        List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId,Constants.PROCESSED );
+        model.addAttribute("order_list", order_list);
+        return  "orders/CustomerProcessedOrders";
+
     }
 
-    @GetMapping("orders/cancelled_orders")
+
+
+    @GetMapping(Constants.GET_CANCELLED_ORDER)
     String getAllCancelledOrders(Model model)
     {
         List<OrdersPayload> order_list=new ArrayList<>();
@@ -113,6 +94,7 @@ public class OrderController {
         List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:listOrders) {
             OrdersPayload payload=new OrdersPayload();
+            payload.orderId=order.getOrderId();
             payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
             payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
             payload.amount = order.getOrderAmount();
@@ -123,7 +105,7 @@ public class OrderController {
         return order_list;
     }
 
-    @GetMapping("orders/restaurant_orders/id={id}&status={status}")
+    @GetMapping(Constants.GET_ORDER_BY_RESTAURANT_ID_STATUS)
     String restaurantOrders(Model model, @PathVariable("id") long id,@PathVariable("status") int status) {
 
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,status);
@@ -133,9 +115,10 @@ public class OrderController {
         return  "orders/OrderDetails";
     }
 
-    @GetMapping("orders/restaurant_orders/{id}")
+    @GetMapping(Constants.GET_ORDER_BY_RESTAURANT_ID)
     String restaurantActiveOrders(Model model, @PathVariable("id") long id) {
 
+        System.out.println("restaurant id "+id);
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,Constants.ACTIVE);
         List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
         model.addAttribute("order_list", order_list);
@@ -144,7 +127,7 @@ public class OrderController {
 
     }
 
-    @GetMapping("orders/ngo_orders/{ngoId}")
+    @GetMapping(Constants.GET_ORDERS_BY_NGO_ID)
     String ngoSendCancelledOrders(Model model) {
 
         List<Orders> orders=orderService.getAllCanceledOrders();
@@ -171,10 +154,13 @@ public class OrderController {
         List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:orders) {
             OrdersPayload payload=new OrdersPayload();
+            payload.orderId=order.getOrderId();
             payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
             payload.amount = order.getOrderAmount();
             payload.date = order.getOrderTime().toString();
             payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
             order_list.add(payload);
         }
         return order_list;
@@ -183,21 +169,14 @@ public class OrderController {
     @GetMapping("orders/customer_orders")
     String customerAllOrders(Model model) {
 
-        List<OrdersPayload> order_list=new ArrayList<>();
-        long id = customerService.getCustomerDetailsFromSession().getId();
-        List<Orders> orders=orderService.getOrdersByCustomerID(id);
 
-        for (Orders order:orders) {
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
-            order_list.add(payload);
-        }
+        long id = customerService.getCustomerDetailsFromSession().getId();
+        List<Orders> cancelledOrders=orderService.getCustomerOrdersWithStatus(id,Constants.CANCELLED);
+        List<Orders> deliveredOrders=orderService.getCustomerOrdersWithStatus(id,Constants.DELIVERED);
+        List<Orders> orders=new ArrayList<>();
+        orders.addAll(cancelledOrders);
+        orders.addAll(deliveredOrders);
+        List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
 
         model.addAttribute("order_list", order_list);
 
@@ -205,23 +184,12 @@ public class OrderController {
 
     }
 
+
+
     @GetMapping("orders/customer_orders/id={id}&status={status}")
     String customerOrders(Model model, @PathVariable("id") long id,@PathVariable("status") int status) {
 
-        List<OrdersPayload> order_list=new ArrayList<>();
-        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,status);
-
-        for (Orders order:orders) {
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
-            order_list.add(payload);
-        }
+        List<OrdersPayload> order_list=geOrdersPayloadForCustomers( id , status);
 
         model.addAttribute("order_list", order_list);
 
@@ -242,15 +210,34 @@ public class OrderController {
 
         orderService.updateOrderStatus(orderId,Constants.CANCELLED);
         Orders order=orderService.getOrderByOrderID(orderId);
-        List<OrdersPayload> orders=getActiveOrdersForCustomer( order.getCustomerId());
+        List<OrdersPayload> orders= geOrdersPayloadForCustomers( order.getCustomerId(),Constants.ACTIVE);
 
         model.addAttribute("order_list", orders);
         return "orders/CustomerActiveOrders";
     }
 
-    @RequestMapping(value = "/restaurantUpdateOrder/{id}")
-    public String restaurantUpdateOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
+    public List<OrdersPayload> geOrdersPayloadForCustomers(long id , int status){
+        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,status);
+        List<OrdersPayload> order_list=new ArrayList<>();
+        for (Orders order:orders) {
+            OrdersPayload payload=new OrdersPayload();
+            payload.orderId=order.getOrderId();
+            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
+            payload.amount = order.getOrderAmount();
+            payload.date = order.getOrderTime().toString();
+            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
+            order_list.add(payload);
+        }
+        return order_list;
+    }
+
+    @RequestMapping(value = "/restaurantUpdateOrder/{id}")
+    public String restaurantUpdateOrder(Model model,@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
+
+        System.out.println("came here qqq"+orderId);
         orderService.updateOrderStatus(orderId,Constants.PROCESSED);
         //TODO need the redirect
         return "orders/Enjoy";
@@ -279,38 +266,13 @@ public class OrderController {
     @RequestMapping("orders/generateReport/{id}")
     String GenerateCsv(Model model, @PathVariable("id") long id, HttpServletResponse servletResponse) throws IOException {
 
-
-        System.out.println("Hello world"+id);
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition","attachment; filename=\"Earnings.csv\"");
-        writeEarningsToCsv(servletResponse.getWriter(), id);
+        orderService.writeEarningsToCsv(servletResponse.getWriter(), id);
         return  "orders/MonthlyReport";
     }
 
-    public void writeEarningsToCsv(Writer writer, long id) {
 
-        //https://springhow.com/spring-boot-export-to-csv/
-        //used above link as reference to export csv file
-        Map<String, Float> report_list=new HashMap<>();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
-        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
-        while(itr.hasNext()){
-
-            Map.Entry<Integer, Float> entry = itr.next();
-            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
-        }
-
-        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
-            csvPrinter.printRecord(String.format(Constants.MONTHLY_REPORT,year));
-            csvPrinter.printRecord(Constants.MONTH_HEADER, Constants.EARNINGS_HEADER);
-            for (String reportKeys : report_list.keySet()) {
-                csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
-            }
-        } catch (IOException e) {
-            System.out.println(Constants.FILE_WRITE_ERROR);
-        }
-    }
 
     @GetMapping("orders/Enjoy")
     String FoodDelivered()

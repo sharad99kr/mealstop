@@ -21,6 +21,21 @@
       <div class="container-fluid">
         <a class="navbar-brand" >Past Orders</a>
 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+
+          <tr >
+            <form th:action="@{/orders/customer_processed_orders}" style="padding: 10px;" method="post" >
+
+              <button class="btn btn-outline-success" type="submit">Processed</button>
+            </form>
+          </tr>
+          <tr >
+            <form th:action="@{/orders/customer_orders_all}" style="padding: 10px;" method="post" >
+
+              <button class="btn btn-outline-success" type="submit">Active</button>
+            </form>
+          </tr>
+        </div>
       </div>
     </nav>
   </div>
