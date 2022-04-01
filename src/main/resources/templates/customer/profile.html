@@ -50,7 +50,7 @@
                                         <button type="submit" class="btn btn-outline-primary ms-1">View Favorites</button>
                                     </form>
                                 </div>
-                                <div>
+                                <div th:if="${isCustomerRewardsPresent}">
                                     <form method="get" th:action="@{/customer/favorite}" >
                                         <button type="submit" class="btn btn-outline-primary ms-1">Check for rewards</button>
                                     </form>

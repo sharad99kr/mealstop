@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.customer.controller;
 
+import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
@@ -22,6 +23,9 @@ public class CustomerController
     @Autowired
     private IRestaurantService restaurantService;
 
+    @Autowired
+    private IRewardService rewardService;
+
     @GetMapping("/customer/homepage")
     public String getLandingPage(Model model)
     {
@@ -34,7 +38,10 @@ public class CustomerController
     public String getCustomerProfilePage(Model model)
     {
         Customer customer = customerService.getCustomerDetailsFromSession();
+        boolean isCustomerRewardsPresent = rewardService.isRewardPointsRedeemable(customer.getId());
+        System.err.println("Customer rewards "+isCustomerRewardsPresent);
         model.addAttribute("customer", customer);
+        model.addAttribute("isCustomerRewardsPresent", isCustomerRewardsPresent);
         return "customer/profile";
     }
 
