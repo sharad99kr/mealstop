@@ -12,6 +12,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+
 import static org.mockito.Mockito.doNothing;
 import org.mockito.internal.stubbing.answers.DoesNothing;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,9 +35,6 @@ class RewardServiceTest {
     @Mock
     private RewardRepository mockRewardRepository;
 
-
-
-
     @Mock
     private Rewards mockRewards;
 
@@ -47,11 +50,11 @@ class RewardServiceTest {
     @BeforeEach
     public void setup() {
         mockCustomerId=1L;
-        mockRewards=new Rewards(Long.valueOf(123),101);
+        mockRewards=new Rewards();
+        mockRewards.setRewardPoint(101);
+        mockRewards.setCustomerId(Long.valueOf(123));
         mockRewardPoint=101;
-        MockitoAnnotations.initMocks(this);
-
-
+        //MockitoAnnotations.initMocks(this);
     }
 
 
@@ -60,6 +63,14 @@ class RewardServiceTest {
         MockitoAnnotations.initMocks(this);
         assertEquals(rewardService.getRewardPoints(mockCustomerId),0);
     }
+
+    @Test
+    public void getterSetterTest(){
+        assertThat(mockRewards.getRewardPoint()).isEqualTo(101);
+        assertThat(mockRewards.getCustomerId()).isEqualTo(123L);
+
+    }
+
 
     @Test
     void getRewardPointsWithRewards() {
@@ -103,6 +114,7 @@ class RewardServiceTest {
 
     @Test
     void isRewardPointsRedeemable() {
+
 
 
     }
