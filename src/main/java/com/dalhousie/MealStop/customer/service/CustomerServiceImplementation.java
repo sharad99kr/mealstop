@@ -81,6 +81,14 @@ public class  CustomerServiceImplementation implements ICustomerService
     }
 
     @Override
+    public void setCustomerToken(Integer tokenCount)
+    {
+        Customer loggedInCustomer = getCustomerDetailsFromSession();
+        loggedInCustomer.setTokens(tokenCount);
+        customerRepository.save(loggedInCustomer);
+    }
+
+    @Override
     public void addCustomer(User user)
     {
         Customer newCustomer = new Customer(user);

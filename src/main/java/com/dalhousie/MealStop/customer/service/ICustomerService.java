@@ -15,5 +15,6 @@ public interface ICustomerService
     public Long getLoggedInCustomerId();
     public Integer getCustomerTokenCount();
     public Integer decrementCustomerToken(Integer tokenCount);
+    public void setCustomerToken(Integer tokenCount);
     public Customer getCustomerInstanceFromUser(User user);
 }
