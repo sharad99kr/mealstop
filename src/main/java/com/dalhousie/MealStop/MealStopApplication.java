@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static com.dalhousie.MealStop.common.CommonConstants.SALT_LENGTH;
+
 @SpringBootApplication
 public class MealStopApplication {
 
@@ -14,6 +16,6 @@ public class MealStopApplication {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(11);
+        return new BCryptPasswordEncoder(SALT_LENGTH);
     }
 }

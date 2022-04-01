@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.user.controller;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.dalhousie.MealStop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +47,12 @@ public class UserController {
 
     private String getJWTToken(final HttpServletRequest request, User user) {
         Algorithm algorithm = Algorithm.HMAC256(secret.getBytes(StandardCharsets.UTF_8));
-
-        String access_token = JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(expiresAt)))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim(ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
+        JWTCreator.Builder jwt = JWT.create();
+        jwt.withSubject(user.getUsername());
+        jwt.withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(expiresAt)));
+        jwt.withIssuer(request.getRequestURL().toString());
+        jwt.withClaim(ROLES, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        String access_token = jwt.sign(algorithm);
         return BEARER + access_token;
     }
 }

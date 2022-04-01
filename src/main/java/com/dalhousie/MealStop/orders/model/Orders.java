@@ -1,16 +1,11 @@
 package com.dalhousie.MealStop.orders.model;
 
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.ngo.modal.NGO;
-import com.dalhousie.MealStop.orders.Constants.Constants;
-import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 
-import javax.naming.NoPermissionException;
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 
 @Entity

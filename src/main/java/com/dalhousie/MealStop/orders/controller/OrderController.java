@@ -5,7 +5,7 @@ import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.orders.Constants.Constants;
+import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.IOrderService;
@@ -21,12 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-
-class ReportPayload{
-    public String monthName;
-    public float amount;
-
-}
 
 @Controller
 public class OrderController {
@@ -46,7 +40,7 @@ public class OrderController {
     private ICustomerService customerService;
 
 
-    @PostMapping(Constants.ADD_ORDER)
+    @PostMapping(OrderConstants.ADD_ORDER)
     String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
     {
         CustomerCart customerCart = customerCartServiceImpl.getCustomerCart();
@@ -58,27 +52,27 @@ public class OrderController {
         return "redirect:customer_orders_all";
     }
 
-    @RequestMapping(Constants.GET_ALL_ORDER)
+    @RequestMapping(OrderConstants.GET_ALL_ORDER)
     String customerOrdersNew(Model model) {
 
         long customerId = customerService.getCustomerDetailsFromSession().getId();
-        List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId,Constants.ACTIVE );
+        List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId, OrderConstants.ACTIVE );
         model.addAttribute("order_list", order_list);
         return  "orders/CustomerActiveOrders";
 
     }
 
-    @RequestMapping(Constants.GET_PROCESSED_ORDER)
+    @RequestMapping(OrderConstants.GET_PROCESSED_ORDER)
     String customerProcessedOrders(Model model) {
 
         long customerId = customerService.getCustomerDetailsFromSession().getId();
-        List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId,Constants.PROCESSED );
+        List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId, OrderConstants.PROCESSED );
         model.addAttribute("order_list", order_list);
         return  "orders/CustomerProcessedOrders";
 
     }
 
-    @GetMapping(Constants.GET_CANCELLED_ORDER)
+    @GetMapping(OrderConstants.GET_CANCELLED_ORDER)
     String getAllCancelledOrders(Model model)
     {
         List<OrdersPayload> order_list=new ArrayList<>();
@@ -103,7 +97,7 @@ public class OrderController {
         return order_list;
     }
 
-    @GetMapping(Constants.GET_ORDER_BY_RESTAURANT_ID_STATUS)
+    @GetMapping(OrderConstants.GET_ORDER_BY_RESTAURANT_ID_STATUS)
     String restaurantOrders(Model model, @PathVariable("id") long id,@PathVariable("status") int status) {
 
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,status);
@@ -113,11 +107,11 @@ public class OrderController {
         return  "orders/OrderDetails";
     }
 
-    @GetMapping(Constants.GET_ORDER_BY_RESTAURANT_ID)
+    @GetMapping(OrderConstants.GET_ORDER_BY_RESTAURANT_ID)
     String restaurantActiveOrders(Model model, @PathVariable("id") long id) {
 
         System.out.println("restaurant id "+id);
-        List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id,Constants.ACTIVE);
+        List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id, OrderConstants.ACTIVE);
         List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
         model.addAttribute("order_list", order_list);
         model.addAttribute("restaurant_id",id);
@@ -125,7 +119,7 @@ public class OrderController {
 
     }
 
-    @GetMapping(Constants.GET_ORDERS_BY_NGO_ID)
+    @GetMapping(OrderConstants.GET_ORDERS_BY_NGO_ID)
     String ngoSendCancelledOrders(Model model) {
 
         List<Orders> orders=orderService.getAllCanceledOrders();
@@ -169,8 +163,8 @@ public class OrderController {
 
 
         long id = customerService.getCustomerDetailsFromSession().getId();
-        List<Orders> cancelledOrders=orderService.getCustomerOrdersWithStatus(id,Constants.CANCELLED);
-        List<Orders> deliveredOrders=orderService.getCustomerOrdersWithStatus(id,Constants.DELIVERED);
+        List<Orders> cancelledOrders=orderService.getCustomerOrdersWithStatus(id, OrderConstants.CANCELLED);
+        List<Orders> deliveredOrders=orderService.getCustomerOrdersWithStatus(id, OrderConstants.DELIVERED);
         List<Orders> orders=new ArrayList<>();
         orders.addAll(cancelledOrders);
         orders.addAll(deliveredOrders);
@@ -191,7 +185,7 @@ public class OrderController {
 
         model.addAttribute("order_list", order_list);
 
-        Boolean isOrderActive=status!= Constants.CANCELLED || status!= Constants.DELIVERED;
+        Boolean isOrderActive=status!= OrderConstants.CANCELLED || status!= OrderConstants.DELIVERED;
         return  isOrderActive?"orders/CustomerActiveOrders":"orders/CustomerOrderDetails";
 
     }
@@ -199,16 +193,16 @@ public class OrderController {
     @RequestMapping(value = "/updateOrder/{id}")
     public String updateOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
-        orderService.updateOrderStatus(orderId,Constants.DELIVERED);
+        orderService.updateOrderStatus(orderId, OrderConstants.DELIVERED);
         return "orders/Enjoy";
     }
 
     @RequestMapping(value = "/cancelOrder/{id}")
     public String cancelOrder(Model model, @PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
-        orderService.updateOrderStatus(orderId,Constants.CANCELLED);
+        orderService.updateOrderStatus(orderId, OrderConstants.CANCELLED);
         Orders order=orderService.getOrderByOrderID(orderId);
-        List<OrdersPayload> orders= geOrdersPayloadForCustomers( order.getCustomerId(),Constants.ACTIVE);
+        List<OrdersPayload> orders= geOrdersPayloadForCustomers( order.getCustomerId(), OrderConstants.ACTIVE);
 
         model.addAttribute("order_list", orders);
         return "orders/CustomerActiveOrders";
@@ -236,7 +230,7 @@ public class OrderController {
     public String restaurantUpdateOrder(Model model,@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
         System.out.println("came here qqq"+orderId);
-        orderService.updateOrderStatus(orderId,Constants.PROCESSED);
+        orderService.updateOrderStatus(orderId, OrderConstants.PROCESSED);
         //TODO need the redirect
         return "orders/Enjoy";
     }

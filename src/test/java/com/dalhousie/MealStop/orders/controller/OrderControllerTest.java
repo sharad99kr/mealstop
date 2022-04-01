@@ -112,7 +112,7 @@ class OrderControllerTest {
     @Test
     void foodDelivered() throws Exception {
 
-        mockMvc.perform(get("/restaurant/profile"))
+        mockMvc.perform(get("/orders/Enjoy"))
                 .andExpect(status().isOk());
 
 

@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.orders.Utils;
 
-import com.dalhousie.MealStop.orders.Constants.Constants;
+import com.dalhousie.MealStop.common.OrderConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,21 +18,28 @@ public class Utils {
 
     public static List<String> getUrls(){
         List<String> urlList=new ArrayList<>();
-        Collections.addAll(urlList, Constants.FOOD_1, Constants.FOOD_2, Constants.FOOD_3, Constants.FOOD_4, Constants.FOOD_5,
-                Constants.FOOD_6,Constants.FOOD_7,Constants.FOOD_8,Constants.FOOD_9);
+        urlList.add(OrderConstants.FOOD_1);
+        urlList.add(OrderConstants.FOOD_2);
+        urlList.add(OrderConstants.FOOD_3);
+        urlList.add(OrderConstants.FOOD_4);
+        urlList.add(OrderConstants.FOOD_5);
+        urlList.add(OrderConstants.FOOD_6);
+        urlList.add(OrderConstants.FOOD_7);
+        urlList.add(OrderConstants.FOOD_8);
+        urlList.add(OrderConstants.FOOD_9);
         return urlList;
     }
 
     public static String getOrderStatusMapping(int statusId){
         String status="";
         switch (statusId){
-            case Constants.CANCELLED:status="CANCELLED";
+            case OrderConstants.CANCELLED:status="CANCELLED";
                 break;
-            case Constants.DELIVERED:status="DELIVERED";
+            case OrderConstants.DELIVERED:status="DELIVERED";
                 break;
-            case Constants.PROCESSED:status="PROCESSED";
+            case OrderConstants.PROCESSED:status="PROCESSED";
                 break;
-            case Constants.ACTIVE:status="ACTIVE";
+            case OrderConstants.ACTIVE:status="ACTIVE";
                 break;
         }
         return status;
@@ -41,29 +48,29 @@ public class Utils {
     public static String getMonthMapping(int monthId){
         String month="";
         switch (monthId){
-            case 0 : month = "January";
+            case OrderConstants.JAN : month = "January";
                 break;
-            case 1 : month = "February";
+            case OrderConstants.FEB : month = "February";
                 break;
-            case 2 : month = "March";
+            case OrderConstants.MARCH : month = "March";
                 break;
-            case 3 : month = "April";
+            case OrderConstants.APRIL : month = "April";
                 break;
-            case 4 : month = "May";
+            case OrderConstants.MAY : month = "May";
                 break;
-            case 5 : month = "June";
+            case OrderConstants.JUNE : month = "June";
                 break;
-            case 6 : month = "July";
+            case OrderConstants.JULY : month = "July";
                 break;
-            case 7 : month = "August";
+            case OrderConstants.AUG : month = "August";
                 break;
-            case 8 : month = "September";
+            case OrderConstants.SEP: month = "September";
                 break;
-            case 9 : month = "October";
+            case OrderConstants.OCT : month = "October";
                 break;
-            case 10 : month = "November";
+            case OrderConstants.NOV: month = "November";
                 break;
-            case 11 : month = "December";
+            case OrderConstants.DEC: month = "December";
                 break;
         }
         return month;

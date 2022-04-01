@@ -13,8 +13,7 @@ import javax.persistence.Column;
 
 @Entity
 @Table(name = "customer")
-public class Customer implements ICustomer
-{
+public class Customer implements ICustomer {
     @Id
     @Column(name = "customer_id")
     private long id;
@@ -31,18 +30,17 @@ public class Customer implements ICustomer
     @Column(name = "tokens")
     private Integer tokens;
 
-    public Customer() {}
+    public Customer() {
+    }
 
-    public Customer(String firstName, String lastName, String email)
-    {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
-    public Customer(User user)
-    {
+    public Customer(User user) {
         this.id = user.getUser_id();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -51,8 +49,7 @@ public class Customer implements ICustomer
     }
 
     @Override
-    public long getId()
-    {
+    public long getId() {
         return id;
     }
 
@@ -62,38 +59,32 @@ public class Customer implements ICustomer
     }
 
     @Override
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
     @Override
-    public void setFirstName(String firstName)
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
     @Override
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
     @Override
-    public void setLastName(String lastName)
-    {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     @Override
-    public String  getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
     @Override
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -105,17 +96,5 @@ public class Customer implements ICustomer
     @Override
     public void setTokens(Integer tokens) {
         this.tokens = tokens;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Customer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", tokens='" + tokens + '\'' +
-                '}';
     }
 }

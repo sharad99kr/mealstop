@@ -2,22 +2,15 @@ package com.dalhousie.MealStop.Reward.service;
 
 import com.dalhousie.MealStop.Reward.model.Rewards;
 import com.dalhousie.MealStop.Reward.repository.RewardRepository;
-import com.dalhousie.MealStop.orders.Constants.Constants;
-import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.naming.NoPermissionException;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

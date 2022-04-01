@@ -1,16 +1,12 @@
 package com.dalhousie.MealStop.orders.service;
 
 import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
-import com.dalhousie.MealStop.orders.Constants.Constants;
+import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
-import com.dalhousie.MealStop.restaurant.service.RestaurantServiceImplementation;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 
-import javax.naming.NoPermissionException;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class OrderServiceTest {
 
+    @Autowired
     @InjectMocks
     private OrderService orderService;
 
@@ -84,8 +78,7 @@ class OrderServiceTest {
     @Mock
     private List<Long> mockMealIds;
 
-    @Autowired
-    @InjectMocks
+    @Mock
     private CustomerServiceImplementation customerService;
 
 
@@ -93,10 +86,10 @@ class OrderServiceTest {
     public void init() {
         MockitoAnnotations.initMocks(this);
         mockAmount=10;
-        mockCancelledStatus= Constants.CANCELLED;
-        mockDeliveredStatus=Constants.DELIVERED;
-        mockActiveStatus=Constants.ACTIVE;
-        mockProcessedStatus=Constants.PROCESSED;
+        mockCancelledStatus= OrderConstants.CANCELLED;
+        mockDeliveredStatus= OrderConstants.DELIVERED;
+        mockActiveStatus= OrderConstants.ACTIVE;
+        mockProcessedStatus= OrderConstants.PROCESSED;
         mockCustomerId=1;
         mockRestaurantId=1;
         mockMealId=1;
@@ -152,11 +145,29 @@ class OrderServiceTest {
 //    void createOrderFromCart() {
 //    }
 //
-//    @Test
-//    void addOrder() {
-//
-//
-//    }
+    @Test
+    void addOrder() {
+
+
+
+
+        when(mockOrderRepository.save(any())).thenReturn(mockOrder);
+        orderService.addOrder(mockOrder);
+        verify(mockOrderRepository,times(1)).save(any());
+
+        when(customerService.getCustomerTokenCount()).thenReturn(6);
+        Integer currentTokens = customerService.getCustomerTokenCount();
+
+        when(customerService.decrementCustomerToken(3)).thenReturn(3);
+
+        Integer decrementedToken=customerService.decrementCustomerToken(3);
+
+        assertEquals(decrementedToken,3);
+
+
+
+
+    }
 //
 //    @Test
 //    void getOrdersForNGO() {
@@ -188,10 +199,11 @@ class OrderServiceTest {
         assertThat(orderService.getCustomerOrdersWithStatus(mockCustomerId,mockActiveStatus)).isEqualTo(mockCustomerOrders);
     }
 
-//    @Test
-//    void getRestaurantOrdersWithStatus() {
-//
-//    }
+    @Test
+    void getRestaurantOrdersWithStatus() {
+        when(mockOrderRepository.findByRestaurantIdAndStatus(mockRestaurantId,mockActiveStatus)).thenReturn(mockRestaurantOrders);
+        assertThat(orderService.getRestaurantOrdersWithStatus(mockRestaurantId,mockActiveStatus)).isEqualTo(mockRestaurantOrders);
+    }
 
     @Test
     void getOrdersByCustomerID() {
@@ -202,7 +214,8 @@ class OrderServiceTest {
     @Test
     void getOrderByOrderID() {
 
-        assertThat(mockOrderRepository.findById(mockOrderId)).isEqualTo(mockOrder);
+        when(mockOrderRepository.findById(mockOrderId)).thenReturn(mockOrder);
+        assertThat(orderService.getOrderByOrderID(mockOrderId)).isEqualTo(mockOrder);
 
     }
 
