@@ -33,16 +33,20 @@ class CustomerReviewServiceImplTest {
     CustomerReviewServiceImpl customerReviewService;
 
     private CustomerReview customerReview;
+
     private List<CustomerReview> customerReviewList;
+
     private Restaurant restaurant1;
+
     private Customer customer;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         Date date =new Date();
         restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant1.setId(1L);
-        customer = new Customer("TestCustomer", "LTest","Test@gmail.com");
+        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
         customer.setId(1L);
         customer.setTokens(100);
         customerReview = new CustomerReview(1L, 5, "Good", date, customer, restaurant1);

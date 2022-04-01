@@ -52,7 +52,7 @@ public class CustomerServiceImplementationTests
         user = new User(1L, "Shathish", "Annamalai", "abc@gmail.com", "9898989898", "March 10, 2021", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         customer1 = new Customer(user);
         customer1.setId(1L);
-        customer2 = new Customer("Test", "User","Test@gmail.com");
+        customer2 = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
         customer2.setId(2L);
 
         customerList = new ArrayList<>();

@@ -30,13 +30,25 @@ public class Customer implements ICustomer {
     @Column(name = "tokens")
     private Integer tokens;
 
+    @Column(name= "mobilenumber")
+    private String mobileNumber;
+
+    @Column(name= "dateofbirth")
+    private String dateOfBirth;
+
+    @Column(name= "address")
+    private String address;
+
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email) {
+    public Customer(String firstName, String lastName, String email, String mobileNumber, String dateOfBirth, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.mobileNumber = mobileNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
         this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
@@ -45,6 +57,9 @@ public class Customer implements ICustomer {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getUsername();
+        this.mobileNumber = user.getMobileNumber();
+        this.dateOfBirth = user.getDateOfBirth();
+        this.address = user.getAddress();
         this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
@@ -86,6 +101,36 @@ public class Customer implements ICustomer {
     @Override
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    @Override
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    @Override
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    @Override
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Override
+    public String getAddress() {
+        return address;
     }
 
     @Override
