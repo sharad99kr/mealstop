@@ -147,4 +147,16 @@ public class CustomerServiceImplementationTests
         when(customerRepository.findById(1L)).thenReturn(customer);
         assertThat(customerService.getCustomerInstanceFromUser(user)).isEqualTo(customer.get());
     }
+
+    @Test
+    public void getterSetterTest(){
+        assertThat(customer1.getId()).isEqualTo(1L);
+        assertThat(customer1.getFirstName()).isEqualTo("Shathish");
+        assertThat(customer1.getLastName()).isEqualTo("Annamalai");
+        assertThat(customer1.getEmail()).isEqualTo("abc@gmail.com");
+        assertThat(customer1.getAddress()).isEqualTo("Halifax, NS, Canada");
+        assertThat(customer1.getMobileNumber()).isEqualTo("9898989898");
+        assertThat(customer1.getDateOfBirth()).isEqualTo("March 10, 2021");
+        assertThat(customer1.getTokens()).isEqualTo(10);
+    }
 }
