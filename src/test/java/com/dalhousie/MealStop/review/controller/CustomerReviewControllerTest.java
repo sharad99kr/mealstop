@@ -119,9 +119,9 @@ public class CustomerReviewControllerTest
         mockMvc.perform(post("/customer/add_review/{id}", 1L)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .requestAttr("review", customerReview))
-                        .andExpect(status().isOk());
+                        .andExpect(status().isFound());
         Model model = null;
-        assertEquals("redirect:/customer/reviews", customerReviewController.addReview(customerReview, mockBindingResult, model, 1L));
+        assertEquals("redirect:/customer/reviews", customerReviewController.addReview(customerReview, 1L));
     }
 
     @Test
@@ -129,20 +129,20 @@ public class CustomerReviewControllerTest
     {
         Mockito.lenient().doNothing().when(customerReviewService).updateReview(1L, customerReview);
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(false);
-//        mockMvc.perform(post("/customer/update_review/{id}", 1L)
-//                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                        .requestAttr("review", customerReview))
-//                .andExpect(status().isFound());
+        mockMvc.perform(post("/customer/update_review/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .requestAttr("review", customerReview))
+                .andExpect(status().isFound());
         Model model = null;
-        assertEquals("redirect:/customer/reviews", customerReviewController.updateReview(  customerReview, mockBindingResult, 1L, model));
+        assertEquals("redirect:/customer/reviews", customerReviewController.updateReview( 1L, customerReview));
     }
 
     @Test
     public void deleteReview() throws Exception
     {
         Mockito.lenient().doNothing().when(customerReviewService).deleteReviewById(1L);
-//        mockMvc.perform(post("/customer/update_review/{id}", 1L))
-//                .andExpect(status().isFound());
+        mockMvc.perform(post("/customer/update_review/{id}", 1L))
+                .andExpect(status().isFound());
         Model model = null;
         assertEquals("redirect:/customer/reviews", customerReviewController.deleteReview( 1L));
     }
