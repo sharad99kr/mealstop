@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
+
 @Service
 public class OrderService implements IOrderService {
 
@@ -37,6 +38,7 @@ public class OrderService implements IOrderService {
     @Autowired
     private IRewardService rewardService;
 
+    @Autowired
     private INGOOrderService ngoOrderService;
 
 
@@ -49,9 +51,17 @@ public class OrderService implements IOrderService {
            Long mealId=item.getId();
            Long price=item.getPrice();
            Orders order=new Orders(customerId,restaurantId,mealId,0,price, OrderConstants.ACTIVE);
-           addOrder(order);
-           //decrement customer token after placing order
-           customerService.decrementCustomerToken(price.intValue());
+
+           int tokenCount = customerService.getCustomerTokenCount();
+           if(tokenCount> price){
+               //decrement customer token after placing order
+               addOrder(order);
+               customerService.decrementCustomerToken(price.intValue());
+               rewardService.addRewardPoints(customerId);
+           }else{
+               System.out.println("Not enough token");
+           }
+
        });
 
        //clear customer cart after placing the order
@@ -63,15 +73,7 @@ public class OrderService implements IOrderService {
     @Override
     public void addOrder(Orders newOrder){
         //this method adds new order that has been placed
-        Orders status = orderRepository.save(newOrder);
-        if(status!=null){
-            int tokenCount = customerService.getCustomerTokenCount();
-            if(tokenCount> newOrder.getOrderAmount()){
-                customerService.decrementCustomerToken((int)newOrder.getOrderAmount());
-                rewardService.addRewardPoints(newOrder.getCustomerId());
-            }
-
-        }
+        orderRepository.save(newOrder);
     }
 
     @Override
