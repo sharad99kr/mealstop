@@ -3,6 +3,7 @@ package com.dalhousie.MealStop.user.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.*;
 
 
@@ -14,8 +15,6 @@ public class UserModel {
     @Size(min = 3, max = 50, message = "{Size.User.FirstName}")
     private String firstName;
 
-    //@NotEmpty(message = "{Null.User.LastName}")
-    //@Size(min = 3, max = 50, message = "{Size.User.LastName}")
     private String lastName;
 
     @NotEmpty(message = "{Null.User.Email}")
@@ -26,11 +25,10 @@ public class UserModel {
     @Size(min = 10, max = 10, message = "{Size.User.MobileNumber}")
     private String mobileNumber;
 
-    @NotEmpty(message = "{Null.User.DateOfBirth}")
     private String dateOfBirth;
 
     @NotEmpty(message = "{Null.User.Address}")
-    @Size(min=10, max = 200, message = "{Size.User.Address}")
+    @Size(min = 10, max = 200, message = "{Size.User.Address}")
     private String address;
 
     @NotEmpty(message = "{Null.User.Password}")

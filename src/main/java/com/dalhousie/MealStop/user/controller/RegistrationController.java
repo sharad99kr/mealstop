@@ -169,7 +169,7 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping(value = CHANGE_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
-        if (user == null || passwordModel.getOldpassword() == "" || passwordModel.getNewpassword() == "" || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
+        if (user == null || passwordModel.getOldpassword().equals("") || passwordModel.getNewpassword().equals("") || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
             return USER_CHANGE_PASSWORD_URL;
         userService.changePassword(user, passwordModel.getNewpassword());
         return USER_LOGIN;

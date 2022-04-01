@@ -29,11 +29,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.dalhousie.MealStop.common.RoleEnum.ROLE_CUSTOMER;
-import static com.dalhousie.MealStop.common.RoleEnum.ROLE_NGO;
 import static com.dalhousie.MealStop.common.UrlConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -89,6 +86,8 @@ public class RegistrationControllerTests {
 
         mockPasswordModel = new PasswordModel();
         mockPasswordModel.setEmail(mockEmail);
+        mockPasswordModel.setOldpassword(mockPassword);
+        mockPasswordModel.setNewpassword(mockPassword);
         Mockito.lenient().when(mockHttpServletRequest.getServerName()).thenReturn(mockServerName);
         Mockito.lenient().when(mockHttpServletRequest.getServerPort()).thenReturn(Integer.parseInt(mockServerPort));
         Mockito.lenient().when(mockHttpServletRequest.getContextPath()).thenReturn(mockContextPath);
