@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.user.service;
 
-import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +46,23 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public User signUpUser(UserModel userModel) {
+
+        User entityUser = findUserByEmail(userModel.getEmail());
+
+        //If user with the same email exists.
+        if (entityUser != null) {
+            VerificationToken token = verificationTokenRepository.findVerificationTokenByUser(entityUser);
+
+            // If token is null, then user is already registered with verification done
+            // and if toke is not null then, user has registered but verification is not done yet.
+            // Delete the previous token and return the user.
+            if (token != null)
+                verificationTokenRepository.delete(token);
+
+            return entityUser;
+        }
+
+
         User user = new User();
         user.setUsername(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());
@@ -59,15 +74,11 @@ public class UserService implements IUserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         userRepository.save(user);
 
-        if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_CUSTOMER)))
-        {
+        /*if (userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_CUSTOMER))) {
             customerService.addCustomer(user);
-        }
-        else if(userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_NGO)))
-        {
-            //To Do add NGO changes here to save.
+        } else if (userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_NGO))) {
             customerService.addCustomer(user);
-        }
+        }*/
 
         return user;
     }
@@ -111,6 +122,7 @@ public class UserService implements IUserService, UserDetailsService {
         // 2. Enable the user inside the database
         user.setEnabled(true);
         userRepository.save(user);
+        verificationTokenRepository.delete(verificationToken);
         return VerificationTokenConstants.VALID;
     }
 
