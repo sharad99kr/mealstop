@@ -83,7 +83,7 @@ public class  CustomerServiceImplementation implements ICustomerService
     @Override
     public void addCustomer(User user)
     {
-        Customer newCustomer = getCustomerInstanceFromUser(user);
+        Customer newCustomer = new Customer(user);
         addCustomer(newCustomer);
     }
 
