@@ -17,7 +17,6 @@ public interface IOrders {
 
     public long getMealId();
 
-    public long getPaymentId();
 
     public void setCustomerId(long customerId);
 
@@ -25,7 +24,6 @@ public interface IOrders {
 
     public void setMealId(long mealId);
 
-    public void setPaymentId(long paymentId);
 
     public float getOrderAmount();
 
