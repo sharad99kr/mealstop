@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.customer.service;
 
+import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
 import com.dalhousie.MealStop.domainconstants.MealStopConstants;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,6 @@ public class CustomerServiceImplementationTests
     @Mock
     private CustomerRepository customerRepository;
 
-    @Autowired
     @InjectMocks
     private CustomerServiceImplementation customerService;
 
@@ -44,7 +45,9 @@ public class CustomerServiceImplementationTests
 
     private User user;
 
-    List<Customer> customerList;
+    private List<Customer> customerList;
+
+    private UserSearch userSearch;
 
     @BeforeEach
     void setUp()
@@ -58,6 +61,8 @@ public class CustomerServiceImplementationTests
         customerList = new ArrayList<>();
         customerList.add(customer1);
         customerList.add(customer2);
+
+        userSearch = new UserSearch();
     }
 
     @AfterEach
@@ -119,8 +124,8 @@ public class CustomerServiceImplementationTests
     public void getLoggedInCustomerId()
     {
         setDummyUserInSession();
-        Customer loggedInCustomer = customerService.getCustomerDetailsFromSession();
-        assertThat(loggedInCustomer.getId()).isEqualTo(user.getUser_id());
+        Long customerId = customerService.getLoggedInCustomerId();
+        assertThat(customerId).isEqualTo(user.getUser_id());
     }
 
     @Test
@@ -141,6 +146,15 @@ public class CustomerServiceImplementationTests
     }
 
     @Test
+    public void incrementCustomerToken()
+    {
+        setDummyUserInSession();
+        Integer currentTokens = customerService.getCustomerTokenCount();
+        customerService.incrementCustomerToken(2);
+        assertEquals(customer1.getTokens(), currentTokens+2);
+    }
+
+    @Test
     void getCustomerInstanceFromUser()
     {
         java.util.Optional<Customer> customer = java.util.Optional.of(new Customer());
@@ -149,7 +163,24 @@ public class CustomerServiceImplementationTests
     }
 
     @Test
-    public void getterSetterTest(){
+    void addCustomerFromUser()
+    {
+        when(customerRepository.save(any())).thenReturn(customer1);
+        customerService.addCustomer(user);
+        verify(customerRepository,times(1)).save(any());
+    }
+
+    @Test
+    public void getterSetterTest()
+    {
+        customer1.setFirstName("Shathish");
+        customer1.setLastName("Annamalai");
+        customer1.setEmail("abc@gmail.com");
+        customer1.setAddress("Halifax, NS, Canada");
+        customer1.setMobileNumber("9898989898");
+        customer1.setDateOfBirth("March 10, 2021");
+        customer1.setTokens(10);
+
         assertThat(customer1.getId()).isEqualTo(1L);
         assertThat(customer1.getFirstName()).isEqualTo("Shathish");
         assertThat(customer1.getLastName()).isEqualTo("Annamalai");
@@ -158,5 +189,11 @@ public class CustomerServiceImplementationTests
         assertThat(customer1.getMobileNumber()).isEqualTo("9898989898");
         assertThat(customer1.getDateOfBirth()).isEqualTo("March 10, 2021");
         assertThat(customer1.getTokens()).isEqualTo(10);
+
+        Date newDate = new Date();
+        userSearch.setStartDate(newDate);
+        userSearch.setEndDate(newDate);
+        assertThat(userSearch.getStartDate()).isEqualTo(newDate);
+        assertThat(userSearch.getEndDate()).isEqualTo(newDate);
     }
 }
