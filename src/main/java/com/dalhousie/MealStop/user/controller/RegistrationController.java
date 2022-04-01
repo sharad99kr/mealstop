@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -81,8 +82,11 @@ public class RegistrationController implements WebMvcConfigurer {
     @PostMapping(value = SIGNUP_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String signUpUser(@Valid UserModel userModel, BindingResult result, final HttpServletRequest request) {
         if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString())) {
-            if (result.hasErrors() && result.getFieldErrors().size()!= 0 && !result.getFieldErrors().stream().findFirst().get().getField().equals(DATE_OF_BIRTH)) {
-                return NGO_USER_REGISTER_URL;
+            if (result.hasErrors()) {
+                FieldError error = result.getFieldErrors().stream().findFirst().get();
+                if (error.getField().equals(DATE_OF_BIRTH)) {
+                    return NGO_USER_REGISTER_URL;
+                }
             }
         } else {
             if (result.hasErrors()) {
