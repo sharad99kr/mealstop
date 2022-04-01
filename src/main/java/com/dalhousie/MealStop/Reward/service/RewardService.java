@@ -3,6 +3,7 @@ package com.dalhousie.MealStop.Reward.service;
 import com.dalhousie.MealStop.Reward.constants.Constants;
 import com.dalhousie.MealStop.Reward.model.Rewards;
 import com.dalhousie.MealStop.Reward.repository.RewardRepository;
+import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,10 @@ public class RewardService implements IRewardService{
 
     @Autowired
     private RewardRepository rewardRepository;
+
+    @Autowired
+    private ICustomerService customerService;
+
 
     @Override
     public int getRewardPoints(long customerId){
@@ -72,10 +77,12 @@ public class RewardService implements IRewardService{
             //get total number of tokens that can be claimed
             maxtoken=totalPoints/Constants.MINIMUM_POINTS_TO_REDEEM_TOKEN;
 
+            customerService.incrementCustomerToken(maxtoken);
             //calculate remaining points that user will have after claiming the rewards
             int remainingPoints=maxtoken%Constants.MINIMUM_POINTS_TO_REDEEM_TOKEN;
             //update the reward points after deducting the points needed to claim tokens
             updateRewardPoints(customerId,remainingPoints);
+
         }
 
         return maxtoken;
