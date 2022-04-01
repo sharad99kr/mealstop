@@ -1,8 +1,10 @@
 package com.dalhousie.MealStop.user.service;
 
+import com.dalhousie.MealStop.common.RoleEnum;
 import com.dalhousie.MealStop.common.UserMessagesConstants;
 import com.dalhousie.MealStop.common.VerificationTokenConstants;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.user.entity.PasswordResetToken;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.entity.VerificationToken;
@@ -44,6 +46,9 @@ public class UserService implements IUserService, UserDetailsService {
     @Autowired
     private ICustomerService customerService;
 
+    @Autowired
+    private INGOService ngoService;
+
     @Override
     public User signUpUser(UserModel userModel) {
 
@@ -62,7 +67,6 @@ public class UserService implements IUserService, UserDetailsService {
             return entityUser;
         }
 
-
         User user = new User();
         user.setUsername(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());
@@ -74,11 +78,11 @@ public class UserService implements IUserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         userRepository.save(user);
 
-        /*if (userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_CUSTOMER))) {
+        if (userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_CUSTOMER))) {
             customerService.addCustomer(user);
         } else if (userModel.getRole().equals(String.valueOf(RoleEnum.ROLE_NGO))) {
-            customerService.addCustomer(user);
-        }*/
+            ngoService.addNGO(user);
+        }
 
         return user;
     }
