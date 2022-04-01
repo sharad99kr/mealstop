@@ -50,9 +50,20 @@ public class CustomerCartServiceImpl implements ICustomerCartService
     public void removeMealsFromCustomerCart(Meal meal)
     {
         ArrayList<Meal> cartItems = getLoggedInCustomerCartMeals();
-        if(cartItems.contains(meal))
+        int mealIndex = -1;
+
+        for(int index = 0; index<cartItems.size(); index++)
         {
-            cartItems.remove(meal);
+            Meal presentMeal = cartItems.get(index);
+            if(presentMeal.getId()==meal.getId())
+            {
+                mealIndex = index;
+            }
+        }
+
+        if(mealIndex!=-1)
+        {
+            cartItems.remove(mealIndex);
         }
     }
 
