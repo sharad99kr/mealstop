@@ -111,7 +111,13 @@ class OrderServiceTest {
 
         mockOrder =new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
         mockOrders.add(mockOrder);
-        mockOrder =new Orders(2,2,2,2,2,mockActiveStatus);
+        mockOrder=new Orders();
+        mockOrder.setCustomerId(2);
+        mockOrder.setRestaurantId(2);
+        mockOrder.setMealId(2);
+        mockOrder.setOrderAmount(2);
+        mockOrder.setOrderStatus(mockActiveStatus);
+
         mockOrders.add(mockOrder);
 
         Orders order=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
@@ -255,6 +261,22 @@ class OrderServiceTest {
         assertThat(orderService.getOrdersByRestaurantID(mockRestaurantId)).isEqualTo(mockRestaurantOrders);
     }
 
+    @Test
+    void GetSetTest(){
+        mockOrder=new Orders();
+        mockOrder.setCustomerId(2);
+        mockOrder.setRestaurantId(2);
+        mockOrder.setMealId(2);
+        mockOrder.setOrderAmount(2);
+
+        assertThat(mockOrder.getOrderId()).isEqualTo(0);
+        assertThat(mockOrder.getCustomerId()).isEqualTo(2);
+        assertThat(mockOrder.getRestaurantId()).isEqualTo(2);
+        assertThat(mockOrder.getMealId()).isEqualTo(2);
+        assertThat(mockOrder.getOrderAmount()).isEqualTo(2);
+
+
+    }
 
 //    @Test
 //    void getMonthlyReportofRestaurant() {
