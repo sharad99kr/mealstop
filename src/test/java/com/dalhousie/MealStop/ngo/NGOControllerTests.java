@@ -1,14 +1,10 @@
 package com.dalhousie.MealStop.ngo;
 
-import com.dalhousie.MealStop.customer.controller.CustomerController;
-import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.ngo.modal.NGO;
+import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

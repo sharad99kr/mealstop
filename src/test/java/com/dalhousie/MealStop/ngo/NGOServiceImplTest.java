@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.ngo;
 
-import com.dalhousie.MealStop.ngo.modal.NGO;
+import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
 import com.dalhousie.MealStop.user.entity.User;
@@ -47,7 +47,13 @@ public class NGOServiceImplTest {
     {
         user = new User(1L, "kuldeep", "ngo", "ngo@gmail.com", "11111111", "April 22, 1999", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         NGO1 = new NGO(user);
-        NGO2 = new NGO("Test", "User","Test@gmail.com","111111111");
+        NGO2 = new NGO();
+        NGO2.setName("TEST");
+        NGO2.setEmail("ngo@gmail.com");
+        NGO2.setAddress("halifax to india");
+        NGO2.setPhoneNumber("1234567890");
+        NGO2.setNGOName("TEST");
+        NGO2.setTotalOrders(12);
         NGO2.setId(2L);
 
         NGOList = new ArrayList<>();
@@ -95,7 +101,8 @@ public class NGOServiceImplTest {
     {
         setDummyUserInSession();
         NGO loggedInCustomer = NGOService.getNGODetailsFromSession();
-        assertThat(loggedInCustomer.getId()).isEqualTo(user.getUser_id());
+        Long ngoUserId = NGOService.getLoggedInNGOId();
+        assertThat(ngoUserId).isEqualTo(user.getUser_id());
     }
 
     @Test
@@ -106,4 +113,15 @@ public class NGOServiceImplTest {
         verify(ngoRepository,times(1)).save(any());
     }
 
+    @Test
+    public void gettersInNGO(){
+        assertThat(NGO2.getId()).isEqualTo(2L);
+        assertThat(NGO2.getName()).isEqualTo("TEST");
+        assertThat(NGO2.getEmail()).isEqualTo("ngo@gmail.com");
+        assertThat(NGO2.getAddress()).isEqualTo("halifax to india");
+        assertThat(NGO2.getPhoneNumber()).isEqualTo("1234567890");
+        assertThat(NGO2.getNGOName()).isEqualTo("TEST");
+        assertThat(NGO2.getTotalOrders()).isEqualTo(12);
+
+    }
 }
