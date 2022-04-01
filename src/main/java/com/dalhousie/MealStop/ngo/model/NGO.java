@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.ngo.model;
 
-import com.dalhousie.MealStop.domainconstants.MealStopConstants;
+import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.user.entity.User;
 
 import javax.persistence.Id;
@@ -41,7 +41,7 @@ public class NGO implements INGO {
         this.email=email;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
+        this.totalOrders = CommonConstants.NGO_DEFAULT_ORDERS;
     }
 
     public NGO(User user)
@@ -51,7 +51,7 @@ public class NGO implements INGO {
         this.email=user.getUsername();
         this.address = user.getAddress();
         this.phoneNumber = user.getMobileNumber();
-        this.totalOrders = MealStopConstants.NGO_DEFAULT_ORDERS;
+        this.totalOrders = CommonConstants.NGO_DEFAULT_ORDERS;
     }
 
     @Override

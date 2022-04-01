@@ -1,14 +1,11 @@
 package com.dalhousie.MealStop.customer.modal;
 
-import com.dalhousie.MealStop.domainconstants.MealStopConstants;
+import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.user.entity.User;
-import com.dalhousie.MealStop.user.models.UserModel;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Column;
 
 @Entity
@@ -49,7 +46,7 @@ public class Customer implements ICustomer {
         this.mobileNumber = mobileNumber;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
+        this.tokens = CommonConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
     public Customer(User user) {
@@ -60,7 +57,7 @@ public class Customer implements ICustomer {
         this.mobileNumber = user.getMobileNumber();
         this.dateOfBirth = user.getDateOfBirth();
         this.address = user.getAddress();
-        this.tokens = MealStopConstants.CUSTOMER_DEFAULT_TOKENS;
+        this.tokens = CommonConstants.CUSTOMER_DEFAULT_TOKENS;
     }
 
     @Override

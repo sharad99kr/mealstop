@@ -1,9 +1,9 @@
 package com.dalhousie.MealStop.customer.service;
 
+import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
-import com.dalhousie.MealStop.domainconstants.MealStopConstants;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -133,7 +132,7 @@ public class CustomerServiceImplementationTests
     {
         setDummyUserInSession();
         Customer loggedInCustomer = customerService.getCustomerDetailsFromSession();
-        assertThat(loggedInCustomer.getTokens()).isEqualTo(MealStopConstants.CUSTOMER_DEFAULT_TOKENS);
+        assertThat(loggedInCustomer.getTokens()).isEqualTo(CommonConstants.CUSTOMER_DEFAULT_TOKENS);
     }
 
     @Test
