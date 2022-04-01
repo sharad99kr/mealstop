@@ -90,4 +90,17 @@ class CustomerFavoriteServiceImplementationTest {
         customerFavoriteServiceImplementation.deleteCustomerFavoriteById(1L);
         verify(customerFavoritesRepository, times(1)).deleteById(1L);
     }
+
+    @Test
+    void getterSetterTest()
+    {
+        CustomerFavorites customerFavorites = new CustomerFavorites();
+        customerFavorites.setId(1L);
+        customerFavorites.setCustomer(customer);
+        customerFavorites.setRestaurant(restaurant1);
+
+        assertEquals(customerFavorites.getId(), 1L);
+        assertEquals(customerFavorites.getCustomer(), customer);
+        assertEquals(customerFavorites.getRestaurant(), restaurant1);
+    }
 }
