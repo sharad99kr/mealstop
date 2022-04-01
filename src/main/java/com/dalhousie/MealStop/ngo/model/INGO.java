@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.ngo.modal;
+package com.dalhousie.MealStop.ngo.model;
 
 
     public interface INGO

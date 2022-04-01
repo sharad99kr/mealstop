@@ -231,8 +231,9 @@ public class OrderController {
 
         System.out.println("came here qqq"+orderId);
         orderService.updateOrderStatus(orderId, OrderConstants.PROCESSED);
-        //TODO need the redirect
-        return "orders/Enjoy";
+        Orders order= orderService.getOrderByOrderID(orderId);
+        return OrderConstants.RESTAURANT_REDIRECTION_URL+order.getRestaurantId();
+
     }
 
     @RequestMapping("orders/report/{id}")

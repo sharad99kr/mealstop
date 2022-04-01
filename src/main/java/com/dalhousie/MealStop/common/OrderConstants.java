@@ -39,6 +39,8 @@ public class OrderConstants {
     public static final String GET_CANCELLED_ORDER="orders/cancelled_orders";
     public static final String GET_ORDER_BY_RESTAURANT_ID_STATUS="orders/restaurant_orders/id={id}&status={status}";
     public static final String GET_ORDER_BY_RESTAURANT_ID="orders/restaurant_orders/{id}";
+    public static final String RESTAURANT_REDIRECTION_URL="redirect:/orders/restaurant_orders/";
+
     public static final String GET_ORDERS_BY_NGO_ID="orders/ngo_orders/{ngoId}";
 
     //months

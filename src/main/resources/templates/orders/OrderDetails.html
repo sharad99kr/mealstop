@@ -91,7 +91,7 @@
 
 </div>
 
-<div class="container p-5">
+<div class="container p-5" style="margin-bottom: 75px;">
     <table class="table">
         <thead class="bg-primary text-white">
         <tr style="text-align: center; vertical-align: middle">
@@ -109,7 +109,7 @@
                 <td th:text="${order.amount}"></td>
                 <td th:text="${order.status}"></td>
                 <td>
-                    <form th:action="@{/restaurantUpdateOrder/{id}(id=${restaurant_id})}" method="post" th:value="${restaurant_id}">
+                    <form th:action="@{/restaurantUpdateOrder/{id}(id=${order.orderId})}" method="post" th:value="${order.orderId}">
 
                         <button class="btn btn-outline-success" type="submit">Processed</button>
                     </form>

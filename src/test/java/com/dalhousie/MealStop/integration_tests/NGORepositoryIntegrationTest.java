@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.integration_tests;
 
-import com.dalhousie.MealStop.ngo.modal.NGO;
+import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

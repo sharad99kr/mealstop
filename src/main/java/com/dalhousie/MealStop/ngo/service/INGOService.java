@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.ngo.service;
 
-import com.dalhousie.MealStop.ngo.modal.NGO;
+import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.user.entity.User;
 
 public interface INGOService

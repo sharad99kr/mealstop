@@ -1,5 +1,9 @@
 package com.dalhousie.MealStop.orders.service;
 
+import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
+import com.dalhousie.MealStop.NGOOrder.repository.NGOOrderRepository;
+import com.dalhousie.MealStop.NGOOrder.service.INGOOrderService;
+import com.dalhousie.MealStop.NGOOrder.service.NGOOrderService;
 import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
 import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.model.Orders;
@@ -27,11 +31,18 @@ class OrderServiceTest {
     @InjectMocks
     private OrderService orderService;
 
+
     @Mock
     private OrderRepository mockOrderRepository;
 
     @Mock
+    private NGOOrderRepository ngoOrderRepository;
+
+    @Mock
     private Orders mockOrder;
+
+    @Mock
+    private NGOOrder mockNGOOrder;
 
     @Mock
     private List<Orders> mockOrders;
@@ -66,10 +77,11 @@ class OrderServiceTest {
 
 
     private long mockMealId;
+    private long mockPaymentId;
 
     private long mockRestaurantId;
 
-    private long mockPaymentId;
+    private long mockNgoId;
 
 
     private long mockAmount;
@@ -80,6 +92,9 @@ class OrderServiceTest {
 
     @Mock
     private CustomerServiceImplementation customerService;
+
+    @Mock
+    private NGOOrderService ngoOrderService;
 
 
     @BeforeEach
@@ -96,7 +111,13 @@ class OrderServiceTest {
 
         mockOrder =new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
         mockOrders.add(mockOrder);
-        mockOrder =new Orders(2,2,2,2,2,mockActiveStatus);
+        mockOrder=new Orders();
+        mockOrder.setCustomerId(2);
+        mockOrder.setRestaurantId(2);
+        mockOrder.setMealId(2);
+        mockOrder.setOrderAmount(2);
+        mockOrder.setOrderStatus(mockActiveStatus);
+
         mockOrders.add(mockOrder);
 
         Orders order=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
@@ -114,6 +135,9 @@ class OrderServiceTest {
         mockRestaurantOrders.add(order3);
         order3=new Orders(1,1,2,2,2,mockActiveStatus);
         mockRestaurantOrders.add(order3);
+
+        mockNgoId=1;
+        mockNGOOrder=new NGOOrder(mockOrderId, mockNgoId, OrderConstants.CLAIMED);
 
         when(mockOrderRepository.save(mockOrder)).thenReturn(mockOrder);
         when(mockOrderRepository.findAll()).thenReturn(mockOrders);
@@ -148,49 +172,60 @@ class OrderServiceTest {
     @Test
     void addOrder() {
 
-
+//        when(mockOrderRepository.save(any())).thenReturn(mockOrder);
+//        orderService.addOrder(mockOrder);
+//        verify(mockOrderRepository,times(1)).save(any());
+//
+//        when(customerService.getCustomerTokenCount()).thenReturn(6);
+//        Integer currentTokens = customerService.getCustomerTokenCount();
+//
+//        when(customerService.decrementCustomerToken(3)).thenReturn(3);
+//
+//        Integer decrementedToken=customerService.decrementCustomerToken(3);
+//
+//        assertEquals(decrementedToken,3);
 
 
         when(mockOrderRepository.save(any())).thenReturn(mockOrder);
         orderService.addOrder(mockOrder);
         verify(mockOrderRepository,times(1)).save(any());
 
-        when(customerService.getCustomerTokenCount()).thenReturn(6);
-        Integer currentTokens = customerService.getCustomerTokenCount();
-
-        when(customerService.decrementCustomerToken(3)).thenReturn(3);
-
-        Integer decrementedToken=customerService.decrementCustomerToken(3);
-
-        assertEquals(decrementedToken,3);
-
-
-
 
     }
-//
+
 //    @Test
 //    void getOrdersForNGO() {
-//    }
-//
-//    @Test
-//    void updateOrderStatus() {
 //
 //    }
 //
-//    @Test
-//    void claimedByNGO() {
-//    }
+    @Test
+    void updateOrderStatus() {
+//        orderRepository.updateOrdersById(orderId,status);
+//        when(mockOrderRepository.findByCustomerIdAndStatus(mockCustomerId,mockActiveStatus)).thenReturn(mockCustomerOrders);
+//        assertThat(orderService.updateOrderStatus(mockCustomerId,mockActiveStatus)).isEqualTo(mockCustomerOrders);
+    }
 
     @Test
-    void getAllOrders() {
-        assertThat(mockOrderRepository.findAll()).isEqualTo(mockOrders);
+    void claimedByNGO() {
+//        updateOrderStatus( orderId, OrderConstants.CLAIMED);
+//        NGOOrder ngoOrder=new NGOOrder(orderId,ngoId, OrderConstants.CLAIMED);
+//        ngoOrderService.addNGOOrder(ngoOrder);
+
+
+//
+//        when(ngoOrderRepository.save(any())).thenReturn(mockNGOOrder);
+//        ngoOrderService.addNGOOrder(mockNGOOrder);
+//        verify(ngoOrderRepository,times(1)).save(any());
     }
+
+
 
     @Test
     void getAllCanceledOrders() {
 
-        assertThat(mockOrderRepository.findByStatus(mockCancelledStatus)).isEqualTo(mockCancelledOrders);
+        when(mockOrderRepository.findByStatus(mockCancelledStatus)).thenReturn(mockCancelledOrders);
+        assertThat(orderService.getAllCanceledOrders()).isEqualTo(mockCancelledOrders);
+
     }
 
     @Test
@@ -207,8 +242,9 @@ class OrderServiceTest {
 
     @Test
     void getOrdersByCustomerID() {
+        when(mockOrderRepository.findByCustomerId(mockCustomerId)).thenReturn(mockCustomerOrders);
+        assertThat(orderService.getOrdersByCustomerID(mockCustomerId)).isEqualTo(mockCustomerOrders);
 
-        assertThat(mockOrderRepository.findByCustomerId(mockCustomerId)).isEqualTo(mockCustomerOrders);
     }
 
     @Test
@@ -225,6 +261,22 @@ class OrderServiceTest {
         assertThat(orderService.getOrdersByRestaurantID(mockRestaurantId)).isEqualTo(mockRestaurantOrders);
     }
 
+    @Test
+    void GetSetTest(){
+        mockOrder=new Orders();
+        mockOrder.setCustomerId(2);
+        mockOrder.setRestaurantId(2);
+        mockOrder.setMealId(2);
+        mockOrder.setOrderAmount(2);
+
+        assertThat(mockOrder.getOrderId()).isEqualTo(0);
+        assertThat(mockOrder.getCustomerId()).isEqualTo(2);
+        assertThat(mockOrder.getRestaurantId()).isEqualTo(2);
+        assertThat(mockOrder.getMealId()).isEqualTo(2);
+        assertThat(mockOrder.getOrderAmount()).isEqualTo(2);
+
+
+    }
 
 //    @Test
 //    void getMonthlyReportofRestaurant() {

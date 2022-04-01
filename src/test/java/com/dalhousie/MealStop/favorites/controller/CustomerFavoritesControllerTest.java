@@ -46,7 +46,7 @@ public class CustomerFavoritesControllerTest
     {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(customerFavoritesController).build();
-        customer = new Customer("Test", "User","Test@gmail.com");
+        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
         customer.setId(1L);
 
         restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");

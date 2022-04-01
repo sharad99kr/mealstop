@@ -18,6 +18,18 @@ public interface ICustomer
 
     public void setEmail(String email);
 
+    public void setMobileNumber(String mobileNumber);
+
+    public String getMobileNumber();
+
+    public String getDateOfBirth();
+
+    public void setDateOfBirth(String dateOfBirth);
+
+    public void setAddress(String address);
+
+    public String getAddress();
+
     public Integer getTokens();
 
     public void setTokens(Integer tokens);
