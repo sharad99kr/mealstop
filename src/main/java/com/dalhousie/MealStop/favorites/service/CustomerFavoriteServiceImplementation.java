@@ -15,7 +15,7 @@ import java.util.List;
 public class CustomerFavoriteServiceImplementation implements CustomerFavoriteService
 {
     @Autowired
-    private CustomerFavoritesRepository customerFavoritesRepository;
+    private CustomerFavoritesRepository cusFavRepo;
 
     @Autowired
     private ICustomerService customerService;
@@ -27,22 +27,22 @@ public class CustomerFavoriteServiceImplementation implements CustomerFavoriteSe
     public List<CustomerFavorites> getCustomerFavorites()
     {
         Customer loggedInCustomer = customerService.getCustomerDetailsFromSession();
-        List<CustomerFavorites> customerFavorites =  customerFavoritesRepository.findByCustomer(loggedInCustomer);
+        List<CustomerFavorites> customerFavorites =  cusFavRepo.findByCustomer(loggedInCustomer);
         return customerFavorites;
     }
 
     @Override
     public void addRestaurantToCustomerFavorites(Long restaurantId)
     {
-        Customer loggedInCustomer = customerService.getCustomerDetailsFromSession();
-        Restaurant favoriteRestaurant = restaurantService.getRestaurantById(restaurantId);
-        CustomerFavorites customerFavorites =  customerFavoritesRepository.findByCustomerAndRestaurant(loggedInCustomer, favoriteRestaurant);
+        Customer cust = customerService.getCustomerDetailsFromSession();
+        Restaurant favRes = restaurantService.getRestaurantById(restaurantId);
+        CustomerFavorites customerFavorites =  cusFavRepo.findByCustomerAndRestaurant(cust, favRes);
 
         if(customerFavorites == null)
         {
             System.err.println("New favorite added to the user");
-            customerFavorites = new CustomerFavorites(loggedInCustomer, favoriteRestaurant);
-            customerFavoritesRepository.save(customerFavorites);
+            customerFavorites = new CustomerFavorites(cust, favRes);
+            cusFavRepo.save(customerFavorites);
         }
         else
         {
@@ -53,6 +53,6 @@ public class CustomerFavoriteServiceImplementation implements CustomerFavoriteSe
     @Override
     public void deleteCustomerFavoriteById(Long customerFavoriteId)
     {
-        customerFavoritesRepository.deleteById(customerFavoriteId);
+        cusFavRepo.deleteById(customerFavoriteId);
     }
 }
