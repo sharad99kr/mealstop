@@ -176,7 +176,9 @@ public class RegistrationController implements WebMvcConfigurer {
         if (user == null)
             return USER_CHANGE_PASSWORD_URL;
 
-        if (passwordModel.getOldpassword().equals("") || passwordModel.getNewpassword().equals(""))
+        String oldPass = passwordModel.getOldpassword();
+        String newPass = passwordModel.getNewpassword();
+        if (oldPass.equals("") || newPass.equals(""))
             return USER_CHANGE_PASSWORD_URL;
 
         if (!userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
