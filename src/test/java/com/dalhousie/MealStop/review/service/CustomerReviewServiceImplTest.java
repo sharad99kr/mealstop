@@ -111,4 +111,24 @@ class CustomerReviewServiceImplTest {
         customerReviewService.deleteReviewById(1L);
         verify(customerReviewRepository, times(1)).deleteById(1L);
     }
+
+    @Test
+    void getterSetterTest()
+    {
+        Date curDate = new Date();
+        CustomerReview customerReview = new CustomerReview();
+        customerReview.setId(1L);
+        customerReview.setCustomer(customer);
+        customerReview.setRestaurant(restaurant1);
+        customerReview.setReviewScore(5);
+        customerReview.setReviewMessage("good food");
+        customerReview.setReviewDate(curDate);
+
+        assertEquals(customerReview.getId(), 1L);
+        assertEquals(customerReview.getCustomer(), customer);
+        assertEquals(customerReview.getRestaurant(), restaurant1);
+        assertEquals(customerReview.getReviewScore(), 5);
+        assertEquals(customerReview.getReviewMessage(), "good food");
+        assertEquals(customerReview.getReviewDate(), curDate);
+    }
 }
