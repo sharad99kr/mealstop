@@ -37,7 +37,7 @@ public class WebSecurityConfigTests {
     WebSecurityConfig webSecurityConfig;
 
     @Test
-    void ShouldSetupWebSecurityConfigWithAntMathcers(){
+    void ShouldSetupWebSecurityConfigWithAntMatchers(){
         Mockito.when(webSecurityMock.ignoring()).thenReturn(requestConfigurerMock);
         webSecurityConfig.configure(webSecurityMock);
     }
