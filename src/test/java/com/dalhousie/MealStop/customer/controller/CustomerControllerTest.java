@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.customer.controller;
 
+import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -30,6 +32,9 @@ public class CustomerControllerTest
 
     @Mock
     private IRestaurantService restaurantService;
+
+    @Mock
+    private IRewardService rewardService;
 
     @InjectMocks
     CustomerController customerController;
@@ -81,9 +86,11 @@ public class CustomerControllerTest
     void getCustomerProfilePage() throws Exception
     {
         Mockito.lenient().when(customerService.getCustomerDetailsFromSession()).thenReturn(customer);
+        Mockito.lenient().when(rewardService.isRewardPointsRedeemable(1L)).thenReturn(false);
         mockMvc.perform(get("/customer/profile"))
                 .andExpect(status().isOk());
         verify(customerService, times(1)).getCustomerDetailsFromSession();
+        verify(rewardService, times(1)).isRewardPointsRedeemable(1L);
     }
 
     @Test
