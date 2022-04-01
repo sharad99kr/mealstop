@@ -30,6 +30,7 @@ import static org.mockito.Mockito.*;
 
 class OrderServiceTest {
 
+    @Autowired
     @InjectMocks
     private OrderService orderService;
 
@@ -84,8 +85,7 @@ class OrderServiceTest {
     @Mock
     private List<Long> mockMealIds;
 
-    @Autowired
-    @InjectMocks
+    @Mock
     private CustomerServiceImplementation customerService;
 
 
@@ -152,11 +152,29 @@ class OrderServiceTest {
 //    void createOrderFromCart() {
 //    }
 //
-//    @Test
-//    void addOrder() {
-//
-//
-//    }
+    @Test
+    void addOrder() {
+
+
+
+
+        when(mockOrderRepository.save(any())).thenReturn(mockOrder);
+        orderService.addOrder(mockOrder);
+        verify(mockOrderRepository,times(1)).save(any());
+
+        when(customerService.getCustomerTokenCount()).thenReturn(6);
+        Integer currentTokens = customerService.getCustomerTokenCount();
+
+        when(customerService.decrementCustomerToken(3)).thenReturn(3);
+
+        Integer decrementedToken=customerService.decrementCustomerToken(3);
+
+        assertEquals(decrementedToken,3);
+
+
+
+
+    }
 //
 //    @Test
 //    void getOrdersForNGO() {
@@ -188,10 +206,11 @@ class OrderServiceTest {
         assertThat(orderService.getCustomerOrdersWithStatus(mockCustomerId,mockActiveStatus)).isEqualTo(mockCustomerOrders);
     }
 
-//    @Test
-//    void getRestaurantOrdersWithStatus() {
-//
-//    }
+    @Test
+    void getRestaurantOrdersWithStatus() {
+        when(mockOrderRepository.findByRestaurantIdAndStatus(mockRestaurantId,mockActiveStatus)).thenReturn(mockRestaurantOrders);
+        assertThat(orderService.getRestaurantOrdersWithStatus(mockRestaurantId,mockActiveStatus)).isEqualTo(mockRestaurantOrders);
+    }
 
     @Test
     void getOrdersByCustomerID() {
@@ -202,7 +221,8 @@ class OrderServiceTest {
     @Test
     void getOrderByOrderID() {
 
-        assertThat(mockOrderRepository.findById(mockOrderId)).isEqualTo(mockOrder);
+        when(mockOrderRepository.findById(mockOrderId)).thenReturn(mockOrder);
+        assertThat(orderService.getOrderByOrderID(mockOrderId)).isEqualTo(mockOrder);
 
     }
 
