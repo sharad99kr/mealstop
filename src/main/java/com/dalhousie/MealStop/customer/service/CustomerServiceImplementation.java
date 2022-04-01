@@ -81,10 +81,11 @@ public class  CustomerServiceImplementation implements ICustomerService
     }
 
     @Override
-    public void setCustomerToken(Integer tokenCount)
+    public void incrementCustomerToken(Integer tokenCount)
     {
         Customer loggedInCustomer = getCustomerDetailsFromSession();
-        loggedInCustomer.setTokens(tokenCount);
+        Integer currentCount = getCustomerTokenCount();
+        loggedInCustomer.setTokens(currentCount+tokenCount);
         customerRepository.save(loggedInCustomer);
     }
 
