@@ -7,10 +7,8 @@ import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.orders.Utils.Utils;
-import com.dalhousie.MealStop.orders.controller.OrdersPayload;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
-import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,12 +104,6 @@ public class OrderService implements IOrderService {
         ngoOrderService.addNGOOrder(ngoOrder);
     }
 
-    @Override
-    public List<Orders> getAllOrders(){
-        //this method returns all the orders that has been placed so far
-        return orderRepository.findAll();
-    }
-
 
     @Override
     public List<Orders> getAllCanceledOrders(){
@@ -148,24 +140,6 @@ public class OrderService implements IOrderService {
     public List<Orders> getOrdersByRestaurantID(long restaurantId){
         //this method return restaurant details using restaurant id
         return orderRepository.findByRestaurantId(restaurantId);
-    }
-
-    //method to return most ordered meal by restaurant id and customer id.
-    // It returns list of meal ids
-    public List<Long> getMostOrderedMeal(long customerId, long restaurantId){
-        return orderRepository.findByCustomerIdAndRestaurantId(customerId,restaurantId);
-    }
-
-    //method to return most ordered meal by restaurant
-    // It returns list of meal ids
-    public List<Long> getMostOrderedMealOfRestaurant(long restaurantId){
-        return orderRepository.findAllByRestaurantId(restaurantId);
-    }
-
-    //method to return most ordered meal by customer id
-    // It returns list of meal ids
-    public List<Long> getMostOrderedMealOfCustomer(long customerId){
-        return orderRepository.findAllByCustomerId(customerId);
     }
 
     //this method returns monthly earnings of a restaurant by id provided

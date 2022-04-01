@@ -78,8 +78,6 @@ public class OrderController {
 
     }
 
-
-
     @GetMapping(Constants.GET_CANCELLED_ORDER)
     String getAllCancelledOrders(Model model)
     {

@@ -15,9 +15,6 @@ public interface IOrderService {
     //method signature that adds new order
     public void addOrder(Orders newOrder);
 
-    //method signature that returns all the orders
-    public List<Orders> getAllOrders();
-
     //method signature returns all the orders that are in the cancelled status
     public List<Orders> getAllCanceledOrders();
 
@@ -32,14 +29,6 @@ public interface IOrderService {
 
     public List<Orders> getOrdersByRestaurantID(long restaurantId);
 
-    //method signature to return most ordered meal by restaurant id and customer id
-    public List<Long> getMostOrderedMeal(long customerId, long restaurantId );
-
-    //method signature to return most ordered meal by restaurant
-    public List<Long> getMostOrderedMealOfRestaurant(long restaurantId);
-
-    //method signature to return most ordered meal by customer id
-    public List<Long> getMostOrderedMealOfCustomer(long customerId);
 
     //method signature to return monthly report of earnings for a Restaurant
     public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);

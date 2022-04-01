@@ -1,28 +1,37 @@
 package com.dalhousie.MealStop.orders.service;
 
+import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
 import com.dalhousie.MealStop.orders.Constants.Constants;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
+import com.dalhousie.MealStop.restaurant.service.RestaurantServiceImplementation;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+
 
 import javax.naming.NoPermissionException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.Mockito.*;
 
+class OrderServiceTest {
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ExtendWith(MockitoExtension.class)
-class OrdersServiceTest {
-
+    @InjectMocks
+    private OrderService orderService;
 
     @Mock
     private OrderRepository mockOrderRepository;
@@ -46,102 +55,171 @@ class OrdersServiceTest {
     @Mock
     private List<Orders> mockDeliveredOrders;
 
+    private int mockActiveStatus;
 
-    @Mock
+    private int mockProcessedStatus;
+
     private int mockCancelledStatus;
 
-    @Mock
+
     private int mockDeliveredStatus;
 
-    @Mock
     private int mockYear;
 
-    @Mock
     private long mockCustomerId;
 
-    @Mock
     private long mockOrderId;
 
-    @Mock
+
+    private long mockMealId;
+
     private long mockRestaurantId;
+
+    private long mockPaymentId;
+
+
+    private long mockAmount;
+
 
     @Mock
     private List<Long> mockMealIds;
 
+    @Autowired
+    @InjectMocks
+    private CustomerServiceImplementation customerService;
+
+
     @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
-
+        mockAmount=10;
         mockCancelledStatus= Constants.CANCELLED;
         mockDeliveredStatus=Constants.DELIVERED;
+        mockActiveStatus=Constants.ACTIVE;
+        mockProcessedStatus=Constants.PROCESSED;
+        mockCustomerId=1;
+        mockRestaurantId=1;
+        mockMealId=1;
 
-        Mockito.when(mockOrderRepository.save(mockOrder)).thenReturn(mockOrder);
-        Mockito.when(mockOrderRepository.findAll()).thenReturn(mockOrders);
-        Mockito.when(mockOrderRepository.findByStatus(mockCancelledStatus)).thenReturn(mockCancelledOrders);
-        Mockito.when(mockOrderRepository.findByCustomerId(mockCustomerId)).thenReturn(mockCustomerOrders);
-        Mockito.when(mockOrderRepository.findById(mockOrderId)).thenReturn(mockOrder);
-        Mockito.when(mockOrderRepository.findByRestaurantIdAndStatus(mockRestaurantId,mockDeliveredStatus)).thenReturn(mockDeliveredOrders);
-        Mockito.when(mockOrderRepository.findByCustomerIdAndStatus(mockCustomerId,mockCancelledStatus)).thenReturn(mockCancelledOrders);
+        mockOrder =new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
+        mockOrders.add(mockOrder);
+        mockOrder =new Orders(2,2,2,2,2,mockActiveStatus);
+        mockOrders.add(mockOrder);
 
-        Mockito.when(mockOrderRepository.findByRestaurantId(mockRestaurantId)).thenReturn(mockOrders);
-        Mockito.doThrow(new NoPermissionException()).when(mockOrderRepository).updateOrdersById(mockOrderId,mockDeliveredStatus);
+        Orders order=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
+        mockCustomerOrders.add(order);
+        order=new Orders(1,2,2,2,2,mockActiveStatus);
+        mockCustomerOrders.add(order);
 
-        Mockito.when(mockOrderRepository.findByCustomerIdAndRestaurantId(mockCustomerId,mockRestaurantId)).thenReturn(mockMealIds);
-        Mockito.when(mockOrderRepository.findAllByCustomerId(mockCustomerId)).thenReturn(mockMealIds);
-        Mockito.when(mockOrderRepository.findAllByRestaurantId(mockRestaurantId)).thenReturn(mockMealIds);
-        Mockito.when(mockOrderRepository.findAllByRestaurantIdandYear(mockRestaurantId,mockYear)).thenReturn(mockDeliveredOrders);
+        Orders order2=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockCancelledStatus);
+        mockCancelledOrders.add(order2);
+        order2=new Orders(1,2,2,2,2,mockCancelledStatus);
+        mockCancelledOrders.add(order2);
+
+
+        Orders order3=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
+        mockRestaurantOrders.add(order3);
+        order3=new Orders(1,1,2,2,2,mockActiveStatus);
+        mockRestaurantOrders.add(order3);
+
+        when(mockOrderRepository.save(mockOrder)).thenReturn(mockOrder);
+        when(mockOrderRepository.findAll()).thenReturn(mockOrders);
+        when(mockOrderRepository.findByStatus(mockCancelledStatus)).thenReturn(mockCancelledOrders);
+        when(mockOrderRepository.findByCustomerId(mockCustomerId)).thenReturn(mockCustomerOrders);
+        when(mockOrderRepository.findById(mockOrderId)).thenReturn(mockOrder);
+        when(mockOrderRepository.findByRestaurantIdAndStatus(mockRestaurantId,mockDeliveredStatus)).thenReturn(mockDeliveredOrders);
+        when(mockOrderRepository.findByCustomerIdAndStatus(mockCustomerId,mockCancelledStatus)).thenReturn(mockCancelledOrders);
+
+        when(mockOrderRepository.findByRestaurantId(mockRestaurantId)).thenReturn(mockOrders);
+        //Mockito.doThrow(new NoPermissionException()).when(mockOrderRepository).updateOrdersById(mockOrderId,mockDeliveredStatus);
+
+        when(mockOrderRepository.findByCustomerIdAndRestaurantId(mockCustomerId,mockRestaurantId)).thenReturn(mockMealIds);
+        when(mockOrderRepository.findAllByCustomerId(mockCustomerId)).thenReturn(mockMealIds);
+        when(mockOrderRepository.findAllByRestaurantId(mockRestaurantId)).thenReturn(mockMealIds);
+        when(mockOrderRepository.findAllByRestaurantIdandYear(mockRestaurantId,mockYear)).thenReturn(mockDeliveredOrders);
 
     }
+
+//    @BeforeEach
+//    void setUp() {
+//    }
+//
+//    @AfterEach
+//    void tearDown() {
+//    }
+//
+//    @Test
+//    void createOrderFromCart() {
+//    }
 //
 //    @Test
 //    void addOrder() {
+//
+//
+//    }
+//
+//    @Test
+//    void getOrdersForNGO() {
 //    }
 //
 //    @Test
 //    void updateOrderStatus() {
+//
 //    }
 //
 //    @Test
-//    void getAllOrders() {
+//    void claimedByNGO() {
 //    }
-//
-//    @Test
-//    void getAllCanceledOrders() {
-//    }
-//
-//    @Test
-//    void getCustomerOrdersWithStatus() {
-//    }
-//
+
+    @Test
+    void getAllOrders() {
+        assertThat(mockOrderRepository.findAll()).isEqualTo(mockOrders);
+    }
+
+    @Test
+    void getAllCanceledOrders() {
+
+        assertThat(mockOrderRepository.findByStatus(mockCancelledStatus)).isEqualTo(mockCancelledOrders);
+    }
+
+    @Test
+    void getCustomerOrdersWithStatus() {
+        when(mockOrderRepository.findByCustomerIdAndStatus(mockCustomerId,mockActiveStatus)).thenReturn(mockCustomerOrders);
+        assertThat(orderService.getCustomerOrdersWithStatus(mockCustomerId,mockActiveStatus)).isEqualTo(mockCustomerOrders);
+    }
+
 //    @Test
 //    void getRestaurantOrdersWithStatus() {
-//    }
 //
-//    @Test
-//    void getOrdersByCustomerID() {
 //    }
-//
-//    @Test
-//    void getOrderByOrderID() {
-//    }
-//
-//    @Test
-//    void getOrdersByRestaurantID() {
-//    }
-//
-//    @Test
-//    void getMostOrderedMeal() {
-//    }
-//
-//    @Test
-//    void getMostOrderedMealOfRestaurant() {
-//    }
-//
-//    @Test
-//    void getMostOrderedMealOfCustomer() {
-//    }
-//
+
+    @Test
+    void getOrdersByCustomerID() {
+
+        assertThat(mockOrderRepository.findByCustomerId(mockCustomerId)).isEqualTo(mockCustomerOrders);
+    }
+
+    @Test
+    void getOrderByOrderID() {
+
+        assertThat(mockOrderRepository.findById(mockOrderId)).isEqualTo(mockOrder);
+
+    }
+
+    @Test
+    void getOrdersByRestaurantID() {
+        when(mockOrderRepository.findByRestaurantId(mockRestaurantId)).thenReturn(mockRestaurantOrders);
+        assertThat(orderService.getOrdersByRestaurantID(mockRestaurantId)).isEqualTo(mockRestaurantOrders);
+    }
+
+
 //    @Test
 //    void getMonthlyReportofRestaurant() {
+//
+//
+//    }
+//
+//    @Test
+//    void writeEarningsToCsv() {
 //    }
 }
