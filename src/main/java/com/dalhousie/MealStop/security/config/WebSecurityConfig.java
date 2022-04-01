@@ -19,10 +19,10 @@ import static com.dalhousie.MealStop.common.UrlConstants.*;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    CustomerAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    CustomerAuthenticationSuccessHandler customAuthHandler;
 
     @Autowired
-    CustomAuthenticationManager customAuthenticationManager;
+    CustomAuthenticationManager customAuthManager;
 
     @Override
     public void configure(WebSecurity web) {
@@ -36,12 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(CUSTOMER_MATCHER).hasAuthority(String.valueOf(RoleEnum.ROLE_CUSTOMER))
                 .antMatchers(RESTAURANT_MATCHER).hasAuthority(String.valueOf(RoleEnum.ROLE_RESTAURANT))
                 .antMatchers(NGO_MATCHER).hasAuthority(String.valueOf(RoleEnum.ROLE_NGO))
-                .and().formLogin().loginPage(LOGIN_URL).successHandler(customAuthenticationSuccessHandler)
+                .and().formLogin().loginPage(LOGIN_URL).successHandler(customAuthHandler)
                 .failureUrl(LOGIN_ERROR).permitAll()
                 .and().logout().permitAll();
     }
 
     protected AuthenticationManager authenticationManager() {
-        return customAuthenticationManager;
+        return customAuthManager;
     }
 }

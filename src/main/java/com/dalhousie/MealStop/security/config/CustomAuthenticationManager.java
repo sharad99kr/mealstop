@@ -32,6 +32,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             rights.add(new SimpleGrantedAuthority(user.getRole()));
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), rights);
+
             token.setDetails(user);
             user.setToken(token.toString());
             return token;
