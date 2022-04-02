@@ -39,7 +39,6 @@ public class CustomerController
     {
         Customer customer = customerService.getCustomerDetailsFromSession();
         boolean isCustomerRewardsPresent = rewardService.isRewardPointsRedeemable(customer.getId());
-        System.err.println("Customer rewards "+isCustomerRewardsPresent);
         model.addAttribute("customer", customer);
         model.addAttribute("isCustomerRewardsPresent", isCustomerRewardsPresent);
         return "customer/profile";

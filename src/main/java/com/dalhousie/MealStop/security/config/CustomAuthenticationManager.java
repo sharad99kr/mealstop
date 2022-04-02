@@ -2,6 +2,7 @@ package com.dalhousie.MealStop.security.config;
 
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,10 +14,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dalhousie.MealStop.common.UserMessagesConstants.LOGIN_TRYING_MSG;
+
 @Component
+@Slf4j
 public class CustomAuthenticationManager implements AuthenticationManager {
     @Autowired
     private UserService userService;
@@ -37,7 +42,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             user.setToken(token.toString());
             return token;
         } else {
-            System.err.println("The user credentials do not match the database stored values!");
+            log.error("The user credentials do not match the database stored values!");
             throw new BadCredentialsException("1000");
         }
     }
@@ -51,15 +56,15 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         try {
             user = userService.findUserByEmail(emailId);
         } catch (Exception e) {
-            System.err.println("The user with the email id mentioned does not exist!");
+            log.error("The user with the email id mentioned does not exist!");
             e.printStackTrace();
             throw new BadCredentialsException("1000");
         }
         if (user != null) {
-            System.err.println("Checking if the user's password is correct and assigning rights");
+            log.error("Checking if the user's password is correct and assigning rights");
             return checkUser(password, user, authentication);
         } else {
-            System.err.println("The user credentials do not match the database stored values!");
+            log.error("The user credentials do not match the database stored values!");
             throw new BadCredentialsException("1000");
         }
     }
