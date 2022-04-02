@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.ngo;
 
-import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
-import com.dalhousie.MealStop.NGOOrder.service.INGOOrderService;
+import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
+import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;

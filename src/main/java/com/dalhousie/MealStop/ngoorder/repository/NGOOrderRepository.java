@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.NGOOrder.repository;
+package com.dalhousie.MealStop.ngoorder.repository;
 
-import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
+import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.common.OrderConstants;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

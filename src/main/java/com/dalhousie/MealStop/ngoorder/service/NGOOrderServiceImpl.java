@@ -1,7 +1,7 @@
-package com.dalhousie.MealStop.NGOOrder.service;
+package com.dalhousie.MealStop.ngoorder.service;
 
-import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
-import com.dalhousie.MealStop.NGOOrder.repository.NGOOrderRepository;
+import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
+import com.dalhousie.MealStop.ngoorder.repository.NGOOrderRepository;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Service
-public class NGOOrderService implements INGOOrderService {
+public class NGOOrderServiceImpl implements INGOOrderService {
 
     @Autowired
     private OrderRepository orderRepository;

@@ -1,9 +1,8 @@
 package com.dalhousie.MealStop.orders.service;
 
-import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
-import com.dalhousie.MealStop.NGOOrder.repository.NGOOrderRepository;
-import com.dalhousie.MealStop.NGOOrder.service.INGOOrderService;
-import com.dalhousie.MealStop.NGOOrder.service.NGOOrderService;
+import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
+import com.dalhousie.MealStop.ngoorder.repository.NGOOrderRepository;
+import com.dalhousie.MealStop.ngoorder.service.NGOOrderServiceImpl;
 import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
 import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.model.Orders;
@@ -94,7 +93,7 @@ class OrderServiceTest {
     private CustomerServiceImplementation customerService;
 
     @Mock
-    private NGOOrderService ngoOrderService;
+    private NGOOrderServiceImpl ngoOrderServiceImpl;
 
 
     @BeforeEach

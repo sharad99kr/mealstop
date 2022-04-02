@@ -1,6 +1,7 @@
-package com.dalhousie.MealStop.ngo;
+package com.dalhousie.MealStop.ngo.controller;
 
 import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.ngo.NGOController;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.service.IOrderService;

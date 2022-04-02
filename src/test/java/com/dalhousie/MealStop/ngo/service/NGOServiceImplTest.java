@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.ngo;
+package com.dalhousie.MealStop.ngo.service;
 
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;

@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.NGOOrder.model;
+package com.dalhousie.MealStop.ngoorder.model;
 
 public interface INGOOrder {
 

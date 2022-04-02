@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.NGOOrder.service;
+package com.dalhousie.MealStop.ngoorder.service;
 
-import com.dalhousie.MealStop.NGOOrder.model.NGOOrder;
+import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 
 
 import java.util.List;
