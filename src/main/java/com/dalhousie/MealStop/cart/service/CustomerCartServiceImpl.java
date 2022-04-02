@@ -39,7 +39,6 @@ public class CustomerCartServiceImpl implements ICustomerCartService
     public void addMealsToCustomerCart(Meal meal)
     {
         ArrayList<Meal> cartItems = getLoggedInCustomerCartMeals();
-        System.err.println("adding meals to customer cart"+cartItems);
         if(!cartItems.contains(meal))
         {
             cartItems.add(meal);

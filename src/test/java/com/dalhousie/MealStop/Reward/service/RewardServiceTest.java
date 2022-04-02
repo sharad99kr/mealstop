@@ -12,6 +12,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+
 import static org.mockito.Mockito.doNothing;
 import org.mockito.internal.stubbing.answers.DoesNothing;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,12 +35,11 @@ class RewardServiceTest {
     @Mock
     private RewardRepository mockRewardRepository;
 
-
-
-
     @Mock
     private Rewards mockRewards;
 
+    @Mock
+    private Rewards mockRewards2;
 
     private int mockRewardPoint;
     private long mockCustomerId;
@@ -47,11 +52,14 @@ class RewardServiceTest {
     @BeforeEach
     public void setup() {
         mockCustomerId=1L;
-        mockRewards=new Rewards(Long.valueOf(123),101);
+        mockRewards=new Rewards();
+        mockRewards.setRewardPoint(101);
+        mockRewards.setCustomerId(Long.valueOf(123));
+
+        mockRewards2=new Rewards(22,33);
+
         mockRewardPoint=101;
-        MockitoAnnotations.initMocks(this);
-
-
+        //MockitoAnnotations.initMocks(this);
     }
 
 
@@ -60,6 +68,17 @@ class RewardServiceTest {
         MockitoAnnotations.initMocks(this);
         assertEquals(rewardService.getRewardPoints(mockCustomerId),0);
     }
+
+    @Test
+    public void getterSetterTest(){
+        assertThat(mockRewards.getRewardPoint()).isEqualTo(101);
+        assertThat(mockRewards.getCustomerId()).isEqualTo(123L);
+        assertThat(mockRewards2.getRewardPoint()).isEqualTo(33);
+        assertThat(mockRewards2.getCustomerId()).isEqualTo(22L);
+
+
+    }
+
 
     @Test
     void getRewardPointsWithRewards() {
@@ -88,21 +107,19 @@ class RewardServiceTest {
 //        verify(mockRewardRepository,times(1)).updateRewardsById(mockCustomerId,0);
 //    }
 
-//    @Test
-//    void updateRewardPoints() {
-//
-//        doNothing().
-//                doThrow(new RuntimeException())
-//                .when(mockRewardRepository).updateRewardsById(mockCustomerId,10);
-//
-//
-//        rewardService.updateRewardPoints(mockCustomerId, 10);
-//        verify(mockRewardRepository,times(1)).updateRewardsById(mockCustomerId,10);
-//
-//    }
+    @Test
+    void updateRewardPoints() {
+
+        // rewardRepository.updateRewardsById(customerId,points);
+
+//        rewardService.updateRewardPoints(mockCustomerId,Constants.ZERO_POINTS);
+//        verify(mockRewardRepository,times(1)).updateRewardsById(mockCustomerId,Constants.ZERO_POINTS);
+
+    }
 
     @Test
     void isRewardPointsRedeemable() {
+
 
 
     }

@@ -25,15 +25,12 @@ public class Orders implements IOrders {
     @Column(name="mealId")
     private long mealId;
 
-    @Column(name="paymentId")
-    private long paymentId;
 
     @Column(name="status")
     private int status;
 
     @Column(name="amount")
     private float amount;
-
 
     @Column(name="orderDate")
     private Date date;
@@ -84,15 +81,9 @@ public class Orders implements IOrders {
         return restaurantId;
     }
 
-
     @Override
     public long getMealId(){
         return mealId;
-    }
-
-    @Override
-    public long getPaymentId(){
-        return paymentId;
     }
 
     @Override
@@ -105,15 +96,9 @@ public class Orders implements IOrders {
         this.restaurantId=restaurantId;
     }
 
-
     @Override
     public void setMealId(long mealId){
         this.mealId=mealId;
-    }
-
-    @Override
-    public void setPaymentId(long paymentId){
-        this.paymentId=paymentId;
     }
 
     @ManyToOne(fetch=FetchType.LAZY,optional=false)
@@ -128,38 +113,20 @@ public class Orders implements IOrders {
     @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
     private Meal meal;
 
-
-
     public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id, long amount, int status){
         this.customerId=customer_id;
         this.restaurantId=restaurant_id;
         this.mealId=meal_id;
-        this.paymentId=payment_id;
         this.amount=amount;
         this.status=status;
         setOrderTime();
         this.date=getOrderTime();
-
     }
-
-
 
     public Orders(){
 
     }
 
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order [id=" + id);
-        sb.append(", restaurantId=" + restaurantId);
-        sb.append(", customerId=" + customerId);
-        sb.append(", mealId=" + mealId);
-        sb.append(", paymentId=" + paymentId+"]");
-
-        return sb.toString();
-    }
 
 }
 

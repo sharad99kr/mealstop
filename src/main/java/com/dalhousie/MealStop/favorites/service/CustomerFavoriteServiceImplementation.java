@@ -40,13 +40,8 @@ public class CustomerFavoriteServiceImplementation implements CustomerFavoriteSe
 
         if(customerFavorites == null)
         {
-            System.err.println("New favorite added to the user");
             customerFavorites = new CustomerFavorites(cust, favRes);
             cusFavRepo.save(customerFavorites);
-        }
-        else
-        {
-            System.err.println("This restaurant is already a favorite for the customer");
         }
     }
 

@@ -34,7 +34,6 @@ public class CustomerCartController
         Customer loggedInCustomer = customerService.getCustomerDetailsFromSession();
         model.addAttribute("customer", loggedInCustomer);
 
-        System.err.println(customerCart);
         return "cart/get_carts";
     }
 

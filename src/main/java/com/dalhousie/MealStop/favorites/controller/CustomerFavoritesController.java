@@ -21,7 +21,6 @@ public class CustomerFavoritesController
     public String getFavoritePage(Model model)
     {
         List<CustomerFavorites> customerFavorites = customerFavoriteService.getCustomerFavorites();
-        System.err.println(customerFavorites);
         model.addAttribute("favorites", customerFavorites);
         return "favorite/get_favorite";
     }
