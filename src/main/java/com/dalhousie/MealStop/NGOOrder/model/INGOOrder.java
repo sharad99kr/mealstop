@@ -10,5 +10,5 @@ public interface INGOOrder {
     public long getOrderId();
 
 
-    public void setOrderId(long ngoId);
+    public void setOrderId(long orderId);
 }

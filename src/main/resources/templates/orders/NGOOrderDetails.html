@@ -77,13 +77,6 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent" >
-
-                        <form th:action="@{/orders/report/16}" method="post" th:value="${restaurant_id}">
-
-                            <button class="btn btn-outline-success" type="submit">Report</button>
-                        </form>
-                    </div>
                 </div>
             </nav>
         </div>
@@ -98,7 +91,6 @@
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Status</th>
-                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -106,13 +98,7 @@
                 <td th:text="${order.mealName}"></td>
                 <td th:text="${order.date}"></td>
                 <td th:text="${order.amount}"></td>
-                <td th:text="${order.status}"></td>
-                <td>
-                    <form th:action="@{/restaurantUpdateOrder/{id}(id=${order.orderId})}" method="post" th:object="${order}">
-
-                        <button class="btn btn-outline-success" type="submit">Processed</button>
-                    </form>
-                </td>
+                <td>Claimed</td>
             </tr>
             </tbody>
         </table>

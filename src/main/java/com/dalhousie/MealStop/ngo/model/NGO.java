@@ -14,7 +14,6 @@ import javax.persistence.Column;
 @Table(name = "ngo")
 public class NGO implements INGO {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
 

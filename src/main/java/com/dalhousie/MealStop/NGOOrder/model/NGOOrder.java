@@ -32,12 +32,12 @@ public class NGOOrder implements INGOOrder {
 
     @Override
     public long getOrderId(){
-        return ngoId;
+        return orderId;
     }
 
     @Override
-    public void setOrderId(long ngoId){
-        this.ngoId=ngoId;
+    public void setOrderId(long orderId){
+        this.orderId=orderId;
     }
 
 

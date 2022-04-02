@@ -44,4 +44,8 @@ public interface IOrderService {
 
     public void writeEarningsToCsv(Writer writer, long id);
 
+    public List<Orders> getAllOrders();
+
+
+
 }

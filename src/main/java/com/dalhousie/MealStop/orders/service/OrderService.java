@@ -189,4 +189,6 @@ public class OrderService implements IOrderService {
             System.out.println(OrderConstants.FILE_WRITE_ERROR);
         }
     }
+    @Override    public List<Orders> getAllOrders(){
+        return orderRepository.findAll();    }
 }
