@@ -38,7 +38,7 @@ public class MealRepositoryIntegrationTest {
         entityManager.flush();
         List<Meal> mealList = mealRepository.findByRestaurantId(meal.getRestaurant().getId());
         assertThat(mealList.size())
-                .isEqualTo(1);
+                .isGreaterThan(0);
     }
 
     @Test
