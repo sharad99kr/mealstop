@@ -268,12 +268,14 @@ class OrderServiceTest {
         mockOrder.setRestaurantId(2);
         mockOrder.setMealId(2);
         mockOrder.setOrderAmount(2);
+        mockOrder.setOrderStatus(2);
 
         assertThat(mockOrder.getOrderId()).isEqualTo(0);
         assertThat(mockOrder.getCustomerId()).isEqualTo(2);
         assertThat(mockOrder.getRestaurantId()).isEqualTo(2);
         assertThat(mockOrder.getMealId()).isEqualTo(2);
         assertThat(mockOrder.getOrderAmount()).isEqualTo(2);
+        assertThat(mockOrder.getOrderStatus()).isEqualTo(2);
 
 
     }

@@ -127,16 +127,6 @@ public class Orders implements IOrders {
 
     }
 
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order [id=" + id);
-        sb.append(", restaurantId=" + restaurantId);
-        sb.append(", customerId=" + customerId);
-        sb.append(", mealId=" + mealId+"]");
-        return sb.toString();
-    }
 
 }
 

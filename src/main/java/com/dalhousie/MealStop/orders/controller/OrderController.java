@@ -229,7 +229,6 @@ public class OrderController {
     @RequestMapping(value = "/restaurantUpdateOrder/{id}")
     public String restaurantUpdateOrder(Model model,@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
-        System.out.println("came here qqq"+orderId);
         orderService.updateOrderStatus(orderId, OrderConstants.PROCESSED);
         Orders order= orderService.getOrderByOrderID(orderId);
         return OrderConstants.RESTAURANT_REDIRECTION_URL+order.getRestaurantId();

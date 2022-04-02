@@ -38,6 +38,8 @@ class RewardServiceTest {
     @Mock
     private Rewards mockRewards;
 
+    @Mock
+    private Rewards mockRewards2;
 
     private int mockRewardPoint;
     private long mockCustomerId;
@@ -53,6 +55,9 @@ class RewardServiceTest {
         mockRewards=new Rewards();
         mockRewards.setRewardPoint(101);
         mockRewards.setCustomerId(Long.valueOf(123));
+
+        mockRewards2=new Rewards(22,33);
+
         mockRewardPoint=101;
         //MockitoAnnotations.initMocks(this);
     }
@@ -68,6 +73,9 @@ class RewardServiceTest {
     public void getterSetterTest(){
         assertThat(mockRewards.getRewardPoint()).isEqualTo(101);
         assertThat(mockRewards.getCustomerId()).isEqualTo(123L);
+        assertThat(mockRewards2.getRewardPoint()).isEqualTo(33);
+        assertThat(mockRewards2.getCustomerId()).isEqualTo(22L);
+
 
     }
 
