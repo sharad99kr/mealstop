@@ -12,7 +12,7 @@ class UtilsTest {
 
     @Test
     void getRandomNumberUsingInts() {
-        assertThat(Utils.getRandomNumberUsingInts(2, 6)).isGreaterThan(2).isLessThan(6);
+        assertThat(Utils.getRandomNumberUsingInts(2, 6)).isGreaterThan(1).isLessThan(7);
     }
 
     @Test
