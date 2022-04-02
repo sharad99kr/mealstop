@@ -48,7 +48,8 @@
                     </div>
                 </td>
                 <td th:text="${review.reviewDate}"></td>
-                <td th:text="${review.restaurant.restaurantName}"></td>
+                <td><a th:href="@{/customer/get_meals/{id}(id=${review.restaurant.id})}" class="card-link" th:text="${review.restaurant.restaurantName}"></a></td>
+<!--                <td th:text="${review.restaurant.restaurantName}"></td>-->
                 <td>
                     <form method="get" th:action="@{/customer/update_review/{id}(id=${review.id})}">
                         <button class="btn btn-sm btn-primary" type="submit">
