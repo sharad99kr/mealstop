@@ -17,4 +17,5 @@ public interface IMealService {
 
     public abstract Meal getMealByMealId(long mealId);
 
+    public abstract boolean checkDuplicateMeal(Meal meal);
 }

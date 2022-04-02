@@ -17,4 +17,5 @@ public interface IRestaurantService {
     public abstract Restaurant updateRestaurant(Restaurant restaurant, long id);
     public abstract List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants);
     public abstract User getRestaurantUserDetailsFromSession();
+    public abstract boolean checkDuplicateRestaurant(Restaurant restaurant);
 }

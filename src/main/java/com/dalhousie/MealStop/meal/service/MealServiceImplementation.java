@@ -4,11 +4,12 @@ import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.repository.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 public class MealServiceImplementation implements IMealService {
     @Autowired
     private MealRepository mealRepository;
@@ -16,7 +17,8 @@ public class MealServiceImplementation implements IMealService {
     @Override
     public void addMeal(Meal meal)
     {
-        mealRepository.save(meal);
+        if(!checkDuplicateMeal(meal))
+            mealRepository.save(meal);
     }
 
     @Override
@@ -26,12 +28,14 @@ public class MealServiceImplementation implements IMealService {
         return mealList;
     }
 
+    @Override
     public List<Meal> getAllMealsByRestaurantId(long restaurantId)
     {
         List<Meal> mealList = mealRepository.findByRestaurantId(restaurantId);
         return mealList;
     }
 
+    @Override
     public Meal getMealByMealId(long mealId)
     {
         Optional<Meal> meal = mealRepository.findById(mealId);
@@ -52,10 +56,25 @@ public class MealServiceImplementation implements IMealService {
             meal.setCuisineType(updatedMeal.getCuisineType());
             meal.setPrice(updatedMeal.getPrice());
             meal.setTags(updatedMeal.getTags());
-            mealRepository.save(meal);
+            if(!checkDuplicateMeal(meal))
+                mealRepository.save(meal);
             return meal;
         }
 
         return null;
+    }
+
+    @Override
+    public boolean checkDuplicateMeal(Meal meal)
+    {
+        List<Meal> mealList = getAllMealsByRestaurantId(meal.getRestaurant().getId());
+        boolean isDuplicate = false;
+        for(Meal restaurantMeal: mealList)
+        {
+            if(restaurantMeal.getMealName().equalsIgnoreCase(meal.getMealName()))
+                isDuplicate = true;
+        }
+
+        return isDuplicate;
     }
 }

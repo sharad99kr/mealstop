@@ -11,12 +11,13 @@ import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Repository
+@Service
 public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -33,7 +34,8 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     public void addRestaurant(Restaurant restaurant)
     {
         restaurant.setUserId(getRestaurantUserDetailsFromSession().getUser_id());
-        restaurantRepository.save(restaurant);
+        if(!checkDuplicateRestaurant(restaurant))
+            restaurantRepository.save(restaurant);
     }
 
     @Override
@@ -86,7 +88,8 @@ public class RestaurantServiceImplementation implements IRestaurantService {
             restaurant.setEmail(updatedRestaurant.getEmail());
             restaurant.setPhoneNumber(updatedRestaurant.getPhoneNumber());
             restaurant.setAvailability(updatedRestaurant.getAvailability());
-            restaurantRepository.save(restaurant);
+            if(!checkDuplicateRestaurant(restaurant))
+                restaurantRepository.save(restaurant);
             return restaurant;
         }
         return null;
@@ -163,5 +166,24 @@ public class RestaurantServiceImplementation implements IRestaurantService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean checkDuplicateRestaurant(Restaurant restaurant)
+    {
+        List<Restaurant> restaurantList = getAllRestaurantByUserId();
+        boolean isDuplicate = false;
+        String resName = restaurant.getRestaurantName();
+        String resAddr = restaurant.getAddress();
+        for(Restaurant userRestaurant: restaurantList)
+        {
+            String name = userRestaurant.getRestaurantName();
+            String address = userRestaurant.getAddress();
+            if(name.equalsIgnoreCase(resName)
+            || address.equalsIgnoreCase(resAddr))
+                isDuplicate = true;
+        }
+
+        return isDuplicate;
     }
 }
