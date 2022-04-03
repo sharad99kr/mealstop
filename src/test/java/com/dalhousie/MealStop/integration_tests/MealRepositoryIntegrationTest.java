@@ -1,8 +1,11 @@
 package com.dalhousie.MealStop.integration_tests;
 
+import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.repository.MealRepository;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +28,13 @@ public class MealRepositoryIntegrationTest {
     @Autowired
     private MealRepository mealRepository;
 
+    private TestsSupport testsSupport = new TestsSupport();
+
     @Test
     public void ShouldReturnMealListWhenFindByRestaurantId() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
+        Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
-        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();
@@ -43,9 +48,9 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindAll() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
+        Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
-        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();
@@ -58,9 +63,9 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenSave() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
+        Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
-        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();
@@ -73,9 +78,9 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindById() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
+        Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
-        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();
@@ -89,9 +94,9 @@ public class MealRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnUpdatedMealWhenUpdateMealIsPerformed() {
-        Meal meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 1);
+        Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
-        Restaurant  restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();

@@ -1,8 +1,11 @@
 package com.dalhousie.MealStop.meal.service;
 
+import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.repository.MealRepository;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,26 +36,23 @@ class MealServiceImplementationTest {
     @InjectMocks
     private MealServiceImplementation mealService;
     private Meal meal1;
-    private Meal meal2;
     List<Meal> mealList;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
         mealList = new ArrayList<>();
-        meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
-        meal2 = new Meal("ChineseMeal", "140","fat, carbs", "Chinese", 150);
+        meal1 = testsSupport.createDummyMeal();
         meal1.setId(1L);
-        Restaurant restaurant = new Restaurant();
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(2L);
         meal1.setRestaurant(restaurant);
-        meal2.setRestaurant(restaurant);
         mealList.add(meal1);
-        mealList.add(meal2);
     }
 
     @AfterEach
     void tearDown() {
-        meal1 = meal2 = null;
+        meal1 = null;
         mealList = null;
     }
 

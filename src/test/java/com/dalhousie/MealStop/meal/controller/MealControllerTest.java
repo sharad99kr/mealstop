@@ -1,9 +1,12 @@
 package com.dalhousie.MealStop.meal.controller;
 
+import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,22 +55,22 @@ class MealControllerTest {
 
     private Restaurant restaurant1;
     private List<Restaurant> restaurantList;
-    private User mockUser;
     private Meal meal1;
     List<Meal> mealList;
+
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(mealController).build();
-        meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal1 = testsSupport.createDummyMeal();
         meal1.setId(1L);
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
         meal1.setRestaurant(restaurant1);
         restaurantList = new ArrayList<>();
         restaurantList.add(restaurant1);
-        mockUser = new User();
         mealList = new ArrayList<>();
         mealList.add(meal1);
     }
@@ -76,7 +79,6 @@ class MealControllerTest {
     void tearDown() {
         restaurant1 = null;
         restaurantList = null;
-        mockUser = null;
         meal1 = null;
         mealList = null;
     }

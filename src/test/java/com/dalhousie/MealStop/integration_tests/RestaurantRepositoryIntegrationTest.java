@@ -1,7 +1,9 @@
 package com.dalhousie.MealStop.integration_tests;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.repository.RestaurantRepository;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +28,13 @@ public class RestaurantRepositoryIntegrationTest {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    private TestsSupport testsSupport = new TestsSupport();
+
     @Test
     public void ShouldReturnRestaurantListWhenFindAll() {
         User user = new User();
         user.setUser_id(1L);
-        Restaurant restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
-        restaurant.setUserId(1L);
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         entityManager.merge(restaurant);
         entityManager.flush();
@@ -44,8 +47,7 @@ public class RestaurantRepositoryIntegrationTest {
     public void ShouldReturnRestaurantWhenSave() {
         User user = new User();
         user.setUser_id(1L);
-        Restaurant restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
-        restaurant.setUserId(1L);
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();
@@ -55,7 +57,7 @@ public class RestaurantRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnMealWhenFindById() {
-        Restaurant restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         restaurant = entityManager.merge(restaurant);
         entityManager.flush();
@@ -66,7 +68,7 @@ public class RestaurantRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnUpdatedRestaurantWhenUpdateRestaurantIsPerformed() {
-        Restaurant restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
         entityManager.merge(restaurant);
         entityManager.flush();

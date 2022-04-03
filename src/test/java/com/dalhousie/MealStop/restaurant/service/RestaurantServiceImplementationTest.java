@@ -1,12 +1,15 @@
 package com.dalhousie.MealStop.restaurant.service;
 
+import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.repository.RestaurantRepository;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +57,7 @@ class RestaurantServiceImplementationTest {
     List<Meal> mealList;
     User mockUser;
     List<CustomerReview> customerReviews;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
@@ -61,14 +65,15 @@ class RestaurantServiceImplementationTest {
         mockUser.setUser_id(1L);
         restaurantList = new ArrayList<>();
         mealList = new ArrayList<>();
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        meal1 = testsSupport.createDummyMeal();
+        meal1.setId(1L);
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
         restaurantList.add(restaurant1);
         Calendar cal = Calendar.getInstance();
         cal.setTime(Date.from(Instant.now()));
         cal.add(Calendar.DATE, 7);
         endDate = cal.getTime();
-        meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
         mealList.add(meal1);
         customerReviews = new ArrayList<>();
     }

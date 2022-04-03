@@ -1,7 +1,9 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -48,13 +49,14 @@ class RestaurantControllerTest {
     private Restaurant restaurant1;
     private List<Restaurant> restaurantList;
     private User mockUser;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(restaurantController).build();
 
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
         restaurantList = new ArrayList<>();
         restaurantList.add(restaurant1);
