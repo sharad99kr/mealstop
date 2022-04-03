@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
+import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
@@ -12,7 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RestaurantController
@@ -30,7 +34,10 @@ public class RestaurantController
     public String getAllRestaurants(Model model)
     {
         List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId();
-        model.addAttribute("restaurants_list", listRestaurants);
+        Map<Restaurant, String> restaurantToReviewScoreMap = new HashMap<>();
+        for(Restaurant restaurant : listRestaurants)
+            restaurantToReviewScoreMap.put(restaurant, restaurant.getAvgReviewScore());
+        model.addAttribute("restaurants_list", restaurantToReviewScoreMap);
 
         return "restaurant/get_restaurant";
     }
@@ -84,5 +91,16 @@ public class RestaurantController
         model.addAttribute("customerReview", customerReview);
 
         return "restaurant/reviews";
+    }
+
+    @GetMapping("/customer/search-restaurant")
+    public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model) throws Exception
+    {
+        Date startDate = userSearch.getStartDate();
+        Date endDate = userSearch.getEndDate();
+        List<Restaurant> availableRestaurants = restaurantService.getAvailableRestaurants(startDate, endDate);
+        model.addAttribute("restaurants", availableRestaurants);
+        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(availableRestaurants));
+        return "customer/restaurants";
     }
 }
