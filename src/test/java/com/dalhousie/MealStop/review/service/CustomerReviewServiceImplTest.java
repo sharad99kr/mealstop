@@ -3,6 +3,7 @@ package com.dalhousie.MealStop.review.service;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.review.builder.CustomerReviewBuilder;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.repository.CustomerReviewRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -43,6 +44,8 @@ class CustomerReviewServiceImplTest {
 
     private CustomerBuilder customerBuilder;
 
+    private CustomerReviewBuilder customerReviewBuilder;
+
     @BeforeEach
     void setUp()
     {
@@ -61,7 +64,16 @@ class CustomerReviewServiceImplTest {
         customerBuilder.setTokens(10);
         customer = customerBuilder.buildCustomer();
 
-        customerReview = new CustomerReview(1L, 5, "Good", date, customer, restaurant1);
+        customerReviewBuilder = new CustomerReviewBuilder();
+        customerReviewBuilder.setId(1L);
+        customerReviewBuilder.setReviewScore(5);
+        customerReviewBuilder.setReviewMessage("Good");
+        customerReviewBuilder.setReviewDate(date);
+        customerReviewBuilder.setCustomer(customer);
+        customerReviewBuilder.setRestaurant(restaurant1);
+        customerReview = customerReviewBuilder.buildCustomerReview();
+
+
         customerReviewList = new ArrayList<>();
         customerReviewList.add(customerReview);
     }
