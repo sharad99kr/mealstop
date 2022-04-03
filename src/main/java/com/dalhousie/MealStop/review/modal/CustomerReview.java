@@ -101,16 +101,4 @@ public class CustomerReview implements ICustomerReview
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
-
-    @Override
-    public String toString() {
-        return "CustomerReview{" +
-                "id=" + id +
-                ", reviewScore=" + reviewScore +
-                ", reviewMessage='" + reviewMessage + '\'' +
-                ", reviewDate=" + reviewDate +
-                ", customer=" + customer +
-                ", restaurant=" + restaurant +
-                '}';
-    }
 }
