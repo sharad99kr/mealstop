@@ -128,6 +128,7 @@ public class Restaurant implements IRestaurant{
     }
 
     @Override
+    @Transient
     public String getAvgReviewScore()
     {
         return this.reviewScore;

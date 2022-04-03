@@ -12,7 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RestaurantController
@@ -30,7 +32,10 @@ public class RestaurantController
     public String getAllRestaurants(Model model)
     {
         List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId();
-        model.addAttribute("restaurants_list", listRestaurants);
+        Map<Restaurant, String> restaurantToReviewScoreMap = new HashMap<>();
+        for(Restaurant restaurant : listRestaurants)
+            restaurantToReviewScoreMap.put(restaurant, restaurant.getAvgReviewScore());
+        model.addAttribute("restaurants_list", restaurantToReviewScoreMap);
 
         return "restaurant/get_restaurant";
     }

@@ -18,7 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,6 +50,7 @@ class RestaurantControllerTest {
 
     private Restaurant restaurant1;
     private List<Restaurant> restaurantList;
+    private Map<Restaurant, String> restaurantScoreMap;
     private User mockUser;
     private TestsSupport testsSupport = new TestsSupport();
     private String msg;
@@ -66,6 +69,8 @@ class RestaurantControllerTest {
         msg = "Good";
         msgList = new ArrayList<>();
         msgList.add(msg);
+        restaurantScoreMap = new HashMap<>();
+        restaurantScoreMap.put(restaurant1, null);
     }
 
     @AfterEach
@@ -75,6 +80,7 @@ class RestaurantControllerTest {
         mockUser = null;
         msg= null;
         msgList = null;
+        restaurantScoreMap = null;
     }
 
     @Test
@@ -83,7 +89,7 @@ class RestaurantControllerTest {
 
         mockMvc.perform(get("/restaurant/get_restaurant"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("restaurants_list", restaurantList));
+                .andExpect(model().attribute("restaurants_list", restaurantScoreMap));
 
         verify(restaurantService, times(1)).getAllRestaurantByUserId();
     }
