@@ -40,12 +40,6 @@ public class NGOOrder implements INGOOrder {
         this.orderId=orderId;
     }
 
-
-//    @ManyToOne
-//    @JoinColumn(name = "ngoId", referencedColumnName = "id", nullable = true,insertable = true,updatable = true)
-//    private NGO ngo;
-
-
     public NGOOrder(long orderId, long ngoId, int status){
         this.orderId=orderId;
         this.ngoId=ngoId;

@@ -32,15 +32,12 @@ public class NGOOrderServiceTest {
 
     private NGOOrder ngoOrder2;
 
-    private User user;
-
     List<NGOOrder> NGOList;
 
 
     @BeforeEach
     void setUp()
     {
-//        user = new User(1L, "kuldeep", "ngo", "ngo@gmail.com", "11111111", "April 22, 1999", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         ngoOrder1 = new NGOOrder(1L,1L,1);
         ngoOrder2 = new NGOOrder();
         ngoOrder2.setOrderId(2L);
