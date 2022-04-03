@@ -8,6 +8,7 @@ import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.user.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@Slf4j
 public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -147,10 +149,9 @@ public class RestaurantServiceImplementation implements IRestaurantService {
      * @param startDate the "from" date
      * @param endDate the "to" date
      * @return List of available restaurants base on date range selection
-     * @throws Exception when valid date range is not selected
      */
     @Override
-    public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate) throws Exception {
+    public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate){
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
         List<Restaurant> availableRestaurants = new ArrayList<>();
 
@@ -158,7 +159,7 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         {
             if(startDate == null || endDate == null)
             {
-                throw new Exception("Please select a valid range");
+                log.error("Selected dates are not in correct range");
             }
             else
             {
