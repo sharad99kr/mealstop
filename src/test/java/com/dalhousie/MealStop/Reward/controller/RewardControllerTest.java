@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.Reward.controller;
 
 import com.dalhousie.MealStop.Reward.service.RewardService;
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
 import com.dalhousie.MealStop.orders.service.OrderService;
@@ -53,7 +54,7 @@ class RewardControllerTest {
 
     private Customer customer;
 
-
+    private CustomerBuilder customerBuilder;
 
     @BeforeEach
     void setUp()
@@ -61,8 +62,16 @@ class RewardControllerTest {
         initMocks(this);
         mockCustomerId=1L;
         this.mockMvc = MockMvcBuilders.standaloneSetup(rewardController).build();
-        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer.setId(1L);
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(10);
+        customer = customerBuilder.buildCustomer();
     }
 
 

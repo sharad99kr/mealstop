@@ -33,16 +33,6 @@ public class CustomerReview implements ICustomerReview
 
     }
 
-    public CustomerReview(long id, Integer reviewScore, String reviewMessage, Date reviewDate, Customer customer, Restaurant restaurant)
-    {
-        this.id = id;
-        this.reviewScore = reviewScore;
-        this.reviewMessage = reviewMessage;
-        this.reviewDate = reviewDate;
-        this.customer = customer;
-        this.restaurant = restaurant;
-    }
-
     @Column(name = "review_date")
     private Date reviewDate = new Date();
 
@@ -100,17 +90,5 @@ public class CustomerReview implements ICustomerReview
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerReview{" +
-                "id=" + id +
-                ", reviewScore=" + reviewScore +
-                ", reviewMessage='" + reviewMessage + '\'' +
-                ", reviewDate=" + reviewDate +
-                ", customer=" + customer +
-                ", restaurant=" + restaurant +
-                '}';
     }
 }

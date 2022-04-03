@@ -46,7 +46,7 @@ quality-checks:   # Quality stage to run designite and get all the quality metri
     - eval "$UPLOAD_QUALITY_REPORT"
     - echo "$UPLOAD_QUALITY_REPORT"
   only:
-    - develop
+    - develop,main
 
 deploy:       # Deploy stage to deploy the built project to heroku
   stage: deploy
@@ -56,3 +56,5 @@ deploy:       # Deploy stage to deploy the built project to heroku
     - apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=mealstop-application --api-key=$HEROKU_API_KEY
+  only:
+    - main
