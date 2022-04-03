@@ -42,7 +42,7 @@ public class Restaurant implements IRestaurant{
     private String address;
 
     @Transient
-    public String reviewScore;
+    private String reviewScore;
 
     @Override
     public long getId()
