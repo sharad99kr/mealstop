@@ -1,7 +1,10 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
+import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,19 +48,35 @@ class RestaurantControllerTest {
     private MockMvc mockMvc;
 
     private Restaurant restaurant1;
+
     private List<Restaurant> restaurantList;
+
     private User mockUser;
+
+    private TestsSupport testsSupport = new TestsSupport();
+
+    private String msg;
+
+    private List<String> msgList;
+
+    private List<Meal> mealList;
 
     @BeforeEach
     void setUp() {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(restaurantController).build();
 
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
         restaurantList = new ArrayList<>();
         restaurantList.add(restaurant1);
         mockUser = new User();
+        msg = "Good";
+        msgList = new ArrayList<>();
+        msgList.add(msg);
+
+        mealList = new ArrayList<>();
+        mealList.add(testsSupport.createDummyMeal());
     }
 
     @AfterEach
@@ -66,6 +84,9 @@ class RestaurantControllerTest {
         restaurant1 = null;
         restaurantList = null;
         mockUser = null;
+        msg= null;
+        msgList = null;
+        mealList=null;
     }
 
     @Test
@@ -122,5 +143,28 @@ class RestaurantControllerTest {
         mockMvc.perform(get("/restaurant/profile"))
                 .andExpect(status().isOk());
         verify(restaurantService, times(1)).getRestaurantUserDetailsFromSession();
+    }
+
+    @Test
+    void getRestaurantReviews() throws Exception {
+        Mockito.lenient().when(restaurantService.getRestaurantReviews(1L)).thenReturn(msgList);
+
+        mockMvc.perform(get("/restaurant/reviews/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("customerReview", msgList));
+
+        verify(restaurantService, times(1)).getRestaurantReviews(1L);
+    }
+
+    @Test
+    void searchRestaurants() throws Exception
+    {
+        Mockito.lenient().when(restaurantService.getAvailableRestaurants(any(), any())).thenReturn(restaurantList);
+        Mockito.lenient().when(restaurantService.getRecommendedMealForCustomer(any())).thenReturn(mealList);
+
+        mockMvc.perform(get("/customer/search-restaurant"))
+                .andExpect(status().isOk());
+        verify(restaurantService, times(1)).getAvailableRestaurants(any(), any());
+        verify(restaurantService, times(1)).getRecommendedMealForCustomer(any());
     }
 }

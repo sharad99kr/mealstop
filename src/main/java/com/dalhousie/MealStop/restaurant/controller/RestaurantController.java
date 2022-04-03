@@ -1,8 +1,10 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
+import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -21,6 +24,9 @@ public class RestaurantController
 
     @Autowired
     private IRecommendationService recommendationService;
+
+    @Autowired
+    private ICustomerReviewService customerReviewService;
 
     @GetMapping("/restaurant/get_restaurant")
     public String getAllRestaurants(Model model)
@@ -71,5 +77,25 @@ public class RestaurantController
         User user = restaurantService.getRestaurantUserDetailsFromSession();
         model.addAttribute("user", user);
         return "restaurant/profile";
+    }
+
+    @GetMapping("/restaurant/reviews/{id}")
+    public String getRestaurantReviews(@PathVariable("id") long id,Model model)
+    {
+        List<String> customerReview = restaurantService.getRestaurantReviews(id);
+        model.addAttribute("customerReview", customerReview);
+
+        return "restaurant/reviews";
+    }
+
+    @GetMapping("/customer/search-restaurant")
+    public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model) throws Exception
+    {
+        Date startDate = userSearch.getStartDate();
+        Date endDate = userSearch.getEndDate();
+        List<Restaurant> availableRestaurants = restaurantService.getAvailableRestaurants(startDate, endDate);
+        model.addAttribute("restaurants", availableRestaurants);
+        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(availableRestaurants));
+        return "customer/restaurants";
     }
 }

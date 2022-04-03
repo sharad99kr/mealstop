@@ -1,9 +1,11 @@
 package com.dalhousie.MealStop.favorites.controller;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
-import com.dalhousie.MealStop.favorites.service.CustomerFavoriteService;
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
+import com.dalhousie.MealStop.customer.model.Customer;
+import com.dalhousie.MealStop.favorites.model.CustomerFavorites;
+import com.dalhousie.MealStop.favorites.service.ICustomerFavoriteService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CustomerFavoritesControllerTest
 {
     @Mock
-    private CustomerFavoriteService customerFavoriteService;
+    private ICustomerFavoriteService ICustomerFavoriteService;
 
     @InjectMocks
     CustomerFavoritesController customerFavoritesController;
@@ -41,15 +43,27 @@ public class CustomerFavoritesControllerTest
 
     private List<CustomerFavorites> customerFavoritesList;
 
+    private CustomerBuilder customerBuilder;
+    private TestsSupport testsSupport = new TestsSupport();
+
     @BeforeEach
     void setUp()
     {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(customerFavoritesController).build();
-        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer.setId(1L);
 
-        restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(10);
+        customer = customerBuilder.buildCustomer();
+
+        restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
 
         customerFavorites = new CustomerFavorites(customer, restaurant);
@@ -68,18 +82,18 @@ public class CustomerFavoritesControllerTest
     @Test
     void getFavoritePage() throws Exception
     {
-        Mockito.lenient().when(customerFavoriteService.getCustomerFavorites()).thenReturn(customerFavoritesList);
+        Mockito.lenient().when(ICustomerFavoriteService.getCustomerFavorites()).thenReturn(customerFavoritesList);
         mockMvc.perform(get("/customer/favorite"))
                 .andExpect(status().isOk());
-        verify(customerFavoriteService, times(1)).getCustomerFavorites();
-        verifyZeroInteractions(customerFavoriteService);
+        verify(ICustomerFavoriteService, times(1)).getCustomerFavorites();
+        verifyZeroInteractions(ICustomerFavoriteService);
     }
 
     @Test
     void addCustomerFavorite() throws Exception
     {
-        Mockito.lenient().doNothing().when(customerFavoriteService).addRestaurantToCustomerFavorites(1L);
-        Mockito.lenient().when(customerFavoriteService.getCustomerFavorites()).thenReturn(customerFavoritesList);
+        Mockito.lenient().doNothing().when(ICustomerFavoriteService).addRestaurantToCustomerFavorites(1L);
+        Mockito.lenient().when(ICustomerFavoriteService.getCustomerFavorites()).thenReturn(customerFavoritesList);
 
         mockMvc.perform(post("/customer/add_favorite/{id}", 1L)).andExpect(status().isFound());
         assertEquals("redirect:/customer/favorite", customerFavoritesController.addCustomerFavorite( 1L));
@@ -88,7 +102,7 @@ public class CustomerFavoritesControllerTest
     @Test
     void removeCustomerFavorite() throws Exception
     {
-        Mockito.lenient().doNothing().when(customerFavoriteService).deleteCustomerFavoriteById(1L);
+        Mockito.lenient().doNothing().when(ICustomerFavoriteService).deleteCustomerFavoriteById(1L);
         mockMvc.perform(post("/customer/remove_favorite/{id}", 1L)).andExpect(status().isFound());
         assertEquals("redirect:/customer/favorite", customerFavoritesController.removeCustomerFavorite(1L));
     }

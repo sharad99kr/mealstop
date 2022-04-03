@@ -1,8 +1,9 @@
 package com.dalhousie.MealStop.cart.service;
 
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,13 +35,14 @@ class CustomerCartServiceImplTest {
     private CustomerCart customerCart;
     private Meal meal1;
     private ArrayList<Meal> mealList;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp()
     {
         mockCustomersCartMap = new HashMap<>();
         customerCart = new CustomerCart();
-        meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal1 = testsSupport.createDummyMeal();
         meal1.setId(1L);
         mealList = new ArrayList<>();
         mealList.add(meal1);

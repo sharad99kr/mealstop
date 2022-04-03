@@ -1,7 +1,7 @@
-package com.dalhousie.MealStop.review.modal;
+package com.dalhousie.MealStop.review.model;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
@@ -31,16 +31,6 @@ public class CustomerReview implements ICustomerReview
     public CustomerReview()
     {
 
-    }
-
-    public CustomerReview(long id, Integer reviewScore, String reviewMessage, Date reviewDate, Customer customer, Restaurant restaurant)
-    {
-        this.id = id;
-        this.reviewScore = reviewScore;
-        this.reviewMessage = reviewMessage;
-        this.reviewDate = reviewDate;
-        this.customer = customer;
-        this.restaurant = restaurant;
     }
 
     @Column(name = "review_date")
@@ -100,17 +90,5 @@ public class CustomerReview implements ICustomerReview
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerReview{" +
-                "id=" + id +
-                ", reviewScore=" + reviewScore +
-                ", reviewMessage='" + reviewMessage + '\'' +
-                ", reviewDate=" + reviewDate +
-                ", customer=" + customer +
-                ", restaurant=" + restaurant +
-                '}';
     }
 }

@@ -42,17 +42,7 @@ public class Restaurant implements IRestaurant{
     private String address;
 
     @Transient
-    public String reviewScore;
-
-    public Restaurant(String restaurantName, long userID, String availability, String email, String phoneNumber, String address)
-    {
-        this.restaurantName = restaurantName;
-        this.userid = userID;
-        this.availability = availability;
-        this.email=email;
-        this.phoneNumber=phoneNumber;
-        this.address=address;
-    }
+    private String reviewScore;
 
     @Override
     public long getId()

@@ -1,8 +1,9 @@
 package com.dalhousie.MealStop.customer.service;
 
 import com.dalhousie.MealStop.common.CommonConstants;
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
@@ -48,14 +49,25 @@ public class CustomerServiceImplementationTests
 
     private UserSearch userSearch;
 
+    private CustomerBuilder customerBuilder;
+
     @BeforeEach
     void setUp()
     {
         user = new User(1L, "Shathish", "Annamalai", "abc@gmail.com", "9898989898", "March 10, 2021", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         customer1 = new Customer(user);
         customer1.setId(1L);
-        customer2 = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer2.setId(2L);
+
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(10);
+        customer2 = customerBuilder.buildCustomer();
 
         customerList = new ArrayList<>();
         customerList.add(customer1);

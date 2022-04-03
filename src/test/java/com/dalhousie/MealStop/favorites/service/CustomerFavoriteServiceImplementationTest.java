@@ -1,11 +1,13 @@
 package com.dalhousie.MealStop.favorites.service;
 
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
+import com.dalhousie.MealStop.favorites.model.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.repository.CustomerFavoritesRepository;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,20 +41,31 @@ class CustomerFavoriteServiceImplementationTest {
 
     @InjectMocks
     @Autowired
-    private CustomerFavoriteServiceImplementation customerFavoriteServiceImplementation;
+    private ICustomerFavoriteServiceImplementation customerFavoriteServiceImplementation;
 
     private CustomerFavorites customerFavorites1;
     private List<CustomerFavorites> customerFavoritesList;
     private Restaurant restaurant1;
     private Customer customer;
 
+    private CustomerBuilder customerBuilder;
+    private TestsSupport testsSupport = new TestsSupport();
+
     @BeforeEach
     void setUp() {
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
-        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer.setId(1L);
-        customer.setTokens(100);
+
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(100);
+        customer = customerBuilder.buildCustomer();
         customerFavorites1 = new CustomerFavorites(customer, restaurant1);
         customerFavoritesList = new ArrayList<>();
         customerFavoritesList.add(customerFavorites1);
@@ -63,6 +76,7 @@ class CustomerFavoriteServiceImplementationTest {
         restaurant1 = null;
         customer = null;
         customerFavorites1 = null;
+        customerBuilder = null;
     }
 
     @Test

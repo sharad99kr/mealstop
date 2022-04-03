@@ -2,7 +2,7 @@ package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
 import com.dalhousie.MealStop.Reward.service.IRewardService;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.service.IMealService;

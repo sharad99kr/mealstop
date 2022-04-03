@@ -6,6 +6,7 @@ import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         private List<Restaurant> restaurantList;
 
         private List<Meal> mealList;
+        //private
 
         @BeforeEach
         void setUp()
@@ -59,12 +61,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             this.mockMvc = MockMvcBuilders.standaloneSetup(ngoController).build();
             ngo = new NGO("Test", "User","Test@gmail.com","999999999");
             ngo.setId(1L);
-
-            restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+            TestsSupport testsSupport = new TestsSupport();
+            meal = testsSupport.createDummyMeal();
+            meal.setId(1L);
+            restaurant = testsSupport.createDummyRestaurant();
             restaurant.setId(1L);
 
-            meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
-            meal.setId(1L);
             meal.setRestaurant(restaurant);
 
             mealList = new ArrayList<>();

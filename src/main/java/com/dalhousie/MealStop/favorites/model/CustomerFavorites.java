@@ -1,7 +1,7 @@
-package com.dalhousie.MealStop.favorites.modal;
+package com.dalhousie.MealStop.favorites.model;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 import javax.persistence.*;
 
@@ -61,15 +61,5 @@ public class CustomerFavorites
     public void setRestaurant(Restaurant restaurant)
     {
         this.restaurant=restaurant;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "CustomerFavorites{" +
-                "id=" + id +
-                ", customer=" + customer +
-                ", restaurants=" + restaurant +
-                '}';
     }
 }

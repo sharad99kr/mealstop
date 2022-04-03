@@ -42,15 +42,6 @@ public class Meal implements IMeal {
     @JoinColumn(name = "restaurantid", referencedColumnName = "restaurantid", nullable = false)
     private Restaurant restaurant;
 
-    public Meal(String mealName, String calories, String tags, String cuisineType, long price)
-    {
-        this.mealName = mealName;
-        this.calories = calories;
-        this.tags=tags;
-        this.cuisineType=cuisineType;
-        this.price=price;
-    }
-
     @Override
     public long getId()
     {

@@ -5,6 +5,7 @@ import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.IOrderService;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,18 +45,19 @@ class RecommendationServiceImplementationTest {
     private Map<String, Integer> tagsCountMap;
     private List<String> favTags;
     private List<Long> restuarantIdentifiers;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
         mealList = new ArrayList<>();
-        meal1 = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
-
+        meal1 = testsSupport.createDummyMeal();
+        meal1.setId(1L);
+        restaurant1 = testsSupport.createDummyRestaurant();
+        restaurant1.setId(1L);
         mealList.add(meal1);
         order1 = new Orders(1L, 1L, 1L, 1L, 100, 1);
         ordersList = new ArrayList<>();
         ordersList.add(order1);
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
-        restaurant1.setId(1L);
         restaurantList = new ArrayList<>();
         restaurantList.add(restaurant1);
         meal1.setRestaurant(restaurant1);
