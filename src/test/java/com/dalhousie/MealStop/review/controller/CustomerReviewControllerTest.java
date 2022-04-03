@@ -1,12 +1,12 @@
 package com.dalhousie.MealStop.review.controller;
 
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.review.builder.CustomerReviewBuilder;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;

@@ -3,7 +3,6 @@ package com.dalhousie.MealStop.restaurant.controller;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.customer.repository;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -4,7 +4,7 @@ import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

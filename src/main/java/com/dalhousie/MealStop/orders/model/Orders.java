@@ -2,7 +2,7 @@ package com.dalhousie.MealStop.orders.model;
 
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 import javax.persistence.*;
 import java.sql.Date;

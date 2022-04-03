@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.favorites.controller;
 
-import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
-import com.dalhousie.MealStop.favorites.service.CustomerFavoriteService;
+import com.dalhousie.MealStop.favorites.model.CustomerFavorites;
+import com.dalhousie.MealStop.favorites.service.ICustomerFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +15,12 @@ import java.util.List;
 public class CustomerFavoritesController
 {
     @Autowired
-    private CustomerFavoriteService customerFavoriteService;
+    private ICustomerFavoriteService ICustomerFavoriteService;
 
     @GetMapping("/customer/favorite")
     public String getFavoritePage(Model model)
     {
-        List<CustomerFavorites> customerFavorites = customerFavoriteService.getCustomerFavorites();
+        List<CustomerFavorites> customerFavorites = ICustomerFavoriteService.getCustomerFavorites();
         model.addAttribute("favorites", customerFavorites);
         return "favorite/get_favorite";
     }
@@ -28,14 +28,14 @@ public class CustomerFavoritesController
     @PostMapping("/customer/add_favorite/{id}")
     public String addCustomerFavorite(@PathVariable("id") long restaurantId)
     {
-        customerFavoriteService.addRestaurantToCustomerFavorites(restaurantId);
+        ICustomerFavoriteService.addRestaurantToCustomerFavorites(restaurantId);
         return "redirect:/customer/favorite";
     }
 
     @PostMapping("/customer/remove_favorite/{id}")
     public String removeCustomerFavorite(@PathVariable("id") long customerFavoriteId)
     {
-        customerFavoriteService.deleteCustomerFavoriteById(customerFavoriteId);
+        ICustomerFavoriteService.deleteCustomerFavoriteById(customerFavoriteId);
         return "redirect:/customer/favorite";
     }
 

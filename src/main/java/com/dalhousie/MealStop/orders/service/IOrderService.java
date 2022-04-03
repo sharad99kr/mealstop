@@ -1,7 +1,6 @@
 package com.dalhousie.MealStop.orders.service;
 
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
-import com.dalhousie.MealStop.orders.controller.OrdersPayload;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.orders.model.Orders;
 
 import java.io.Writer;

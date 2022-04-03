@@ -1,8 +1,8 @@
 package com.dalhousie.MealStop.integration_tests;
 
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
-import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
+import com.dalhousie.MealStop.customer.model.Customer;
+import com.dalhousie.MealStop.favorites.model.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.repository.CustomerFavoritesRepository;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)

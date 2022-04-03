@@ -2,7 +2,7 @@ package com.dalhousie.MealStop.orders.controller;
 
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.common.OrderConstants;

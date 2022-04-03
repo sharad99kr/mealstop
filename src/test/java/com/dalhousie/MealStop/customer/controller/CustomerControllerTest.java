@@ -5,7 +5,7 @@ import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 

@@ -5,13 +5,12 @@ import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.repository.RestaurantRepository;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.user.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;

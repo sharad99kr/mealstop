@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.customer.builder;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 public class CustomerBuilder
 {

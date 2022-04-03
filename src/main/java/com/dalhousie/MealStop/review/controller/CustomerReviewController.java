@@ -2,9 +2,9 @@ package com.dalhousie.MealStop.review.controller;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

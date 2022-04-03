@@ -1,8 +1,7 @@
 package com.dalhousie.MealStop.cart.service;
 
-import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;

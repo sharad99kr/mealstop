@@ -1,7 +1,7 @@
-package com.dalhousie.MealStop.review.modal;
+package com.dalhousie.MealStop.review.model;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
