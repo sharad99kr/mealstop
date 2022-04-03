@@ -36,14 +36,6 @@ public class NGOController {
     @Autowired
     INGOService ngoService;
 
-//    @GetMapping("/ngo/homepage")
-//    public String getLandingPage(Model model) {
-//        List<Orders> orders = orderService.getAllCanceledOrders();
-//        model.addAttribute("orders", orders);
-//        return "ngo/landing-page";
-//    }
-
-
     @GetMapping("/ngo/homepage")
     String getLandingPage(Model model)
     {
@@ -61,7 +53,6 @@ public class NGOController {
             payload.orderId=order.getOrderId();
 
             payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            System.out.println(payload.mealName);
             payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
             payload.amount = order.getOrderAmount();
             payload.date = order.getOrderTime().toString();
@@ -77,29 +68,40 @@ public class NGOController {
         orderService.claimedByNGO(ngoUser.getId(),orderId);
         List<Orders> orders=orderService.getAllOrders();
         List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoUser.getId());
-        System.out.println(ngoOrders.size());
-        System.out.println(orders.size());
         List<Orders> filteredOrders= new ArrayList<>();
 
         for(NGOOrder ngoOrder : ngoOrders)
         {
             for(Orders order : orders)
             {
-                System.out.println(ngoOrder.getOrderId());
-                System.out.println(order.getOrderId());
                 if(ngoOrder.getOrderId() == order.getOrderId())
                     filteredOrders.add(order);
             }
-        }
-        System.out.println(filteredOrders.size());
-        for(Orders order : filteredOrders)
-        {
-            System.out.println(order);
         }
         List<OrdersPayload> order_list=getCancelledOrdersPayload(filteredOrders);
         model.addAttribute("order_list", order_list);
         return  "orders/NGOOrderDetails";
 
+    }
+
+    @GetMapping("/ngo/orders/ngo_old_order")
+    String getNgoPastOrders(Model model) {
+        NGO ngoUser = ngoService.getNGODetailsFromSession();
+        List<Orders> orders=orderService.getAllOrders();
+        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoUser.getId());
+        List<Orders> filteredOrders= new ArrayList<>();
+
+        for(NGOOrder ngoOrder : ngoOrders)
+        {
+            for(Orders order : orders)
+            {
+                if(ngoOrder.getOrderId() == order.getOrderId())
+                    filteredOrders.add(order);
+            }
+        }
+        List<OrdersPayload> order_list=getCancelledOrdersPayload(filteredOrders);
+        model.addAttribute("order_list", order_list);
+        return  "orders/NGOOrderDetails";
     }
 
 

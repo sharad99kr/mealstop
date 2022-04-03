@@ -1,7 +1,7 @@
-package com.dalhousie.MealStop.favorites.modal;
+package com.dalhousie.MealStop.favorites.model;
 
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 import javax.persistence.*;
 

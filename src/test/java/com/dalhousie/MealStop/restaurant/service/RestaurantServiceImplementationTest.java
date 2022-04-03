@@ -1,13 +1,11 @@
 package com.dalhousie.MealStop.restaurant.service;
 
-import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.repository.RestaurantRepository;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;

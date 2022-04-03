@@ -85,16 +85,16 @@
     </thead>
     <tbody>
     <tr  th:each="restaurant: ${restaurants_list}">
-      <td th:text="${restaurant.restaurantName}"></td>
-      <td th:text="${restaurant.email}"></td>
-      <td th:text="${restaurant.address}"></td>
-      <td th:text="${restaurant.phoneNumber}"></td>
-      <td th:text="${restaurant.availability}"></td>
-      <td th:text="${restaurant.reviewScore}"></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/reviews/{id}(id=${restaurant.id})}">Reviews</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/edit/{id}(id=${restaurant.id})}">Edit</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.id})}">Meals</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/orders/restaurant_orders/{id}(id=${restaurant.id})}">Orders</a></td>
+      <td th:text="${restaurant.key.restaurantName}"></td>
+      <td th:text="${restaurant.key.email}"></td>
+      <td th:text="${restaurant.key.address}"></td>
+      <td th:text="${restaurant.key.phoneNumber}"></td>
+      <td th:text="${restaurant.key.availability}"></td>
+      <td th:text="${restaurant.value}"></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/reviews/{id}(id=${restaurant.key.id})}">Reviews</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/edit/{id}(id=${restaurant.key.id})}">Edit</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.key.id})}">Meals</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/orders/restaurant_orders/{id}(id=${restaurant.key.id})}">Orders</a></td>
     </tr>
     </tbody>
   </table>

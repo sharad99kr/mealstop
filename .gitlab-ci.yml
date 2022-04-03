@@ -46,7 +46,7 @@ quality-checks:   # Quality stage to run designite and get all the quality metri
     - eval "$UPLOAD_QUALITY_REPORT"
     - echo "$UPLOAD_QUALITY_REPORT"
   only:
-    - develop,main
+    - main
 
 deploy:       # Deploy stage to deploy the built project to heroku
   stage: deploy

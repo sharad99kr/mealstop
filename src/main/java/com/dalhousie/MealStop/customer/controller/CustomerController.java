@@ -4,7 +4,7 @@ import com.dalhousie.MealStop.Reward.service.IRewardService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,16 +43,5 @@ public class CustomerController
         model.addAttribute("customer", customer);
         model.addAttribute("isCustomerRewardsPresent", isCustomerRewardsPresent);
         return "customer/profile";
-    }
-
-    @GetMapping("/customer/search-restaurant")
-    public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model) throws Exception
-    {
-        Date startDate = userSearch.getStartDate();
-        Date endDate = userSearch.getEndDate();
-        List<Restaurant> availableRestaurants = restaurantService.getAvailableRestaurants(startDate, endDate);
-        model.addAttribute("restaurants", availableRestaurants);
-        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(availableRestaurants));
-        return "customer/restaurants";
     }
 }

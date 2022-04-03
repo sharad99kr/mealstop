@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.customer.service;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.user.entity.User;
 
 import java.util.List;

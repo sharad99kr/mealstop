@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.cart.modal;
+package com.dalhousie.MealStop.cart.model;
 
 import com.dalhousie.MealStop.meal.model.Meal;
 import java.util.ArrayList;

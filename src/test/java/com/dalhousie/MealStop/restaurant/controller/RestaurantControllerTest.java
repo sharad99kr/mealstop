@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
+import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
@@ -18,7 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,11 +50,20 @@ class RestaurantControllerTest {
     private MockMvc mockMvc;
 
     private Restaurant restaurant1;
+
     private List<Restaurant> restaurantList;
+
     private User mockUser;
+
     private TestsSupport testsSupport = new TestsSupport();
+
     private String msg;
+
     private List<String> msgList;
+
+    private List<Meal> mealList;
+
+    private Map<Restaurant, String> restaurantScoreMap;
 
     @BeforeEach
     void setUp() {
@@ -66,6 +78,11 @@ class RestaurantControllerTest {
         msg = "Good";
         msgList = new ArrayList<>();
         msgList.add(msg);
+
+        mealList = new ArrayList<>();
+        mealList.add(testsSupport.createDummyMeal());
+        restaurantScoreMap = new HashMap<>();
+        restaurantScoreMap.put(restaurant1, null);
     }
 
     @AfterEach
@@ -75,6 +92,7 @@ class RestaurantControllerTest {
         mockUser = null;
         msg= null;
         msgList = null;
+        mealList=null;
     }
 
     @Test
@@ -83,7 +101,7 @@ class RestaurantControllerTest {
 
         mockMvc.perform(get("/restaurant/get_restaurant"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("restaurants_list", restaurantList));
+                .andExpect(model().attribute("restaurants_list", restaurantScoreMap));
 
         verify(restaurantService, times(1)).getAllRestaurantByUserId();
     }
@@ -142,5 +160,17 @@ class RestaurantControllerTest {
                 .andExpect(model().attribute("customerReview", msgList));
 
         verify(restaurantService, times(1)).getRestaurantReviews(1L);
+    }
+
+    @Test
+    void searchRestaurants() throws Exception
+    {
+        Mockito.lenient().when(restaurantService.getAvailableRestaurants(any(), any())).thenReturn(restaurantList);
+        Mockito.lenient().when(restaurantService.getRecommendedMealForCustomer(any())).thenReturn(mealList);
+
+        mockMvc.perform(get("/customer/search-restaurant"))
+                .andExpect(status().isOk());
+        verify(restaurantService, times(1)).getAvailableRestaurants(any(), any());
+        verify(restaurantService, times(1)).getRecommendedMealForCustomer(any());
     }
 }

@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.customer.modal;
+package com.dalhousie.MealStop.customer.model;
 
 public interface ICustomer
 {

@@ -3,9 +3,9 @@ package com.dalhousie.MealStop.favorites.service;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
+import com.dalhousie.MealStop.favorites.model.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.repository.CustomerFavoritesRepository;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
@@ -41,7 +41,7 @@ class CustomerFavoriteServiceImplementationTest {
 
     @InjectMocks
     @Autowired
-    private CustomerFavoriteServiceImplementation customerFavoriteServiceImplementation;
+    private ICustomerFavoriteServiceImplementation customerFavoriteServiceImplementation;
 
     private CustomerFavorites customerFavorites1;
     private List<CustomerFavorites> customerFavoritesList;
