@@ -61,7 +61,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             throw new BadCredentialsException("1000");
         }
         if (user != null) {
-            log.error("Checking if the user's password is correct and assigning rights");
+            log.info("Checking if the user's password is correct and assigning rights");
             return checkUser(password, user, authentication);
         } else {
             log.error("The user credentials do not match the database stored values!");

@@ -4,6 +4,7 @@ import com.dalhousie.MealStop.cart.contriller.CustomerCartController;
 import com.dalhousie.MealStop.cart.modal.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.cart.service.ICustomerCartService;
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.model.Meal;
@@ -49,13 +50,24 @@ public class CustomerCartControllerTest
 
     private CustomerCart customerCart;
 
+    private CustomerBuilder customerBuilder;
+
     @BeforeEach
     void setUp()
     {
         initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(customerCartController).build();
-        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer.setId(1L);
+
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(10);
+        customer = customerBuilder.buildCustomer();
 
         restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
@@ -73,6 +85,7 @@ public class CustomerCartControllerTest
         restaurant = null;
         meal = null;
         customerCart = null;
+        customerBuilder=null;
     }
 
     @Test

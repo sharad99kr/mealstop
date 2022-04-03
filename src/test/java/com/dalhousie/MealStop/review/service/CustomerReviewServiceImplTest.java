@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.review.service;
 
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
@@ -40,15 +41,26 @@ class CustomerReviewServiceImplTest {
 
     private Customer customer;
 
+    private CustomerBuilder customerBuilder;
+
     @BeforeEach
     void setUp()
     {
         Date date =new Date();
         restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant1.setId(1L);
-        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer.setId(1L);
-        customer.setTokens(100);
+
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(10);
+        customer = customerBuilder.buildCustomer();
+
         customerReview = new CustomerReview(1L, 5, "Good", date, customer, restaurant1);
         customerReviewList = new ArrayList<>();
         customerReviewList.add(customerReview);
