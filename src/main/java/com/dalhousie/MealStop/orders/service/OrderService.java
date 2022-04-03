@@ -2,7 +2,7 @@ package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
 import com.dalhousie.MealStop.Reward.service.IRewardService;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.service.IMealService;
@@ -103,7 +103,18 @@ public class OrderService implements IOrderService {
         //this method updates and links an order with NGO
         updateOrderStatus( orderId, OrderConstants.CLAIMED);
         NGOOrder ngoOrder=new NGOOrder(orderId,ngoId, OrderConstants.CLAIMED);
-        ngoOrderService.addNGOOrder(ngoOrder);
+        List<NGOOrder> ngoOrders
+                =ngoOrderService.getNGOOrderWithId(ngoId);
+
+        boolean isPresent = false;
+        for(NGOOrder order : ngoOrders)
+        {
+            if(order.getOrderId() == orderId)
+                isPresent = true;
+        }
+
+        if(!isPresent)
+            ngoOrderService.addNGOOrder(ngoOrder);
     }
 
 

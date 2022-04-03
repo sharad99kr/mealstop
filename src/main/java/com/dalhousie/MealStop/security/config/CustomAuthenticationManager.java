@@ -31,12 +31,17 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
     private Authentication checkUser(String password, User user, Authentication authentication) throws AuthenticationException {
         if (encode.matches(password, user.getPassword())) {
-            if (!user.isEnabled())
+            if (!user.isEnabled()) {
                 return null;
+            }
+
             List<GrantedAuthority> rights = new ArrayList<>();
             rights.add(new SimpleGrantedAuthority(user.getRole()));
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), rights);
+            UsernamePasswordAuthenticationToken token=null;
+            Object principal = authentication.getPrincipal();
+            Object credential = authentication.getCredentials();
+            token = new UsernamePasswordAuthenticationToken(principal, credential, rights);
 
             token.setDetails(user);
             user.setToken(token.toString());

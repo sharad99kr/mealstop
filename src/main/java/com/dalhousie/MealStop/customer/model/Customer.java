@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.customer.modal;
+package com.dalhousie.MealStop.customer.model;
 
 import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.user.entity.User;

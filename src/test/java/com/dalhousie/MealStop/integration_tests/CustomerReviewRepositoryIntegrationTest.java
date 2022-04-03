@@ -1,10 +1,10 @@
 package com.dalhousie.MealStop.integration_tests;
 
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.review.builder.CustomerReviewBuilder;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.repository.CustomerReviewRepository;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.Test;

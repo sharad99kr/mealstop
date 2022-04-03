@@ -1,11 +1,9 @@
 package com.dalhousie.MealStop.cart.controller;
 
-import com.dalhousie.MealStop.cart.contriller.CustomerCartController;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
-import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.ICustomerCartService;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.service.IMealService;

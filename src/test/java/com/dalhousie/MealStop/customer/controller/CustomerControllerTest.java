@@ -5,7 +5,7 @@ import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -54,6 +53,7 @@ public class CustomerControllerTest
     private List<Meal> mealList;
 
     private CustomerBuilder customerBuilder;
+
     private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
@@ -113,17 +113,5 @@ public class CustomerControllerTest
         mockMvc.perform(get("/customer/homepage"))
                 .andExpect(status().isOk());
         verify(customerService, times(1)).getCustomerDetailsFromSession();
-    }
-
-    @Test
-    void searchRestaurants() throws Exception
-    {
-        Mockito.lenient().when(restaurantService.getAvailableRestaurants(any(), any())).thenReturn(restaurantList);
-        Mockito.lenient().when(restaurantService.getRecommendedMealForCustomer(any())).thenReturn(mealList);
-
-        mockMvc.perform(get("/customer/search-restaurant"))
-                .andExpect(status().isOk());
-        verify(restaurantService, times(1)).getAvailableRestaurants(any(), any());
-        verify(restaurantService, times(1)).getRecommendedMealForCustomer(any());
     }
 }
