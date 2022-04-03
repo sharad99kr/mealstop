@@ -123,18 +123,4 @@ public class NGO implements INGO {
     {
         this.totalOrders = totalOrders;
     }
-
-    @Override
-    public String toString() {
-        return "NGO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
-    }
-
-
-
-
 }
