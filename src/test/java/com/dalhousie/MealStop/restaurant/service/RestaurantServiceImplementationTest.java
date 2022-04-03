@@ -143,4 +143,10 @@ class RestaurantServiceImplementationTest {
         Mockito.when(SecurityContextHolder.getContext().getAuthentication().getDetails()).thenReturn(mockUser);
         assertThat(restaurantService.getRestaurantUserDetailsFromSession()).isEqualTo(mockUser);
     }
+
+    @Test
+    void getRestaurantReviews(){
+        Mockito.lenient().when(customerReviewService.getReviewsOfRestaurant(restaurant1)).thenReturn(customerReviews);
+        assertEquals(0, restaurantService.getRestaurantReviews(1L).size());
+    }
 }

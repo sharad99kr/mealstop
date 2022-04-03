@@ -68,12 +68,29 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         if(restaurantReviews.size() == 0)
             return "No Reviews";
 
-        int reviewScore = 0;
+        double reviewScore = 0;
 
         for(CustomerReview review : restaurantReviews)
             reviewScore += review.getReviewScore();
 
         return String.valueOf(reviewScore/restaurantReviews.size());
+    }
+
+    @Override
+    public List<String> getRestaurantReviews(long id)
+    {
+        Restaurant restaurant = getRestaurantById(id);
+        List<CustomerReview> reviews= customerReviewService.getReviewsOfRestaurant(restaurant);
+        List<String> reviewMsgs = new ArrayList<>();
+        if(reviews.size() == 0)
+            return reviewMsgs;
+
+        for(CustomerReview review : reviews)
+        {
+            reviewMsgs.add(review.getReviewMessage());
+        }
+
+        return reviewMsgs;
     }
 
     @Override

@@ -50,6 +50,8 @@ class RestaurantControllerTest {
     private List<Restaurant> restaurantList;
     private User mockUser;
     private TestsSupport testsSupport = new TestsSupport();
+    private String msg;
+    private List<String> msgList;
 
     @BeforeEach
     void setUp() {
@@ -61,6 +63,9 @@ class RestaurantControllerTest {
         restaurantList = new ArrayList<>();
         restaurantList.add(restaurant1);
         mockUser = new User();
+        msg = "Good";
+        msgList = new ArrayList<>();
+        msgList.add(msg);
     }
 
     @AfterEach
@@ -68,6 +73,8 @@ class RestaurantControllerTest {
         restaurant1 = null;
         restaurantList = null;
         mockUser = null;
+        msg= null;
+        msgList = null;
     }
 
     @Test
@@ -124,5 +131,16 @@ class RestaurantControllerTest {
         mockMvc.perform(get("/restaurant/profile"))
                 .andExpect(status().isOk());
         verify(restaurantService, times(1)).getRestaurantUserDetailsFromSession();
+    }
+
+    @Test
+    void getRestaurantReviews() throws Exception {
+        Mockito.lenient().when(restaurantService.getRestaurantReviews(1L)).thenReturn(msgList);
+
+        mockMvc.perform(get("/restaurant/reviews/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("customerReview", msgList));
+
+        verify(restaurantService, times(1)).getRestaurantReviews(1L);
     }
 }

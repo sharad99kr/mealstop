@@ -20,9 +20,6 @@
       <li class="nav-item active">
         <a class="nav-link" th:href="@{/restaurant/get_restaurant/}">Home</a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" th:href="@{/restaurant/add_restaurant_form}">Add Restaurant</a>
-      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li style="float: left;
@@ -71,30 +68,12 @@
   <table class="table table-striped">
     <thead class="bg-primary text-white">
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Address</th>
-      <th scope="col">Phone Number</th>
-      <th scope="col">Availability</th>
-      <th scope="col">Average Review Score</th>
-      <th scope="col">Watch Reviews</th>
-      <th scope="col">Update Restaurant</th>
-      <th scope="col">Add/Update Meal</th>
-      <th scope="col">Orders</th>
+      <th scope="col">Reviews</th>
     </tr>
     </thead>
     <tbody>
-    <tr  th:each="restaurant: ${restaurants_list}">
-      <td th:text="${restaurant.restaurantName}"></td>
-      <td th:text="${restaurant.email}"></td>
-      <td th:text="${restaurant.address}"></td>
-      <td th:text="${restaurant.phoneNumber}"></td>
-      <td th:text="${restaurant.availability}"></td>
-      <td th:text="${restaurant.reviewScore}"></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/reviews/{id}(id=${restaurant.id})}">Reviews</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/edit/{id}(id=${restaurant.id})}">Edit</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.id})}">Meals</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/orders/restaurant_orders/{id}(id=${restaurant.id})}">Orders</a></td>
+    <tr  th:each="review: ${customerReview}">
+      <td th:text="${review}"></td>
     </tr>
     </tbody>
   </table>
