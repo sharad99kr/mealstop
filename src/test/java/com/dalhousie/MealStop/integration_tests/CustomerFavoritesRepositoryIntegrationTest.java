@@ -34,16 +34,7 @@ public class CustomerFavoritesRepositoryIntegrationTest {
 
     @Test
     public void ShouldReturnFavoritesListWhenFindByCustomer() {
-        CustomerBuilder customerBuilder = new CustomerBuilder();
-        customerBuilder.setId(1L);
-        customerBuilder.setFirstName("Shathish");
-        customerBuilder.setLastName("Annamalai");
-        customerBuilder.setEmail("abc@gmail.com");
-        customerBuilder.setAddress("Halifax, NS, Canada");
-        customerBuilder.setMobileNumber("9898989898");
-        customerBuilder.setDateOfBirth("March 10, 2021");
-        customerBuilder.setTokens(10);
-        Customer customer = customerBuilder.buildCustomer();
+        Customer customer = testsSupport.createDummyCustomer();
 
         Restaurant restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
