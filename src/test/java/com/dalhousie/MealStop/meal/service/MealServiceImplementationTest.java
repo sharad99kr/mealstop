@@ -36,7 +36,7 @@ class MealServiceImplementationTest {
     @InjectMocks
     private MealServiceImplementation mealService;
     private Meal meal1;
-    List<Meal> mealList;
+    private List<Meal> mealList;
     private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach

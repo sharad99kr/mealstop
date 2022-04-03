@@ -5,6 +5,7 @@ import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.service.CustomerFavoriteService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,7 @@ public class CustomerFavoritesControllerTest
     private List<CustomerFavorites> customerFavoritesList;
 
     private CustomerBuilder customerBuilder;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp()
@@ -61,7 +63,7 @@ public class CustomerFavoritesControllerTest
         customerBuilder.setTokens(10);
         customer = customerBuilder.buildCustomer();
 
-        restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant = testsSupport.createDummyRestaurant();
         restaurant.setId(1L);
 
         customerFavorites = new CustomerFavorites(customer, restaurant);

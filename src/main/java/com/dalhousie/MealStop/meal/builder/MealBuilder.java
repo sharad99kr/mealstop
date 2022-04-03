@@ -1,9 +1,15 @@
 package com.dalhousie.MealStop.meal.builder;
 
 import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
 
 public class MealBuilder {
     private Meal meal;
+
+    public MealBuilder()
+    {
+        meal = new Meal();
+    }
 
     public void setMealName(String mealName) {
         this.meal.setMealName(mealName);

@@ -5,6 +5,12 @@ import com.dalhousie.MealStop.restaurant.model.Restaurant;
 public class RestaurantBuilder {
     private Restaurant restaurant;
 
+    public RestaurantBuilder()
+    {
+        restaurant = new Restaurant();
+    }
+
+
     public void setRestaurantName(String restaurantName) {
         this.restaurant.setRestaurantName(restaurantName);
     }

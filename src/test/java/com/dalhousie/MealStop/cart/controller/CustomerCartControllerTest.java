@@ -10,6 +10,7 @@ import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,7 @@ public class CustomerCartControllerTest
     private CustomerCart customerCart;
 
     private CustomerBuilder customerBuilder;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp()
@@ -69,11 +71,10 @@ public class CustomerCartControllerTest
         customerBuilder.setTokens(10);
         customer = customerBuilder.buildCustomer();
 
-        restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
-        restaurant.setId(1L);
-
-        meal = new Meal("ThaiMeal", "120","fat, protein", "Thai", 100);
+        meal = testsSupport.createDummyMeal();
         meal.setId(1L);
+        restaurant = testsSupport.createDummyRestaurant();
+        restaurant.setId(1L);
 
         customerCart = new CustomerCart();
     }

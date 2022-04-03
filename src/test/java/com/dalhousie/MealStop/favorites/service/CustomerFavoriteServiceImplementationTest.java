@@ -7,6 +7,7 @@ import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.favorites.modal.CustomerFavorites;
 import com.dalhousie.MealStop.favorites.repository.CustomerFavoritesRepository;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,10 +49,11 @@ class CustomerFavoriteServiceImplementationTest {
     private Customer customer;
 
     private CustomerBuilder customerBuilder;
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
 
         customerBuilder = new CustomerBuilder();

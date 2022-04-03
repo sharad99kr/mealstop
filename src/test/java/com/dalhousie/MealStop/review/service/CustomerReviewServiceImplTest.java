@@ -6,6 +6,7 @@ import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.review.builder.CustomerReviewBuilder;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.repository.CustomerReviewRepository;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,11 +47,13 @@ class CustomerReviewServiceImplTest {
 
     private CustomerReviewBuilder customerReviewBuilder;
 
+    private TestsSupport testsSupport = new TestsSupport();
+
     @BeforeEach
     void setUp()
     {
         Date date =new Date();
-        restaurant1 = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
+        restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
 
         customerBuilder = new CustomerBuilder();

@@ -25,7 +25,7 @@ public class TestsSupport {
         mealBuilder.setCalories("120");
         mealBuilder.setTags("fat, protein");
         mealBuilder.setCuisineType("Thai");
-        mealBuilder.setPrice(100);
+        mealBuilder.setPrice(3);
         return mealBuilder.createMeal();
     }
 }
