@@ -62,14 +62,4 @@ public class CustomerFavorites
     {
         this.restaurant=restaurant;
     }
-
-    @Override
-    public String toString()
-    {
-        return "CustomerFavorites{" +
-                "id=" + id +
-                ", customer=" + customer +
-                ", restaurants=" + restaurant +
-                '}';
-    }
 }
