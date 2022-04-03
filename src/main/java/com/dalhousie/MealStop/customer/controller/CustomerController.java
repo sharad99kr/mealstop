@@ -44,15 +44,4 @@ public class CustomerController
         model.addAttribute("isCustomerRewardsPresent", isCustomerRewardsPresent);
         return "customer/profile";
     }
-
-    @GetMapping("/customer/search-restaurant")
-    public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model) throws Exception
-    {
-        Date startDate = userSearch.getStartDate();
-        Date endDate = userSearch.getEndDate();
-        List<Restaurant> availableRestaurants = restaurantService.getAvailableRestaurants(startDate, endDate);
-        model.addAttribute("restaurants", availableRestaurants);
-        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(availableRestaurants));
-        return "customer/restaurants";
-    }
 }

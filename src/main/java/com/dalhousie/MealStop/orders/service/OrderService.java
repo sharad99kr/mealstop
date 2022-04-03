@@ -103,7 +103,18 @@ public class OrderService implements IOrderService {
         //this method updates and links an order with NGO
         updateOrderStatus( orderId, OrderConstants.CLAIMED);
         NGOOrder ngoOrder=new NGOOrder(orderId,ngoId, OrderConstants.CLAIMED);
-        ngoOrderService.addNGOOrder(ngoOrder);
+        List<NGOOrder> ngoOrders
+                =ngoOrderService.getNGOOrderWithId(ngoId);
+
+        boolean isPresent = false;
+        for(NGOOrder order : ngoOrders)
+        {
+            if(order.getOrderId() == orderId)
+                isPresent = true;
+        }
+
+        if(!isPresent)
+            ngoOrderService.addNGOOrder(ngoOrder);
     }
 
 
