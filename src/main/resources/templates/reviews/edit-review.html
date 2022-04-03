@@ -34,11 +34,11 @@
 
                         <form th:action="@{/customer/update_review/{id}(id=${review.id})}" method="post" th:object="${CustomerReview}">
                             <div class = "form-group">
-                                <label>Review Message</label><input id="review-message" type="text" class="form-control" name="reviewMessage">
+                                <label>Review Message</label><input id="review-message" type="text" class="form-control" name="reviewMessage" th:value="${review.reviewMessage}">
                             </div>
 
                             <div class = "form-group">
-                                <label>Review Score</label><input id="review-score" type="number" class="form-control" name="reviewScore">
+                                <label>Review Score</label><input id="review-score" type="number" class="form-control" name="reviewScore" th:value="${review.reviewScore}">
                             </div>
 
                             <button class = "btn btn-primary btn-block" onclick=" return validateForm()">Update Review</button>

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -47,9 +48,11 @@ public class CustomerController
     @GetMapping("/customer/search-restaurant")
     public String searchRestaurants(@ModelAttribute UserSearch userSearch, Model model) throws Exception
     {
-        List<Restaurant> listRestaurants_Available = restaurantService.getAvailableRestaurants(userSearch.getStartDate(), userSearch.getEndDate());
-        model.addAttribute("restaurants", listRestaurants_Available);
-        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(listRestaurants_Available));
+        Date startDate = userSearch.getStartDate();
+        Date endDate = userSearch.getEndDate();
+        List<Restaurant> availableRestaurants = restaurantService.getAvailableRestaurants(startDate, endDate);
+        model.addAttribute("restaurants", availableRestaurants);
+        model.addAttribute("meals", restaurantService.getRecommendedMealForCustomer(availableRestaurants));
         return "customer/restaurants";
     }
 }

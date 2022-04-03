@@ -1,9 +1,11 @@
 package com.dalhousie.MealStop.review.controller;
 
+import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.modal.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.review.builder.CustomerReviewBuilder;
 import com.dalhousie.MealStop.review.modal.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import org.junit.jupiter.api.AfterEach;
@@ -56,18 +58,39 @@ public class CustomerReviewControllerTest
 
     private List<CustomerReview> customerReviewList;
 
+    private CustomerBuilder customerBuilder;
+
+    private CustomerReviewBuilder customerReviewBuilder;
+
     @BeforeEach
     void setUp()
     {
         initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(customerReviewController).build();
-        customer = new Customer("Test", "User","Test@gmail.com", "9029893443", "March 1, 1995", "911 Park Victoria Canada");
-        customer.setId(1L);
+
+        customerBuilder = new CustomerBuilder();
+        customerBuilder.setId(1L);
+        customerBuilder.setFirstName("Shathish");
+        customerBuilder.setLastName("Annamalai");
+        customerBuilder.setEmail("abc@gmail.com");
+        customerBuilder.setAddress("Halifax, NS, Canada");
+        customerBuilder.setMobileNumber("9898989898");
+        customerBuilder.setDateOfBirth("March 10, 2021");
+        customerBuilder.setTokens(10);
+        customer = customerBuilder.buildCustomer();
 
         restaurant = new Restaurant("Restaurant1", 1L, "monday, tuesday","p@gmail.com", "9029893443", "911 Park Victoria");
         restaurant.setId(1L);
 
-        customerReview = new CustomerReview(1, 5, "good food", new Date(), customer, restaurant);
+        customerReviewBuilder = new CustomerReviewBuilder();
+        customerReviewBuilder.setId(1L);
+        customerReviewBuilder.setReviewScore(5);
+        customerReviewBuilder.setReviewMessage("Good");
+        customerReviewBuilder.setReviewDate(new Date());
+        customerReviewBuilder.setCustomer(customer);
+        customerReviewBuilder.setRestaurant(restaurant);
+        customerReview = customerReviewBuilder.buildCustomerReview();
+
         customerReviewList = new ArrayList<CustomerReview>();
         customerReviewList.add(customerReview);
     }
@@ -79,6 +102,7 @@ public class CustomerReviewControllerTest
         restaurant=null;
         customerReview=null;
         customerReviewList=null;
+        customerBuilder=null;
     }
 
     @Test

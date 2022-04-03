@@ -39,15 +39,15 @@ public class Customer implements ICustomer {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, String mobileNumber, String dateOfBirth, String address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.mobileNumber = mobileNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.tokens = CommonConstants.CUSTOMER_DEFAULT_TOKENS;
-    }
+//    public Customer(String firstName, String lastName, String email, String mobileNumber, String dateOfBirth, String address) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.email = email;
+//        this.mobileNumber = mobileNumber;
+//        this.dateOfBirth = dateOfBirth;
+//        this.address = address;
+//        this.tokens = CommonConstants.CUSTOMER_DEFAULT_TOKENS;
+//    }
 
     public Customer(User user) {
         this.id = user.getUser_id();
