@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>MealStop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{styles/main.css}" rel="stylesheet" />
+    <style>
+        video{
+          position: fixed;
+          right: 0;
+          bottom: 0;
+          min-width: 100%;
+          min-height: 100%;
+        }
+        main{
+            position: relative;
+        }
+    </style>
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js">
+</script>
+<script
+        th:src="@{/test.js}">
+</script>
+
+<body class="d-flex flex-column h-100">
+
+<video th:src="@{/videos/meals.mp4}"  muted loop autoplay></video>
+
+<div th:replace="~{fragments/header :: header}"> </div>
+
+<main role="main" class="flex-shrink-0">
+    <div class="container mt-5" style="margin-bottom: 100px;">
+        <div class="jumbotron">
+            <h1>Recommended Meals</h1>
+            <div class="card-deck">
+                <div class="card" th:each="meal : ${meals}">
+                    <div class="card-body">
+                        <div style="display: flex;">
+                            <h5 th:text="${meal.mealName}"></h5>
+                        </div>
+                        <div style="display: flex;">
+                            <h6>Tags: </h6>
+                            <h6 th:text="${meal.tags}"></h6>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+                            <form method="post" th:action="@{/customer/cart/add_item/{id}(id=${meal.id})}">
+                                <button class="btn btn-sm btn-primary" type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron">
+            <h1>Restaurants</h1>
+            <div class="card-deck">
+                <div class="card" th:each="restaurant : ${restaurants}">
+                    <div class="card-body">
+                        <div style="display: flex;">
+                            <h5 th:text="${restaurant.restaurantName}"></h5>
+                        </div>
+                        <div style="display: flex; flex-direction: column;">
+
+                            <a th:href="@{/customer/get_meals/{id}(id=${restaurant.id})}" class="card-link">Show Meals</a>
+                            <a th:href="@{/customer/add_review/{id}(id=${restaurant.id})}">Add review</a>
+                            <form method="post" th:action="@{/customer/add_favorite/{id}(id=${restaurant.id})}">
+                                <button class="btn btn-sm btn-primary" type="submit">Add as favorite</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div  th:replace="~{fragments/footer :: footer}"> </div>
+</body>
+</html>

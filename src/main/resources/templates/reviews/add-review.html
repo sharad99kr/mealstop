@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeLeaf.com" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+        <title>Review</title>
+    </head>
+
+    <body>
+        <div th:replace="~{fragments/header :: header}"> </div>
+
+        <div sec:authorize="!isAuthenticated()">
+            <main role="main" class="flex-shrink-0">
+                <div class="container mt-5">
+                    <div class="jumbotron">
+                        <p>You have not logged in to the application. Please login to continue...</p>
+                        <a th:href="@{/login}">Click here to log in!</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="container p-5" sec:authorize="isAuthenticated()">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="card">
+                        <h4 th:text="'Add review for restaurant: ' + ${restaurant.restaurantName}" class="text-center text-primary"></h4>
+                        <div class="card-body">
+                            <form th:action="@{/customer/add_review/{id}(id=${restaurant.id})}" method="post" th:object="${CustomerReview}">
+                                <div class = "form-group">
+                                    <label>Review Message</label><input id="review-message" type="text" class="form-control" name="reviewMessage">
+                                </div>
+
+                                <div class = "form-group">
+                                    <label>Review Score</label><input id="review-score" type="number" class="form-control" name="reviewScore">
+                                </div>
+
+                                <button class = "btn btn-primary btn-block" onclick=" return validateForm()">Add review</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div  th:replace="~{fragments/footer :: footer}"> </div>
+        <script>
+            function validateForm() {
+                var reviewMessage = document.getElementById('review-message').value;
+                var reviewScore = document.getElementById('review-score').value;
+
+                if (reviewMessage == "" || reviewScore == "")
+                {
+                    alert("Review message and review score cannot be empty");
+                    return false;
+                }
+                else if(reviewScore<0 || reviewScore>5)
+                {
+                    alert("review score cannot be less than 0 or more than 5")
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>

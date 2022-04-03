@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" class="h-100" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>MealStop</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link th:href="@{styles/main.css}" rel="stylesheet" />
+</head>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous">
+</script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js">
+</script>
+<script
+        th:src="@{/test.js}">
+</script>
+
+<body class="d-flex flex-column h-100">
+
+    <div th:replace="~{fragments/header :: header}"> </div>
+
+    <div sec:authorize="!isAuthenticated()">
+        <p>You have not logged in to the application. Please login to
+            continue...</p>
+        <a th:href="@{/login}">Click here to log in!</a>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <div class="container">
+            <form method="get" th:action="@{/customer/search-restaurant}" th:object="${UserSearch}">
+                <div class="form-group row mt-5">
+                    <div class="col-md-4">
+                        <label for="start-date">Start date</label>
+                        <div class="input-group date">
+                            <input type="date" class="form-control" id="start-date" autocomplete="off" field="${startDate}" name="startDate"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="end-date">End Date</label>
+                        <div class="input-group date">
+                            <input type="date" class="form-control" id="end-date" autocomplete="off" field="${endDate}" name="endDate"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="display: flex; justify-content: flex-end; align-items: flex-end">
+                        <button class="btn btn-primary" type="submit" onclick=" return validateForm()">Search Restaurants</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <main role="main" class="flex-shrink-0">
+            <div class="container mt-5">
+                <div class="jumbotron">
+                    <h3>Please choose start date and end date to see available meals.</h3>
+                </div>
+            </div>
+        </main>
+    </div>
+
+        <div  th:replace="~{fragments/footer :: footer}"> </div>
+    <script>
+       function validateForm() {
+            var startDate = document.getElementById('start-date').value;
+            var endDate = document.getElementById('end-date').value;
+            var currentDate = new Date();
+            const offset = currentDate.getTimezoneOffset()
+            currentDate = new Date(currentDate.getTime() - (offset*60*1000))
+
+            if (startDate == "" || endDate == "")
+            {
+                alert("Start date or End date can't be empty");
+                return false;
+            }
+            else if(Date.parse(startDate) >= Date.parse(endDate))
+            {
+                alert("End date should be greater than Start date");
+                return false;
+            }
+            else if(Date.parse(currentDate.toISOString().split('T')[0]) > Date.parse(startDate))
+            {
+                alert("Start date should be greater than or equals to current date");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
