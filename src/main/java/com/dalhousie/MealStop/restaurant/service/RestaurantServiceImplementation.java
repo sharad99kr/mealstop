@@ -30,6 +30,11 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private ICustomerService customerService;
 
+    /**
+     * Saves a new restaurant information related to restaurant owner
+     *
+     * @param restaurant restaurant information which is to be added
+     */
     @Override
     public void addRestaurant(Restaurant restaurant)
     {
@@ -38,6 +43,11 @@ public class RestaurantServiceImplementation implements IRestaurantService {
             restaurantRepository.save(restaurant);
     }
 
+    /**
+     * Gets all the restaurants related to logged in restaurant user
+     *
+     * @return list of restaurants if any
+     */
     @Override
     public List<Restaurant> getAllRestaurantByUserId()
     {
@@ -61,6 +71,12 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return filteredList;
     }
 
+    /**
+     * Gets the average score of reviews for a restaurant
+     *
+     * @param restaurant restaurant for which review score is needed
+     * @return "No Reviews" if no reviews, otherwise review score average
+     */
     public String getAverageReviewScore(Restaurant restaurant)
     {
         List<CustomerReview>  restaurantReviews= customerReviewService.getReviewsOfRestaurant(restaurant);
@@ -76,6 +92,12 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return String.valueOf(reviewScore/restaurantReviews.size());
     }
 
+    /**
+     * Gets the reviews for a restaurant
+     *
+     * @param id restaurant id for which reviews are needed
+     * @return list of reviews
+     */
     @Override
     public List<String> getRestaurantReviews(long id)
     {
@@ -93,6 +115,13 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return reviewMsgs;
     }
 
+    /**
+     * Updates the restaurant information
+     *
+     * @param updatedRestaurant the updated restaurant information
+     * @param id the restaurant id for which update is performed
+     * @return updated restaurant
+     */
     @Override
     public Restaurant updateRestaurant(Restaurant updatedRestaurant, long id)
     {
@@ -112,7 +141,14 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return null;
     }
 
-
+    /**
+     * Gets the list of available restaurants based on date range selection
+     *
+     * @param startDate the "from" date
+     * @param endDate the "to" date
+     * @return List of available restaurants base on date range selection
+     * @throws Exception when valid date range is not selected
+     */
     @Override
     public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate) throws Exception {
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
@@ -158,18 +194,35 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return availableRestaurants;
     }
 
+    /**
+     * Gets the restaurant details
+     *
+     * @param Id the restaurant id for which information is required
+     * @return restaurant details
+     */
     @Override
     public Restaurant getRestaurantById(Long Id) {
         Restaurant restaurant = restaurantRepository.findById(Id).orElse(null);
         return restaurant;
     }
 
+    /**
+     * Gets the recommended meals for the user
+     *
+     * @param availableRestaurants the restaurants available based on date range selection
+     * @return list of top 5 meals to be recommended
+     */
     @Override
     public List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants)
     {
         return recommendationService.getAllRecommendedMeals(customerService.getLoggedInCustomerId(), availableRestaurants);
     }
 
+    /**
+     * Gets the logged in user details
+     *
+     * @return user details
+     */
     @Override
     public User getRestaurantUserDetailsFromSession()
     {
@@ -185,6 +238,12 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return null;
     }
 
+    /**
+     * Check for the duplicate restaurant in the database for the restautrant user
+     *
+     * @param restaurant restaurant to be checked for duplicate
+     * @return true if duplicate is available else false
+     */
     @Override
     public boolean checkDuplicateRestaurant(Restaurant restaurant)
     {
