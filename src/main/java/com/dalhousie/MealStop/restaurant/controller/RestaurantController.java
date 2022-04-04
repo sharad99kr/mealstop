@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
+import com.dalhousie.MealStop.favorites.service.ICustomerFavoriteService;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
@@ -28,7 +29,7 @@ public class RestaurantController
     private IRecommendationService recommendationService;
 
     @Autowired
-    private ICustomerReviewService customerReviewService;
+    private ICustomerFavoriteService customerFavoriteService;
 
     @GetMapping("/restaurant/get_restaurant")
     public String getAllRestaurants(Model model)
@@ -36,7 +37,9 @@ public class RestaurantController
         List<Restaurant> listRestaurants = restaurantService.getAllRestaurantByUserId();
         Map<Restaurant, String> restaurantToReviewScoreMap = new HashMap<>();
         for(Restaurant restaurant : listRestaurants)
+        {
             restaurantToReviewScoreMap.put(restaurant, restaurant.getAvgReviewScore());
+        }
         model.addAttribute("restaurants_list", restaurantToReviewScoreMap);
 
         return "restaurant/get_restaurant";
@@ -89,7 +92,7 @@ public class RestaurantController
     {
         List<String> customerReview = restaurantService.getRestaurantReviews(id);
         model.addAttribute("customerReview", customerReview);
-
+        model.addAttribute("likes", customerFavoriteService.getRestaurantFavorites(id));
         return "restaurant/reviews";
     }
 

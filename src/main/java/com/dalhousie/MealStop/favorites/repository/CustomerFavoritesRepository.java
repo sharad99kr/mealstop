@@ -12,4 +12,5 @@ public interface CustomerFavoritesRepository extends JpaRepository<CustomerFavor
 {
     List<CustomerFavorites> findByCustomer(Customer customer);
     CustomerFavorites findByCustomerAndRestaurant(Customer customer, Restaurant restaurant);
+    List<CustomerFavorites> findByRestaurant(Restaurant restaurant);
 }

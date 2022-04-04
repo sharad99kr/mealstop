@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ICustomerFavoriteServiceImplementation implements ICustomerFavoriteService
+public class CustomerFavoriteServiceImplementation implements ICustomerFavoriteService
 {
     @Autowired
     private CustomerFavoritesRepository cusFavRepo;
@@ -43,6 +43,13 @@ public class ICustomerFavoriteServiceImplementation implements ICustomerFavorite
             customerFavorites = new CustomerFavorites(cust, favRes);
             cusFavRepo.save(customerFavorites);
         }
+    }
+
+    @Override
+    public int getRestaurantFavorites(Long restaurantId)
+    {
+        Restaurant favRes = restaurantService.getRestaurantById(restaurantId);
+        return  cusFavRepo.findByRestaurant(favRes).size();
     }
 
     @Override

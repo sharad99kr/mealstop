@@ -65,10 +65,14 @@
 
 <div sec:authorize="isAuthenticated()">
 <div class="container p-5">
+  <div class="jumbotron lead font-weight-bold">
+    <span> Number of likes: </span>
+    <span th:text="${likes}"></span>
+  </div>
   <table class="table table-striped">
     <thead class="bg-primary text-white">
     <tr>
-      <th scope="col">Reviews</th>
+      <th scope="col">Customer Reviews</th>
     </tr>
     </thead>
     <tbody>

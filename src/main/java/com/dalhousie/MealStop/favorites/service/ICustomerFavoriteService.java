@@ -11,4 +11,5 @@ public interface ICustomerFavoriteService
     public List<CustomerFavorites> getCustomerFavorites();
     public void addRestaurantToCustomerFavorites(Long restaurantId);
     public void deleteCustomerFavoriteById(Long customerFavoriteId);
+    public int getRestaurantFavorites(Long restaurantId);
 }
