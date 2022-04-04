@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.user.entity;
 
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

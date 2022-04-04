@@ -77,6 +77,7 @@
       <th scope="col">Phone Number</th>
       <th scope="col">Availability</th>
       <th scope="col">Average Review Score</th>
+      <th scope="col">Watch Reviews</th>
       <th scope="col">Update Restaurant</th>
       <th scope="col">Add/Update Meal</th>
       <th scope="col">Orders</th>
@@ -84,15 +85,16 @@
     </thead>
     <tbody>
     <tr  th:each="restaurant: ${restaurants_list}">
-      <td th:text="${restaurant.restaurantName}"></td>
-      <td th:text="${restaurant.email}"></td>
-      <td th:text="${restaurant.address}"></td>
-      <td th:text="${restaurant.phoneNumber}"></td>
-      <td th:text="${restaurant.availability}"></td>
-      <td th:text="${restaurant.reviewScore}"></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/edit/{id}(id=${restaurant.id})}">Edit</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.id})}">Meal</a></td>
-      <td><a class="btn btn-sm btn-primary" th:href="@{/orders/restaurant_orders/{id}(id=${restaurant.id})}">Orders</a></td>
+      <td th:text="${restaurant.key.restaurantName}"></td>
+      <td th:text="${restaurant.key.email}"></td>
+      <td th:text="${restaurant.key.address}"></td>
+      <td th:text="${restaurant.key.phoneNumber}"></td>
+      <td th:text="${restaurant.key.availability}"></td>
+      <td th:text="${restaurant.value}"></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/reviews/{id}(id=${restaurant.key.id})}">Reviews</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/edit/{id}(id=${restaurant.key.id})}">Edit</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/restaurant/get_meal/{id}(id=${restaurant.key.id})}">Meals</a></td>
+      <td><a class="btn btn-sm btn-primary" th:href="@{/orders/restaurant_orders/{id}(id=${restaurant.key.id})}">Orders</a></td>
     </tr>
     </tbody>
   </table>

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.UUID;
 
+import static com.dalhousie.MealStop.common.CommonConstants.DATE_OF_BIRTH;
 import static com.dalhousie.MealStop.common.UrlConstants.*;
 import static com.dalhousie.MealStop.common.UserMessagesConstants.*;
 
@@ -54,48 +56,52 @@ public class RegistrationController implements WebMvcConfigurer {
     }
 
     @GetMapping(FORGOT_PASSWORD_URL)
-    public String showForgotPasswordForm(PasswordModel passwordModel) {
+    public String showForgotPasswordForm() {
         log.info(SHOW_FORGOT_PASSWORD_FORM);
         return USER_FORGOT_PASSWORD_URL;
     }
 
-    @GetMapping("/savePassword")
-    public String showSavePasswordForm(@RequestParam("token") String token) {
+    @GetMapping(SAVE_PASSWORD_URL)
+    public String showSavePasswordForm(@RequestParam("token") String token, PasswordModel passwordModel) {
         log.info(SHOW_FORGOT_PASSWORD_FORM);
         String result = userService.validatePasswordResetToken(token);
         if (result.equalsIgnoreCase(VerificationTokenConstants.VALID)) {
-            return "user/changepassword";
+            return USER_CHANGE_PASSWORD_URL;
         } else {
             return USER_LOGIN;
         }
     }
 
-    /*@GetMapping("/changepassword")
-    public String showChangePasswordForm() {
-        log.warn("Showing forgot password form.");
-        return "user/changepassword";
-    }*/
 
     /***
      * Registers the user model on the basis of the USER type.
      * Currently, a USER type can be customer, restaurant or ngo.
-     //* @param userModel contains information about the user and user type.
+     * @param userModel contains information about the user and user type.
      * @return Response entity will return with 201 as the status if userModel is created successfully and 400 if there were any issues with the request.
      */
-    @PostMapping(value = "/signup", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping(value = SIGNUP_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String signUpUser(@Valid UserModel userModel, BindingResult result, final HttpServletRequest request) {
-        if (result.hasErrors()) {
-            if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString()))
-                return NGO_USER_REGISTER_URL;
-            else
+        if (userModel.getRole().equals(RoleEnum.ROLE_NGO.toString())) {
+            if (result.hasErrors()) {
+                FieldError error = result.getFieldErrors().stream().findFirst().get();
+                if (error.getField().equals(DATE_OF_BIRTH)) {
+                    return NGO_USER_REGISTER_URL;
+                }
+            }
+        } else {
+            if (result.hasErrors()) {
                 return USER_REGISTER_URL;
+            }
         }
         try {
             //Save the information inside database.
             User user = userService.signUpUser(userModel);
 
-            //If the information of the user is saved inside the database, send a mail to the user with verification token.
-            eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
+            // If the information of the user is saved inside the database or was saved earlier but was not enabled,
+            // send a mail to the user with verification token.
+            if (!user.isEnabled())
+
+                eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
 
         } catch (Exception e) {
             log.error(CommonConstants.SIGNUP_USER + e.getMessage());
@@ -109,7 +115,7 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param token registration token
      * @return status of the token.
      */
-    @GetMapping("/verifyRegistration")
+    @GetMapping(VERIFY_REGISTER_URL)
     public ResponseEntity<String> verifyRegistration(@RequestParam("token") String token) {
         // Gets the verification token validity result.
         // 1. If token exists in the system and is not expired valid will be returned.
@@ -126,13 +132,13 @@ public class RegistrationController implements WebMvcConfigurer {
     }
 
     /**
-     * Resets the password by sending a url with token within a mail.
+     * Resets the password by sending url with token within a mail.
      *
      * @param passwordModel model used for setting up new password
      * @param request       incoming http request
      * @return status OK if password reset mail was sent.
      */
-    @PostMapping(value = "/forgotPassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping(value = FORGOT_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String forgotPassword(PasswordModel passwordModel, final HttpServletRequest request) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
         if (user != null) {
@@ -148,14 +154,13 @@ public class RegistrationController implements WebMvcConfigurer {
     /**
      * Verifies the validity of password reset token and then, saves the password inside the system
      *
-     * @param token         password reset token
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if user or token was invalid.
      */
-    @GetMapping(value = "/savePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
-    public String savePassword(String token, @Valid @RequestBody PasswordModel passwordModel, BindingResult result) {
+    @PostMapping(value = SAVE_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
+    public String savePassword(@Valid @RequestBody PasswordModel passwordModel, BindingResult result) {
         if (result.hasErrors()) {
-            return "user/changepassword";
+            return USER_CHANGE_PASSWORD_URL;
         }
         User user = userService.findUserByEmail(passwordModel.getEmail());
         userService.changePassword(user, passwordModel.getNewpassword());
@@ -168,11 +173,20 @@ public class RegistrationController implements WebMvcConfigurer {
      * @param passwordModel model used for setting up new password
      * @return OK if password saved successfully and Bad request if old password was invalid.
      */
-    @PostMapping(value = "/changePassword", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping(value = CHANGE_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
-        if (user == null || !userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
-            return "user/changepassword";
+        if (user == null)
+            return USER_CHANGE_PASSWORD_URL;
+
+        String oldPass = passwordModel.getOldpassword();
+        String newPass = passwordModel.getNewpassword();
+        if (oldPass.equals("") || newPass.equals(""))
+            return USER_CHANGE_PASSWORD_URL;
+
+        if (!userService.checkIfValidOldPassword(user, passwordModel.getOldpassword()))
+            return USER_CHANGE_PASSWORD_URL;
+
         userService.changePassword(user, passwordModel.getNewpassword());
         return USER_LOGIN;
     }
@@ -180,16 +194,14 @@ public class RegistrationController implements WebMvcConfigurer {
     /**
      * Sends the password reset token mail
      *
-     * @param passwordResetToken
-     * @param applicationUrl
-     * @return
+     * @param passwordResetToken token received for password reset.
+     * @param applicationUrl     current url of the application.
      */
-    private String passwordResetTokenMail(String email, String passwordResetToken, String applicationUrl) {
+    private void passwordResetTokenMail(String email, String passwordResetToken, String applicationUrl) {
         //Send mail to the user.
         String url = applicationUrl + SAVE_PASSWORD + passwordResetToken;
-        emailService.sendEmail(email, url, "Password Change");
+        emailService.sendEmail(email, url, PASSWORD_CHANGE);
         log.info("Verify url:" + url);
-        return url;
     }
 
     /**

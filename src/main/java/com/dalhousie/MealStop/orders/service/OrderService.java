@@ -1,19 +1,25 @@
 package com.dalhousie.MealStop.orders.service;
-import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.cart.modal.CustomerCart;
-import com.dalhousie.MealStop.cart.service.CustomerCartService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
+import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
+import com.dalhousie.MealStop.Reward.service.IRewardService;
+import com.dalhousie.MealStop.cart.model.CustomerCart;
+import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.meal.service.IMealService;
+import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import com.dalhousie.MealStop.orders.Constants.Constants;
+import com.dalhousie.MealStop.common.OrderConstants;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+
 
 @Service
 public class OrderService implements IOrderService {
@@ -25,12 +31,17 @@ public class OrderService implements IOrderService {
     private ICustomerService customerService;
 
     @Autowired
-    private CustomerCartService customerCartService;
+    private CustomerCartServiceImpl customerCartServiceImpl;
+    
+//    @Autowired
+//    private IMealService mealService;
 
+    @Autowired
+    private IRewardService rewardService;
 
-    //check if enough token is added
-    //custoer get/set
-    //customer servive.update
+    @Autowired
+    private INGOOrderService ngoOrderService;
+
 
     @Override
     public void CreateOrderFromCart(CustomerCart cart){
@@ -40,20 +51,44 @@ public class OrderService implements IOrderService {
            Long restaurantId=item.getRestaurant().getId();
            Long mealId=item.getId();
            Long price=item.getPrice();
-           Orders order=new Orders(customerId,restaurantId,mealId,0,price,Constants.ACTIVE);
-           addOrder(order);
-           //decrement customer token after placing order
-           customerService.decrementCustomerToken(price.intValue());
+           Orders order=new Orders(customerId,restaurantId,mealId,0,price, OrderConstants.ACTIVE);
+
+           int tokenCount = customerService.getCustomerTokenCount();
+           if(tokenCount> price){
+               //decrement customer token after placing order
+               addOrder(order);
+               customerService.decrementCustomerToken(price.intValue());
+               rewardService.addRewardPoints(customerId);
+           }else{
+               System.out.println("Not enough token");
+           }
+
        });
 
        //clear customer cart after placing the order
-        customerCartService.clearCustomerCart();
+        customerCartServiceImpl.clearCustomerCart();
     }
+
+
 
     @Override
     public void addOrder(Orders newOrder){
         //this method adds new order that has been placed
         orderRepository.save(newOrder);
+    }
+
+    @Override
+    public List<Orders> getOrdersForNGO(long ngoId){
+
+        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoId);
+        List<Orders> orders=new ArrayList<>();
+        for(int i=0; i<ngoOrders.size();i++){
+            long id = ngoOrders.get(i).getOrderId();
+            Orders order1=getOrderByOrderID(id);
+            orders.add(order1);
+        }
+        return orders;
+
     }
 
     @Override
@@ -64,16 +99,30 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Orders> getAllOrders(){
-        //this method returns all the orders that has been placed so far
-        return orderRepository.findAll();
+    public void claimedByNGO(long ngoId, long orderId){
+        //this method updates and links an order with NGO
+        updateOrderStatus( orderId, OrderConstants.CLAIMED);
+        NGOOrder ngoOrder=new NGOOrder(orderId,ngoId, OrderConstants.CLAIMED);
+        List<NGOOrder> ngoOrders
+                =ngoOrderService.getNGOOrderWithId(ngoId);
+
+        boolean isPresent = false;
+        for(NGOOrder order : ngoOrders)
+        {
+            if(order.getOrderId() == orderId)
+                isPresent = true;
+        }
+
+        if(!isPresent)
+            ngoOrderService.addNGOOrder(ngoOrder);
     }
+
 
     @Override
     public List<Orders> getAllCanceledOrders(){
 
         //this method returns all the orders that are in the cancelled status
-        return orderRepository.findByStatus(Constants.CANCELLED);
+        return orderRepository.findByStatus(OrderConstants.CANCELLED);
     }
 
     @Override
@@ -106,26 +155,9 @@ public class OrderService implements IOrderService {
         return orderRepository.findByRestaurantId(restaurantId);
     }
 
-    //method to return most ordered meal by restaurant id and customer id.
-    // It returns list of meal ids
-    public List<Long> getMostOrderedMeal(long customerId, long restaurantId){
-        return orderRepository.findByCustomerIdAndRestaurantId(customerId,restaurantId);
-    }
-
-    //method to return most ordered meal by restaurant
-    // It returns list of meal ids
-    public List<Long> getMostOrderedMealOfRestaurant(long restaurantId){
-        return orderRepository.findAllByRestaurantId(restaurantId);
-    }
-
-    //method to return most ordered meal by customer id
-    // It returns list of meal ids
-    public List<Long> getMostOrderedMealOfCustomer(long customerId){
-        return orderRepository.findAllByCustomerId(customerId);
-    }
-
     //this method returns monthly earnings of a restaurant by id provided
     public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year){
+
         List<Orders> orders= orderRepository.findAllByRestaurantIdandYear(restaurantId, year);
         Map<Integer, Float> monthlyReport=new HashMap<>();
         for (Orders order:orders) {
@@ -142,5 +174,34 @@ public class OrderService implements IOrderService {
         }
 
         return monthlyReport;
+    }
+
+    public void writeEarningsToCsv(Writer writer, long id) {
+
+        //https://springhow.com/spring-boot-export-to-csv/
+        //used above link as reference to export csv file
+        Map<String, Float> report_list=new HashMap<>();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        Map<Integer, Float> reportMap = getMonthlyReportofRestaurant(id,year);
+        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
+        while(itr.hasNext()){
+
+            Map.Entry<Integer, Float> entry = itr.next();
+            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
+        }
+
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            csvPrinter.printRecord(String.format(OrderConstants.MONTHLY_REPORT,year));
+            csvPrinter.printRecord(OrderConstants.MONTH_HEADER, OrderConstants.EARNINGS_HEADER);
+            for (String reportKeys : report_list.keySet()) {
+                csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
+            }
+        } catch (IOException e) {
+            System.out.println(OrderConstants.FILE_WRITE_ERROR);
+        }
+    }
+    @Override
+    public List<Orders> getAllOrders(){
+        return orderRepository.findAll();
     }
 }

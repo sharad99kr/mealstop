@@ -33,14 +33,14 @@
                         <div class="card-body">
                             <form th:action="@{/customer/add_review/{id}(id=${restaurant.id})}" method="post" th:object="${CustomerReview}">
                                 <div class = "form-group">
-                                    <label>Review Message</label><input type="text" class="form-control" name="reviewMessage">
+                                    <label>Review Message</label><input id="review-message" type="text" class="form-control" name="reviewMessage">
                                 </div>
 
                                 <div class = "form-group">
-                                    <label>Review Score</label><input type="text" class="form-control" name="reviewScore">
+                                    <label>Review Score</label><input id="review-score" type="number" class="form-control" name="reviewScore">
                                 </div>
 
-                                <button class = "btn btn-primary btn-block">Submit</button>
+                                <button class = "btn btn-primary btn-block" onclick=" return validateForm()">Add review</button>
                             </form>
                         </div>
                     </div>
@@ -49,6 +49,24 @@
         </div>
 
         <div  th:replace="~{fragments/footer :: footer}"> </div>
+        <script>
+            function validateForm() {
+                var reviewMessage = document.getElementById('review-message').value;
+                var reviewScore = document.getElementById('review-score').value;
+
+                if (reviewMessage == "" || reviewScore == "")
+                {
+                    alert("Review message and review score cannot be empty");
+                    return false;
+                }
+                else if(reviewScore<0 || reviewScore>5)
+                {
+                    alert("review score cannot be less than 0 or more than 5")
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

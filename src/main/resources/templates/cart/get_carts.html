@@ -26,68 +26,74 @@
 
 <div sec:authorize="isAuthenticated()">
     <div class="container bootstrap snippets bootdey">
-        <div class="col-md-9 col-sm-8 content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-info panel-shadow">
-                        <div class="panel-heading">
-                            <h3>
-                                <img class="img-circle img-thumbnail" src="https://bootdey.com/img/Content/user_3.jpg">
-                                <h5 class="my-3" th:text="${customer.firstName} +' '+ ${customer.lastName}"></h5>
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Meal Name</th>
-                                        <th>Tags</th>
-                                        <th>Price</th>
-                                        <th>Total</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="item: ${cart.cartItems}">
-                                        <td>
-                                            <img src="https://via.placeholder.com/400x200/FFB6C1/000000" class="img-cart" style="display:block;max-width: 50px;height: auto;margin-left: auto;margin-right: auto;">
-                                        </td>
+        <div class="col-md-12">
+            <div class="panel panel-info panel-shadow">
+                <div class="panel-heading">
+                    <h3>
+                        <img class="img-circle img-thumbnail" src="https://bootdey.com/img/Content/user_3.jpg">
+                        <h5 class="my-3" th:text="${customer.firstName} +' '+ ${customer.lastName}"></h5>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Meal Name</th>
+                                <th>Tags</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item: ${cart.cartItems}">
+                                <td>
+                                    <img src="https://via.placeholder.com/400x200/FFB6C1/000000" class="img-cart" style="display:block;max-width: 50px;height: auto;margin-left: auto;margin-right: auto;">
+                                </td>
 
-                                        <td>
-                                            <strong><p th:text="${item.mealName}"> </p></strong>
-                                        </td>
+                                <td>
+                                    <strong><p th:text="${item.mealName}"> </p></strong>
+                                </td>
 
-                                        <td>
-                                            <p th:text="${item.tags}"></p>
-                                        </td>
+                                <td>
+                                    <p th:text="${item.tags}"></p>
+                                </td>
 
-                                        <td>
-                                            <p th:text="${item.price}"></p>
-                                        </td>
+                                <td>
+                                    <p th:text="${item.price}"></p>
+                                </td>
 
-                                        <td>
-                                            <p th:text="${item.price}"></p>
-                                        </td>
+                                <td>
+                                    <p th:text="${item.price}"></p>
+                                </td>
 
-                                        <td>
-                                            <form class="form-inline">
-                                                <a href="#" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                <td>
+                                    <form method="post" th:action="@{/customer/cart/remove_item/{id}(id=${item.id})}">
+                                        <button class="fa fa-trash-o btn-danger" type="submit"></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <!-- Customer token and total price display-->
+                            <tr>
+                                <td th:text="'Tokens Available :' + ${customer.tokens}"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td th:if="${#lists.size(cart.cartItems)} > 0"><b th:text="'Total Tokens : ' + ${#aggregates.sum(cart.cartItems.![price])}" /></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <a href="#" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
-                    <form method="post" th:action="@{/orders/add_order}" th:data-cart="${cart}">
-                        <button class="btn btn-sm btn btn-danger pull-right" type="submit">Place Order</button>
-                    </form>
                 </div>
             </div>
+            <form method="post" th:action="@{/orders/add_order}" th:data-cart="${cart}">
+                <a th:href="@{/customer/homepage}" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
+                <button class="btn btn-sm btn btn-danger pull-right" type="submit" th:if="${#lists.size(cart.cartItems)} > 0 AND ${customer.tokens} >= ${#aggregates.sum(cart.cartItems.![price])}">Place Order</button>
+                <p class ="pull-right text-danger" th:if="${#lists.size(cart.cartItems)} > 0  AND ${customer.tokens} < ${#aggregates.sum(cart.cartItems.![price])}"> Sorry you donot have enough tokens to place this order</p>
+            </form>
         </div>
     </div>
 </div>

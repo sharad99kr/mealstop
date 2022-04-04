@@ -20,17 +20,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.dalhousie.MealStop.common.RoleEnum.ROLE_CUSTOMER;
-import static com.dalhousie.MealStop.common.RoleEnum.ROLE_NGO;
 import static com.dalhousie.MealStop.common.UrlConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -54,7 +54,6 @@ public class RegistrationControllerTests {
     @Mock
     private UserSignedUpEvent mockUserSignedUpEvent;
 
-    @Mock
     private PasswordModel mockPasswordModel;
 
     @Mock
@@ -85,11 +84,14 @@ public class RegistrationControllerTests {
         mockUrl = "url";
         mockPassword = "password";
 
+        mockPasswordModel = new PasswordModel();
+        mockPasswordModel.setEmail(mockEmail);
+        mockPasswordModel.setOldpassword(mockPassword);
+        mockPasswordModel.setNewpassword(mockPassword);
         Mockito.lenient().when(mockHttpServletRequest.getServerName()).thenReturn(mockServerName);
         Mockito.lenient().when(mockHttpServletRequest.getServerPort()).thenReturn(Integer.parseInt(mockServerPort));
         Mockito.lenient().when(mockHttpServletRequest.getContextPath()).thenReturn(mockContextPath);
         Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenReturn(mockUser);
-        Mockito.lenient().when(mockPasswordModel.getEmail()).thenReturn(mockEmail);
         mockUserModel = new UserModel();
         mockUserModel.setRole(String.valueOf(ROLE_CUSTOMER));
     }
@@ -106,19 +108,19 @@ public class RegistrationControllerTests {
 
     @Test
     void ShouldReturnForgotPasswordUrl() {
-        assertEquals(USER_FORGOT_PASSWORD_URL, controller.showForgotPasswordForm(mockPasswordModel));
+        assertEquals(USER_FORGOT_PASSWORD_URL, controller.showForgotPasswordForm());
     }
 
     @Test
     void ShouldReturnUserLoginForInvalidSavePasswordToken() {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.INVALID);
-        assertEquals(USER_LOGIN, controller.showSavePasswordForm(mockToken));
+        assertEquals(USER_LOGIN, controller.showSavePasswordForm(mockToken, mockPasswordModel));
     }
 
     @Test
     void ShouldReturnChangePasswordForValidSavePasswordToken() {
         Mockito.lenient().when(mockUserService.validatePasswordResetToken(mockToken)).thenReturn(VerificationTokenConstants.VALID);
-        assertEquals("user/changepassword", controller.showSavePasswordForm(mockToken));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.showSavePasswordForm(mockToken, mockPasswordModel));
     }
 
     @Test
@@ -132,14 +134,6 @@ public class RegistrationControllerTests {
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(true);
         Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenThrow(NullPointerException.class);
         assertEquals(USER_REGISTER_URL, controller.signUpUser(mockUserModel, mockBindingResult, mockHttpServletRequest));
-    }
-
-    @Test
-    void ShouldReturnNgoUserRegistrationForErrorsInBindingResult() {
-        mockUserModel.setRole(String.valueOf(ROLE_NGO));
-        Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(true);
-        Mockito.lenient().when(mockUserService.signUpUser(mockUserModel)).thenThrow(NullPointerException.class);
-        assertEquals(NGO_USER_REGISTER_URL, controller.signUpUser(mockUserModel, mockBindingResult, mockHttpServletRequest));
     }
 
     @Test
@@ -166,26 +160,26 @@ public class RegistrationControllerTests {
     @Test
     void ShouldReturnChangePasswordWhenErrorsForSavePassword() {
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(true);
-        assertEquals("user/changepassword", controller.savePassword(mockToken, mockPasswordModel, mockBindingResult));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.savePassword(mockPasswordModel, mockBindingResult));
     }
 
     @Test
     void ShouldReturnUserLoginWhenSuccess() {
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(false);
-        assertEquals(USER_LOGIN, controller.savePassword(mockToken, mockPasswordModel, mockBindingResult));
+        assertEquals(USER_LOGIN, controller.savePassword(mockPasswordModel, mockBindingResult));
     }
 
 
     @Test
     void ShouldReturnBadRequestChangePasswordWhenNoUser() {
         Mockito.lenient().when(mockUserService.findUserByEmail(mockEmail)).thenReturn(null);
-        assertEquals("user/changepassword", controller.changePassword(mockPasswordModel));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.changePassword(mockPasswordModel));
     }
 
     @Test
     void ShouldReturnBadRequestChangePasswordWhenPasswordNotSame() {
         Mockito.lenient().when(mockUserService.checkIfValidOldPassword(mockUser, mockPassword)).thenReturn(false);
-        assertEquals("user/changepassword", controller.changePassword(mockPasswordModel));
+        assertEquals(USER_CHANGE_PASSWORD_URL, controller.changePassword(mockPasswordModel));
     }
 
     @Test

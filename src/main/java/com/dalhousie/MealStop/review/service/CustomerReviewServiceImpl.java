@@ -1,8 +1,8 @@
 package com.dalhousie.MealStop.review.service;
 
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.customer.model.Customer;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.repository.CustomerReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

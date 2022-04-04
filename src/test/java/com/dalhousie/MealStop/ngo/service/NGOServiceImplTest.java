@@ -1,15 +1,18 @@
 package com.dalhousie.MealStop.ngo.service;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
-import com.dalhousie.MealStop.ngo.modal.NGO;
+import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
+import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,13 +24,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class NGOServiceImplTest {
 
     @Mock
     private NGORepository ngoRepository;
 
     @InjectMocks
-    private NGOServiceImplTest NGOService;
+    private NGOServiceImpl NGOService;
 
     private NGO NGO1;
 
@@ -42,7 +47,13 @@ public class NGOServiceImplTest {
     {
         user = new User(1L, "kuldeep", "ngo", "ngo@gmail.com", "11111111", "April 22, 1999", "Halifax, NS, Canada", "password", "ROLE_CUSTOMER", true, null);
         NGO1 = new NGO(user);
-        NGO2 = new NGO("Test", "User","Test@gmail.com","12121212");
+        NGO2 = new NGO();
+        NGO2.setName("TEST");
+        NGO2.setEmail("ngo@gmail.com");
+        NGO2.setAddress("halifax to india");
+        NGO2.setPhoneNumber("1234567890");
+        NGO2.setNGOName("TEST");
+        NGO2.setTotalOrders(12);
         NGO2.setId(2L);
 
         NGOList = new ArrayList<>();
@@ -64,8 +75,9 @@ public class NGOServiceImplTest {
         when(ngoRepository.findById(1L)).thenReturn(ngo);
 
         String NGOId = new Long(NGO1.getId()).toString();
-        assertThat(NGOService.getNGOById(NGOId).isEqualTo(ngo.get());
+        assertThat(NGOService.getNGOById(NGOId)).isEqualTo(ngo.get());
     }
+
 
     void setDummyUserInSession()
     {
@@ -77,20 +89,39 @@ public class NGOServiceImplTest {
     }
 
     @Test
-    NGO getNGODetailsFromSession()
+    public void getNGODetailsFromSession()
     {
         setDummyUserInSession();
         NGO loggedInNGO = NGOService.getNGODetailsFromSession();
         assertThat(loggedInNGO.getEmail()).isEqualTo(user.getUsername());
-        return loggedInNGO;
+    }
+
+    @Test
+    public void getLoggedInNGOId()
+    {
+        setDummyUserInSession();
+        NGO loggedInCustomer = NGOService.getNGODetailsFromSession();
+        Long ngoUserId = NGOService.getLoggedInNGOId();
+        assertThat(ngoUserId).isEqualTo(user.getUser_id());
     }
 
     @Test
     void addNGO()
     {
         when(ngoRepository.save(any())).thenReturn(NGO1);
-        NGOService.addNGO(NGO1);
+        NGOService.addNGO(user);
         verify(ngoRepository,times(1)).save(any());
     }
 
+    @Test
+    public void gettersInNGO(){
+        assertThat(NGO2.getId()).isEqualTo(2L);
+        assertThat(NGO2.getName()).isEqualTo("TEST");
+        assertThat(NGO2.getEmail()).isEqualTo("ngo@gmail.com");
+        assertThat(NGO2.getAddress()).isEqualTo("halifax to india");
+        assertThat(NGO2.getPhoneNumber()).isEqualTo("1234567890");
+        assertThat(NGO2.getNGOName()).isEqualTo("TEST");
+        assertThat(NGO2.getTotalOrders()).isEqualTo(12);
+
+    }
 }

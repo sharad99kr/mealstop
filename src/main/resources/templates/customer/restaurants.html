@@ -38,7 +38,7 @@
 <div th:replace="~{fragments/header :: header}"> </div>
 
 <main role="main" class="flex-shrink-0">
-    <div class="container mt-5">
+    <div class="container mt-5" style="margin-bottom: 100px;">
         <div class="jumbotron">
             <h1>Recommended Meals</h1>
             <div class="card-deck">
@@ -46,10 +46,15 @@
                     <div class="card-body">
                         <div style="display: flex;">
                             <h5 th:text="${meal.mealName}"></h5>
-
+                        </div>
+                        <div style="display: flex;">
+                            <h6>Tags: </h6>
+                            <h6 th:text="${meal.tags}"></h6>
                         </div>
                         <div style="display: flex; flex-direction: column;">
-                            <a href="#">Order</a>
+                            <form method="post" th:action="@{/customer/cart/add_item/{id}(id=${meal.id})}">
+                                <button class="btn btn-sm btn-primary" type="submit">Add to Cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.customer.service;
 
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.user.entity.User;
 
 import java.util.List;
@@ -15,4 +15,6 @@ public interface ICustomerService
     public Long getLoggedInCustomerId();
     public Integer getCustomerTokenCount();
     public Integer decrementCustomerToken(Integer tokenCount);
+    public void incrementCustomerToken(Integer tokenCount);
+    public Customer getCustomerInstanceFromUser(User user);
 }

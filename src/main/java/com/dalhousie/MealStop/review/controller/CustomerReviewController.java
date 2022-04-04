@@ -1,10 +1,10 @@
 package com.dalhousie.MealStop.review.controller;
 
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.Restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.review.modal.CustomerReview;
+import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +46,6 @@ public class CustomerReviewController
     public String getUpdateReviewPage(@PathVariable("id") long reviewId, Model model)
     {
         CustomerReview customerReview = customerReviewService.getReviewById(reviewId);
-        System.err.println("editing review "+customerReview);
         model.addAttribute("review", customerReview);
         return "reviews/edit-review";
     }
@@ -55,13 +54,9 @@ public class CustomerReviewController
     public String addReview(@ModelAttribute CustomerReview review, @PathVariable("id") long restaurantId)
     {
         Customer customer = customerService.getCustomerDetailsFromSession();
-        System.err.println("customer information="+customer.getId());
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
-
         review.setCustomer(customer);
         review.setRestaurant(restaurant);
-
-        System.err.println(review);
         customerReviewService.addReview(review);
         return "redirect:/customer/reviews";
     }
@@ -69,7 +64,6 @@ public class CustomerReviewController
     @PostMapping("/customer/update_review/{id}")
     public String updateReview(@PathVariable("id") long reviewId, @ModelAttribute CustomerReview customerReview)
     {
-        System.err.println("customer review param is "+ customerReview);
         customerReview.setId(reviewId);
         customerReviewService.updateReview(reviewId, customerReview);
         return "redirect:/customer/reviews";

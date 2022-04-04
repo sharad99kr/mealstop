@@ -1,8 +1,8 @@
 package com.dalhousie.MealStop.orders.model;
 
-import com.dalhousie.MealStop.Meal.model.Meal;
-import com.dalhousie.MealStop.Restaurant.model.Restaurant;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.restaurant.model.Restaurant;
+import com.dalhousie.MealStop.customer.model.Customer;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -25,15 +25,12 @@ public class Orders implements IOrders {
     @Column(name="mealId")
     private long mealId;
 
-    @Column(name="paymentId")
-    private long paymentId;
 
     @Column(name="status")
     private int status;
 
     @Column(name="amount")
     private float amount;
-
 
     @Column(name="orderDate")
     private Date date;
@@ -90,11 +87,6 @@ public class Orders implements IOrders {
     }
 
     @Override
-    public long getPaymentId(){
-        return paymentId;
-    }
-
-    @Override
     public void setCustomerId(long customerId){
          this.customerId=customerId;
     }
@@ -109,11 +101,6 @@ public class Orders implements IOrders {
         this.mealId=mealId;
     }
 
-    @Override
-    public void setPaymentId(long paymentId){
-        this.paymentId=paymentId;
-    }
-
     @ManyToOne(fetch=FetchType.LAZY,optional=false)
     @JoinColumn(name = "restaurantId", referencedColumnName = "restaurantid", nullable = false,insertable = false,updatable = false)
     private Restaurant restaurant;
@@ -126,36 +113,25 @@ public class Orders implements IOrders {
     @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
     private Meal meal;
 
-
     public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id, long amount, int status){
         this.customerId=customer_id;
         this.restaurantId=restaurant_id;
         this.mealId=meal_id;
-        this.paymentId=payment_id;
         this.amount=amount;
         this.status=status;
         setOrderTime();
         this.date=getOrderTime();
-
     }
-
-
 
     public Orders(){
 
     }
 
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order [id=" + id);
-        sb.append(", restaurantId=" + restaurantId);
-        sb.append(", customerId=" + customerId);
-        sb.append(", mealId=" + mealId);
-        sb.append(", paymentId=" + paymentId+"]");
-
-        return sb.toString();
-    }
 
 }
+
+
+
+
+
+
