@@ -75,6 +75,15 @@
                                     </form>
                                 </td>
                             </tr>
+                            <!-- Customer token and total price display-->
+                            <tr>
+                                <td th:text="'Tokens Available :' + ${customer.tokens}"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td th:if="${#lists.size(cart.cartItems)} > 0"><b th:text="'Total Tokens : ' + ${#aggregates.sum(cart.cartItems.![price])}" /></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -82,7 +91,8 @@
             </div>
             <form method="post" th:action="@{/orders/add_order}" th:data-cart="${cart}">
                 <a th:href="@{/customer/homepage}" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
-                <button class="btn btn-sm btn btn-danger pull-right" type="submit">Place Order</button>
+                <button class="btn btn-sm btn btn-danger pull-right" type="submit" th:if="${#lists.size(cart.cartItems)} > 0 AND ${customer.tokens} >= ${#aggregates.sum(cart.cartItems.![price])}">Place Order</button>
+                <p class ="pull-right text-danger" th:if="${#lists.size(cart.cartItems)} > 0  AND ${customer.tokens} < ${#aggregates.sum(cart.cartItems.![price])}"> Sorry you donot have enough tokens to place this order</p>
             </form>
         </div>
     </div>

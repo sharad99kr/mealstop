@@ -1,7 +1,7 @@
 package com.dalhousie.MealStop.tests_support;
 
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
-import com.dalhousie.MealStop.customer.modal.Customer;
+import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
