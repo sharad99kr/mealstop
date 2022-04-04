@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.orders.controller;
 
 import com.dalhousie.MealStop.meal.service.IMealService;
+import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
@@ -38,6 +39,9 @@ public class OrderController {
 
     @Autowired
     private ICustomerService customerService;
+
+    @Autowired
+    private INGOService ngoService;
 
 
     @PostMapping(OrderConstants.ADD_ORDER)
@@ -160,6 +164,8 @@ public class OrderController {
         Orders order=orderService.getOrderByOrderID(orderId);
         List<OrdersPayload> orders= geOrdersPayloadForCustomers( order.getCustomerId(), OrderConstants.ACTIVE);
 
+        String mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+        ngoService.sendCancelledOrderNotification(mealName);
         model.addAttribute("order_list", orders);
         return "orders/CustomerActiveOrders";
     }
