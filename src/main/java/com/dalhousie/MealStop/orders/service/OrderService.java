@@ -12,6 +12,7 @@ import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.dalhousie.MealStop.common.OrderConstants;
 
@@ -31,9 +32,9 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private CustomerCartServiceImpl customerCartServiceImpl;
-
-    @Autowired
-    private IMealService mealService;
+    
+//    @Autowired
+//    private IMealService mealService;
 
     @Autowired
     private IRewardService rewardService;
@@ -81,12 +82,11 @@ public class OrderService implements IOrderService {
 
         List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoId);
         List<Orders> orders=new ArrayList<>();
-        for (NGOOrder ngorder:ngoOrders) {
-            long id = ngorder.getOrderId();
+        for(int i=0; i<ngoOrders.size();i++){
+            long id = ngoOrders.get(i).getOrderId();
             Orders order1=getOrderByOrderID(id);
             orders.add(order1);
         }
-
         return orders;
 
     }
@@ -200,6 +200,8 @@ public class OrderService implements IOrderService {
             System.out.println(OrderConstants.FILE_WRITE_ERROR);
         }
     }
-    @Override    public List<Orders> getAllOrders(){
-        return orderRepository.findAll();    }
+    @Override
+    public List<Orders> getAllOrders(){
+        return orderRepository.findAll();
+    }
 }

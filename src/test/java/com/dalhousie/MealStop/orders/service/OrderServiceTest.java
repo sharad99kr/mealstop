@@ -10,6 +10,7 @@ import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
 
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -42,6 +43,9 @@ class OrderServiceTest {
 
     @Mock
     private NGOOrder mockNGOOrder;
+
+    @Mock
+    private List<NGOOrder> mockNGOOrders;
 
     @Mock
     private List<Orders> mockOrders;
@@ -67,6 +71,7 @@ class OrderServiceTest {
 
 
     private int mockDeliveredStatus;
+    private int mockClaimedStatus;
 
     private int mockYear;
 
@@ -85,6 +90,8 @@ class OrderServiceTest {
 
     private long mockAmount;
 
+    @Mock
+    NGOOrder ngoOrder1;
 
     @Mock
     private List<Long> mockMealIds;
@@ -93,7 +100,7 @@ class OrderServiceTest {
     private CustomerServiceImplementation customerService;
 
     @Mock
-    private NGOOrderServiceImpl ngoOrderServiceImpl;
+    private NGOOrderServiceImpl mockngoOrderService;
 
 
     @BeforeEach
@@ -104,6 +111,7 @@ class OrderServiceTest {
         mockDeliveredStatus= OrderConstants.DELIVERED;
         mockActiveStatus= OrderConstants.ACTIVE;
         mockProcessedStatus= OrderConstants.PROCESSED;
+        mockClaimedStatus=OrderConstants.CLAIMED;
         mockCustomerId=1;
         mockRestaurantId=1;
         mockMealId=1;
@@ -136,67 +144,40 @@ class OrderServiceTest {
         mockRestaurantOrders.add(order3);
 
         mockNgoId=1;
+        mockOrderId=1;
         mockNGOOrder=new NGOOrder(mockOrderId, mockNgoId, OrderConstants.CLAIMED);
 
+        mockNGOOrders.add(mockNGOOrder);
+
+
+
         when(mockOrderRepository.save(mockOrder)).thenReturn(mockOrder);
-        when(mockOrderRepository.findAll()).thenReturn(mockOrders);
-        when(mockOrderRepository.findByStatus(mockCancelledStatus)).thenReturn(mockCancelledOrders);
-        when(mockOrderRepository.findByCustomerId(mockCustomerId)).thenReturn(mockCustomerOrders);
-        when(mockOrderRepository.findById(mockOrderId)).thenReturn(mockOrder);
-        when(mockOrderRepository.findByRestaurantIdAndStatus(mockRestaurantId,mockDeliveredStatus)).thenReturn(mockDeliveredOrders);
-        when(mockOrderRepository.findByCustomerIdAndStatus(mockCustomerId,mockCancelledStatus)).thenReturn(mockCancelledOrders);
 
-        when(mockOrderRepository.findByRestaurantId(mockRestaurantId)).thenReturn(mockOrders);
-        //Mockito.doThrow(new NoPermissionException()).when(mockOrderRepository).updateOrdersById(mockOrderId,mockDeliveredStatus);
-
-        when(mockOrderRepository.findByCustomerIdAndRestaurantId(mockCustomerId,mockRestaurantId)).thenReturn(mockMealIds);
-        when(mockOrderRepository.findAllByCustomerId(mockCustomerId)).thenReturn(mockMealIds);
-        when(mockOrderRepository.findAllByRestaurantId(mockRestaurantId)).thenReturn(mockMealIds);
-        when(mockOrderRepository.findAllByRestaurantIdandYear(mockRestaurantId,mockYear)).thenReturn(mockDeliveredOrders);
 
     }
 
-//    @BeforeEach
-//    void setUp() {
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//    }
-//
+
 //    @Test
 //    void createOrderFromCart() {
 //    }
 //
+
+    @Test
+    void getAllOrders(){
+        when(mockOrderRepository.findAll()).thenReturn(mockOrders);
+        orderService.getAllOrders();
+        verify(mockOrderRepository,times(1)).findAll();
+    }
+
     @Test
     void addOrder() {
-
-//        when(mockOrderRepository.save(any())).thenReturn(mockOrder);
-//        orderService.addOrder(mockOrder);
-//        verify(mockOrderRepository,times(1)).save(any());
-//
-//        when(customerService.getCustomerTokenCount()).thenReturn(6);
-//        Integer currentTokens = customerService.getCustomerTokenCount();
-//
-//        when(customerService.decrementCustomerToken(3)).thenReturn(3);
-//
-//        Integer decrementedToken=customerService.decrementCustomerToken(3);
-//
-//        assertEquals(decrementedToken,3);
-
-
         when(mockOrderRepository.save(any())).thenReturn(mockOrder);
         orderService.addOrder(mockOrder);
         verify(mockOrderRepository,times(1)).save(any());
 
-
     }
 
-//    @Test
-//    void getOrdersForNGO() {
-//
-//    }
-//
+
     @Test
     void updateOrderStatus() {
 
@@ -206,15 +187,14 @@ class OrderServiceTest {
 
     @Test
     void claimedByNGO() {
-//        updateOrderStatus( orderId, OrderConstants.CLAIMED);
-//        NGOOrder ngoOrder=new NGOOrder(orderId,ngoId, OrderConstants.CLAIMED);
-//        ngoOrderService.addNGOOrder(ngoOrder);
 
+        orderService.updateOrderStatus(mockOrderId,mockClaimedStatus);
+        verify(mockOrderRepository,times(1)).updateOrdersById(mockOrderId,mockClaimedStatus);
+        NGOOrder ngoOrder=new NGOOrder(mockOrderId,mockNgoId,mockClaimedStatus);
+        orderService.claimedByNGO(mockNgoId,mockOrderId);
+        mockngoOrderService.addNGOOrder(ngoOrder);
+        verify(mockngoOrderService,times(1)).addNGOOrder(ngoOrder);
 
-//
-//        when(ngoOrderRepository.save(any())).thenReturn(mockNGOOrder);
-//        ngoOrderService.addNGOOrder(mockNGOOrder);
-//        verify(ngoOrderRepository,times(1)).save(any());
     }
 
 
@@ -279,13 +259,55 @@ class OrderServiceTest {
 
     }
 
-//    @Test
-//    void getMonthlyReportofRestaurant() {
+
+
+    @Test
+    void getMonthlyReportofRestaurant() {
+
+        List<Orders> mockRestaurantOrders=new ArrayList<>();
+        Orders order3=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,1,mockActiveStatus);
+        mockRestaurantOrders.add(order3);
+        order3=new Orders(1,1,2,2,1,mockActiveStatus);
+        mockRestaurantOrders.add(order3);
+
+        Mockito.lenient().when(mockOrderRepository.findAllByRestaurantIdandYear(mockRestaurantId,2022)).thenReturn(mockRestaurantOrders);
+
+        Map<Integer, Float> earning=orderService.getMonthlyReportofRestaurant(mockRestaurantId,2022);
+
+        assertEquals(earning.get(3),2);
+
+    }
+
+//    public List<Orders> getOrdersForNGO(long ngoId){
 //
+//        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoId);
+//        List<Orders> orders=new ArrayList<>();
+//        for(int i=0; i<ngoOrders.size();i++){
+//            long id = ngoOrders.get(i).getOrderId();
+//            Orders order1=getOrderByOrderID(id);
+//            orders.add(order1);
+//        }
+//        return orders;
 //
 //    }
-//
-//    @Test
-//    void writeEarningsToCsv() {
-//    }
+
+    @Test
+    void getOrdersForNGO(){
+        mockNGOOrders=new ArrayList<>();
+        mockNGOOrder=new NGOOrder(mockOrderId, mockNgoId, OrderConstants.CLAIMED);
+
+        NGOOrder mockNGOOrder2=new NGOOrder(2, mockNgoId, OrderConstants.CLAIMED);
+        mockNGOOrders.add(mockNGOOrder);
+        mockNGOOrders.add(mockNGOOrder2);
+
+        Mockito.lenient().when(ngoOrderRepository.findByNGOId (mockNgoId)).thenReturn(mockNGOOrders);
+
+        Mockito.lenient().when(mockngoOrderService.getNGOOrderWithId(mockNgoId)).thenReturn(mockNGOOrders);
+        List<Orders> orders=orderService.getOrdersForNGO(mockNgoId);
+        assertEquals(orders.size(),2);
+    }
+
+    @Test
+    void writeEarningsToCsv() {
+    }
 }
