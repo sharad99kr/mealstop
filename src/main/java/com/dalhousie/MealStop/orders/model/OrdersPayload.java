@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.orders.controller;
+package com.dalhousie.MealStop.orders.model;
 
 public class OrdersPayload{
     //this class is used to send data to frontend/html pages
