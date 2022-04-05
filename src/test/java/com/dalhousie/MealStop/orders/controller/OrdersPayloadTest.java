@@ -1,9 +1,9 @@
 package com.dalhousie.MealStop.orders.controller;
 
+import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrdersPayloadTest {
 

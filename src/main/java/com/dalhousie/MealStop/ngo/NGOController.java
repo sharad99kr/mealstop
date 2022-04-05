@@ -6,7 +6,7 @@ import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.Utils.Utils;
-import com.dalhousie.MealStop.orders.controller.OrdersPayload;
+import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
