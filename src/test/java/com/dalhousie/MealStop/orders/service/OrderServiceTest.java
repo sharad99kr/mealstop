@@ -157,10 +157,6 @@ class OrderServiceTest {
     }
 
 
-//    @Test
-//    void createOrderFromCart() {
-//    }
-//
 
     @Test
     void getAllOrders(){
@@ -278,18 +274,7 @@ class OrderServiceTest {
 
     }
 
-//    public List<Orders> getOrdersForNGO(long ngoId){
-//
-//        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoId);
-//        List<Orders> orders=new ArrayList<>();
-//        for(int i=0; i<ngoOrders.size();i++){
-//            long id = ngoOrders.get(i).getOrderId();
-//            Orders order1=getOrderByOrderID(id);
-//            orders.add(order1);
-//        }
-//        return orders;
-//
-//    }
+
 
     @Test
     void getOrdersForNGO(){
@@ -307,7 +292,4 @@ class OrderServiceTest {
         assertEquals(orders.size(),2);
     }
 
-    @Test
-    void writeEarningsToCsv() {
-    }
 }

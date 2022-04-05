@@ -146,21 +146,6 @@ class OrderControllerTest {
         mock_cancelled_order_list.add(payload);
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void addNewOrders() {
-//        CustomerCart customerCart = customerCartServiceImpl.getCustomerCart();
-//        long customerId = customerService.getCustomerDetailsFromSession().getId();
-//
-//        orderService.CreateOrderFromCart(customerCart);
-//        redirectAttrs.addFlashAttribute("customer_id",customerId);
-//
-//        return "redirect:customer_orders_all";
-    }
-
 
     @Test
     void allCustomerOrders() throws Exception {
@@ -215,39 +200,6 @@ class OrderControllerTest {
         return mock_cancelled_order_list;
     }
 
-    @Test
-    void getCancelledOrdersPayload() {
-    }
-
-
-    @Test
-    void restaurantActiveOrders() throws Exception {
-
-
-//        Mockito.lenient().when(mockOrderService.getRestaurantOrdersWithStatus(mockRestaurantId,OrderConstants.ACTIVE)).thenReturn(mock_orders);
-//        Mockito.lenient().when(orderController.GetRestaurantOrdersList(mock_orders)).thenReturn(mock_cancelled_order_list);
-//
-//        mockMvc.perform(get("/orders/restaurant_orders/{id}"))
-//        .andExpect(status().isOk())
-//        .andExpect(model().attribute("order_list", mock_cancelled_order_list))
-//                .andExpect(model().attribute("restaurant_id", mockRestaurantId));
-//        verify(mockOrderService, times(1)).getRestaurantOrdersWithStatus(mockRestaurantId, OrderConstants.ACTIVE);
-    }
-
-
-
-    @Test
-    void getRestaurantOrdersList() {
-    }
-
-    @Test
-    void customerAllOrders() {
-    }
-
-    @Test
-    void customerOrders() {
-
-    }
 
     @Test
     void updateOrder() throws Exception {
@@ -285,16 +237,7 @@ class OrderControllerTest {
         verify(mockOrderService, times(1)).updateOrderStatus(mockOrderId,OrderConstants.CANCELLED);
 
     }
-//
-//    @Test
-//    void geOrdersPayloadForCustomers() {
-//
-//        Mockito.lenient().when(mockOrderService.getCustomerOrdersWithStatus(mockOrderId,OrderConstants.PROCESSED)).thenReturn(mock_orders);
-//        OrderController obj=Mockito.spy(orderController);
-//
-//        verify(obj, times(0)).geOrdersPayloadForCustomers(mockOrderId,OrderConstants.PROCESSED);
-//
-//    }
+
 
     @Test
     void restaurantUpdateOrder() throws Exception {
@@ -306,28 +249,5 @@ class OrderControllerTest {
 
     }
 
-    @Test
-    void report() {
-
-    }
-
-//    @Test
-//    void generateCsv() throws Exception {
-//
-//        ByteArrayOutputStream output = new ByteArrayOutputStream();
-//        PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(output));
-//
-//        HttpServletResponse response = mock(HttpServletResponse.class);
-//        when(response.getWriter()).thenReturn(printWriter);
-//
-//
-//        printWriter.flush();
-//        assertEquals("", new String(output.toByteArray(), "UTF-8"));
-//
-//        mockMvc.perform(get("/orders/generateReport/{id}"))
-//                .andExpect(status().isOk())
-//                .andExpect(model().attribute("id", mockRestaurantId));
-//
-//    }
 
 }

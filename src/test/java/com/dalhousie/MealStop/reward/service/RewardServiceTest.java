@@ -105,7 +105,4 @@ class RewardServiceTest {
 
     }
 
-    @Test
-    void redeemRewardPoints() {
-    }
 }

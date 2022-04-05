@@ -43,6 +43,7 @@ public class OrderService implements IOrderService {
     public void CreateOrderFromCart(CustomerCart cart){
        long customerId = customerService.getCustomerDetailsFromSession().getId();
 
+       //generate order from the cart
        cart.getCartItems().forEach(item->{
            Long restaurantId=item.getRestaurant().getId();
            Long mealId=item.getId();
