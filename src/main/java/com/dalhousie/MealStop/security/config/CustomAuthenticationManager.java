@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.security.config;
 
+import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.dalhousie.MealStop.common.UserMessagesConstants.LOGIN_TRYING_MSG;
 
 @Component
 @Slf4j
@@ -38,7 +35,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             List<GrantedAuthority> rights = new ArrayList<>();
             rights.add(new SimpleGrantedAuthority(user.getRole()));
 
-            UsernamePasswordAuthenticationToken token=null;
+            UsernamePasswordAuthenticationToken token;
             Object principal = authentication.getPrincipal();
             Object credential = authentication.getCredentials();
             token = new UsernamePasswordAuthenticationToken(principal, credential, rights);
@@ -48,7 +45,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
             return token;
         } else {
             log.error("The user credentials do not match the database stored values!");
-            throw new BadCredentialsException("1000");
+            throw new BadCredentialsException(CommonConstants.BAD_AUTHORIZATION_ERROR_CODE);
         }
     }
 
@@ -57,20 +54,19 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         String password = authentication.getCredentials().toString();
 
         User user;
-
         try {
             user = userService.findUserByEmail(emailId);
         } catch (Exception e) {
             log.error("The user with the email id mentioned does not exist!");
             e.printStackTrace();
-            throw new BadCredentialsException("1000");
+            throw new BadCredentialsException(CommonConstants.BAD_AUTHORIZATION_ERROR_CODE);
         }
         if (user != null) {
             log.info("Checking if the user's password is correct and assigning rights");
             return checkUser(password, user, authentication);
         } else {
             log.error("The user credentials do not match the database stored values!");
-            throw new BadCredentialsException("1000");
+            throw new BadCredentialsException(CommonConstants.BAD_AUTHORIZATION_ERROR_CODE);
         }
     }
 }

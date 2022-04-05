@@ -2,35 +2,35 @@ package com.dalhousie.MealStop.customer.model;
 
 public interface ICustomer
 {
-    public long getId();
+     long getId();
 
-    public void setId(long id);
+     void setId(long id);
 
-    public String getFirstName();
+     String getFirstName();
 
-    public void setFirstName(String firstName);
+     void setFirstName(String firstName);
 
-    public String getLastName();
+     String getLastName();
 
-    public void setLastName(String lastName);
+     void setLastName(String lastName);
 
-    public String  getEmail();
+     String  getEmail();
 
-    public void setEmail(String email);
+     void setEmail(String email);
 
-    public void setMobileNumber(String mobileNumber);
+     void setMobileNumber(String mobileNumber);
 
-    public String getMobileNumber();
+     String getMobileNumber();
 
-    public String getDateOfBirth();
+     String getDateOfBirth();
 
-    public void setDateOfBirth(String dateOfBirth);
+     void setDateOfBirth(String dateOfBirth);
 
-    public void setAddress(String address);
+     void setAddress(String address);
 
-    public String getAddress();
+     String getAddress();
 
-    public Integer getTokens();
+     Integer getTokens();
 
-    public void setTokens(Integer tokens);
+     void setTokens(Integer tokens);
 }

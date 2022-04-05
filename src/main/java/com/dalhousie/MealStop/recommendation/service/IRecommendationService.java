@@ -8,5 +8,5 @@ import java.util.List;
 
 @Service
 public interface IRecommendationService {
-    public abstract List<Meal> getAllRecommendedMeals(long userId, List<Restaurant> availableRestaurants);
+    List<Meal> getAllRecommendedMeals(long userId, List<Restaurant> availableRestaurants);
 }

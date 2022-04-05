@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.email;
 
-import com.dalhousie.MealStop.email.EmailConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

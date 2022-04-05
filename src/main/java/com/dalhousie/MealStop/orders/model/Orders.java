@@ -7,7 +7,6 @@ import com.dalhousie.MealStop.customer.model.Customer;
 import javax.persistence.*;
 import java.sql.Date;
 
-
 @Entity
 @Table(name="orders")
 public class Orders implements IOrders {
@@ -113,21 +112,9 @@ public class Orders implements IOrders {
     @JoinColumn(name = "mealId", referencedColumnName = "id", nullable = false,insertable = false,updatable = false)
     private Meal meal;
 
-    public Orders(long customer_id, long restaurant_id, long meal_id, long payment_id, long amount, int status){
-        this.customerId=customer_id;
-        this.restaurantId=restaurant_id;
-        this.mealId=meal_id;
-        this.amount=amount;
-        this.status=status;
-        setOrderTime();
-        this.date=getOrderTime();
-    }
-
     public Orders(){
 
     }
-
-
 }
 
 

@@ -41,7 +41,7 @@ class CustomerFavoriteServiceImplementationTest {
 
     @InjectMocks
     @Autowired
-    private ICustomerFavoriteServiceImplementation customerFavoriteServiceImplementation;
+    private CustomerFavoriteServiceImplementation customerFavoriteServiceImplementation;
 
     private CustomerFavorites customerFavorites1;
     private List<CustomerFavorites> customerFavoritesList;
@@ -49,7 +49,7 @@ class CustomerFavoriteServiceImplementationTest {
     private Customer customer;
 
     private CustomerBuilder customerBuilder;
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
@@ -103,6 +103,13 @@ class CustomerFavoriteServiceImplementationTest {
         doNothing().when(customerFavoritesRepository).deleteById(1L);
         customerFavoriteServiceImplementation.deleteCustomerFavoriteById(1L);
         verify(customerFavoritesRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void getRestaurantFavorites(){
+        Mockito.lenient().doReturn(restaurant1).when(restaurantService).getRestaurantById(1L);
+        Mockito.lenient().when(customerFavoritesRepository.findByRestaurant(restaurant1)).thenReturn(customerFavoritesList);
+        assertEquals(1, customerFavoriteServiceImplementation.getRestaurantFavorites(1L));
     }
 
     @Test

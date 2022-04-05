@@ -1,8 +1,8 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
+import com.dalhousie.MealStop.favorites.service.ICustomerFavoriteService;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import com.dalhousie.MealStop.user.entity.User;
@@ -42,6 +42,9 @@ class RestaurantControllerTest {
     private IRestaurantService restaurantService;
 
     @Mock
+    private ICustomerFavoriteService customerFavoriteService;
+
+    @Mock
     private BindingResult mockBindingResult;
 
     @InjectMocks
@@ -55,7 +58,7 @@ class RestaurantControllerTest {
 
     private User mockUser;
 
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     private String msg;
 
@@ -154,10 +157,11 @@ class RestaurantControllerTest {
     @Test
     void getRestaurantReviews() throws Exception {
         Mockito.lenient().when(restaurantService.getRestaurantReviews(1L)).thenReturn(msgList);
-
+        Mockito.lenient().when(customerFavoriteService.getRestaurantFavorites(1L)).thenReturn(1);
         mockMvc.perform(get("/restaurant/reviews/{id}", 1L))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("customerReview", msgList));
+                .andExpect(model().attribute("customerReview", msgList))
+                .andExpect(model().attribute("likes", 1));
 
         verify(restaurantService, times(1)).getRestaurantReviews(1L);
     }

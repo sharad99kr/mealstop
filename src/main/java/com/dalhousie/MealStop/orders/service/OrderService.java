@@ -1,14 +1,14 @@
 package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
-import com.dalhousie.MealStop.Reward.service.IRewardService;
+import com.dalhousie.MealStop.reward.service.IRewardService;
 import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.meal.service.IMealService;
-import com.dalhousie.MealStop.orders.Utils.Utils;
+import com.dalhousie.MealStop.orders.utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
-
+@Slf4j
 @Service
 public class OrderService implements IOrderService {
 
@@ -33,9 +33,6 @@ public class OrderService implements IOrderService {
     private CustomerCartServiceImpl customerCartServiceImpl;
 
     @Autowired
-    private IMealService mealService;
-
-    @Autowired
     private IRewardService rewardService;
 
     @Autowired
@@ -46,20 +43,27 @@ public class OrderService implements IOrderService {
     public void CreateOrderFromCart(CustomerCart cart){
        long customerId = customerService.getCustomerDetailsFromSession().getId();
 
+       //generate order from the cart
        cart.getCartItems().forEach(item->{
            Long restaurantId=item.getRestaurant().getId();
            Long mealId=item.getId();
            Long price=item.getPrice();
-           Orders order=new Orders(customerId,restaurantId,mealId,0,price, OrderConstants.ACTIVE);
+           Orders order=new Orders();
+           order.setOrderStatus(OrderConstants.ACTIVE);
+           order.setOrderTime();
+           order.setRestaurantId(restaurantId);
+           order.setOrderAmount(Math.toIntExact(price));
+           order.setCustomerId(customerId);
+           order.setMealId(mealId);
 
            int tokenCount = customerService.getCustomerTokenCount();
-           if(tokenCount> price){
+           if(tokenCount >= price){
                //decrement customer token after placing order
                addOrder(order);
                customerService.decrementCustomerToken(price.intValue());
                rewardService.addRewardPoints(customerId);
            }else{
-               System.out.println("Not enough token");
+               log.error("Not enough token");
            }
 
        });
@@ -81,21 +85,21 @@ public class OrderService implements IOrderService {
 
         List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoId);
         List<Orders> orders=new ArrayList<>();
-        for (NGOOrder ngorder:ngoOrders) {
-            long id = ngorder.getOrderId();
+        for(int i=0; i<ngoOrders.size();i++){
+            long id = ngoOrders.get(i).getOrderId();
             Orders order1=getOrderByOrderID(id);
             orders.add(order1);
         }
-
         return orders;
 
     }
 
     @Override
-    public void updateOrderStatus(long orderId, int status){
+    public boolean updateOrderStatus(long orderId, int status){
 
         //this method updates order status that has been placed
         orderRepository.updateOrdersById(orderId,status);
+        return true;
     }
 
     @Override
@@ -128,12 +132,14 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getCustomerOrdersWithStatus(long customerId, int status){
 
+        //get all orders for a customer with matching ID and ordered food status
         return orderRepository.findByCustomerIdAndStatus(customerId,status);
     }
 
     @Override
     public List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status){
 
+        //get all orders for restaurants with matching ID and ordered food status
         return orderRepository.findByRestaurantIdAndStatus(restaurantId,status);
     }
 
@@ -158,15 +164,19 @@ public class OrderService implements IOrderService {
     //this method returns monthly earnings of a restaurant by id provided
     public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year){
 
+        //get all orders from restaurant based on id and year
         List<Orders> orders= orderRepository.findAllByRestaurantIdandYear(restaurantId, year);
         Map<Integer, Float> monthlyReport=new HashMap<>();
+        //loop through each order and calculate the sum per month basis
         for (Orders order:orders) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(order.getOrderTime());
             int month = cal.get(Calendar.MONTH);
             if(!monthlyReport.containsKey(month)){
+                //if entry for particular month is not present , add into the map with corresponding amount
                 monthlyReport.put(month,order.getOrderAmount());
             }else{
+                //if entry is found , update the earnings for that particular month
                 float amt=monthlyReport.get(month);
                 amt+=order.getOrderAmount();
                 monthlyReport.put(month,amt);
@@ -181,25 +191,30 @@ public class OrderService implements IOrderService {
         //https://springhow.com/spring-boot-export-to-csv/
         //used above link as reference to export csv file
         Map<String, Float> report_list=new HashMap<>();
+        //getting current year
         int year = Calendar.getInstance().get(Calendar.YEAR);
+        //getting sales on monthly basis
         Map<Integer, Float> reportMap = getMonthlyReportofRestaurant(id,year);
         Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
         while(itr.hasNext()){
-
+            //getting month's name based on month index
             Map.Entry<Integer, Float> entry = itr.next();
             report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
         }
 
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            //formatting output string and writing to a file
             csvPrinter.printRecord(String.format(OrderConstants.MONTHLY_REPORT,year));
             csvPrinter.printRecord(OrderConstants.MONTH_HEADER, OrderConstants.EARNINGS_HEADER);
             for (String reportKeys : report_list.keySet()) {
                 csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
             }
         } catch (IOException e) {
-            System.out.println(OrderConstants.FILE_WRITE_ERROR);
+            log.error(OrderConstants.FILE_WRITE_ERROR);
         }
     }
-    @Override    public List<Orders> getAllOrders(){
-        return orderRepository.findAll();    }
+    @Override
+    public List<Orders> getAllOrders(){
+        return orderRepository.findAll();
+    }
 }

@@ -2,7 +2,6 @@ package com.dalhousie.MealStop.user.service;
 
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.models.UserModel;
-
 import java.util.List;
 import java.util.Optional;
 

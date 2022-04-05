@@ -46,19 +46,7 @@ public class NGOOrder implements INGOOrder {
         this.status=status;
     }
 
-
-
     public NGOOrder(){
 
-    }
-
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("NGOOrder [id=" + orderId);
-        sb.append(", ngoId=" + ngoId);
-        sb.append(", status=" + status+"]");
-        return sb.toString();
     }
 }

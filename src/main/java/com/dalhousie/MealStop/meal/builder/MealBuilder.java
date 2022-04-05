@@ -1,10 +1,9 @@
 package com.dalhousie.MealStop.meal.builder;
 
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.restaurant.model.Restaurant;
 
 public class MealBuilder {
-    private Meal meal;
+    private final Meal meal;
 
     public MealBuilder()
     {

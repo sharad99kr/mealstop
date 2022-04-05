@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.customer.controller;
 
-import com.dalhousie.MealStop.Reward.service.IRewardService;
+import com.dalhousie.MealStop.reward.service.IRewardService;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;

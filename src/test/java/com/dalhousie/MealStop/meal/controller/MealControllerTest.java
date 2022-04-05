@@ -1,13 +1,10 @@
 package com.dalhousie.MealStop.meal.controller;
 
-import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
-import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +55,7 @@ class MealControllerTest {
     private Meal meal1;
     List<Meal> mealList;
 
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
@@ -115,7 +112,7 @@ class MealControllerTest {
     }
 
     @Test
-    void updateMeal() throws Exception {
+    void updateMeal() {
         Mockito.lenient().when(mealService.updateMeal(1L,meal1)).thenReturn(meal1);
         Mockito.lenient().when(mockBindingResult.hasErrors()).thenReturn(false);
         Model model = null;

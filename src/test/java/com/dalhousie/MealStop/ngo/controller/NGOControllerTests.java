@@ -1,16 +1,13 @@
 package com.dalhousie.MealStop.ngo.controller;
 
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.ngo.NGOController;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
+import com.dalhousie.MealStop.ngoorder.service.NGOOrderServiceImpl;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,6 +35,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Mock
         private IOrderService orderService;
 
+        @Mock
+        private NGOOrderServiceImpl ngoOrderService;
+
+        @InjectMocks
+        private NGOOrderServiceImpl ngoOrderServiceimpl;
+
+
         @InjectMocks
         NGOController ngoController;
 
@@ -52,7 +56,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         private List<Restaurant> restaurantList;
 
         private List<Meal> mealList;
-        //private
 
         @BeforeEach
         void setUp()
@@ -104,5 +107,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         }
 
 
+        @Test
+        void getNgoPastOrders() throws Exception
+        {
+            Mockito.lenient().when(ingoService.getNGODetailsFromSession()).thenReturn(ngo);
+            mockMvc.perform(get("/ngo/orders/ngo_old_order"))
+                    .andExpect(status().isOk());
+        }
+
+
+    @Test
+    void ngoAcceptedOrders() throws Exception
+    {
+        Mockito.lenient().when(ingoService.getNGODetailsFromSession()).thenReturn(ngo);
+        mockMvc.perform(get("/ngo/orders/ngo_accepted_order/1"))
+                .andExpect(status().isOk());
+    }
+
+
 }
+
+
+
 

@@ -7,27 +7,27 @@ import java.util.Date;
 
 public interface ICustomerReview
 {
-    public long getId();
+    long getId();
 
-    public void setId(long id);
+    void setId(long id);
 
-    public Integer getReviewScore() ;
+    Integer getReviewScore() ;
 
-    public void setReviewScore(Integer reviewScore);
+    void setReviewScore(Integer reviewScore);
 
-    public String getReviewMessage();
+    String getReviewMessage();
 
-    public void setReviewMessage(String reviewMessage);
+    void setReviewMessage(String reviewMessage);
 
-    public Date getReviewDate() ;
+    Date getReviewDate() ;
 
-    public void setReviewDate(Date reviewDate);
+    void setReviewDate(Date reviewDate);
 
-    public Customer getCustomer() ;
+    Customer getCustomer() ;
 
-    public void setCustomer(Customer customer) ;
+    void setCustomer(Customer customer) ;
 
-    public Restaurant getRestaurant();
+    Restaurant getRestaurant();
 
-    public void setRestaurant(Restaurant restaurant);
+    void setRestaurant(Restaurant restaurant);
 }

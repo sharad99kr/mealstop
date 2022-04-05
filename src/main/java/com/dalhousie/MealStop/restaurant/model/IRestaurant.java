@@ -2,36 +2,35 @@ package com.dalhousie.MealStop.restaurant.model;
 
 public interface IRestaurant {
 
-    public long getId();
+    long getId();
 
-    public void setId(long id);
+    void setId(long id);
 
-    public long getUserId();
+    long getUserId();
 
-    public void setUserId(long userid);
+    void setUserId(long userid);
 
-    public String getAvailability();
+    String getAvailability();
 
-    public void setAvailability(String availability);
+    void setAvailability(String availability);
 
-    public String getRestaurantName();
+    String getRestaurantName();
 
-    public void setRestaurantName(String restaurantName);
+    void setRestaurantName(String restaurantName);
 
-    public String  getEmail();
+    String  getEmail();
 
-    public void setEmail(String email);
+    void setEmail(String email);
 
-    public String getPhoneNumber();
+    String getPhoneNumber();
 
-    public void setPhoneNumber(String phoneNumber);
+    void setPhoneNumber(String phoneNumber);
 
-    public String getAddress();
+    String getAddress();
 
-    public void setAddress(String address);
+    void setAddress(String address);
 
-    public String getAvgReviewScore();
+    String getAvgReviewScore();
 
-    public void setAvgReviewScore(String reviewScore);
-
+    void setAvgReviewScore(String reviewScore);
 }

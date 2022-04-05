@@ -1,8 +1,13 @@
 package com.dalhousie.MealStop.ngo.service;
 
+import com.dalhousie.MealStop.common.NGOConstants;
+import com.dalhousie.MealStop.email.IEmailService;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
+import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
+import com.dalhousie.MealStop.orders.model.Orders;
+import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -33,6 +40,15 @@ public class NGOServiceImplTest {
 
     @InjectMocks
     private NGOServiceImpl NGOService;
+
+    @Mock
+    private IEmailService emailService;
+
+    @Mock
+    private IOrderService orderService;
+
+    @Mock
+    private INGOOrderService ngoOrderService;
 
     private NGO NGO1;
 
@@ -106,11 +122,31 @@ public class NGOServiceImplTest {
     }
 
     @Test
+    void sendCancelledOrderNotificationTest()
+    {
+        when(ngoRepository.findAll()).thenReturn(NGOList);
+        Mockito.doNothing().when(emailService).sendEmail(any(),any(), any());
+        NGOService.sendCancelledOrderNotification("mealName");
+        verify(ngoRepository,times(1)).findAll();
+    }
+
+    @Test
     void addNGO()
     {
         when(ngoRepository.save(any())).thenReturn(NGO1);
         NGOService.addNGO(user);
         verify(ngoRepository,times(1)).save(any());
+    }
+
+    @Test
+    public void getNGOOrderHistoryTest()
+    {
+        setDummyUserInSession();
+        Mockito.when(orderService.getAllOrders()).thenReturn(new ArrayList<>());
+        Mockito.when(ngoOrderService.getNGOOrderWithId(1L)).thenReturn(new ArrayList<>());
+
+        List<Orders> orders = NGOService.getNGOOrderHistory();
+        assertThat(orders.size()).isEqualTo(0);
     }
 
     @Test

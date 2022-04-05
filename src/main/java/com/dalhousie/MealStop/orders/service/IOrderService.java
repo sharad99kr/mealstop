@@ -9,42 +9,31 @@ import java.util.Map;
 
 public interface IOrderService {
 
-    public void CreateOrderFromCart(CustomerCart cart);
+     void CreateOrderFromCart(CustomerCart cart);
 
-    //method signature that adds new order
-    public void addOrder(Orders newOrder);
+     void addOrder(Orders newOrder);
 
-    //method signature returns all the orders that are in the cancelled status
-    public List<Orders> getAllCanceledOrders();
+     List<Orders> getAllCanceledOrders();
 
-    //method signature to get all orders by user id
-    public List<Orders> getOrdersByCustomerID(long userId);
+     List<Orders> getOrdersByCustomerID(long userId);
 
-    //method signature to get all orders by order id
-    public Orders getOrderByOrderID(long orderId);
+     Orders getOrderByOrderID(long orderId);
 
-    //method signature to update order status
-    public void updateOrderStatus(long orderId, int status);
+     boolean updateOrderStatus(long orderId, int status);
 
-    public List<Orders> getOrdersByRestaurantID(long restaurantId);
+     List<Orders> getOrdersByRestaurantID(long restaurantId);
 
+     Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);
 
-    //method signature to return monthly report of earnings for a Restaurant
-    public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year);
+     void claimedByNGO(long ngoId, long orderId);
 
-    //method signature to update order claimed by NGO
-    public void claimedByNGO(long ngoId, long orderId);
+     List<Orders> getCustomerOrdersWithStatus(long customerId, int status);
 
-    public List<Orders> getCustomerOrdersWithStatus(long customerId, int status);
+     List<Orders> getOrdersForNGO(long ngoId);
 
-    public List<Orders> getOrdersForNGO(long ngoId);
+     List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status);
 
-    public List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status);
+     void writeEarningsToCsv(Writer writer, long id);
 
-    public void writeEarningsToCsv(Writer writer, long id);
-
-    public List<Orders> getAllOrders();
-
-
-
+     List<Orders> getAllOrders();
 }
