@@ -108,6 +108,8 @@ class OrderControllerTest {
 
     private long mockNgoId;
 
+    private TestsSupport testsSupport = new TestsSupport();
+
     @BeforeEach
     void setUp() {
         initMocks(this);
@@ -125,11 +127,11 @@ class OrderControllerTest {
         customerBuilder.setTokens(10);
         mockCustomer = customerBuilder.buildCustomer();
 
-        mock_order=new Orders(1,1,1,1,1,OrderConstants.PROCESSED);
+        mock_order=testsSupport.createDummyOrder(OrderConstants.CANCELLED);
 
-        Orders order=new Orders(1,1,1,1,1,OrderConstants.CANCELLED);
+        Orders order=testsSupport.createDummyOrder(OrderConstants.CANCELLED);
         mock_orders.add(order);
-        order=new Orders(1,2,2,2,2,OrderConstants.CANCELLED);
+        order=testsSupport.createDummyOrder(OrderConstants.CANCELLED);
         mock_orders.add(order);
 
         mock_order_list=new ArrayList<>();
@@ -265,6 +267,4 @@ class OrderControllerTest {
         verify(mockOrderService, times(1)).updateOrderStatus(mockOrderId,OrderConstants.PROCESSED);
 
     }
-
-
 }

@@ -4,6 +4,7 @@ import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
+import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 
@@ -42,5 +43,16 @@ public class TestsSupport {
         customerBuilder.setDateOfBirth("March 10, 2021");
         customerBuilder.setTokens(10);
         return customerBuilder.buildCustomer();
+    }
+
+    public Orders createDummyOrder(int status) {
+        Orders orders = new Orders();
+        orders.setCustomerId(1L);
+        orders.setOrderAmount(1);
+        orders.setOrderTime();
+        orders.setMealId(1L);
+        orders.setRestaurantId(1L);
+        orders.setOrderStatus(status);
+        return orders;
     }
 }
