@@ -1,7 +1,5 @@
 package com.dalhousie.MealStop.reward.service;
 
-import com.dalhousie.MealStop.common.OrderConstants;
-import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import com.dalhousie.MealStop.reward.model.Rewards;
 import com.dalhousie.MealStop.reward.repository.RewardRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,9 +13,8 @@ import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.client.ExpectedCount.times;
 
 
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -80,29 +77,29 @@ class RewardServiceTest {
 
     }
 
+    @Test
+    void resetRewardPoints() {
+        RewardService obj=Mockito.spy(rewardService);
+        rewardService.resetRewardPoints(mockCustomerId);
+        obj.resetRewardPoints(mockCustomerId);
+        obj.updateRewardPoints(mockCustomerId, 1);
+        verify(obj).resetRewardPoints(mockCustomerId);
+    }
 
-//    @Test
-//    void resetRewardPoints() {
-//
-//        RewardRepository obj=Mockito.spy(rewardService);
-//        verify(mockRewardRepository, Mockito.times(1)).resetRewardPoints(mockCustomerId,100);
-//
-//    }
-//
-//    @Test
-//    void updateRewardPoints() {
-//
-//        RewardRepository obj=Mockito.spy(mockRewardRepository);
-//        verify(mockRewardRepository, Mockito.times(1)).updateRewardsById(mockCustomerId,100);
-//
-//    }
+
+    @Test
+    void updateRewardPoints() {
+
+        Mockito.lenient().doNothing().when(mockRewardRepository).updateRewardsById(mockCustomerId, 1);
+        rewardService.updateRewardPoints(mockCustomerId, 1);
+        verify(mockRewardRepository, Mockito.times(1)).updateRewardsById(mockCustomerId,1);
+
+    }
 
     @Test
     void isRewardPointsRedeemable() {
-
         Mockito.lenient().when(mockRewardRepository.findByCustomerId(mockCustomerId)).thenReturn(mockRewards);
         assertThat(rewardService.isRewardPointsRedeemable(mockCustomerId)).isEqualTo(true);
-
     }
 
 }
