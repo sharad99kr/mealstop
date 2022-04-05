@@ -55,7 +55,7 @@ class RecommendationServiceImplementationTest {
         restaurant1 = testsSupport.createDummyRestaurant();
         restaurant1.setId(1L);
         mealList.add(meal1);
-        order1 = new Orders(1L, 1L, 1L, 1L, 100, 1);
+        order1 = testsSupport.createDummyOrder(1);
         ordersList = new ArrayList<>();
         ordersList.add(order1);
         restaurantList = new ArrayList<>();

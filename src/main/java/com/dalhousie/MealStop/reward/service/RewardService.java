@@ -51,23 +51,19 @@ public class RewardService implements IRewardService{
     public void resetRewardPoints(long customerId){
         //this method definition resets rewards points to zero if user has already redeemed the reward points
         updateRewardPoints( customerId, RewardConstants.ZERO_POINTS);
-
     }
 
     void updateRewardPoints(long customerId, int points){
 
         //this method updates rewards points into database that has been sent for update
         rewardRepository.updateRewardsById(customerId,points);
-
     }
 
-
-
     /**
-     *     this method implementation checks rewards points and returns boolean state whether reward points
-     *      can be redeemed or not
-     * @param customerId
-     * @return boolean
+     * This method implementation checks rewards points and returns boolean state whether reward points
+     * can be redeemed or not
+     * @param customerId the customer id for which is points redeemable needs to be performed
+     * @return boolean is points are redeemable
      */
     public boolean isRewardPointsRedeemable(long customerId){
         return getRewardPoints(customerId)> RewardConstants.MINIMUM_POINTS_TO_REDEEM_TOKEN;
@@ -75,11 +71,11 @@ public class RewardService implements IRewardService{
 
 
     /**
-     *     This method implementation puts the logic of redeeming the points to generate
-     *      tokens that can be claimed by the users. We are providing 1 token per 100 points
-     *     collected by the user
-     * @param customerId
-     * @return int
+     * This method implementation puts the logic of redeeming the points to generate
+     * tokens that can be claimed by the users. We are providing 1 token per 100 points
+     * collected by the user
+     * @param customerId the customer id for which points are redeemed
+     * @return int the points redeemed
      */
     public int redeemRewardPoints(long customerId){
         int maxtoken=0;
@@ -96,7 +92,6 @@ public class RewardService implements IRewardService{
             int remainingPoints=maxtoken% RewardConstants.MINIMUM_POINTS_TO_REDEEM_TOKEN;
             //update the reward points after deducting the points needed to claim tokens
             updateRewardPoints(customerId,remainingPoints);
-
         }
 
         return maxtoken;

@@ -1,6 +1,5 @@
 package com.dalhousie.MealStop.orders.controller;
 
-import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.model.Customer;
@@ -10,11 +9,11 @@ import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
+import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import com.dalhousie.MealStop.orders.service.IOrderService;
-import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,25 +25,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -72,13 +61,12 @@ class OrderControllerTest {
     ICustomerService mockCustomerService;
 
     @Mock
-    INGOService ngoService;
+    Customer mockCustomer;
 
+    @Mock
+    INGOService ngoService;
     @Mock
     IMealService mealService;
-
-    @Mock
-    Customer mockCustomer;
 
     @Mock
     private CustomerBuilder customerBuilder;
@@ -108,6 +96,8 @@ class OrderControllerTest {
 
     private long mockNgoId;
 
+    private TestsSupport testsSupport = new TestsSupport();
+
     @BeforeEach
     void setUp() {
         initMocks(this);
@@ -125,11 +115,11 @@ class OrderControllerTest {
         customerBuilder.setTokens(10);
         mockCustomer = customerBuilder.buildCustomer();
 
-        mock_order=new Orders(1,1,1,1,1,OrderConstants.PROCESSED);
+        mock_order=testsSupport.createDummyOrder(OrderConstants.CANCELLED);
 
-        Orders order=new Orders(1,1,1,1,1,OrderConstants.CANCELLED);
+        Orders order=testsSupport.createDummyOrder(OrderConstants.CANCELLED);
         mock_orders.add(order);
-        order=new Orders(1,2,2,2,2,OrderConstants.CANCELLED);
+        order=testsSupport.createDummyOrder(OrderConstants.CANCELLED);
         mock_orders.add(order);
 
         mock_order_list=new ArrayList<>();
@@ -189,21 +179,21 @@ class OrderControllerTest {
         verify(mockCustomerService, times(2)).getCustomerDetailsFromSession();
     }
 
-//    @Test
-//    void getAllCancelledOrders() throws Exception {
-//        Mockito.lenient().when(mockOrderService.getAllCanceledOrders()).thenReturn(mock_orders);
-//        //Mockito.lenient().when(getCancelledOrdersPayload(mock_orders)).thenReturn(mock_cancelled_order_list);
-//
-//        OrderController obj=Mockito.spy(orderController);
-//
-//        Mockito.lenient().doReturn(mock_cancelled_order_list).when(obj).getCancelledOrdersPayload(mock_orders);
-//
-//
-//        mockMvc.perform(get("/orders/cancelled_orders"))
-//                .andExpect(status().isOk());
-//
-//        verify(mockOrderService, times(1)).getAllCanceledOrders();
-//    }
+    @Test
+    void getAllCancelledOrders() throws Exception {
+        Mockito.lenient().when(mockOrderService.getAllCanceledOrders()).thenReturn(mock_orders);
+        //Mockito.lenient().when(getCancelledOrdersPayload(mock_orders)).thenReturn(mock_cancelled_order_list);
+
+        OrderController obj=Mockito.spy(orderController);
+
+        Mockito.lenient().doReturn(mock_cancelled_order_list).when(obj).getCancelledOrdersPayload(mock_orders);
+
+
+        mockMvc.perform(get("/orders/cancelled_orders"))
+                .andExpect(status().isOk());
+
+        verify(mockOrderService, times(1)).getAllCanceledOrders();
+    }
 
     private List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
         return mock_cancelled_order_list;
@@ -224,7 +214,6 @@ class OrderControllerTest {
 
 
         List<OrdersPayload> order_list=new ArrayList<>();
-
         OrdersPayload payload=new OrdersPayload();
         payload.orderId=mockOrderId;
         payload.mealName = "meal";
@@ -234,21 +223,15 @@ class OrderControllerTest {
         payload.status = "Active";
         payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
         order_list.add(payload);
-
         Mockito.lenient().when(mockOrderService.updateOrderStatus(mockOrderId,OrderConstants.CANCELLED)).thenReturn(true);
         Mockito.lenient().when(mockOrderService.getOrderByOrderID(mockOrderId)).thenReturn(mock_order);
-
         TestsSupport testsSupport = new TestsSupport();
         Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
         Mockito.lenient().when(mealService.getMealByMealId(1L)).thenReturn(meal);
         Mockito.lenient().doNothing().when(ngoService).sendCancelledOrderNotification(any());
-
         OrderController obj=Mockito.spy(orderController);
         Mockito.lenient().doReturn(order_list).when(obj).geOrdersPayloadForCustomers(mockCustomerId,OrderConstants.ACTIVE);
-
-
-
         mockMvc.perform(get("/cancelOrder/{id}",mockOrderId))
                 .andExpect(status().isOk());
         verify(mockOrderService, times(1)).updateOrderStatus(mockOrderId,OrderConstants.CANCELLED);
@@ -265,6 +248,4 @@ class OrderControllerTest {
         verify(mockOrderService, times(1)).updateOrderStatus(mockOrderId,OrderConstants.PROCESSED);
 
     }
-
-
 }

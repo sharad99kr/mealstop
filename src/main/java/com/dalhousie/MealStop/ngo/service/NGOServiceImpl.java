@@ -22,6 +22,7 @@ public class NGOServiceImpl implements INGOService {
     @Autowired
     private IEmailService emailService;
 
+
     @Override
     public NGO getNGOById(String id) {
         Long ngoId = Long.parseLong(id);
@@ -78,6 +79,7 @@ public class NGOServiceImpl implements INGOService {
             log.info("Sending cancelled order notification mail to NGO "+emailId);
         });
     }
+
 
 
 }
