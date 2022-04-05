@@ -2,7 +2,7 @@ package com.dalhousie.MealStop.customer.service;
 
 import com.dalhousie.MealStop.common.CommonConstants;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
-import com.dalhousie.MealStop.customer.customersearch.UserSearch;
+import com.dalhousie.MealStop.customer.model.UserSearch;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
 import com.dalhousie.MealStop.user.entity.User;
