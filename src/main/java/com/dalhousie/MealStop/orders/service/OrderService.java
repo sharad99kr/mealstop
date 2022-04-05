@@ -48,7 +48,13 @@ public class OrderService implements IOrderService {
            Long restaurantId=item.getRestaurant().getId();
            Long mealId=item.getId();
            Long price=item.getPrice();
-           Orders order=new Orders(customerId,restaurantId,mealId,0,price, OrderConstants.ACTIVE);
+           Orders order=new Orders();
+           order.setOrderStatus(OrderConstants.ACTIVE);
+           order.setOrderTime();
+           order.setRestaurantId(restaurantId);
+           order.setOrderAmount(Math.toIntExact(price));
+           order.setCustomerId(customerId);
+           order.setMealId(mealId);
 
            int tokenCount = customerService.getCustomerTokenCount();
            if(tokenCount >= price){

@@ -7,6 +7,7 @@ import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
 import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
+import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -102,6 +103,7 @@ class OrderServiceTest {
     @Mock
     private NGOOrderServiceImpl mockngoOrderService;
 
+    private TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     public void init() {
@@ -116,7 +118,7 @@ class OrderServiceTest {
         mockRestaurantId=1;
         mockMealId=1;
 
-        mockOrder =new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
+        mockOrder =testsSupport.createDummyOrder(mockActiveStatus);
         mockOrders.add(mockOrder);
         mockOrder=new Orders();
         mockOrder.setCustomerId(2);
@@ -127,20 +129,20 @@ class OrderServiceTest {
 
         mockOrders.add(mockOrder);
 
-        Orders order=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
+        Orders order=testsSupport.createDummyOrder(mockActiveStatus);
         mockCustomerOrders.add(order);
-        order=new Orders(1,2,2,2,2,mockActiveStatus);
+        order=testsSupport.createDummyOrder(mockActiveStatus);
         mockCustomerOrders.add(order);
 
-        Orders order2=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockCancelledStatus);
+        Orders order2=testsSupport.createDummyOrder(mockCancelledStatus);
         mockCancelledOrders.add(order2);
-        order2=new Orders(1,2,2,2,2,mockCancelledStatus);
+        order2=testsSupport.createDummyOrder(mockCancelledStatus);
         mockCancelledOrders.add(order2);
 
 
-        Orders order3=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,mockAmount,mockActiveStatus);
+        Orders order3=testsSupport.createDummyOrder(mockActiveStatus);
         mockRestaurantOrders.add(order3);
-        order3=new Orders(1,1,2,2,2,mockActiveStatus);
+        order3=testsSupport.createDummyOrder(mockActiveStatus);
         mockRestaurantOrders.add(order3);
 
         mockNgoId=1;
@@ -251,19 +253,15 @@ class OrderServiceTest {
         assertThat(mockOrder.getMealId()).isEqualTo(2);
         assertThat(mockOrder.getOrderAmount()).isEqualTo(2);
         assertThat(mockOrder.getOrderStatus()).isEqualTo(2);
-
-
     }
-
-
 
     @Test
     void getMonthlyReportofRestaurant() {
 
         List<Orders> mockRestaurantOrders=new ArrayList<>();
-        Orders order3=new Orders(mockCustomerId,mockRestaurantId,mockMealId,mockPaymentId,1,mockActiveStatus);
+        Orders order3=testsSupport.createDummyOrder(2);
         mockRestaurantOrders.add(order3);
-        order3=new Orders(1,1,2,2,1,mockActiveStatus);
+        order3 = testsSupport.createDummyOrder(mockActiveStatus);
         mockRestaurantOrders.add(order3);
 
         Mockito.lenient().when(mockOrderRepository.findAllByRestaurantIdandYear(mockRestaurantId,2022)).thenReturn(mockRestaurantOrders);
