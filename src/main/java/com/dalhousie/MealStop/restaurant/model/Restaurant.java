@@ -140,19 +140,4 @@ public class Restaurant implements IRestaurant{
     {
         this.reviewScore=reviewScore;
     }
-
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Restaurant [id=" + id);
-        sb.append(", userID=" + userid);
-        sb.append(", restaurantName=" + restaurantName);
-        sb.append(", availability=" + availability);
-        sb.append(", email=" + email);
-        sb.append(", phoneNumber=" + phoneNumber);
-        sb.append(", reviewScore=" + reviewScore);
-        sb.append(", address=" + address + "]");
-        return sb.toString();
-    }
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -90,7 +91,9 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         for(CustomerReview review : restaurantReviews)
             reviewScore += review.getReviewScore();
 
-        return String.valueOf(reviewScore/restaurantReviews.size());
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        double avgScore = (reviewScore/restaurantReviews.size());
+        return String.valueOf(decimalFormat.format(avgScore));
     }
 
     /**

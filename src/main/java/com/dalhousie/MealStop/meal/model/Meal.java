@@ -124,17 +124,4 @@ public class Meal implements IMeal {
     {
         this.price=price;
     }
-
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Meal [id=" + id);
-        sb.append(", mealName=" + mealName);
-        sb.append(", calories=" + calories);
-        sb.append(", tags=" + tags);
-        sb.append(", cuisineType=" + cuisineType);
-        sb.append(", price=" + price + "]");
-        return sb.toString();
-    }
 }
