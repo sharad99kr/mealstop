@@ -2,7 +2,6 @@ package com.dalhousie.MealStop.user;
 
 import com.auth0.jwt.JWT;
 import com.dalhousie.MealStop.user.controller.UserController;
-import com.dalhousie.MealStop.user.service.IUserService;
 import com.dalhousie.MealStop.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,15 +18,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ArrayList;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)

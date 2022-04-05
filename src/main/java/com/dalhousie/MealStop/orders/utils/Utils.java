@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.orders.Utils;
+package com.dalhousie.MealStop.orders.utils;
 
 import com.dalhousie.MealStop.common.OrderConstants;
 

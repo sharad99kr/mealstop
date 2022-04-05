@@ -49,7 +49,7 @@ class CustomerFavoriteServiceImplementationTest {
     private Customer customer;
 
     private CustomerBuilder customerBuilder;
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {

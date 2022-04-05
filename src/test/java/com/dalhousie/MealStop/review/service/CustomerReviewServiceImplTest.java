@@ -47,7 +47,7 @@ class CustomerReviewServiceImplTest {
 
     private CustomerReviewBuilder customerReviewBuilder;
 
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp()

@@ -23,7 +23,6 @@ public class CustomerFavorites implements ICustomerFavorites {
 
     public CustomerFavorites()
     {
-
     }
 
     public CustomerFavorites(Customer customer, Restaurant restaurant)

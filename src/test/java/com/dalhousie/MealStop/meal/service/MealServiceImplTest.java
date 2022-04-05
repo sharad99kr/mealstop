@@ -35,7 +35,7 @@ class MealServiceImplTest {
     private MealServiceImpl mealService;
     private Meal meal1;
     private List<Meal> mealList;
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
