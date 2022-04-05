@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.restaurant.controller;
 
-import com.dalhousie.MealStop.customer.customersearch.UserSearch;
+import com.dalhousie.MealStop.customer.model.UserSearch;
 import com.dalhousie.MealStop.favorites.service.ICustomerFavoriteService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
