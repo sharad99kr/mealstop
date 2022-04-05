@@ -1,7 +1,10 @@
 package com.dalhousie.MealStop.ngo.service;
 
 import com.dalhousie.MealStop.ngo.model.NGO;
+import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.user.entity.User;
+
+import java.util.List;
 
 public interface INGOService
 {
@@ -10,4 +13,5 @@ public interface INGOService
      void addNGO(User user);
      Long getLoggedInNGOId();
      void sendCancelledOrderNotification(String mealName);
+     List<Orders> getNGOOrderHistory();
 }

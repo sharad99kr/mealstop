@@ -1,13 +1,12 @@
 package com.dalhousie.MealStop.ngo.controller;
 
-import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.Utils.Utils;
-import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import com.dalhousie.MealStop.orders.model.Orders;
+import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,6 @@ public class NGOController {
         for (Orders order:listOrders) {
             OrdersPayload payload=new OrdersPayload();
             payload.orderId=order.getOrderId();
-
             payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
             payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
             payload.amount = order.getOrderAmount();
@@ -66,18 +64,7 @@ public class NGOController {
     String ngoAcceptedOrders(Model model, @PathVariable("id") long orderId) {
         NGO ngoUser = ngoService.getNGODetailsFromSession();
         orderService.claimedByNGO(ngoUser.getId(),orderId);
-        List<Orders> orders=orderService.getAllOrders();
-        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoUser.getId());
-        List<Orders> filteredOrders= new ArrayList<>();
-
-        for(NGOOrder ngoOrder : ngoOrders)
-        {
-            for(Orders order : orders)
-            {
-                if(ngoOrder.getOrderId() == order.getOrderId())
-                    filteredOrders.add(order);
-            }
-        }
+        List<Orders> filteredOrders = ngoService.getNGOOrderHistory();
         List<OrdersPayload> order_list=getCancelledOrdersPayload(filteredOrders);
         model.addAttribute("order_list", order_list);
         return  "orders/NGOOrderDetails";
@@ -86,19 +73,7 @@ public class NGOController {
 
     @GetMapping("/ngo/orders/ngo_old_order")
     public String getNgoPastOrders(Model model) {
-        NGO ngoUser = ngoService.getNGODetailsFromSession();
-        List<Orders> orders=orderService.getAllOrders();
-        List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoUser.getId());
-        List<Orders> filteredOrders= new ArrayList<>();
-
-        for(NGOOrder ngoOrder : ngoOrders)
-        {
-            for(Orders order : orders)
-            {
-                if(ngoOrder.getOrderId() == order.getOrderId())
-                    filteredOrders.add(order);
-            }
-        }
+        List<Orders> filteredOrders = ngoService.getNGOOrderHistory();
         List<OrdersPayload> order_list=getCancelledOrdersPayload(filteredOrders);
         model.addAttribute("order_list", order_list);
         return  "orders/NGOOrderDetails";
@@ -106,7 +81,7 @@ public class NGOController {
 
 
     @GetMapping("/ngo/profile")
-    public String getNGOProfilePage(Model model)
+    public String getCustomerProfilePage(Model model)
     {
         NGO ngoUser = ngoService.getNGODetailsFromSession();
         model.addAttribute("ngoUser", ngoUser);
