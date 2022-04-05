@@ -1,15 +1,13 @@
-package com.dalhousie.MealStop.Reward.repository;
+package com.dalhousie.MealStop.reward.repository;
 
-import com.dalhousie.MealStop.Reward.constants.Constants;
-import com.dalhousie.MealStop.Reward.model.Rewards;
-import com.dalhousie.MealStop.orders.model.Orders;
+import com.dalhousie.MealStop.reward.constants.Constants;
+import com.dalhousie.MealStop.reward.model.Rewards;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 public interface RewardRepository extends JpaRepository<Rewards,Long> {

@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.Reward.controller;
+package com.dalhousie.MealStop.reward.controller;
 
-import com.dalhousie.MealStop.Reward.service.RewardService;
+import com.dalhousie.MealStop.reward.service.RewardService;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;

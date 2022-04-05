@@ -46,7 +46,6 @@ public class OrderController {
     {
         CustomerCart customerCart = customerCartService.getCustomerCart();
         long customerId = customerService.getCustomerDetailsFromSession().getId();
-
         orderService.CreateOrderFromCart(customerCart);
         redirectAttrs.addFlashAttribute("customer_id",customerId);
 
@@ -54,7 +53,7 @@ public class OrderController {
     }
 
     @RequestMapping(OrderConstants.GET_ALL_ORDER)
-    String customerOrdersNew(Model model) {
+    String allCustomerOrders(Model model) {
 
         long customerId = customerService.getCustomerDetailsFromSession().getId();
         List<OrdersPayload> order_list= geOrdersPayloadForCustomers( customerId, OrderConstants.ACTIVE );
@@ -76,33 +75,17 @@ public class OrderController {
     @GetMapping(OrderConstants.GET_CANCELLED_ORDER)
     String getAllCancelledOrders(Model model)
     {
-        List<OrdersPayload> order_list=new ArrayList<>();
-        List<Orders> listOrders = orderService. getAllCanceledOrders();
-        order_list=getCancelledOrdersPayload(listOrders);
+        List<Orders> listOrders = orderService.getAllCanceledOrders();
+        List<OrdersPayload> order_list=getCancelledOrdersPayload(listOrders);
         model.addAttribute("order_list", order_list);
         return "orders/OrderDetails";
     }
 
-    List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
-        List<OrdersPayload> order_list=new ArrayList<>();
-        for (Orders order:listOrders) {
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-            order_list.add(payload);
-        }
-        return order_list;
-    }
 
 
     @GetMapping(OrderConstants.GET_ORDER_BY_RESTAURANT_ID)
     String restaurantActiveOrders(Model model, @PathVariable("id") long id) {
 
-        System.out.println("restaurant id "+id);
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id, OrderConstants.ACTIVE);
         List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
         model.addAttribute("order_list", order_list);
@@ -111,16 +94,17 @@ public class OrderController {
 
     }
 
-    List<OrdersPayload> GetRestaurantOrdersList(List<Orders> orders){
+    public List<OrdersPayload> GetRestaurantOrdersList(List<Orders> orders){
+
         List<OrdersPayload> order_list=new ArrayList<>();
-        for (Orders order:orders) {
+        for (int i=0;i<orders.size(); i++) {
             OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+            payload.orderId=orders.get(i).getOrderId();
+            payload.mealName = mealService.getMealByMealId(orders.get(i).getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(orders.get(i).getRestaurantId()).getRestaurantName();
+            payload.amount = orders.get(i).getOrderAmount();
+            payload.date = orders.get(i).getOrderTime().toString();
+            payload.status = Utils.getOrderStatusMapping(orders.get(i).getOrderStatus());
             payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
             order_list.add(payload);
         }
@@ -166,7 +150,64 @@ public class OrderController {
     }
 
 
+
+    @RequestMapping(value = "/restaurantUpdateOrder/{id}")
+    public String restaurantUpdateOrder(Model model,@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
+
+        orderService.updateOrderStatus(orderId, OrderConstants.PROCESSED);
+        Orders order= orderService.getOrderByOrderID(orderId);
+        return OrderConstants.RESTAURANT_REDIRECTION_URL+order.getRestaurantId();
+
+    }
+
+    @RequestMapping("orders/report/{id}")
+    String Report(Model model, @PathVariable("id") long id) {
+
+        Map<String, Float> report_list=new HashMap<>();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
+        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
+        while(itr.hasNext()){
+            
+            Map.Entry<Integer, Float> entry = itr.next();
+            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
+        }
+        model.addAttribute("report_list", report_list);
+        model.addAttribute("restaurant_id", id);
+
+        return  "orders/MonthlyReport";
+    }
+
+    @RequestMapping("orders/generateReport/{id}")
+    String GenerateCsv(Model model, @PathVariable("id") long id, HttpServletResponse servletResponse) throws IOException {
+
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition","attachment; filename=\"Earnings.csv\"");
+        orderService.writeEarningsToCsv(servletResponse.getWriter(), id);
+        return  "orders/MonthlyReport";
+    }
+
+    public List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
+
+        List<OrdersPayload> order_list=new ArrayList<>();
+        if(listOrders!=null){
+            for (Orders order:listOrders) {
+                OrdersPayload payload=new OrdersPayload();
+                payload.orderId=order.getOrderId();
+                payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+                payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
+                payload.amount = order.getOrderAmount();
+                payload.date = order.getOrderTime().toString();
+                payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
+                order_list.add(payload);
+            }
+        }
+
+        return order_list;
+    }
+
     public List<OrdersPayload> geOrdersPayloadForCustomers(long id , int status){
+
         List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,status);
         List<OrdersPayload> order_list=new ArrayList<>();
         for (Orders order:orders) {
@@ -183,50 +224,6 @@ public class OrderController {
         return order_list;
     }
 
-    @RequestMapping(value = "/restaurantUpdateOrder/{id}")
-    public String restaurantUpdateOrder(Model model,@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
-        orderService.updateOrderStatus(orderId, OrderConstants.PROCESSED);
-        Orders order= orderService.getOrderByOrderID(orderId);
-        return OrderConstants.RESTAURANT_REDIRECTION_URL+order.getRestaurantId();
-
-    }
-
-    @RequestMapping("orders/report/{id}")
-    String Report(Model model, @PathVariable("id") long id) {
-
-
-        Map<String, Float> report_list=new HashMap<>();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        Map<Integer, Float> reportMap = orderService.getMonthlyReportofRestaurant(id,year);
-        Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
-        while(itr.hasNext()){
-            
-            Map.Entry<Integer, Float> entry = itr.next();
-            report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
-        }
-        System.out.println(report_list.size());
-        model.addAttribute("report_list", report_list);
-        model.addAttribute("restaurant_id", id);
-
-        return  "orders/MonthlyReport";
-    }
-
-    @RequestMapping("orders/generateReport/{id}")
-    String GenerateCsv(Model model, @PathVariable("id") long id, HttpServletResponse servletResponse) throws IOException {
-
-        servletResponse.setContentType("text/csv");
-        servletResponse.addHeader("Content-Disposition","attachment; filename=\"Earnings.csv\"");
-        orderService.writeEarningsToCsv(servletResponse.getWriter(), id);
-        return  "orders/MonthlyReport";
-    }
-
-
-
-    @GetMapping("orders/Enjoy")
-    String FoodDelivered()
-    {
-        return "orders/Enjoy";
-    }
 
 }

@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.Reward.constants;
+package com.dalhousie.MealStop.reward.constants;
 
 public class Constants {
 

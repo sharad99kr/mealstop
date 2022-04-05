@@ -1,10 +1,7 @@
 package com.dalhousie.MealStop.orders.Utils;
 
-import com.dalhousie.MealStop.Reward.constants.Constants;
 import com.dalhousie.MealStop.common.OrderConstants;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

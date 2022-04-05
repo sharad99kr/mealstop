@@ -1,8 +1,8 @@
-package com.dalhousie.MealStop.Reward.service;
+package com.dalhousie.MealStop.reward.service;
 
-import com.dalhousie.MealStop.Reward.constants.Constants;
-import com.dalhousie.MealStop.Reward.model.Rewards;
-import com.dalhousie.MealStop.Reward.repository.RewardRepository;
+import com.dalhousie.MealStop.reward.constants.Constants;
+import com.dalhousie.MealStop.reward.model.Rewards;
+import com.dalhousie.MealStop.reward.repository.RewardRepository;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.Reward.service;
+package com.dalhousie.MealStop.reward.service;
 
 public interface IRewardService {
 

@@ -24,7 +24,7 @@ public interface IOrderService {
     public Orders getOrderByOrderID(long orderId);
 
     //method signature to update order status
-    public void updateOrderStatus(long orderId, int status);
+    public boolean updateOrderStatus(long orderId, int status);
 
     public List<Orders> getOrdersByRestaurantID(long restaurantId);
 

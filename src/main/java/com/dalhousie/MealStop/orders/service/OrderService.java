@@ -1,18 +1,17 @@
 package com.dalhousie.MealStop.orders.service;
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
-import com.dalhousie.MealStop.Reward.service.IRewardService;
+import com.dalhousie.MealStop.reward.service.IRewardService;
 import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.dalhousie.MealStop.common.OrderConstants;
 
@@ -20,7 +19,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
-
+@Slf4j
 @Service
 public class OrderService implements IOrderService {
 
@@ -32,9 +31,6 @@ public class OrderService implements IOrderService {
 
     @Autowired
     private CustomerCartServiceImpl customerCartServiceImpl;
-    
-//    @Autowired
-//    private IMealService mealService;
 
     @Autowired
     private IRewardService rewardService;
@@ -60,7 +56,7 @@ public class OrderService implements IOrderService {
                customerService.decrementCustomerToken(price.intValue());
                rewardService.addRewardPoints(customerId);
            }else{
-               System.out.println("Not enough token");
+               log.error("Not enough token");
            }
 
        });
@@ -92,10 +88,11 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void updateOrderStatus(long orderId, int status){
+    public boolean updateOrderStatus(long orderId, int status){
 
         //this method updates order status that has been placed
         orderRepository.updateOrdersById(orderId,status);
+        return true;
     }
 
     @Override
@@ -197,7 +194,7 @@ public class OrderService implements IOrderService {
                 csvPrinter.printRecord(reportKeys, report_list.get(reportKeys));
             }
         } catch (IOException e) {
-            System.out.println(OrderConstants.FILE_WRITE_ERROR);
+            log.error(OrderConstants.FILE_WRITE_ERROR);
         }
     }
     @Override

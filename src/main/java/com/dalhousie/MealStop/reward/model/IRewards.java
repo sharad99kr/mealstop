@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.Reward.model;
+package com.dalhousie.MealStop.reward.model;
 
 public interface IRewards {
 
