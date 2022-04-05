@@ -10,7 +10,6 @@ public class RestaurantBuilder {
         restaurant = new Restaurant();
     }
 
-
     public void setRestaurantName(String restaurantName) {
         this.restaurant.setRestaurantName(restaurantName);
     }

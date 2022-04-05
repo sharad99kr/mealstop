@@ -1,7 +1,6 @@
 package com.dalhousie.MealStop.ngo.controller;
 
 import com.dalhousie.MealStop.meal.model.Meal;
-import com.dalhousie.MealStop.ngo.NGOController;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.ngoorder.service.NGOOrderServiceImpl;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;

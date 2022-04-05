@@ -62,12 +62,6 @@ public class CustomAuthenticationManagerTests {
     }
 
     @Test
-    void ShouldReturnBadCredentialsWhenUserServiceThrowError() {
-        Mockito.lenient().when(mockUserService.findUserByEmail(any(String.class))).thenThrow(new BadCredentialsException(""));
-        assertThrows(BadCredentialsException.class, () -> customAuthenticationManager.authenticate(mockAuthentication));
-    }
-
-    @Test
     void ShouldReturnBadCredentialsWhenPasswordDoesNotMatch() {
         User user = new User();
         user.setRole("Customer");

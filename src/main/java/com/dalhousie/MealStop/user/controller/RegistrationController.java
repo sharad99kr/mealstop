@@ -94,14 +94,12 @@ public class RegistrationController implements WebMvcConfigurer {
             }
         }
         try {
-            //Save the information inside database.
             User user = userService.signUpUser(userModel);
 
-            // If the information of the user is saved inside the database or was saved earlier but was not enabled,
             // send a mail to the user with verification token.
-            if (!user.isEnabled())
-
+            if (!user.isEnabled()) {
                 eventPublisher.publishEvent(new UserSignedUpEvent(user, getAppUrl(request)));
+            }
 
         } catch (Exception e) {
             log.error(CommonConstants.SIGNUP_USER + e.getMessage());
@@ -109,12 +107,6 @@ public class RegistrationController implements WebMvcConfigurer {
         return USER_LOGIN;
     }
 
-    /**
-     * Verifies the registration by checking the authenticity of the token.
-     *
-     * @param token registration token
-     * @return status of the token.
-     */
     @GetMapping(VERIFY_REGISTER_URL)
     public ResponseEntity<String> verifyRegistration(@RequestParam("token") String token) {
         // Gets the verification token validity result.
@@ -131,13 +123,6 @@ public class RegistrationController implements WebMvcConfigurer {
         }
     }
 
-    /**
-     * Resets the password by sending url with token within a mail.
-     *
-     * @param passwordModel model used for setting up new password
-     * @param request       incoming http request
-     * @return status OK if password reset mail was sent.
-     */
     @PostMapping(value = FORGOT_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String forgotPassword(PasswordModel passwordModel, final HttpServletRequest request) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
@@ -151,12 +136,6 @@ public class RegistrationController implements WebMvcConfigurer {
         return USER_LOGIN;
     }
 
-    /**
-     * Verifies the validity of password reset token and then, saves the password inside the system
-     *
-     * @param passwordModel model used for setting up new password
-     * @return OK if password saved successfully and Bad request if user or token was invalid.
-     */
     @PostMapping(value = SAVE_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String savePassword(@Valid @RequestBody PasswordModel passwordModel, BindingResult result) {
         if (result.hasErrors()) {
@@ -167,12 +146,6 @@ public class RegistrationController implements WebMvcConfigurer {
         return USER_LOGIN;
     }
 
-    /**
-     * Changes the password for the user when user is logged in.
-     *
-     * @param passwordModel model used for setting up new password
-     * @return OK if password saved successfully and Bad request if old password was invalid.
-     */
     @PostMapping(value = CHANGE_PASSWORD_URL, consumes = {"application/json", "application/x-www-form-urlencoded"})
     public String changePassword(PasswordModel passwordModel) {
         User user = userService.findUserByEmail(passwordModel.getEmail());
@@ -191,12 +164,6 @@ public class RegistrationController implements WebMvcConfigurer {
         return USER_LOGIN;
     }
 
-    /**
-     * Sends the password reset token mail
-     *
-     * @param passwordResetToken token received for password reset.
-     * @param applicationUrl     current url of the application.
-     */
     private void passwordResetTokenMail(String email, String passwordResetToken, String applicationUrl) {
         //Send mail to the user.
         String url = applicationUrl + SAVE_PASSWORD + passwordResetToken;
@@ -204,12 +171,6 @@ public class RegistrationController implements WebMvcConfigurer {
         log.info("Verify url:" + url);
     }
 
-    /**
-     * Gets the url where application is running.
-     *
-     * @param request http request
-     * @return app url
-     */
     private String getAppUrl(HttpServletRequest request) {
         return HTTP + request.getServerName() + PORT_SEPARATOR + request.getServerPort() + request.getContextPath();
     }

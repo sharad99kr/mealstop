@@ -30,7 +30,7 @@ public class CustomerAuthenticationSuccessHandler implements AuthenticationSucce
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        log.info("Inside authentication success.");
+        log.info("user authentication success.");
         onAuthenticationSuccess(request, response, authentication);
         clearAuthenticationAttributes(request);
     }

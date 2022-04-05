@@ -1,7 +1,6 @@
 package com.dalhousie.MealStop.customer.controller;
 
 import com.dalhousie.MealStop.reward.service.IRewardService;
-import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,6 @@ public class CustomerController
 {
     @Autowired
     private ICustomerService customerService;
-
-    @Autowired
-    private IRestaurantService restaurantService;
 
     @Autowired
     private IRewardService rewardService;

@@ -12,10 +12,10 @@ import javax.transaction.Transactional;
 @Repository
 public interface RewardRepository extends JpaRepository<Rewards,Long> {
 
-    public Rewards findByCustomerId(Long customerId);
+    Rewards findByCustomerId(Long customerId);
 
     @Query(value = RewardConstants.UPDATE_REWARD_POINTS,nativeQuery = true)
     @Modifying
     @Transactional
-    public void updateRewardsById(long customerId, int points);
+    void updateRewardsById(long customerId, int points);
 }

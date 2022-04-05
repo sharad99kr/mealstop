@@ -37,7 +37,7 @@ public class CustomerServiceImplementationTests
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerServiceImplementation customerService;
+    private CustomerServiceImpl customerService;
 
     private Customer customer1;
 

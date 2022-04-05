@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.restaurant.service;
 
+import com.dalhousie.MealStop.common.RecommendationConstants;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
@@ -20,7 +21,7 @@ import java.util.*;
 
 @Service
 @Slf4j
-public class RestaurantServiceImplementation implements IRestaurantService {
+public class RestaurantServiceImpl implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
     @Autowired
@@ -32,100 +33,74 @@ public class RestaurantServiceImplementation implements IRestaurantService {
     @Autowired
     private ICustomerService customerService;
 
-    /**
-     * Saves a new restaurant information related to restaurant owner
-     *
-     * @param restaurant restaurant information which is to be added
-     */
     @Override
     public void addRestaurant(Restaurant restaurant)
     {
         restaurant.setUserId(getRestaurantUserDetailsFromSession().getUser_id());
-        if(!checkDuplicateRestaurant(restaurant))
+        if(!checkDuplicateRestaurant(restaurant)) {
             restaurantRepository.save(restaurant);
+        }
     }
 
-    /**
-     * Gets all the restaurants related to logged in restaurant user
-     *
-     * @return list of restaurants if any
-     */
     @Override
     public List<Restaurant> getAllRestaurantByUserId()
     {
         List<Restaurant> restaurantList = restaurantRepository.findAll();
         List<Restaurant> filteredList = new ArrayList<>();
 
-        for(Restaurant restaurant : restaurantList)
-        {
-            if(restaurant.getUserId() == getRestaurantUserDetailsFromSession().getUser_id())
+        for(Restaurant restaurant : restaurantList) {
+            if(restaurant.getUserId() == getRestaurantUserDetailsFromSession().getUser_id()) {
                 filteredList.add(restaurant);
+            }
         }
 
-        if(filteredList.size() == 0)
+        if(filteredList.size() == 0) {
             return filteredList;
+        }
 
-        for(Restaurant restaurant : filteredList)
-        {
+        for(Restaurant restaurant : filteredList) {
             restaurant.setAvgReviewScore(getAverageReviewScore(restaurant));
         }
 
         return filteredList;
     }
 
-    /**
-     * Gets the average score of reviews for a restaurant
-     *
-     * @param restaurant restaurant for which review score is needed
-     * @return "No Reviews" if no reviews, otherwise review score average
-     */
     public String getAverageReviewScore(Restaurant restaurant)
     {
         List<CustomerReview>  restaurantReviews= customerReviewService.getReviewsOfRestaurant(restaurant);
-
-        if(restaurantReviews.size() == 0)
-            return "No Reviews";
-
         double reviewScore = 0;
 
-        for(CustomerReview review : restaurantReviews)
-            reviewScore += review.getReviewScore();
+        if(restaurantReviews.size() == 0) {
+            return RecommendationConstants.NO_REVIEW_MESSAGE;
+        }
 
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        for(CustomerReview review : restaurantReviews) {
+            reviewScore += review.getReviewScore();
+        }
+
+        DecimalFormat decimalFormat = new DecimalFormat(RecommendationConstants.DECIMAL_PATTERN);
         double avgScore = (reviewScore/restaurantReviews.size());
         return String.valueOf(decimalFormat.format(avgScore));
     }
 
-    /**
-     * Gets the reviews for a restaurant
-     *
-     * @param id restaurant id for which reviews are needed
-     * @return list of reviews
-     */
     @Override
     public List<String> getRestaurantReviews(long id)
     {
+        List<String> reviewMessages = new ArrayList<>();
         Restaurant restaurant = getRestaurantById(id);
         List<CustomerReview> reviews= customerReviewService.getReviewsOfRestaurant(restaurant);
-        List<String> reviewMsgs = new ArrayList<>();
-        if(reviews.size() == 0)
-            return reviewMsgs;
 
-        for(CustomerReview review : reviews)
-        {
-            reviewMsgs.add(review.getReviewMessage());
+        if(reviews.size() == 0) {
+            return reviewMessages;
         }
 
-        return reviewMsgs;
+        for(CustomerReview review : reviews) {
+            reviewMessages.add(review.getReviewMessage());
+        }
+
+        return reviewMessages;
     }
 
-    /**
-     * Updates the restaurant information
-     *
-     * @param updatedRestaurant the updated restaurant information
-     * @param id the restaurant id for which update is performed
-     * @return updated restaurant
-     */
     @Override
     public Restaurant updateRestaurant(Restaurant updatedRestaurant, long id)
     {
@@ -138,20 +113,14 @@ public class RestaurantServiceImplementation implements IRestaurantService {
             restaurant.setEmail(updatedRestaurant.getEmail());
             restaurant.setPhoneNumber(updatedRestaurant.getPhoneNumber());
             restaurant.setAvailability(updatedRestaurant.getAvailability());
-            if(!checkDuplicateRestaurant(restaurant))
+            if(!checkDuplicateRestaurant(restaurant)) {
                 restaurantRepository.save(restaurant);
+            }
             return restaurant;
         }
         return null;
     }
 
-    /**
-     * Gets the list of available restaurants based on date range selection
-     *
-     * @param startDate the "from" date
-     * @param endDate the "to" date
-     * @return List of available restaurants base on date range selection
-     */
     @Override
     public List<Restaurant> getAvailableRestaurants(Date startDate, Date endDate){
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
@@ -165,31 +134,27 @@ public class RestaurantServiceImplementation implements IRestaurantService {
             }
             else
             {
-                DateFormat formatter = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+                DateFormat formatter = new SimpleDateFormat(RecommendationConstants.DATE_PATTERN, Locale.ENGLISH);
                 List<String> daysSelected = new ArrayList<>();
 
                 Calendar cal = Calendar.getInstance();
                 while(startDate.compareTo(endDate) <= 0)
                 {
                     String weekday = formatter.format(startDate);
-                    if(!daysSelected.contains(weekday))
+                    if(!daysSelected.contains(weekday)) {
                         daysSelected.add(weekday);
-
+                    }
                     cal.setTime(startDate);
                     cal.add(Calendar.DATE, 1);
                     startDate = cal.getTime();
                 }
 
-
                 allRestaurants.forEach((restaurant) -> daysSelected.forEach((weekDay) ->{
-
-                    if(restaurant.getAvailability().toLowerCase().contains(weekDay.toLowerCase()))
-                    {
-                        if(!availableRestaurants.contains(restaurant))
+                    if(restaurant.getAvailability().toLowerCase().contains(weekDay.toLowerCase())) {
+                        if(!availableRestaurants.contains(restaurant)) {
                             availableRestaurants.add(restaurant);
-                    }
-                }));
-
+                        }
+                    }}));
                 return availableRestaurants;
             }
         }
@@ -197,35 +162,18 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         return availableRestaurants;
     }
 
-    /**
-     * Gets the restaurant details
-     *
-     * @param Id the restaurant id for which information is required
-     * @return restaurant details
-     */
     @Override
     public Restaurant getRestaurantById(Long Id) {
         Restaurant restaurant = restaurantRepository.findById(Id).orElse(null);
         return restaurant;
     }
 
-    /**
-     * Gets the recommended meals for the user
-     *
-     * @param availableRestaurants the restaurants available based on date range selection
-     * @return list of top 5 meals to be recommended
-     */
     @Override
     public List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants)
     {
         return recommendationService.getAllRecommendedMeals(customerService.getLoggedInCustomerId(), availableRestaurants);
     }
 
-    /**
-     * Gets the logged in user details
-     *
-     * @return user details
-     */
     @Override
     public User getRestaurantUserDetailsFromSession()
     {
@@ -236,17 +184,11 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return null;
     }
 
-    /**
-     * Check for the duplicate restaurant in the database for the restautrant user
-     *
-     * @param restaurant restaurant to be checked for duplicate
-     * @return true if duplicate is available else false
-     */
     @Override
     public boolean checkDuplicateRestaurant(Restaurant restaurant)
     {
@@ -258,9 +200,10 @@ public class RestaurantServiceImplementation implements IRestaurantService {
         {
             String name = userRestaurant.getRestaurantName();
             String address = userRestaurant.getAddress();
-            if(name.equalsIgnoreCase(resName)
-            || address.equalsIgnoreCase(resAddr))
+            if(name.equalsIgnoreCase(resName) || address.equalsIgnoreCase(resAddr)) {
                 isDuplicate = true;
+                break;
+            }
         }
 
         return isDuplicate;

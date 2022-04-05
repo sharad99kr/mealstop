@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class RecommendationServiceImplementationTest {
+class RecommendationServiceImplTest {
 
     @Mock
     private IMealService mealService;
@@ -35,7 +35,7 @@ class RecommendationServiceImplementationTest {
 
     @Autowired
     @InjectMocks
-    private RecommendationServiceImplementation recommendationService;
+    private RecommendationServiceImpl recommendationService;
     private Orders order1;
     private List<Orders> ordersList;
     private Meal meal1;

@@ -6,9 +6,7 @@ public interface INGOOrder {
 
      void setNGOId(long ngoId);
 
-
      long getOrderId();
-
 
      void setOrderId(long orderId);
 }

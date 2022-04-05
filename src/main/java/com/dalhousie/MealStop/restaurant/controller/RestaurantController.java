@@ -2,10 +2,8 @@ package com.dalhousie.MealStop.restaurant.controller;
 
 import com.dalhousie.MealStop.customer.customersearch.UserSearch;
 import com.dalhousie.MealStop.favorites.service.ICustomerFavoriteService;
-import com.dalhousie.MealStop.recommendation.service.IRecommendationService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import com.dalhousie.MealStop.review.service.ICustomerReviewService;
 import com.dalhousie.MealStop.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,9 +22,6 @@ public class RestaurantController
 {
     @Autowired
     private IRestaurantService restaurantService;
-
-    @Autowired
-    private IRecommendationService recommendationService;
 
     @Autowired
     private ICustomerFavoriteService customerFavoriteService;
@@ -59,7 +54,7 @@ public class RestaurantController
         if (result.hasErrors()) {
             return "restaurant/update_restaurant";
         }
-        Restaurant updatedRestaurant = restaurantService.updateRestaurant(restaurant, id);
+        restaurantService.updateRestaurant(restaurant, id);
         return "redirect:/restaurant/get_restaurant/";
     }
 

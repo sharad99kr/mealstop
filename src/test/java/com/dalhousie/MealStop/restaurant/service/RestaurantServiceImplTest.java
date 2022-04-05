@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class RestaurantServiceImplementationTest {
+class RestaurantServiceImplTest {
 
     @Mock
     private RestaurantRepository restaurantRepository;
@@ -47,7 +47,7 @@ class RestaurantServiceImplementationTest {
 
     @Autowired
     @InjectMocks
-    private RestaurantServiceImplementation restaurantService;
+    private RestaurantServiceImpl restaurantService;
     private Restaurant restaurant1;
     List<Restaurant> restaurantList;
     private Date endDate;
@@ -89,7 +89,7 @@ class RestaurantServiceImplementationTest {
     @Test
     void addRestaurant() {
         when(restaurantRepository.save(any())).thenReturn(restaurant1);
-        RestaurantServiceImplementation restaurantServiceSpy = spy(restaurantService);
+        RestaurantServiceImpl restaurantServiceSpy = spy(restaurantService);
         doReturn(mockUser).when(restaurantServiceSpy).getRestaurantUserDetailsFromSession();
         restaurantServiceSpy.addRestaurant(restaurant1);
         verify(restaurantRepository,times(1)).save(any());

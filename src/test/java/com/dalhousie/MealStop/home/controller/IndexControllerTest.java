@@ -29,7 +29,7 @@ public class IndexControllerTest
     }
 
     @Test
-    void greetingTest() throws Exception
+    void homePageTest() throws Exception
     {
         mockMvc.perform(get("/")).andExpect(status().isOk());
         Model modal = null;
