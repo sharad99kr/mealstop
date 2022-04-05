@@ -8,8 +8,8 @@ import java.util.List;
 @Service
 public interface ICustomerFavoriteService
 {
-    public List<CustomerFavorites> getCustomerFavorites();
-    public void addRestaurantToCustomerFavorites(Long restaurantId);
-    public void deleteCustomerFavoriteById(Long customerFavoriteId);
-    public int getRestaurantFavorites(Long restaurantId);
+     List<CustomerFavorites> getCustomerFavorites();
+     void addRestaurantToCustomerFavorites(Long restaurantId);
+     void deleteCustomerFavoriteById(Long customerFavoriteId);
+     int getRestaurantFavorites(Long restaurantId);
 }

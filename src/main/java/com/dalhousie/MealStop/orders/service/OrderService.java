@@ -5,7 +5,7 @@ import com.dalhousie.MealStop.reward.service.IRewardService;
 import com.dalhousie.MealStop.cart.model.CustomerCart;
 import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
-import com.dalhousie.MealStop.orders.Utils.Utils;
+import com.dalhousie.MealStop.orders.utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;

@@ -14,12 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.dalhousie.MealStop.common.UserMessagesConstants.LOGIN_TRYING_MSG;
 
 @Component
 @Slf4j

@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -57,7 +56,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         private List<Restaurant> restaurantList;
 
         private List<Meal> mealList;
-        //private
 
         @BeforeEach
         void setUp()

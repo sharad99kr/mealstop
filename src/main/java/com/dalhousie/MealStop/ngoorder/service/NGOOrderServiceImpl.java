@@ -2,7 +2,6 @@ package com.dalhousie.MealStop.ngoorder.service;
 
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.repository.NGOOrderRepository;
-import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

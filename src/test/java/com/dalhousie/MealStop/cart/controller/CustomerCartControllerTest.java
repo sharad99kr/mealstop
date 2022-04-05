@@ -50,7 +50,7 @@ public class CustomerCartControllerTest
     private CustomerCart customerCart;
 
     private CustomerBuilder customerBuilder;
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp()

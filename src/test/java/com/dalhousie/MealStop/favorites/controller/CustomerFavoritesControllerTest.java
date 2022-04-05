@@ -44,7 +44,7 @@ public class CustomerFavoritesControllerTest
     private List<CustomerFavorites> customerFavoritesList;
 
     private CustomerBuilder customerBuilder;
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp()

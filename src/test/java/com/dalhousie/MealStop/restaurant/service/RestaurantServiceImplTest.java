@@ -28,7 +28,6 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -55,7 +54,7 @@ class RestaurantServiceImplTest {
     List<Meal> mealList;
     User mockUser;
     List<CustomerReview> customerReviews;
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @BeforeEach
     void setUp() {
@@ -114,7 +113,7 @@ class RestaurantServiceImplTest {
     }
 
     @Test
-    void getAvailableRestaurants() throws Exception {
+    void getAvailableRestaurants() {
         when(restaurantRepository.findAll()).thenReturn(restaurantList);
         assertThat(restaurantService.getAvailableRestaurants(Date.from(Instant.now()), endDate)).isEqualTo(restaurantList);
     }

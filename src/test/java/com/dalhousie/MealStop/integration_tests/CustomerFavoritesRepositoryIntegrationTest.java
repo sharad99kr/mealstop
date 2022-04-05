@@ -29,7 +29,7 @@ public class CustomerFavoritesRepositoryIntegrationTest {
     @Autowired
     private CustomerFavoritesRepository customerFavoritesRepository;
 
-    private TestsSupport testsSupport = new TestsSupport();
+    private final TestsSupport testsSupport = new TestsSupport();
 
     @Test
     public void ShouldReturnFavoritesListWhenFindByCustomer() {

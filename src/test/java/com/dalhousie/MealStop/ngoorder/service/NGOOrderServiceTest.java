@@ -2,7 +2,6 @@ package com.dalhousie.MealStop.ngoorder.service;
 
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.repository.NGOOrderRepository;
-import com.dalhousie.MealStop.user.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

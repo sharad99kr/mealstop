@@ -2,11 +2,11 @@ package com.dalhousie.MealStop.reward.model;
 
 public interface IRewards {
 
-    public long getCustomerId();
+     long getCustomerId();
 
-    public void setCustomerId(long customerId);
+     void setCustomerId(long customerId);
 
-    public int getRewardPoint();
+     int getRewardPoint();
 
-    public void setRewardPoint(int points);
+     void setRewardPoint(int points);
 }
