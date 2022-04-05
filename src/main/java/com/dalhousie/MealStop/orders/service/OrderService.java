@@ -54,7 +54,7 @@ public class OrderService implements IOrderService {
            Orders order=new Orders(customerId,restaurantId,mealId,0,price, OrderConstants.ACTIVE);
 
            int tokenCount = customerService.getCustomerTokenCount();
-           if(tokenCount> price){
+           if(tokenCount >= price){
                //decrement customer token after placing order
                addOrder(order);
                customerService.decrementCustomerToken(price.intValue());

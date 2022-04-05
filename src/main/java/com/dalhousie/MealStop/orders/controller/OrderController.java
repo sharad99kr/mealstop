@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.orders.controller;
 
+import com.dalhousie.MealStop.cart.service.ICustomerCartService;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.model.CustomerCart;
@@ -34,16 +35,16 @@ public class OrderController {
     private IMealService mealService;
 
     @Autowired
-    private CustomerCartServiceImpl customerCartServiceImpl;
+    private ICustomerCartService customerCartService;
 
     @Autowired
     private ICustomerService customerService;
 
 
     @PostMapping(OrderConstants.ADD_ORDER)
-    String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
+    String addNewOrders(Model model, RedirectAttributes redirectAttrs)
     {
-        CustomerCart customerCart = customerCartServiceImpl.getCustomerCart();
+        CustomerCart customerCart = customerCartService.getCustomerCart();
         long customerId = customerService.getCustomerDetailsFromSession().getId();
 
         orderService.CreateOrderFromCart(customerCart);
