@@ -125,12 +125,14 @@ public class OrderService implements IOrderService {
     @Override
     public List<Orders> getCustomerOrdersWithStatus(long customerId, int status){
 
+        //get all orders for a customer with matching ID and ordered food status
         return orderRepository.findByCustomerIdAndStatus(customerId,status);
     }
 
     @Override
     public List<Orders> getRestaurantOrdersWithStatus(long restaurantId, int status){
 
+        //get all orders for restaurants with matching ID and ordered food status
         return orderRepository.findByRestaurantIdAndStatus(restaurantId,status);
     }
 
@@ -155,15 +157,19 @@ public class OrderService implements IOrderService {
     //this method returns monthly earnings of a restaurant by id provided
     public Map<Integer, Float> getMonthlyReportofRestaurant(long restaurantId, int year){
 
+        //get all orders from restaurant based on id and year
         List<Orders> orders= orderRepository.findAllByRestaurantIdandYear(restaurantId, year);
         Map<Integer, Float> monthlyReport=new HashMap<>();
+        //loop through each order and calculate the sum per month basis
         for (Orders order:orders) {
             Calendar cal = Calendar.getInstance();
             cal.setTime(order.getOrderTime());
             int month = cal.get(Calendar.MONTH);
             if(!monthlyReport.containsKey(month)){
+                //if entry for particular month is not present , add into the map with corresponding amount
                 monthlyReport.put(month,order.getOrderAmount());
             }else{
+                //if entry is found , update the earnings for that particular month
                 float amt=monthlyReport.get(month);
                 amt+=order.getOrderAmount();
                 monthlyReport.put(month,amt);
@@ -178,16 +184,19 @@ public class OrderService implements IOrderService {
         //https://springhow.com/spring-boot-export-to-csv/
         //used above link as reference to export csv file
         Map<String, Float> report_list=new HashMap<>();
+        //getting current year
         int year = Calendar.getInstance().get(Calendar.YEAR);
+        //getting sales on monthly basis
         Map<Integer, Float> reportMap = getMonthlyReportofRestaurant(id,year);
         Iterator<Map.Entry<Integer, Float>> itr =  reportMap.entrySet().iterator();
         while(itr.hasNext()){
-
+            //getting month's name based on month index
             Map.Entry<Integer, Float> entry = itr.next();
             report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
         }
 
         try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            //formatting output string and writing to a file
             csvPrinter.printRecord(String.format(OrderConstants.MONTHLY_REPORT,year));
             csvPrinter.printRecord(OrderConstants.MONTH_HEADER, OrderConstants.EARNINGS_HEADER);
             for (String reportKeys : report_list.keySet()) {

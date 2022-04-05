@@ -10,6 +10,7 @@ import java.util.Random;
 public class Utils {
 
     public static int getRandomNumberUsingInts(int min, int max) {
+        //this method returns random number between two given numbers
         Random random = new Random();
         return random.ints(min, max)
                 .findFirst()
@@ -17,6 +18,7 @@ public class Utils {
     }
 
     public static List<String> getUrls(){
+        //this method returns set of urls which is used to display while listing orders
         List<String> urlList=new ArrayList<>();
         urlList.add(OrderConstants.FOOD_1);
         urlList.add(OrderConstants.FOOD_2);
@@ -31,6 +33,7 @@ public class Utils {
     }
 
     public static String getOrderStatusMapping(int statusId){
+        //this method returns status based on the status id. It represents the state of ordered food
         String status="";
         switch (statusId){
             case OrderConstants.CANCELLED:status="CANCELLED";
@@ -46,6 +49,7 @@ public class Utils {
     }
 
     public static String getMonthMapping(int monthId){
+        //this method returns month name based on the month id passsed
         String month="";
         switch (monthId){
             case OrderConstants.JAN : month = "January";

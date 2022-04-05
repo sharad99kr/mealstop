@@ -1,6 +1,7 @@
 package com.dalhousie.MealStop.orders.controller;
 
 public class OrdersPayload{
+    //this class is used to send data to frontend/html pages
     public long orderId;
     public String mealName;
     public String date;

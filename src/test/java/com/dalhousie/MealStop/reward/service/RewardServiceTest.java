@@ -1,5 +1,7 @@
 package com.dalhousie.MealStop.reward.service;
 
+import com.dalhousie.MealStop.common.OrderConstants;
+import com.dalhousie.MealStop.orders.repository.OrderRepository;
 import com.dalhousie.MealStop.reward.model.Rewards;
 import com.dalhousie.MealStop.reward.repository.RewardRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,8 @@ import org.mockito.MockitoAnnotations;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.client.ExpectedCount.times;
 
 
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -77,26 +81,21 @@ class RewardServiceTest {
     }
 
 
-    @Test
-    void addRewardPoints() {
-
-    }
-
-    @Test
-    void resetRewardPoints() {
-        //updateRewardPoints( customerId, Constants.ZERO_POINTS);
-       // Mockito.lenient().when(rewardService.updateRewardPoints(mockCustomerId,100)).thenReturn(true);
-        //assertThat(rewardService.resetRewardPoints(mockCustomerId)).isEqualTo(false);
-
-    }
-
-    @Test
-    void updateRewardPoints() {
-
-        //Mockito.lenient().when(mockRewardRepository.updateRewardsById(mockCustomerId,100)).thenReturn(true);
-        //assertThat(rewardService.updateRewardPoints(mockCustomerId,10)).isEqualTo(false);
-
-    }
+//    @Test
+//    void resetRewardPoints() {
+//
+//        RewardRepository obj=Mockito.spy(rewardService);
+//        verify(mockRewardRepository, Mockito.times(1)).resetRewardPoints(mockCustomerId,100);
+//
+//    }
+//
+//    @Test
+//    void updateRewardPoints() {
+//
+//        RewardRepository obj=Mockito.spy(mockRewardRepository);
+//        verify(mockRewardRepository, Mockito.times(1)).updateRewardsById(mockCustomerId,100);
+//
+//    }
 
     @Test
     void isRewardPointsRedeemable() {

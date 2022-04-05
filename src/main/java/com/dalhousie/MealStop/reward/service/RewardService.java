@@ -19,6 +19,8 @@ public class RewardService implements IRewardService{
 
     @Override
     public int getRewardPoints(long customerId){
+        //this method fetches rewards for a customer and returns back to calling method.
+        // It is used to calculate number of tokens that can be redeemed
         Rewards reward=rewardRepository.findByCustomerId(customerId);
         if(reward==null){
             return RewardConstants.ZERO_POINTS;

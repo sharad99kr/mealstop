@@ -197,7 +197,6 @@ class OrderControllerTest {
 
     @Test
     void getAllCancelledOrders() throws Exception {
-        mock_orders=null;
         Mockito.lenient().when(mockOrderService.getAllCanceledOrders()).thenReturn(mock_orders);
         //Mockito.lenient().when(getCancelledOrdersPayload(mock_orders)).thenReturn(mock_cancelled_order_list);
 

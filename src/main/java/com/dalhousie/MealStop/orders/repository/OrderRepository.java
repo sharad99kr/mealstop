@@ -40,6 +40,7 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     public void updateOrdersById(long orderId, int status);
 
 
+    //this method gets the monthy sales for a restaurant in a given year
     @Query(value = OrderConstants.MONTHLY_SALES_OF_RESTAURANT, nativeQuery = true)
     List<Orders> findAllByRestaurantIdandYear(Long restaurant_id, int year);
 
