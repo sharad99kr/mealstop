@@ -3,7 +3,7 @@ package com.dalhousie.MealStop.reward.controller;
 import com.dalhousie.MealStop.reward.service.RewardService;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.model.Customer;
-import com.dalhousie.MealStop.customer.service.CustomerServiceImplementation;
+import com.dalhousie.MealStop.customer.service.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,7 +24,7 @@ class RewardControllerTest {
 
 
     @Mock
-    private CustomerServiceImplementation customerService;
+    private CustomerServiceImpl customerService;
 
     private long mockCustomerId;
 

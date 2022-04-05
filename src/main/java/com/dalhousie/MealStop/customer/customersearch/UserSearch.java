@@ -3,15 +3,16 @@ package com.dalhousie.MealStop.customer.customersearch;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import com.dalhousie.MealStop.common.CommonConstants;
 import java.util.Date;
 
 @Component
 public class UserSearch
 {
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = CommonConstants.CUSTOMER_SEARCH_DATE_FORMAT)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = CommonConstants.CUSTOMER_SEARCH_DATE_FORMAT)
     private Date endDate;
 
     public Date getStartDate()

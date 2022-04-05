@@ -1,10 +1,8 @@
 package com.dalhousie.MealStop.meal.service;
 
-import com.dalhousie.MealStop.meal.builder.MealBuilder;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.repository.MealRepository;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
-import com.dalhousie.MealStop.restaurant.builder.RestaurantBuilder;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,14 +25,14 @@ import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class MealServiceImplementationTest {
+class MealServiceImplTest {
 
     @Mock
     private MealRepository mealRepository;
 
     @Autowired
     @InjectMocks
-    private MealServiceImplementation mealService;
+    private MealServiceImpl mealService;
     private Meal meal1;
     private List<Meal> mealList;
     private TestsSupport testsSupport = new TestsSupport();

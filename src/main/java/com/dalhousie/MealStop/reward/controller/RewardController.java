@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class RewardController {
 
-
     @Autowired
     private IRewardService rewardService;
 
@@ -19,7 +18,6 @@ public class RewardController {
 
     @PostMapping("/reward/redeem")
     String redeemPoints(Model model) {
-
         long id = customerService.getCustomerDetailsFromSession().getId();
         rewardService.redeemRewardPoints(id);
         return "redirect:/customer/profile";

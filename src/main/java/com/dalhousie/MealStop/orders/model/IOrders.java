@@ -4,32 +4,30 @@ import java.sql.Date;
 
 public interface IOrders {
 
-    public long getOrderId();
+     long getOrderId();
 
-    public int getOrderStatus();
+     int getOrderStatus();
 
-    public void setOrderStatus(int status);
+     void setOrderStatus(int status);
 
-    public long getCustomerId();
+     long getCustomerId();
 
-    public long getRestaurantId();
-
+     long getRestaurantId();
 
      long getMealId();
 
      void setCustomerId(long customerId);
 
-    public void setRestaurantId(long restaurantId);
+     void setRestaurantId(long restaurantId);
 
-    public void setMealId(long mealId);
+     void setMealId(long mealId);
 
-    float getOrderAmount();
+     float getOrderAmount();
 
+     void setOrderAmount(int amount);
 
-    public void setOrderAmount(int amount);
+     Date getOrderTime();
 
-    public Date getOrderTime();
-
-    public void setOrderTime();
+     void setOrderTime();
 
 }

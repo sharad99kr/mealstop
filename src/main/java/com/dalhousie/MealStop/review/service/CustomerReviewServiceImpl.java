@@ -4,12 +4,14 @@ import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.review.model.CustomerReview;
 import com.dalhousie.MealStop.review.repository.CustomerReviewRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class CustomerReviewServiceImpl implements ICustomerReviewService
 {
     @Autowired
@@ -59,7 +61,7 @@ public class CustomerReviewServiceImpl implements ICustomerReviewService
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+           log.error(e.getMessage());
         }
         customerReviewRepository.save(existingReview);
     }

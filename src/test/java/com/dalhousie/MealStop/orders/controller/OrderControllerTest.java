@@ -12,7 +12,6 @@ import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
-import org.junit.jupiter.api.AfterEach;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,12 +60,13 @@ class OrderControllerTest {
     ICustomerService mockCustomerService;
 
     @Mock
-    Customer mockCustomer;
+    INGOService ngoService;
 
     @Mock
-    INGOService ngoService;
-    @Mock
     IMealService mealService;
+
+    @Mock
+    Customer mockCustomer;
 
     @Mock
     private CustomerBuilder customerBuilder;
@@ -232,6 +232,9 @@ class OrderControllerTest {
         Mockito.lenient().doNothing().when(ngoService).sendCancelledOrderNotification(any());
         OrderController obj=Mockito.spy(orderController);
         Mockito.lenient().doReturn(order_list).when(obj).geOrdersPayloadForCustomers(mockCustomerId,OrderConstants.ACTIVE);
+
+
+
         mockMvc.perform(get("/cancelOrder/{id}",mockOrderId))
                 .andExpect(status().isOk());
         verify(mockOrderService, times(1)).updateOrderStatus(mockOrderId,OrderConstants.CANCELLED);

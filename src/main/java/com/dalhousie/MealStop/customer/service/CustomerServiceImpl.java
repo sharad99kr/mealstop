@@ -3,6 +3,7 @@ package com.dalhousie.MealStop.customer.service;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.repository.CustomerRepository;
 import com.dalhousie.MealStop.user.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class  CustomerServiceImplementation implements ICustomerService
+@Slf4j
+public class CustomerServiceImpl implements ICustomerService
 {
     @Autowired
     private CustomerRepository customerRepository;
@@ -40,7 +42,7 @@ public class  CustomerServiceImplementation implements ICustomerService
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return customer;
     }

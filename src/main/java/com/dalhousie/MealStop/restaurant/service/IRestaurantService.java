@@ -10,13 +10,13 @@ import java.util.List;
 
 @Service
 public interface IRestaurantService {
-    public abstract void addRestaurant(Restaurant restaurant);
-    public abstract List<Restaurant> getAllRestaurantByUserId();
-    public abstract List<Restaurant>  getAvailableRestaurants(Date startDate, Date endDate) throws Exception;
-    public abstract Restaurant getRestaurantById(Long Id);
-    public abstract Restaurant updateRestaurant(Restaurant restaurant, long id);
-    public abstract List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants);
-    public abstract User getRestaurantUserDetailsFromSession();
-    public abstract boolean checkDuplicateRestaurant(Restaurant restaurant);
-    public abstract List<String> getRestaurantReviews(long id);
+    void addRestaurant(Restaurant restaurant);
+    List<Restaurant> getAllRestaurantByUserId();
+    List<Restaurant>  getAvailableRestaurants(Date startDate, Date endDate) throws Exception;
+    Restaurant getRestaurantById(Long Id);
+    Restaurant updateRestaurant(Restaurant restaurant, long id);
+    List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants);
+    User getRestaurantUserDetailsFromSession();
+    boolean checkDuplicateRestaurant(Restaurant restaurant);
+    List<String> getRestaurantReviews(long id);
 }

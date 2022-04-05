@@ -61,9 +61,9 @@ public class UserService implements IUserService, UserDetailsService {
             // If token is null, then user is already registered with verification done
             // and if toke is not null then, user has registered but verification is not done yet.
             // Delete the previous token and return the user.
-            if (token != null)
+            if (token != null) {
                 verificationTokenRepository.delete(token);
-
+            }
             return entityUser;
         }
 
@@ -87,32 +87,20 @@ public class UserService implements IUserService, UserDetailsService {
         return user;
     }
 
-    /**
-     * Saves a new verification token sent with registration.
-     *
-     * @param user  user information who is being registered.
-     * @param token token to be saved for registration
-     */
     @Override
     public void saveVerificationTokenForUser(User user, String token) {
         VerificationToken verifyToken = new VerificationToken(user, token);
         verificationTokenRepository.save(verifyToken);
     }
 
-    /**
-     * Validates the verification token and if verifies enables the user in the system.
-     *
-     * @param token incoming verification token
-     * @return status of verification
-     */
     @Override
     public String validateVerificationToken(String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
 
         // If no verification token present.
-        if (verificationToken == null)
+        if (verificationToken == null) {
             return VerificationTokenConstants.INVALID;
-
+        }
         User user = verificationToken.getUser();
         Calendar calendar = Calendar.getInstance();
 
@@ -130,28 +118,17 @@ public class UserService implements IUserService, UserDetailsService {
         return VerificationTokenConstants.VALID;
     }
 
-    /**
-     * Updates the password reset token for user password reset.
-     *
-     * @param user  user information
-     * @param token token to be updated in the database
-     */
     @Override
     public void createPasswordResetTokenForUser(User user, String token) {
         passwordResetTokenRepository.save(new PasswordResetToken(user, token));
     }
 
-    /**
-     * Validates the verification token for password reset.
-     *
-     * @param token verification token
-     * @return status of validity
-     */
     @Override
     public String validatePasswordResetToken(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
-        if (passwordResetToken == null)
+        if (passwordResetToken == null) {
             return VerificationTokenConstants.INVALID;
+        }
 
         Calendar calendar = Calendar.getInstance();
 
@@ -163,36 +140,17 @@ public class UserService implements IUserService, UserDetailsService {
         return VerificationTokenConstants.VALID;
     }
 
-    /**
-     * Gets the user against the token passed.
-     *
-     * @param token reset password token
-     * @return user if user is found for the given reset token
-     */
     @Override
     public Optional<User> getUserByPasswordResetToken(String token) {
         return Optional.ofNullable(passwordResetTokenRepository.findByToken(token).getUser());
     }
 
-    /**
-     * Change the new password for a user.
-     *
-     * @param user        user information
-     * @param newPassword new password to be saved against the given user
-     */
     @Override
     public void changePassword(User user, String newPassword) {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
 
-    /**
-     * To update the old password, checks if old password passed is same as in the system.
-     *
-     * @param user        user whose password will be changed
-     * @param oldPassword password that needs to be checked
-     * @return true if password matches and false otherwise
-     */
     @Override
     public boolean checkIfValidOldPassword(User user, String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());

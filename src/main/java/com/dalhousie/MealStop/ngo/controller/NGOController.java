@@ -1,4 +1,4 @@
-package com.dalhousie.MealStop.ngo;
+package com.dalhousie.MealStop.ngo.controller;
 
 import com.dalhousie.MealStop.ngoorder.model.NGOOrder;
 import com.dalhousie.MealStop.ngoorder.service.INGOOrderService;
@@ -106,7 +106,7 @@ public class NGOController {
 
 
     @GetMapping("/ngo/profile")
-    public String getCustomerProfilePage(Model model)
+    public String getNGOProfilePage(Model model)
     {
         NGO ngoUser = ngoService.getNGODetailsFromSession();
         model.addAttribute("ngoUser", ngoUser);

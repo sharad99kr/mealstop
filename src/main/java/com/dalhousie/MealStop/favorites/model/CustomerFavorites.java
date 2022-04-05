@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "customer_favorite")
-public class CustomerFavorites
-{
+public class CustomerFavorites implements ICustomerFavorites {
     @Id
     @Column(name="Id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -33,33 +32,33 @@ public class CustomerFavorites
         this.restaurant = restaurant;
     }
 
-    public long getId()
-    {
+    @Override
+    public long getId() {
         return id;
     }
 
-    public void setId(long id)
-    {
-        this.id = id;
+    @Override
+    public void setId(long id) {
+        this.id=id;
     }
 
-    public Customer getCustomer()
-    {
+    @Override
+    public Customer getCustomer() {
         return this.customer;
     }
 
-    public void setCustomer(Customer customer)
-    {
+    @Override
+    public void setCustomer(Customer customer) {
         this.customer=customer;
     }
 
-    public Restaurant getRestaurant()
-    {
+    @Override
+    public Restaurant getRestaurant() {
         return this.restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant)
-    {
+    @Override
+    public void setRestaurant(Restaurant restaurant) {
         this.restaurant=restaurant;
     }
 }

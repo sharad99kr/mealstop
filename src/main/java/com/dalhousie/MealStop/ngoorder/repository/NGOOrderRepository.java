@@ -17,5 +17,4 @@ public interface NGOOrderRepository extends JpaRepository<NGOOrder,Integer> {
     @Modifying
     @Transactional
      List<NGOOrder> findByNGOId(long ngoId);
-
 }

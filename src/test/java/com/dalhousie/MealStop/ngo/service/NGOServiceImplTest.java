@@ -1,5 +1,6 @@
 package com.dalhousie.MealStop.ngo.service;
 
+import com.dalhousie.MealStop.common.NGOConstants;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.repository.NGORepository;
 import com.dalhousie.MealStop.ngo.service.NGOServiceImpl;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -111,6 +113,20 @@ public class NGOServiceImplTest {
         when(ngoRepository.save(any())).thenReturn(NGO1);
         NGOService.addNGO(user);
         verify(ngoRepository,times(1)).save(any());
+    }
+
+    @Test
+    public void getNgoNotificationContentTest()
+    {
+        String ngoName = "ngo-name";
+        String mealName = "ngo-meal";
+
+        String mailContent = NGOConstants.getNgoNotificationContent(ngoName, mealName);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append("Hi "+ngoName);
+        stringBuilder = stringBuilder.append("\n"+mealName +" has been cancelled and is available for pickup");
+        assertTrue(mailContent.equals(stringBuilder.toString()));
     }
 
     @Test
