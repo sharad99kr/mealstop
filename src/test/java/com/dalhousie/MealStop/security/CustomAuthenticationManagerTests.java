@@ -1,8 +1,6 @@
 package com.dalhousie.MealStop.security;
 
 import com.dalhousie.MealStop.security.config.CustomAuthenticationManager;
-import com.dalhousie.MealStop.security.config.WebSecurityConfig;
-import com.dalhousie.MealStop.security.handler.CustomerAuthenticationSuccessHandler;
 import com.dalhousie.MealStop.user.entity.User;
 import com.dalhousie.MealStop.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;

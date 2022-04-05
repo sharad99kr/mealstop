@@ -7,14 +7,14 @@ import java.util.List;
 
 public interface ICustomerService
 {
-    public Customer getCustomerById(String id);
-    public List<Customer> getAllCustomers();
-    public Customer getCustomerDetailsFromSession();
-    public void addCustomer(User user);
-    public void addCustomer(Customer newCustomer);
-    public Long getLoggedInCustomerId();
-    public Integer getCustomerTokenCount();
-    public Integer decrementCustomerToken(Integer tokenCount);
-    public void incrementCustomerToken(Integer tokenCount);
-    public Customer getCustomerInstanceFromUser(User user);
+     Customer getCustomerById(String id);
+     List<Customer> getAllCustomers();
+     Customer getCustomerDetailsFromSession();
+     void addCustomer(User user);
+     void addCustomer(Customer newCustomer);
+     Long getLoggedInCustomerId();
+     Integer getCustomerTokenCount();
+     Integer decrementCustomerToken(Integer tokenCount);
+     void incrementCustomerToken(Integer tokenCount);
+     Customer getCustomerInstanceFromUser(User user);
 }

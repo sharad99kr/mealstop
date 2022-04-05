@@ -26,8 +26,7 @@ public class  CustomerServiceImplementation implements ICustomerService
 
     public List<Customer> getAllCustomers()
     {
-        List<Customer> customerList = customerRepository.findAll();
-        return customerList;
+        return customerRepository.findAll();
     }
 
     @Override
@@ -106,7 +105,6 @@ public class  CustomerServiceImplementation implements ICustomerService
     public Customer getCustomerInstanceFromUser(User user)
     {
         Long customerId = user.getUser_id();
-        Customer newCustomer = getCustomerById(customerId.toString());
-        return newCustomer;
+        return getCustomerById(customerId.toString());
     }
 }

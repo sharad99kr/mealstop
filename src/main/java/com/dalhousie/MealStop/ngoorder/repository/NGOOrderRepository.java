@@ -16,6 +16,6 @@ public interface NGOOrderRepository extends JpaRepository<NGOOrder,Integer> {
     @Query(value = OrderConstants.ORDERS_BY_NGO_ID,nativeQuery = true)
     @Modifying
     @Transactional
-    public List<NGOOrder> findByNGOId(long ngoId);
+     List<NGOOrder> findByNGOId(long ngoId);
 
 }

@@ -5,8 +5,9 @@ import com.dalhousie.MealStop.user.entity.User;
 
 public interface INGOService
 {
-    public NGO getNGOById(String id);
-    public NGO getNGODetailsFromSession();
-    public void addNGO(User user);
-    public Long getLoggedInNGOId();
+     NGO getNGOById(String id);
+     NGO getNGODetailsFromSession();
+     void addNGO(User user);
+     Long getLoggedInNGOId();
+     void sendCancelledOrderNotification(String mealName);
 }

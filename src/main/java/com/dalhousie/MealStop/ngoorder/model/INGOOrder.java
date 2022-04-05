@@ -2,13 +2,13 @@ package com.dalhousie.MealStop.ngoorder.model;
 
 public interface INGOOrder {
 
-    public long getNGOId();
+     long getNGOId();
 
-    public void setNGOId(long ngoId);
-
-
-    public long getOrderId();
+     void setNGOId(long ngoId);
 
 
-    public void setOrderId(long orderId);
+     long getOrderId();
+
+
+     void setOrderId(long orderId);
 }

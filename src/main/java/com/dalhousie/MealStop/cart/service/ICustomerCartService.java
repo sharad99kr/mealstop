@@ -5,8 +5,8 @@ import com.dalhousie.MealStop.cart.model.CustomerCart;
 
 public interface ICustomerCartService
 {
-    public CustomerCart getCustomerCart();
-    public void addMealsToCustomerCart(Meal meal);
-    public void removeMealsFromCustomerCart(Meal meal);
-    public void clearCustomerCart();
+     CustomerCart getCustomerCart();
+     void addMealsToCustomerCart(Meal meal);
+     void removeMealsFromCustomerCart(Meal meal);
+     void clearCustomerCart();
 }

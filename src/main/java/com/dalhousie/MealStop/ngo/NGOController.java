@@ -85,7 +85,7 @@ public class NGOController {
     }
 
     @GetMapping("/ngo/orders/ngo_old_order")
-    String getNgoPastOrders(Model model) {
+    public String getNgoPastOrders(Model model) {
         NGO ngoUser = ngoService.getNGODetailsFromSession();
         List<Orders> orders=orderService.getAllOrders();
         List<NGOOrder> ngoOrders=ngoOrderService.getNGOOrderWithId(ngoUser.getId());

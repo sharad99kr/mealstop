@@ -4,7 +4,7 @@ import com.dalhousie.MealStop.customer.model.Customer;
 
 public class CustomerBuilder
 {
-    private Customer customer;
+    private final Customer customer;
 
     public CustomerBuilder() {
         customer=new Customer();

@@ -15,7 +15,7 @@ public class CustomerCartServiceImpl implements ICustomerCartService
     @Autowired
     private ICustomerService customerService;
 
-    private HashMap<Long, CustomerCart> customersCartMap;
+    private final HashMap<Long, CustomerCart> customersCartMap;
 
     public CustomerCartServiceImpl()
     {

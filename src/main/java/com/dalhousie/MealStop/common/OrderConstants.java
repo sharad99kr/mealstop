@@ -37,11 +37,9 @@ public class OrderConstants {
     public static final String GET_PROCESSED_ORDER="orders/customer_processed_orders";
     public static final String GET_ALL_ORDER="orders/customer_orders_all";
     public static final String GET_CANCELLED_ORDER="orders/cancelled_orders";
-    public static final String GET_ORDER_BY_RESTAURANT_ID_STATUS="orders/restaurant_orders/id={id}&status={status}";
     public static final String GET_ORDER_BY_RESTAURANT_ID="orders/restaurant_orders/{id}";
     public static final String RESTAURANT_REDIRECTION_URL="redirect:/orders/restaurant_orders/";
 
-    public static final String GET_ORDERS_BY_NGO_ID="orders/ngo_orders/{ngoId}";
 
     //months
     public static final int JAN=0;

@@ -4,31 +4,31 @@ import com.dalhousie.MealStop.restaurant.model.Restaurant;
 
 public interface IMeal {
 
-    public long getId();
+     long getId();
 
-    public void setId(long id);
+     void setId(long id);
 
-    public String getMealName();
+     String getMealName();
 
-    public void setMealName(String mealName);
+     void setMealName(String mealName);
 
-    public String getCalories();
+     String getCalories();
 
-    public void setCalories(String calories);
+     void setCalories(String calories);
 
-    public String  getTags();
+     String  getTags();
 
-    public void setTags(String tags);
+     void setTags(String tags);
 
-    public String getCuisineType();
+     String getCuisineType();
 
-    public void setCuisineType(String cuisineType);
+     void setCuisineType(String cuisineType);
 
-    public long getPrice();
+     long getPrice();
 
-    public void setPrice(long price);
+     void setPrice(long price);
 
-    public Restaurant getRestaurant();
+     Restaurant getRestaurant();
 
-    public void setRestaurant(Restaurant restaurant);
+     void setRestaurant(Restaurant restaurant);
 }

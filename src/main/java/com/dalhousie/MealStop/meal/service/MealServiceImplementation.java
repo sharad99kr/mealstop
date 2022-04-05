@@ -3,7 +3,6 @@ package com.dalhousie.MealStop.meal.service;
 import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.repository.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,7 +71,7 @@ public class MealServiceImplementation implements IMealService {
      *
      * @param id the meal id for which update is performed
      * @param updatedMeal the updated meal information
-     * @return
+     * @return updatedMeal
      */
     @Override
     public Meal updateMeal(long id, Meal updatedMeal) {
