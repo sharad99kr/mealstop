@@ -179,21 +179,21 @@ class OrderControllerTest {
         verify(mockCustomerService, times(2)).getCustomerDetailsFromSession();
     }
 
-//    @Test
-//    void getAllCancelledOrders() throws Exception {
-//        Mockito.lenient().when(mockOrderService.getAllCanceledOrders()).thenReturn(mock_orders);
-//        //Mockito.lenient().when(getCancelledOrdersPayload(mock_orders)).thenReturn(mock_cancelled_order_list);
-//
-//        OrderController obj=Mockito.spy(orderController);
-//
-//        Mockito.lenient().doReturn(mock_cancelled_order_list).when(obj).getCancelledOrdersPayload(mock_orders);
-//
-//
-//        mockMvc.perform(get("/orders/cancelled_orders"))
-//                .andExpect(status().isOk());
-//
-//        verify(mockOrderService, times(1)).getAllCanceledOrders();
-//    }
+    @Test
+    void getAllCancelledOrders() throws Exception {
+        Mockito.lenient().when(mockOrderService.getAllCanceledOrders()).thenReturn(mock_orders);
+        //Mockito.lenient().when(getCancelledOrdersPayload(mock_orders)).thenReturn(mock_cancelled_order_list);
+
+        OrderController obj=Mockito.spy(orderController);
+
+        Mockito.lenient().doReturn(mock_cancelled_order_list).when(obj).getCancelledOrdersPayload(mock_orders);
+
+
+        mockMvc.perform(get("/orders/cancelled_orders"))
+                .andExpect(status().isOk());
+
+        verify(mockOrderService, times(1)).getAllCanceledOrders();
+    }
 
     private List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
         return mock_cancelled_order_list;
@@ -214,7 +214,6 @@ class OrderControllerTest {
 
 
         List<OrdersPayload> order_list=new ArrayList<>();
-
         OrdersPayload payload=new OrdersPayload();
         payload.orderId=mockOrderId;
         payload.mealName = "meal";
@@ -224,16 +223,13 @@ class OrderControllerTest {
         payload.status = "Active";
         payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
         order_list.add(payload);
-
         Mockito.lenient().when(mockOrderService.updateOrderStatus(mockOrderId,OrderConstants.CANCELLED)).thenReturn(true);
         Mockito.lenient().when(mockOrderService.getOrderByOrderID(mockOrderId)).thenReturn(mock_order);
-
         TestsSupport testsSupport = new TestsSupport();
         Meal meal = testsSupport.createDummyMeal();
         meal.setId(1L);
         Mockito.lenient().when(mealService.getMealByMealId(1L)).thenReturn(meal);
         Mockito.lenient().doNothing().when(ngoService).sendCancelledOrderNotification(any());
-
         OrderController obj=Mockito.spy(orderController);
         Mockito.lenient().doReturn(order_list).when(obj).geOrdersPayloadForCustomers(mockCustomerId,OrderConstants.ACTIVE);
 

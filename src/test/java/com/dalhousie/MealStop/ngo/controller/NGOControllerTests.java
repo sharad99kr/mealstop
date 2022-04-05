@@ -40,11 +40,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         private NGOOrderServiceImpl ngoOrderService;
 
         @InjectMocks
+        private NGOOrderServiceImpl ngoOrderServiceimpl;
+
+
+        @InjectMocks
         NGOController ngoController;
 
         private MockMvc mockMvc;
-
-        private NGOOrderServiceImpl ngoOrderServiceimpl;
 
         private NGO ngo;
 
@@ -106,6 +108,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             verify(orderService, times(1)).getAllCanceledOrders();
         }
 
+
         @Test
         void getNgoPastOrders() throws Exception
         {
@@ -113,6 +116,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
             mockMvc.perform(get("/ngo/orders/ngo_old_order"))
                     .andExpect(status().isOk());
         }
+
 
     @Test
     void ngoAcceptedOrders() throws Exception
@@ -123,9 +127,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     }
 
 
+}
 
-
-        }
 
 
 

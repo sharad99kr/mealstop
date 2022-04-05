@@ -68,8 +68,6 @@ public class NGOServiceImpl implements INGOService {
     {
         List<NGO> ngoList = ngoRepository.findAll();
         String subject = NGOConstants.NGO_NOTIFICATION_SUBJECT;
-
-
         ngoList.forEach(ngo->{
             String emailId = ngo.getEmail();
             String ngoName = ngo.getName();
@@ -78,6 +76,4 @@ public class NGOServiceImpl implements INGOService {
             log.info("Sending cancelled order notification mail to NGO "+emailId);
         });
     }
-
-
 }

@@ -1,11 +1,11 @@
 package com.dalhousie.MealStop.orders.controller;
 
+import com.dalhousie.MealStop.cart.service.ICustomerCartService;
 import com.dalhousie.MealStop.meal.service.IMealService;
 import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.model.OrdersPayload;
 import com.dalhousie.MealStop.restaurant.service.IRestaurantService;
 import com.dalhousie.MealStop.cart.model.CustomerCart;
-import com.dalhousie.MealStop.cart.service.CustomerCartServiceImpl;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
 import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.orders.Utils.Utils;
@@ -40,7 +40,8 @@ public class OrderController {
     private INGOService ngoService;
 
     @Autowired
-    private CustomerCartServiceImpl customerCartServiceImpl;
+    private ICustomerCartService customerCartService;
+
 
     @Autowired
     private ICustomerService customerService;
@@ -49,7 +50,7 @@ public class OrderController {
     @PostMapping(OrderConstants.ADD_ORDER)
     String addNewOrders(Model model, @ModelAttribute CustomerCart cart, RedirectAttributes redirectAttrs)
     {
-        CustomerCart customerCart = customerCartServiceImpl.getCustomerCart();
+        CustomerCart customerCart = customerCartService.getCustomerCart();
         long customerId = customerService.getCustomerDetailsFromSession().getId();
 
         orderService.CreateOrderFromCart(customerCart);
@@ -86,21 +87,6 @@ public class OrderController {
         order_list=getCancelledOrdersPayload(listOrders);
         model.addAttribute("order_list", order_list);
         return "orders/OrderDetails";
-    }
-
-    List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
-        List<OrdersPayload> order_list=new ArrayList<>();
-        for (Orders order:listOrders) {
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-            order_list.add(payload);
-        }
-        return order_list;
     }
 
 
@@ -149,8 +135,6 @@ public class OrderController {
 
     }
 
-
-
     @RequestMapping(value = "/updateOrder/{id}")
     public String updateOrder(@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
@@ -171,24 +155,6 @@ public class OrderController {
         return "orders/CustomerActiveOrders";
     }
 
-
-    public List<OrdersPayload> geOrdersPayloadForCustomers(long id , int status){
-        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,status);
-        List<OrdersPayload> order_list=new ArrayList<>();
-        for (Orders order:orders) {
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=order.getOrderId();
-            payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-            payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-            payload.amount = order.getOrderAmount();
-            payload.date = order.getOrderTime().toString();
-            payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
-            order_list.add(payload);
-        }
-        return order_list;
-    }
-
     @RequestMapping(value = "/restaurantUpdateOrder/{id}")
     public String restaurantUpdateOrder(Model model,@PathVariable("id") long orderId, @ModelAttribute OrdersPayload payload) {
 
@@ -200,7 +166,6 @@ public class OrderController {
 
     @RequestMapping("orders/report/{id}")
     String Report(Model model, @PathVariable("id") long id) {
-
 
         Map<String, Float> report_list=new HashMap<>();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -227,11 +192,31 @@ public class OrderController {
     }
 
 
-
-    @GetMapping("orders/Enjoy")
-    String FoodDelivered()
-    {
-        return "orders/Enjoy";
+    public List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
+        return GetOrdersPayloadList(listOrders);
     }
 
+    public List<OrdersPayload> geOrdersPayloadForCustomers(long id , int status){
+
+        List<Orders> orders=orderService.getCustomerOrdersWithStatus(id,status);
+        return GetOrdersPayloadList( orders);
+    }
+
+    public List<OrdersPayload> GetOrdersPayloadList(List<Orders> orders){
+
+        //this method generates payload for orders for a restaurant and sends to frontend to be displayed on restaurant orders page
+        List<OrdersPayload> order_list=new ArrayList<>();
+        for (int i=0;i<orders.size(); i++) {
+            OrdersPayload payload=new OrdersPayload();
+            payload.orderId=orders.get(i).getOrderId();
+            payload.mealName = mealService.getMealByMealId(orders.get(i).getMealId()).getMealName();
+            payload.restaurantName=restaurantService.getRestaurantById(orders.get(i).getRestaurantId()).getRestaurantName();
+            payload.amount = orders.get(i).getOrderAmount();
+            payload.date = orders.get(i).getOrderTime().toString();
+            payload.status = Utils.getOrderStatusMapping(orders.get(i).getOrderStatus());
+            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
+            order_list.add(payload);
+        }
+        return order_list;
+    }
 }

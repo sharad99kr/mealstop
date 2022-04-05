@@ -47,10 +47,18 @@ public class RewardService implements IRewardService{
         rewardRepository.updateRewardsById(customerId,points);
     }
 
+
+//    This method implementation checks rewards points and returns boolean state whether reward points
+//     * can be redeemed or not
     public boolean isRewardPointsRedeemable(long customerId){
         return getRewardPoints(customerId)> RewardConstants.MINIMUM_POINTS_TO_REDEEM_TOKEN;
     }
 
+
+
+//    This method implementation puts the logic of redeeming the points to generate
+//     * tokens that can be claimed by the users. We are providing 1 token per 100 points
+//     * collected by the user
     public int redeemRewardPoints(long customerId){
         int maxtoken=0;
 
