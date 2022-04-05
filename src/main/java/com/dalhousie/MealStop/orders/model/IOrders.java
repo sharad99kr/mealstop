@@ -14,16 +14,13 @@ public interface IOrders {
 
      long getRestaurantId();
 
-
      long getMealId();
-
 
      void setCustomerId(long customerId);
 
      void setRestaurantId(long restaurantId);
 
      void setMealId(long mealId);
-
 
      float getOrderAmount();
 
