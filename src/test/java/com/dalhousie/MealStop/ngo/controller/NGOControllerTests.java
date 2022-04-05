@@ -4,6 +4,7 @@ import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.ngo.NGOController;
 import com.dalhousie.MealStop.ngo.model.NGO;
 import com.dalhousie.MealStop.ngo.service.INGOService;
+import com.dalhousie.MealStop.ngoorder.service.NGOOrderServiceImpl;
 import com.dalhousie.MealStop.orders.service.IOrderService;
 import com.dalhousie.MealStop.restaurant.model.Restaurant;
 import com.dalhousie.MealStop.tests_support.TestsSupport;
@@ -38,7 +39,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @Mock
         private IOrderService orderService;
 
-        @InjectMocks
+        private NGOOrderServiceImpl ngoOrderServiceimpl;
+
+        @Mock
+        private NGOOrderServiceImpl ngoOrderService;
+
+
+    @InjectMocks
         NGOController ngoController;
 
         private MockMvc mockMvc;
@@ -102,6 +109,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                     .andExpect(status().isOk());
             verify(orderService, times(1)).getAllCanceledOrders();
         }
+
+    @Test
+    void getNgoPastOrders() throws Exception
+    {
+        Mockito.lenient().when(ingoService.getNGODetailsFromSession()).thenReturn(ngo);
+        mockMvc.perform(get("/ngo/orders/ngo_old_order"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void ngoAcceptedOrders() throws Exception
+    {
+        Mockito.lenient().when(ingoService.getNGODetailsFromSession()).thenReturn(ngo);
+        mockMvc.perform(get("/ngo/orders/ngo_accepted_order/1"))
+                .andExpect(status().isOk());
+    }
 
 
 }

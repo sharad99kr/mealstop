@@ -36,6 +36,9 @@ public class OrderController {
     private IMealService mealService;
 
     @Autowired
+    private INGOService ngoService;
+
+    @Autowired
     private ICustomerCartService customerCartService;
 
     @Autowired
@@ -135,6 +138,8 @@ public class OrderController {
         Orders order=orderService.getOrderByOrderID(orderId);
         List<OrdersPayload> orders= geOrdersPayloadForCustomers( order.getCustomerId(), OrderConstants.ACTIVE);
 
+        String mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
+        ngoService.sendCancelledOrderNotification(mealName);
         model.addAttribute("order_list", orders);
         return "orders/CustomerActiveOrders";
     }
@@ -222,6 +227,5 @@ public class OrderController {
         }
         return order_list;
     }
-
 
 }

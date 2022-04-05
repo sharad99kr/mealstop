@@ -4,7 +4,9 @@ import com.dalhousie.MealStop.common.OrderConstants;
 import com.dalhousie.MealStop.customer.builder.CustomerBuilder;
 import com.dalhousie.MealStop.customer.model.Customer;
 import com.dalhousie.MealStop.customer.service.ICustomerService;
+import com.dalhousie.MealStop.meal.model.Meal;
 import com.dalhousie.MealStop.meal.service.IMealService;
+import com.dalhousie.MealStop.ngo.service.INGOService;
 import com.dalhousie.MealStop.orders.Utils.Utils;
 import com.dalhousie.MealStop.orders.model.Orders;
 import com.dalhousie.MealStop.orders.model.OrdersPayload;
@@ -60,6 +62,11 @@ class OrderControllerTest {
 
     @Mock
     Customer mockCustomer;
+
+    @Mock
+    INGOService ngoService;
+    @Mock
+    IMealService mealService;
 
     @Mock
     private CustomerBuilder customerBuilder;
@@ -207,21 +214,22 @@ class OrderControllerTest {
 
 
         List<OrdersPayload> order_list=new ArrayList<>();
-
-            OrdersPayload payload=new OrdersPayload();
-            payload.orderId=mockOrderId;
-            payload.mealName = "meal";
-            payload.restaurantName="restaurant";
-            payload.amount = 1;
-            payload.date = "20220304";
-            payload.status = "Active";
-            payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
-            order_list.add(payload);
-
-
-
+        OrdersPayload payload=new OrdersPayload();
+        payload.orderId=mockOrderId;
+        payload.mealName = "meal";
+        payload.restaurantName="restaurant";
+        payload.amount = 1;
+        payload.date = "20220304";
+        payload.status = "Active";
+        payload.imageUrl=Utils.getUrls().get(Utils.getRandomNumberUsingInts(0,Utils.getUrls().size()));
+        order_list.add(payload);
         Mockito.lenient().when(mockOrderService.updateOrderStatus(mockOrderId,OrderConstants.CANCELLED)).thenReturn(true);
         Mockito.lenient().when(mockOrderService.getOrderByOrderID(mockOrderId)).thenReturn(mock_order);
+        TestsSupport testsSupport = new TestsSupport();
+        Meal meal = testsSupport.createDummyMeal();
+        meal.setId(1L);
+        Mockito.lenient().when(mealService.getMealByMealId(1L)).thenReturn(meal);
+        Mockito.lenient().doNothing().when(ngoService).sendCancelledOrderNotification(any());
         OrderController obj=Mockito.spy(orderController);
         Mockito.lenient().doReturn(order_list).when(obj).geOrdersPayloadForCustomers(mockCustomerId,OrderConstants.ACTIVE);
         mockMvc.perform(get("/cancelOrder/{id}",mockOrderId))

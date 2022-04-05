@@ -9,4 +9,5 @@ public interface INGOService
     public NGO getNGODetailsFromSession();
     public void addNGO(User user);
     public Long getLoggedInNGOId();
+    void sendCancelledOrderNotification(String mealName);
 }
