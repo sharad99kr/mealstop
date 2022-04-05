@@ -139,20 +139,6 @@ public class NGOServiceImplTest {
     }
 
     @Test
-    public void getNgoNotificationContentTest()
-    {
-        String ngoName = "ngo-name";
-        String mealName = "ngo-meal";
-
-        String mailContent = NGOConstants.getNgoNotificationContent(ngoName, mealName);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder = stringBuilder.append("Hi "+ngoName);
-        stringBuilder = stringBuilder.append("\n"+mealName +" has been cancelled and is available for pickup");
-        assertTrue(mailContent.equals(stringBuilder.toString()));
-    }
-
-    @Test
     public void getNGOOrderHistoryTest()
     {
         setDummyUserInSession();

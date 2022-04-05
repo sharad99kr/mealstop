@@ -82,7 +82,7 @@ public class NGOServiceImpl implements INGOService {
         ngoList.forEach(ngo->{
             String emailId = ngo.getEmail();
             String ngoName = ngo.getName();
-            String content = NGOConstants.getNgoNotificationContent(ngoName, mealName);
+            String content = getNgoNotificationContent(ngoName, mealName);
             emailService.sendEmail(emailId,content, subject);
             log.info("Sending cancelled order notification mail to NGO "+emailId);
         });
@@ -106,4 +106,11 @@ public class NGOServiceImpl implements INGOService {
         return filteredOrders;
     }
 
+    private String getNgoNotificationContent(String ngoName, String mealName)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append("Hi "+ngoName);
+        stringBuilder = stringBuilder.append("\n"+mealName +" has been cancelled and is available for pickup");
+        return stringBuilder.toString();
+    }
 }
