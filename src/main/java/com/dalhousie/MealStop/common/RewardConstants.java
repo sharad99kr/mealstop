@@ -1,6 +1,6 @@
-package com.dalhousie.MealStop.reward.constants;
+package com.dalhousie.MealStop.common;
 
-public class Constants {
+public class RewardConstants {
 
     public static final int ZERO_POINTS=0;
     public static final int POINTS_AWARDED_PER_MEAL=10;

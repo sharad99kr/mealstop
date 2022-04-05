@@ -40,19 +40,6 @@ public interface OrderRepository extends JpaRepository<Orders,Long> {
     public void updateOrdersById(long orderId, int status);
 
 
-
-    //customer query to find most ordered meal by a customer from a restaurant
-    @Query(value = OrderConstants.MOST_ORDERED_MEAL_BY_CUSTOMER_FROM_RESTAURANT, nativeQuery = true)
-    List<Long> findByCustomerIdAndRestaurantId(Long customerId,Long restaurantId);
-
-    //customer query to find most ordered meal by a customer
-    @Query(value = OrderConstants.MOST_ORDERED_MEAL_BY_CUSTOMER, nativeQuery = true)
-    List<Long> findAllByCustomerId(Long customerId);
-
-    //customer query to find most ordered meal from a restaurant
-    @Query(value = OrderConstants.MOST_ORDERED_MEAL_FROM_RESTAURANT, nativeQuery = true)
-    List<Long> findAllByRestaurantId(Long restaurant_id);
-
     @Query(value = OrderConstants.MONTHLY_SALES_OF_RESTAURANT, nativeQuery = true)
     List<Orders> findAllByRestaurantIdandYear(Long restaurant_id, int year);
 

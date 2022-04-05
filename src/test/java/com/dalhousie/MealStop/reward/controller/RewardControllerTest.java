@@ -8,13 +8,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.web.servlet.function.ServerResponse.status;
 
 class RewardControllerTest {
 
@@ -60,15 +64,12 @@ class RewardControllerTest {
     @Test
     void redeemPoints() throws Exception {
 
+        Mockito.lenient().when(customerService.getCustomerDetailsFromSession()).thenReturn(customer);
+        long id=customerService.getCustomerDetailsFromSession().getId();
+        when(rewardService.redeemRewardPoints(id)).thenReturn(1);
+        mockMvc.perform(post("/reward/redeem"))
+                .andExpect(MockMvcResultMatchers.status().isFound());
 
-//        Mockito.lenient().when(customerService.getCustomerDetailsFromSession()).thenReturn(customer);
-//        Customer cus=customerService.getCustomerDetailsFromSession();
-//        doThrow(new RuntimeException()).when(rewardService).redeemRewardPoints(cus.getId());
-//
-//        Model model=null;
-//        mockMvc.perform(post("/reward/redeem", model))
-//                .andExpect(status().isBadRequest());
-//
-//        assertEquals("redirect:/customer/profile", rewardController.redeemPoints(model));
+        verify(rewardService, times(1)).redeemRewardPoints(id);
     }
 }

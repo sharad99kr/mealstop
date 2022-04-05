@@ -6,7 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,22 +37,29 @@ class RewardServiceTest {
 
 
     @Autowired
-    @Mock
+    @InjectMocks
     private static RewardService rewardService;
 
     @BeforeEach
     public void setup() {
+        MockitoAnnotations.initMocks(this);
         mockCustomerId=1L;
         mockRewards=new Rewards();
         mockRewards.setRewardPoint(101);
         mockRewards.setCustomerId(Long.valueOf(123));
-
         mockRewards2=new Rewards(22,33);
-
         mockRewardPoint=101;
-        //MockitoAnnotations.initMocks(this);
+
     }
 
+    @Test
+    void getRewardPoints(){
+        mockCustomerId=1;
+        mockRewards=new Rewards(mockCustomerId,2);
+
+        Mockito.lenient().when(mockRewardRepository.findByCustomerId(mockCustomerId)).thenReturn(mockRewards);
+        assertThat(rewardService.getRewardPoints(mockCustomerId)).isEqualTo(2);
+    }
 
     @Test
     void getRewardPointsNoRewards() {
@@ -67,35 +76,37 @@ class RewardServiceTest {
 
     }
 
-//
-//    @Test
-//    void getRewardPointsWithRewards() {
-//
-//    }
-//
-//    @Test
-//    void addRewardPoints() {
-//    }
-//
-//    @Test
-//    void resetRewardPoints() {
-//
-//
-//    }
-//
-//    @Test
-//    void updateRewardPoints() {
-//
-//    }
-//
-//    @Test
-//    void isRewardPointsRedeemable() {
-//
-//
-//
-//    }
-//
-//    @Test
-//    void redeemRewardPoints() {
-//    }
+
+    @Test
+    void addRewardPoints() {
+
+    }
+
+    @Test
+    void resetRewardPoints() {
+        //updateRewardPoints( customerId, Constants.ZERO_POINTS);
+        Mockito.lenient().when(rewardService.updateRewardPoints(mockCustomerId,100)).thenReturn(true);
+        assertThat(rewardService.resetRewardPoints(mockCustomerId)).isEqualTo(false);
+
+    }
+
+    @Test
+    void updateRewardPoints() {
+
+        Mockito.lenient().when(mockRewardRepository.updateRewardsById(mockCustomerId,100)).thenReturn(true);
+        assertThat(rewardService.updateRewardPoints(mockCustomerId,10)).isEqualTo(false);
+
+    }
+
+    @Test
+    void isRewardPointsRedeemable() {
+
+        Mockito.lenient().when(mockRewardRepository.findByCustomerId(mockCustomerId)).thenReturn(mockRewards);
+        assertThat(rewardService.isRewardPointsRedeemable(mockCustomerId)).isEqualTo(true);
+
+    }
+
+    @Test
+    void redeemRewardPoints() {
+    }
 }

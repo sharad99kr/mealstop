@@ -1,6 +1,6 @@
 package com.dalhousie.MealStop.reward.repository;
 
-import com.dalhousie.MealStop.reward.constants.Constants;
+import com.dalhousie.MealStop.common.RewardConstants;
 import com.dalhousie.MealStop.reward.model.Rewards;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,8 +14,8 @@ public interface RewardRepository extends JpaRepository<Rewards,Long> {
 
     public Rewards findByCustomerId(Long customerId);
 
-    @Query(value = Constants.UPDATE_REWARD_POINTS,nativeQuery = true)
+    @Query(value = RewardConstants.UPDATE_REWARD_POINTS,nativeQuery = true)
     @Modifying
     @Transactional
-    public void updateRewardsById(long customerId, int points);
+    public boolean updateRewardsById(long customerId, int points);
 }

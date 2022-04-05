@@ -8,7 +8,7 @@ public interface IRewardService {
     public abstract void addRewardPoints(long customerId);
 
     //this method definition resets rewards points if user has already redeemed the reward points
-    public abstract void resetRewardPoints(long customerId);
+    public abstract boolean resetRewardPoints(long customerId);
 
     //this method definition returns total reward points that user has accumulated so far. This information
     // can be used to enable redeem points
