@@ -17,5 +17,5 @@ public interface RewardRepository extends JpaRepository<Rewards,Long> {
     @Query(value = RewardConstants.UPDATE_REWARD_POINTS,nativeQuery = true)
     @Modifying
     @Transactional
-    public boolean updateRewardsById(long customerId, int points);
+    public void updateRewardsById(long customerId, int points);
 }

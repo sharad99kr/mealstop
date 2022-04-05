@@ -46,16 +46,17 @@ public class RewardService implements IRewardService{
     }
 
     @Override
-    public boolean resetRewardPoints(long customerId){
+    public void resetRewardPoints(long customerId){
         //this method definition resets rewards points to zero if user has already redeemed the reward points
-        return updateRewardPoints( customerId, RewardConstants.ZERO_POINTS);
+        updateRewardPoints( customerId, RewardConstants.ZERO_POINTS);
 
     }
 
-    boolean updateRewardPoints(long customerId, int points){
+    void updateRewardPoints(long customerId, int points){
 
         //this method updates rewards points into database that has been sent for update
-        return rewardRepository.updateRewardsById(customerId,points);
+        System.out.println(customerId+ "hello"+ points);
+        rewardRepository.updateRewardsById(customerId,points);
 
     }
 
