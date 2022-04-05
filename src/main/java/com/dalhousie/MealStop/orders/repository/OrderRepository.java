@@ -14,34 +14,23 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders,Long> {
 
-    //this method definition finds list of orders based on the status provided
-    public List<Orders> findByStatus(int status);
+    List<Orders> findByStatus(int status);
 
-    //this method definition finds list of orders that were ordered by a particular using customer id
-    public List<Orders> findByCustomerId(long customerid);
+    List<Orders> findByCustomerId(long customerid);
 
-    //this method definition is used to get order by order id from database
-    public Orders findById(long id);
+    Orders findById(long id);
 
+    List<Orders> findByRestaurantIdAndStatus(long restaurantId,int status);
 
-    public List<Orders> findByRestaurantIdAndStatus(long restaurantId,int status);
+    List<Orders> findByCustomerIdAndStatus(long customerId,int status);
 
-    public List<Orders> findByCustomerIdAndStatus(long customerId,int status);
-
-
-    //this method definition is used to get order by restaurant id from the database
-    public List<Orders> findByRestaurantId(long restaurantId);
-
-    //this method definition is used to udate the status of order by using order id
+    List<Orders> findByRestaurantId(long restaurantId);
 
     @Query(value = "UPDATE orders SET status = ?2 where id=?1",nativeQuery = true)
     @Modifying
     @Transactional
-    public void updateOrdersById(long orderId, int status);
+    void updateOrdersById(long orderId, int status);
 
-
-    //this method gets the monthy sales for a restaurant in a given year
     @Query(value = OrderConstants.MONTHLY_SALES_OF_RESTAURANT, nativeQuery = true)
     List<Orders> findAllByRestaurantIdandYear(Long restaurant_id, int year);
-
 }
