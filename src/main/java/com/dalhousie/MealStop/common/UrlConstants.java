@@ -9,7 +9,7 @@ public class UrlConstants {
     public static final String NGO_MATCHER = "/ngo/**";
 
     //Registration urls
-    public static final String HTTP = "http://";
+    public static final String HTTP = "https://";
     public static final String PORT_SEPARATOR = ":";
     public static final String SAVE_PASSWORD = "/api/v1/savePassword?token=";
 
