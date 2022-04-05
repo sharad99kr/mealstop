@@ -107,7 +107,6 @@ public class OrderController {
     @GetMapping(OrderConstants.GET_ORDER_BY_RESTAURANT_ID)
     String restaurantActiveOrders(Model model, @PathVariable("id") long id) {
 
-        System.out.println("restaurant id "+id);
         List<Orders> orders=orderService.getRestaurantOrdersWithStatus(id, OrderConstants.ACTIVE);
         List<OrdersPayload> order_list=GetRestaurantOrdersList(orders);
         model.addAttribute("order_list", order_list);
@@ -212,7 +211,6 @@ public class OrderController {
             Map.Entry<Integer, Float> entry = itr.next();
             report_list.put(Utils.getMonthMapping(entry.getKey()), entry.getValue());
         }
-        System.out.println(report_list.size());
         model.addAttribute("report_list", report_list);
         model.addAttribute("restaurant_id", id);
 
