@@ -187,21 +187,7 @@ public class OrderController {
 
     public List<OrdersPayload> getCancelledOrdersPayload( List<Orders> listOrders){
 
-        List<OrdersPayload> order_list=new ArrayList<>();
-        if(listOrders!=null){
-            for (Orders order:listOrders) {
-                OrdersPayload payload=new OrdersPayload();
-                payload.orderId=order.getOrderId();
-                payload.mealName = mealService.getMealByMealId(order.getMealId()).getMealName();
-                payload.restaurantName=restaurantService.getRestaurantById(order.getRestaurantId()).getRestaurantName();
-                payload.amount = order.getOrderAmount();
-                payload.date = order.getOrderTime().toString();
-                payload.status = Utils.getOrderStatusMapping(order.getOrderStatus());
-                order_list.add(payload);
-            }
-        }
-
-        return order_list;
+        return GetOrdersPayloadList(listOrders);
     }
 
     public List<OrdersPayload> geOrdersPayloadForCustomers(long id , int status){
