@@ -16,6 +16,4 @@ public interface IMealService {
      List<Meal> getAllMealsByRestaurantId(long restaurantId);
 
      Meal getMealByMealId(long mealId);
-
-     boolean checkDuplicateMeal(Meal meal);
 }

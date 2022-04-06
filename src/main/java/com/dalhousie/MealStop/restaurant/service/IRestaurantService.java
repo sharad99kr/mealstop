@@ -17,6 +17,5 @@ public interface IRestaurantService {
     Restaurant updateRestaurant(Restaurant restaurant, long id);
     List<Meal> getRecommendedMealForCustomer(List<Restaurant> availableRestaurants);
     User getRestaurantUserDetailsFromSession();
-    boolean checkDuplicateRestaurant(Restaurant restaurant);
     List<String> getRestaurantReviews(long id);
 }

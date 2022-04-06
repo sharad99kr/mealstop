@@ -37,9 +37,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
     public void addRestaurant(Restaurant restaurant)
     {
         restaurant.setUserId(getRestaurantUserDetailsFromSession().getUser_id());
-        if(!checkDuplicateRestaurant(restaurant)) {
-            restaurantRepository.save(restaurant);
-        }
+        restaurantRepository.save(restaurant);
     }
 
     @Override
@@ -113,9 +111,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
             restaurant.setEmail(updatedRestaurant.getEmail());
             restaurant.setPhoneNumber(updatedRestaurant.getPhoneNumber());
             restaurant.setAvailability(updatedRestaurant.getAvailability());
-            if(!checkDuplicateRestaurant(restaurant)) {
-                restaurantRepository.save(restaurant);
-            }
+            restaurantRepository.save(restaurant);
             return restaurant;
         }
         return null;
@@ -187,25 +183,5 @@ public class RestaurantServiceImpl implements IRestaurantService {
             log.error(e.getMessage());
         }
         return null;
-    }
-
-    @Override
-    public boolean checkDuplicateRestaurant(Restaurant restaurant)
-    {
-        List<Restaurant> restaurantList = getAllRestaurantByUserId();
-        boolean isDuplicate = false;
-        String resName = restaurant.getRestaurantName();
-        String resAddr = restaurant.getAddress();
-        for(Restaurant userRestaurant: restaurantList)
-        {
-            String name = userRestaurant.getRestaurantName();
-            String address = userRestaurant.getAddress();
-            if(name.equalsIgnoreCase(resName) || address.equalsIgnoreCase(resAddr)) {
-                isDuplicate = true;
-                break;
-            }
-        }
-
-        return isDuplicate;
     }
 }
