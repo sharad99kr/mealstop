@@ -16,7 +16,6 @@ public class MealServiceImpl implements IMealService {
     @Override
     public void addMeal(Meal meal)
     {
-        if(!checkDuplicateMeal(meal))
             mealRepository.save(meal);
     }
 
@@ -56,27 +55,10 @@ public class MealServiceImpl implements IMealService {
             meal.setCuisineType(updatedMeal.getCuisineType());
             meal.setPrice(updatedMeal.getPrice());
             meal.setTags(updatedMeal.getTags());
-            if(!checkDuplicateMeal(meal)) {
-                mealRepository.save(meal);
-            }
+            mealRepository.save(meal);
             return meal;
         }
 
         return null;
-    }
-
-    @Override
-    public boolean checkDuplicateMeal(Meal meal)
-    {
-        List<Meal> mealList = getAllMealsByRestaurantId(meal.getRestaurant().getId());
-        boolean isDuplicate = false;
-        for(Meal restaurantMeal: mealList)
-        {
-            if(restaurantMeal.getMealName().equalsIgnoreCase(meal.getMealName())) {
-                isDuplicate = true;
-            }
-        }
-
-        return isDuplicate;
     }
 }
